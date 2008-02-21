@@ -1,0 +1,7 @@
+o graphical representatiopn of models in the helpfiles???
+o parameter optimization (model fitting)
+o dynamic size of internal C buffers for seedfill
+o improved dialog version to edit parameters (Tcl/Tk)
+
+
+

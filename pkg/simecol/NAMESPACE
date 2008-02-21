@@ -1,0 +1,39 @@
+.onLoad <- function(lib, pkg) require(methods)
+
+useDynLib(simecol, .registration = TRUE)
+
+importFrom(graphics, plot)
+
+import(odesolve)
+
+exportClasses(simObj, odeModel, gridModel, rwalkModel)
+exportClasses(numericOrlist,listOrNULL,functionOrNULL,listOrdata.frame)
+
+exportMethods(sim, parms, "parms<-", init, "init<-", times, "times<-")
+exportMethods(inputs, "inputs<-", main, "main<-", equations, "equations<-")
+exportMethods(solver, "solver<-", out)
+
+exportMethods(plot, print)
+exportMethods(show)
+exportMethods(fixInit, fixParms, fixTimes)
+exportMethods(initialize, initfunc, "initfunc<-")
+
+exportMethods(coerce, as.list, as.simObj)
+
+export(neighbours, neighbors, eightneighbours, eightneighbors, seedfill)
+export(approxTime, approxTime1, fromtoby)
+#export(lsoda)
+export(rk4, euler, iteration)
+export(addtoenv, sEdit, peaks)
+export(pcu, pcuseries, rho2alpha, alpha2rho)
+
+## not necessary because example models are stored as *data*
+# export(lv, lv3, conway, diffusion, upca) 
+
+## generating functions
+export(simObj, odeModel, gridModel, rwalkModel)
+
+## random number stuff
+#export(pcu, pcuseries, rho2alpha, alpha2rho)
+
+

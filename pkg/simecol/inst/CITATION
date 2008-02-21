@@ -1,0 +1,21 @@
+citHeader("To cite package 'simecol' in publications use:")
+
+citEntry(entry="Article",
+  title = "simecol: An Object-Oriented Framework for Ecological Modeling in R",
+  author = personList(as.person("Thomas Petzoldt"), as.person("Karsten Rinke")),
+  journal =	"Journal of Statistical Software",
+  volume =	"22",
+  number =	"9",
+  pages =	"1--31",
+  year = 	"2007",
+  CODEN =	"JSSOBK",
+  ISSN = 	"1548-7660",
+  URL =  	"http://www.jstatsoft.org/v22/i09",
+  keywords =	"ecological modeling, individual-based model,
+               object-oriented programming (OOP),
+               code-sharing, R.",
+  textVersion =  paste("Petzoldt, T. and K. Rinke (2007).
+  simecol: An Object-Oriented Framework for Ecological Modeling in R.
+  Journal of Statistical Software, 22(9), 1--31.
+  URL http://www.jstatsoft.org/v22/i09/.")
+)

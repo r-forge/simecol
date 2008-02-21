@@ -1,0 +1,19 @@
+.onLoad <- function(lib, pkg) {
+  require("methods")
+}
+
+import(simecol)
+
+exportClasses(indbasedModel, timedepModel)
+
+exportMethods("iteration", "observer", "observer<-")
+
+## functions which generate the models
+exportPattern("mcyst.*")
+export(slight, dvm_phyto)
+
+export(daphnia_ibm, daphnia_tefi, daphnia_deb)
+
+export(daphnia_deb_phyto, daphnia_deb_ibm)
+
+export(daphnia_deb_equations, daphnia_deb_lifeequations)

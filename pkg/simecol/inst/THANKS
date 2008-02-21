@@ -1,0 +1,16 @@
+o The addtoenv() function was inspired by the as.proto.list() function of package proto.
+
+o Gabor Grothendiek helped during testing and gave useful hints for code improvement.
+
+o Thanks to to Woodrow Setzer for providing the odesolve package and to the R Core Team
+  for maintainig the superior R software.
+
+o Many thanks to Karsten Rinke for hard test examples (distributed separately) and 
+  for proofreading.
+
+o Many thanks to René Sachse for suggestions and working solutions (distributed separately)
+
+o Many thanks to the participants of the Modlim3 workshop for creative playing with simecol
+
+o Many thanks to two anonymous reviewers for their constructive criticism. 
+  I know that reviewing software is hard work, so many many thanks!
