@@ -45,12 +45,17 @@ echo $contents; } ?>
 <!-- thpe: begin of user supplied material -->
 
 <link rel="stylesheet" href="style.css">
+
+<h2>Other Resources</h2>
+
+<ul>
+<li><strong>Main page:</strong> <a href="http://r-forge.r-project.org/projects/simecol/">Project Overview Page</a></li>
+<li><strong>For developers:</strong> <a href="http://r-forge.r-project.org/plugins/scmsvn/viewcvs.php/?root=simecol">Inspect source code</a></li>
+<li><strong>For users:</strong> <a href="http://cran.r-project.org/src/contrib/Descriptions/simecol.html">simecol on CRAN</a></li>
+</ul>
  
 
-<h1>Ecological modelling with <a href="http://www.r-project.org/">R</a> and the <span style="color: rgb(153, 0, 0);">simecol</span>
-package</h1>
-
-<h2>What is <span style="color: rgb(153, 0, 0);">simecol</span>?<span style="font-family: monospace; font-weight: bold; color: rgb(153, 0, 0);"></span></h2>
+<h2>What is <span style="color: rgb(153, 0, 0);">simecol</span> and what is <span style="color: rgb(153, 0, 0);">simecolModels</span>?</h2>
 
 <p><span style="font-family: monospace; font-weight: bold; color:
 rgb(153, 0, 0);"><span style="font-family:
@@ -93,6 +98,9 @@ style="color: rgb(153, 0, 0);">times</code><span style="color: rgb(153,
 0, 0);"> </span>to define the simulation time and the time steps used.
 </p>
 
+<p><span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecolModels</span>
+is a simulation model collection, together with additional classes, demos and experimental code.
+
 <br>
 <h2>Prerequisites</h2>
 
@@ -110,27 +118,14 @@ can be
 installed: Linux, Windows, Mac, different UNIXes </li>
 </ul>
 
-<h2><img style="width: 200px; height: 200px; float: right;" alt="A
-simple stochastic cellular automaton" src="cc2.gif">Current State</h2>
+<h2>Current State and Installation</h2>
 
 <p>The <span style="font-weight: bold; color: rgb(153, 0, 0);
 font-family: monospace;">simecol</span> package is available from <a
 href="http://cran.r-project.org">CRAN</a> and most of its mirrors. 
 
-The general OOP model description is implemented in S4, but the philosophy 
-is rather independent of a particular
-object system, so the general object model may be useful useful also
-<span style="font-weight: bold; color: rgb(153, 0, 0); font-family:
-monospace;"></span>with <span style="font-weight: bold; color: rgb(51,
-51, 153);">R's</span> alternative object systems (<a
-href="http://www.maths.lth.se/help/R/R.oo/" target="_blank">R.oo</a> and
-<a href="http://code.google.com/p/r-proto/wiki/Overview">proto</a>, see
-useR-2006 poster below for details).</p>
 
-
-<h2>Installation</h2>
-
-<p><span style="font-weight: bold; color: rgb(153, 0, 0);"></span><span
+<p><span
 style="font-weight: bold; color: rgb(153, 0, 0); font-family:
 monospace;">simecol</span> can be installed directly from the internet
 within <span style="font-weight: bold; color: rgb(51, 51,
@@ -154,7 +149,13 @@ line:</p>
 available from <a
 href="http://cran.r-project.org/web/packages/simecol/">CRAN</a> in *.tar.gz resp. *.zip or *.tgz format. Write access to the
 simecol SVN repository can be allowed upon <a
-href="mailto:thomas.petzoldt@tu-dresden.de">request</a>. </p>
+href="mailto:thomas.petzoldt@tu-dresden.de">request</a>.</p>
+
+<p><span
+style="font-weight: bold; color: rgb(153, 0, 0); font-family:
+monospace;">simecolModels</span> is an accompanied experimental package that can be downloaded or installed directly from 
+  <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/">R-Forge</a></p>
+
 
 <h2>Documentation</h2>
 
@@ -173,14 +174,7 @@ href="mailto:thomas.petzoldt@tu-dresden.de">request</a>. </p>
   <li><a href="http://hhbio.wasser.tu-dresden.de/projects/modlim/doc/modlim.pdf">German tutorial</a> describing ecological modelling with <span style="font-weight: bold; color: rgb(51, 51, 153);">R</span> in general (a little bit outdated and still without <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span>).</li>
   <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2006-poster.pdf">Poster</a> and <a href="useR2006-slides">lecture slides</a> of the <a href="http://www.r-project.org/useR-2006/">useR-2006</a> conference comparing OOP approaches and introducing <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span><span style="font-weight: bold; color: rgb(153, 0, 0);"></span>.</li>
 </ul>
-<h3>Links</h3>
-<ul>
-  <li>The <a href="http://www.r-project.org/">R
-project</a> of statistical computing</li>
-  <li><a href="http://cran.r-project.org/src/contrib/Descriptions/simecol.html">Download</a> latest version of simecol</li>
-  <li><a href="http://tu-dresden.de/Members/thomas.petzoldt">Thomas
-Petzoldt</a>'s homepage</li>
-</ul>
+
 <h2>Examples<span style="color: rgb(192, 192, 192);"></span></h2>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="4" cellspacing="0">
   <tbody>
@@ -248,14 +242,6 @@ plot(sim(conway))</span></td>
 </tbody>
 </table>
 
-<h2>Additional Models</h2>
-
-<ul>
-<li> are part of the experimental package <strong>simecolModels</li> 
-<li> and can be downloaded or installed directly from 
-  <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/">the project overview page</a></li>
-</ul>
-
 <h2>License</h2>
 
 <ul>
@@ -265,7 +251,7 @@ is free open source software licensed under the
 <a href="http://www.gnu.org/licenses/licenses.html" target="_blank">GNU Public License</a>
 (GPL 2.0 or above).</li>
 <li>According to this <a href="http://www.gnu.org/licenses/licenses.html" target="_blank">license</a> 
-the software is provided as is and comes <span style="font-weight: bold;">WITHOUT WARRANTY.</span>.</li>
+the software is provided as is and comes <span style="font-weight: bold;">WITHOUT WARRANTY.</span></li>
 </ul>
 
 
