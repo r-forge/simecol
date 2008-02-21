@@ -13,7 +13,6 @@
  :link    {color: blue;font-family: sans-serif}
  :visited {color: navy;font-family: sans-serif}
  :active  {color: red;font-family:  sans-serif}
- :hover   {color: red;font-family:  sans-serif}
 
  td.menu {font-size: 100%; background: #F0F0F0; text-decoration: none}
  td.colored{font-size: 100%; background: #FFFFCC}
@@ -23,6 +22,5 @@
  .firstcol{text-align: left; font-size:100%; background: #FFFFAA} /* class="citation"*/
  div.right {font-family: sans-serif; text-align: right}
  div.footnoteright {font-size: 70%; text-align: right}
-
  
 </STYLE>
