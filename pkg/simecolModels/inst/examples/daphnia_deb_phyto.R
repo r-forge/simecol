@@ -25,7 +25,7 @@ daphnia_deb_phyto <- function() {
       bottrell.a      = 3.3956,        #parameter for calculation of egg development time according to Bottrell1976
       bottrell.b      = 0.2193,        #parameter for calculation of egg development time according to Bottrell1976
       bottrell.c      = -0.3414,       #parameter for calculation of egg development time according to Bottrell1976
-      mort            = -0.05,         #background mortality rate in EBT (d_b; Hülsmann2002)
+      mort            = -0.05,         #background mortality rate in EBT (d_b; Huelsmann2002)
       starve.mort     = -0.35,         #mortality rate at strong starvation, i.e. W<W_crit (d_s; Rohrlack1999)
       critical.weight = 0.6,           #critical weight factor (p_m; Urabe1990,1991)
       life.span       = 25,            #maximal lifespan of an individual and the length of the EBTrain
