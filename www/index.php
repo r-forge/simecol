@@ -46,13 +46,48 @@ echo $contents; } ?>
 
 <link rel="stylesheet" href="style.css">
 
-<h2>Other Resources</h2>
+<h2>Downloads and Project Pages</h2>
+
+<table style="text-align: left; width: 100%;" border="1" cellpadding="4" cellspacing="0">
+<tr>
+
+<td>
+<h3>simecol</h3>
 
 <ul>
-<li><strong>Main page:</strong> <a href="http://r-forge.r-project.org/projects/simecol/">Project Overview Page</a></li>
-<li><strong>For developers:</strong> <a href="http://r-forge.r-project.org/plugins/scmsvn/viewcvs.php/?root=simecol">Inspect source code</a></li>
-<li><strong>For users:</strong> <a href="http://cran.r-project.org/src/contrib/Descriptions/simecol.html">simecol on CRAN</a></li>
+<li><strong>Official Version (Download from CRAN)</strong></li>
+<ul>
+<li><a href="http://cran.r-project.org/src/contrib/Descriptions/simecol.html">Sources, Binaries, Docs on CRAN</a></li>
 </ul>
+<li><strong>Development Version (Download from R-Forge)</strong></li>
+<ul>
+<li><a href="http://r-forge.r-project.org/projects/simecol/">Project Overview Page</a></li>
+<li><a href="http://r-forge.r-project.org/plugins/scmsvn/viewcvs.php/?root=simecol">Inspect Source Code</a></li>
+<li><a href="http://r-forge.r-project.org/R/?group_id=146">Download Packages</a></li>
+</ul>
+</ul>
+</td>
+
+<td>
+<h3>simecolModels</h3>
+
+<ul>
+<li><strong>Official Version</strong></li>
+<ul>
+<li>not yet released</li>
+</ul>
+<li><strong>Development Version (Download from R-Forge)</strong></li>
+<ul>
+<li><a href="http://r-forge.r-project.org/projects/simecol/">Project Overview Page</a></li>
+<li><a href="http://r-forge.r-project.org/plugins/scmsvn/viewcvs.php/?root=simecol">Inspect Source Code</a></li>
+<li><a href="http://r-forge.r-project.org/R/?group_id=146">Download Packages</a></li>
+</ul>
+</ul>
+</td>
+
+</tr>
+
+</table>
  
 
 <h2>What is <span style="color: rgb(153, 0, 0);">simecol</span> and what is <span style="color: rgb(153, 0, 0);">simecolModels</span>?</h2>
@@ -118,44 +153,47 @@ can be
 installed: Linux, Windows, Mac, different UNIXes </li>
 </ul>
 
-<h2>Current State and Installation</h2>
-
-<p>The <span style="font-weight: bold; color: rgb(153, 0, 0);
-font-family: monospace;">simecol</span> package is available from <a
-href="http://cran.r-project.org">CRAN</a> and most of its mirrors. 
+<h2>Installation</h2>
 
 
-<p><span
-style="font-weight: bold; color: rgb(153, 0, 0); font-family:
-monospace;">simecol</span> can be installed directly from the internet
+<p>The packages can be installed directly from the internet
 within <span style="font-weight: bold; color: rgb(51, 51,
 153);">R</span> either via the menu (on Windows) or via the <span
 style="font-weight: bold; color: rgb(51, 51, 153);">R</span> command
 line:</p>
 
+<h4>Stable Version:</h4>
+
 <table border="1" cellpadding="4" cellspacing="0">
   <tbody>
     <tr>
       <td>
-      <p><span style="font-family: monospace;">&gt;install.packages("simecol")</span><br>
-      </p>
+      <span style="font-family: monospace;">&gt;install.packages("simecol")</span><br>
       </td>
     </tr>
   </tbody>
 </table>
-<br>
 
-<p> Source code and precompiled packages for Windows and Mac are
-available from <a
-href="http://cran.r-project.org/web/packages/simecol/">CRAN</a> in *.tar.gz resp. *.zip or *.tgz format. Write access to the
-simecol SVN repository can be allowed upon <a
-href="mailto:thomas.petzoldt@tu-dresden.de">request</a>.</p>
 
-<p><span
-style="font-weight: bold; color: rgb(153, 0, 0); font-family:
-monospace;">simecolModels</span> is an accompanied experimental package that can be downloaded or installed directly from 
-  <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/">R-Forge</a></p>
+<h4>Development Versions:</h4>
+<table border="1" cellpadding="4" cellspacing="0">
+  <tbody>
+    <tr>
+      <td>
+      <span style="font-family: monospace;">&gt;install.packages("simecol", repos="http://R-Forge.R-project.org")</span><br>
+      <span style="font-family: monospace;">&gt;install.packages("simecolModels", repos="http://R-Forge.R-project.org")</span><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
+<h4>SVN Access</h4>
+
+<ul>
+<li> Anonymous SVN access (read only): <span style="font-family: monospace;">svn checkout svn://svn.r-forge.r-project.org/svnroot/simecol</span>
+<li>Write access to the simecol SVN repository can be allowed upon <a
+href="mailto:thomas.petzoldt@tu-dresden.de">request</a>.</li>
+</ul>
 
 <h2>Documentation</h2>
 
@@ -251,17 +289,17 @@ is free open source software licensed under the
 <a href="http://www.gnu.org/licenses/licenses.html" target="_blank">GNU Public License</a>
 (GPL 2.0 or above).</li>
 <li>According to this <a href="http://www.gnu.org/licenses/licenses.html" target="_blank">license</a> 
-the software is provided as is and comes <span style="font-weight: bold;">WITHOUT WARRANTY.</span></li>
+the software is provided as is and comes <span style="font-weight: bold;">WITHOUT WARRANTY.</span>.</li>
 </ul>
 
 
 <h2>Links</h2>
 
 <ul>
-<li>Download the <a href="http://cran.r-project.org/web/packages/simecol/">public release version from CRAN</a></li>
-<li><strong>Project summary page</strong>: Inspect or download 
-  <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/">the development version</a> from R-Forge.</li>
-<li><a href="http://tu-dresden.de/Members/thomas.petzoldt">The author's homepage</a></li>
+<li><a href="http://cran.r-project.org/web/packages/simecol/">Stable Release Version from CRAN</a></li>
+<li><a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/">R-Forge Project Summary Page</a></li>
+<li><a href="http://r-forge.r-project.org/R/?group_id=146">Nightly Builds</a></li>
+<li><a href="http://tu-dresden.de/Members/thomas.petzoldt">The Author's Homepage</a></li>
 </ul>
 <!-- thpe: end of user supplied material -->
 

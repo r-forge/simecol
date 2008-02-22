@@ -12,7 +12,6 @@
  a.menu   {text-decoration: none}
  :link    {color: blue;font-family: sans-serif}
  :visited {color: navy;font-family: sans-serif}
- :active  {color: red;font-family:  sans-serif}
 
  td.menu {font-size: 100%; background: #F0F0F0; text-decoration: none}
  td.colored{font-size: 100%; background: #FFFFCC}
