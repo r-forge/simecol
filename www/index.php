@@ -57,7 +57,7 @@ echo $contents; } ?>
 <ul>
 <li><strong>Official Version (Download from CRAN)</strong></li>
 <ul>
-<li><a href="http://cran.r-project.org/src/contrib/Descriptions/simecol.html">Sources, Binaries, Docs on CRAN</a></li>
+<li><a href="http://cran.r-project.org/web/packages/simecol/">Sources, Binaries, Docs on CRAN</a></li>
 </ul>
 <li><strong>Development Version (Download from R-Forge)</strong></li>
 <ul>
@@ -174,6 +174,7 @@ line:</p>
   </tbody>
 </table>
 
+<!--  currently broken
 
 <h4>Development Versions:</h4>
 <table border="1" cellpadding="4" cellspacing="0">
@@ -187,6 +188,8 @@ line:</p>
   </tbody>
 </table>
 
+-->
+
 <h4>SVN Access</h4>
 
 <ul>
@@ -197,7 +200,12 @@ href="mailto:thomas.petzoldt@tu-dresden.de">request</a>.</li>
 
 <h2>Documentation</h2>
 
-<h3>Reference Articles</h3>
+<h3>Reference Manual</h3>
+<ul>
+  <li><a href="http://cran.r-project.org/web/packages/simecol/simecol.pdf">Online documentation</a> of the package (functions, examples).</li>
+</ul>
+
+<h3>Articles</h3>
 
 <ul>
   <li>Petzoldt, T. and K. Rinke (2007).  simecol: An Object-Oriented Framework for Ecological
@@ -205,12 +213,12 @@ href="mailto:thomas.petzoldt@tu-dresden.de">request</a>.</li>
   <li>Petzoldt, T. (2003). R as a Simulation Platform in Ecological Modelling. R-News 3(3), 8--16. <a href="http://cran.r-project.org/doc/Rnews/Rnews_2003-3.pdf">(pdf)</a></li>
 </ul>
 <h3>Additional Material</h3>
+
 <ul>
-  <li><a href="http://cran.r-project.org/web/packages/simecol/simecol.pdf">Online documentation</a> of the package (functions, examples).</li>
   <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2004.pdf">Lecture slides</a> from the useR-2004 conference about the <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span> concept and the (old) S3 list-based approach.<br>
   </li>
   <li><a href="http://hhbio.wasser.tu-dresden.de/projects/modlim/doc/modlim.pdf">German tutorial</a> describing ecological modelling with <span style="font-weight: bold; color: rgb(51, 51, 153);">R</span> in general (a little bit outdated and still without <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span>).</li>
-  <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2006-poster.pdf">Poster</a> and <a href="useR2006-slides">lecture slides</a> of the <a href="http://www.r-project.org/useR-2006/">useR-2006</a> conference comparing OOP approaches and introducing <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span><span style="font-weight: bold; color: rgb(153, 0, 0);"></span>.</li>
+  <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2006-poster.pdf">Poster</a> and <a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR2006-slides">lecture slides</a> of the <a href="http://www.r-project.org/useR-2006/">useR-2006</a> conference comparing OOP approaches and introducing <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span><span style="font-weight: bold; color: rgb(153, 0, 0);"></span>.</li>
 </ul>
 
 <h2>Examples<span style="color: rgb(192, 192, 192);"></span></h2>
