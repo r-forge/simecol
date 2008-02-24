@@ -1,0 +1,55 @@
+## p must be first argument for optim
+ssqOdeModel <- function(p, simObj, obstime, yobs, 
+  sd.yobs = as.numeric(lapply(yobs, sd)), 
+  initialize = TRUE, debuglevel=0, ...)  {
+  
+  ## sanity checks
+  nobs <- ncol(yobs)
+  obsnames <- names(yobs)
+  if (!(length(sd.yobs) %in% c(0, 1, nobs))) 
+    stop("length of sd.yobs does not match number of variables in yobs")
+  if (length(as.vector(obstime)) != nrow(yobs)) 
+    stop("time and yobs must have same length")
+  if (any(is.na(match(obsnames, names(init(simObj))))))
+    stop("all columns of yobs must be valid state variables")
+  if (is.null(sd.yobs)) 
+    sd.yobs <- as.numeric(lapply(yobs, sd))
+  ## ------- NaN checken !!!
+  if (length(sd.yobs) == 1) 
+    sd.yobs <- rep(sd.yobs, ncol(yobs))
+  if (debuglevel > 1) print(p)
+  ## assign parameters and re-initialize model if necessary
+  parms(simObj)[names(p)] <- p
+  if (initialize) simObj <- initialize(simObj)
+  ## simulate the model
+  simObj <- sim(simObj, ...)
+  o      <- out(simObj)
+  ysim   <- approxTime(o, obstime)
+  ## compute residual sum of squares, scaled by pre-defined
+  ## or estimated standard deviation of observations
+  ssq <- sum((t(yobs[obsnames])/sd.yobs - t(ysim[obsnames])/sd.yobs)^2)
+
+  if (debuglevel > 0) cat("ssq =", ssq, "\n")
+  min(ssq, .Machine$double.xmax) # avoid Inf
+}
+
+
+fitOdeModel <- function(simObj, whichpar=names(parms(simObj)), 
+  obstime, yobs, 
+  sd.yobs = as.numeric(lapply(yobs, sd)),
+  initialize = TRUE, debuglevel = 0, 
+  fn = ssqOdeModel,  
+  method = c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN"),
+  lower = -Inf, upper = Inf, control = list(), ...)  {
+
+   
+  p <- parms(simObj)[whichpar]
+  m <- optim(p, fn = fn, simObj=simObj, obstime=obstime,
+           yobs=yobs, sd.obs=sd.yobs, initialize=initialize,
+           debuglevel = debuglevel,
+           method = method,
+           lower = lower, upper = upper,
+           control = control, ...)
+  m 
+}  
+
