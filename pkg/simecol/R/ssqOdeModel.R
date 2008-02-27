@@ -1,5 +1,5 @@
-## p must be first argument for optim
-ssqOdeModel <- function(p=NULL, simObj, obstime, yobs, 
+`ssqOdeModel` <-
+function(p=NULL, simObj, obstime, yobs, 
   sd.yobs = as.numeric(lapply(yobs, sd)), 
   initialize = TRUE, debuglevel = 0, ...)  {
   
@@ -25,6 +25,7 @@ ssqOdeModel <- function(p=NULL, simObj, obstime, yobs,
   simObj <- sim(simObj, ...)
   o      <- out(simObj)
   ysim   <- approxTime(o, obstime)
+
   ## compute residual sum of squares, scaled by pre-defined
   ## or estimated standard deviation of observations
   ssq <- sum((t(yobs[obsnames])/sd.yobs - t(ysim[obsnames])/sd.yobs)^2)
@@ -32,23 +33,4 @@ ssqOdeModel <- function(p=NULL, simObj, obstime, yobs,
   if (debuglevel > 0) cat("ssq =", ssq, "\n")
   min(ssq, .Machine$double.xmax) # avoid Inf
 }
-
-fitOdeModel <- function(simObj, whichpar=names(parms(simObj)), 
-  obstime, yobs, 
-  sd.yobs = as.numeric(lapply(yobs, sd)),
-  initialize = TRUE, debuglevel = 0, 
-  fn = ssqOdeModel,  
-  method = c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN"),
-  lower = -Inf, upper = Inf, control = list(), ...)  {
-
-   
-  par <- parms(simObj)[whichpar]
-  m <- optim(par, fn = fn, simObj = simObj, obstime = obstime,
-           yobs = yobs, sd.obs = sd.yobs, initialize = initialize,
-           debuglevel = debuglevel,
-           method = method,
-           lower = lower, upper = upper,
-           control = control, ...)
-  m 
-}  
 

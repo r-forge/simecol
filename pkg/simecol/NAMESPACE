@@ -27,6 +27,8 @@ export(rk4, euler, iteration)
 export(addtoenv, sEdit, peaks)
 export(pcu, pcuseries, rho2alpha, alpha2rho)
 
+export(ssqOdeModel, fitOdeModel)
+
 ## not necessary because example models are stored as *data*
 # export(lv, lv3, conway, diffusion, upca) 
 
