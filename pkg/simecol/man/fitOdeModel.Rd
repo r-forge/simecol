@@ -31,7 +31,8 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs, sd.yobs = as
   \item{method}{optimization method, see \code{\link{optim}}}
   \item{lower, upper}{Bound of the parameters for method L-BFGS-B, see \code{\link{optim}}}
   \item{control}{A list of control parameters for \code{\link{optim}}}
-  \item{\dots}{additional parameters passed to the solver method (e.g. lsoda}}
+  \item{\dots}{additional parameters passed to the solver method
+    (e.g. \code{\link[odesolve]{lsoda}})}
 }
 \details{
   Currently this function works only with odeModels where \code{parms} is a vector,
