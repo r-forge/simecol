@@ -8,11 +8,12 @@
 \usage{
 ssqOdeModel(p, simObj, obstime, yobs, 
   sd.yobs = as.numeric(lapply(yobs, sd)), 
-  initialize = TRUE, debuglevel = 0, ...)
+  initialize = TRUE, lower. = -Inf, upper. = Inf,
+  debuglevel = 0, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{p}{Vector of valid parameter values}
+  \item{p}{Vector of named parameter values of the model (can be a subset).}
   \item{simObj}{a valid object of class \code{\link{odeModel}}}
   \item{obstime}{vector with time steps for which observational data are available}
   \item{yobs}{data frame with observational data for all or a subset of 
@@ -25,6 +26,8 @@ ssqOdeModel(p, simObj, obstime, yobs,
     re-initialized after the assignment of new parameter values. This can be
     necessary in certain models to assign consistent values to initial state 
     variables if they depend on parameters.}
+  \item{lower., upper.}{named vectors with lower and upper bounds used in the
+    optimisation.}
   \item{debuglevel}{a positive number that specifies the amount of debugging 
     information printed}
   \item{\dots}{additional parameters passed to the solver method (e.g.
@@ -40,7 +43,7 @@ ssqOdeModel(p, simObj, obstime, yobs,
   by the inverse of the standard deviations of the respective variables.
 }
 
-\seealso{\code{\link{fitOdeModel}}}
+\seealso{\code{\link{fitOdeModel}}, \code{\link{optim}}, \code{\link{p.constrain}}}
 
 \examples{
 data(chemostat)

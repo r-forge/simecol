@@ -1,7 +1,10 @@
+
 `ssqOdeModel` <-
-function(p=NULL, simObj, obstime, yobs, 
+function(p = NULL, simObj, obstime, yobs, 
   sd.yobs = as.numeric(lapply(yobs, sd)), 
-  initialize = TRUE, debuglevel = 0, ...)  {
+  initialize = TRUE, 
+  lower. = -Inf, upper. = Inf,
+  debuglevel = 0, ...)  {
   
   ## sanity checks
   nobs <- ncol(yobs)
@@ -17,7 +20,12 @@ function(p=NULL, simObj, obstime, yobs,
   ## ------- ToDo: check NaN !!!
   if (length(sd.yobs) == 1) 
     sd.yobs <- rep(sd.yobs, ncol(yobs))
+ 
+  p <- p.constrain(p, lower., upper.)
+ 
   if (debuglevel > 1) print(p)
+
+  
   ## assign parameters and re-initialize model if necessary
   if (!is.null(p)) parms(simObj)[names(p)] <- p
   if (initialize) simObj <- initialize(simObj)
@@ -30,6 +38,8 @@ function(p=NULL, simObj, obstime, yobs,
   ## or estimated standard deviation of observations
   ssq <- sum((t(yobs[obsnames])/sd.yobs - t(ysim[obsnames])/sd.yobs)^2)
 
+  #p <- p.unconstrain(p, lower., upper.)
+ 
   if (debuglevel > 0) cat("ssq =", ssq, "\n")
   min(ssq, .Machine$double.xmax) # avoid Inf
 }
