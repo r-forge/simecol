@@ -6,7 +6,13 @@
   ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs, sd.yobs = as.numeric(lapply(yobs, sd)), initialize = TRUE, debuglevel = 0, fn = ssqOdeModel, method = c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN"), lower = -Inf, upper = Inf, control = list(), ...)
+fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs, 
+  sd.yobs = as.numeric(lapply(yobs, sd)), initialize = TRUE, 
+  debuglevel = 0, fn = ssqOdeModel, 
+  method = c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN"), 
+  lower = -Inf, 
+  upper = Inf, 
+  control = list(), ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
