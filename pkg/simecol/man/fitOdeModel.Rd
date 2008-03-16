@@ -1,9 +1,8 @@
 \name{fitOdeModel}
 \alias{fitOdeModel}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{ ~~function to do ... ~~ }
+\title{Parameter fitting for odeModel objects}
 \description{
-  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Fit parameters of \code{odeModel} objects to measured data.
 }
 \usage{
 fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs, 
@@ -14,7 +13,7 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs,
   upper = Inf, 
   control = list(), ...)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{simObj}{a valid object of class \code{\link{odeModel}}}
   \item{whichpar}{names of parameters which are to be optimized}
@@ -34,21 +33,24 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs,
     information printed}
   \item{fn}{function that returns the quality criterium that is minimized,
     defaults to \code{\link{ssqOdeModel}}.}
-  \item{method}{optimization method, see \code{\link{optim}}}
-  \item{lower, upper}{Bound of the parameters for method L-BFGS-B, see \code{\link{optim}}}
-  \item{control}{A list of control parameters for \code{\link{optim}}}
+  \item{method}{optimization method, see \code{\link[stats]{optim}}}
+  \item{lower, upper}{Bounds of the parameters for method L-BFGS-B, see 
+    \code{\link[stats]{optim}}. The bounds are also respected by other optimizers
+    by means of an internal transformation of the parameter space (see 
+    \code{\link{p.constrain}}).}
+  \item{control}{A list of control parameters for \code{\link[stats]{optim}}}
   \item{\dots}{additional parameters passed to the solver method
     (e.g. \code{\link[odesolve]{lsoda}})}
 }
 \details{
-  Currently this function works only with odeModels where \code{parms} is a vector,
-  not a list.
+  This function works currently only with \code{odeModel} objects where 
+  \code{parms} is a vector, not a list.
 }
 \value{
   A list with the optimized parameters and other information, 
   see \code{\link{optim}} for details.
 }
-\seealso{\code{\link{ssqOdeModel}}, \code{\link{optim}}}
+\seealso{\code{\link{ssqOdeModel}}, \code{\link[stats]{optim}}}
 \examples{
 ## ======== load example model =========
 data(chemostat)
