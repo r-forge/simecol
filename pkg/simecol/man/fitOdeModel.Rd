@@ -31,8 +31,8 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs,
     variables if they depend on parameters.}
   \item{debuglevel}{a positive number that specifies the amount of debugging 
     information printed}
-  \item{fn}{optionalm user-supplied function that returns the quality criterium 
-    that is minimized, defaults to \code{\link{ssqOdeModel}}.}
+  \item{fn}{objective function, i.e. function that returns
+    the quality criterium that is minimized, defaults to \code{\link{ssqOdeModel}}.}
   \item{method}{optimization method, see \code{\link[stats]{optim}}}
   \item{lower, upper}{Bounds of the parameters for method L-BFGS-B, see 
     \code{\link[stats]{optim}}. The bounds are also respected by other optimizers
