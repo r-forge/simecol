@@ -11,7 +11,7 @@ exportClasses(numericOrlist,listOrNULL,functionOrNULL,listOrdata.frame)
 
 exportMethods(sim, parms, "parms<-", init, "init<-", times, "times<-")
 exportMethods(inputs, "inputs<-", main, "main<-", equations, "equations<-")
-exportMethods(solver, "solver<-", out)
+exportMethods(solver, "solver<-", out, "out<-")
 
 exportMethods(plot, print)
 exportMethods(show)

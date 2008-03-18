@@ -16,8 +16,8 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs,
 
 \arguments{
   \item{simObj}{a valid object of class \code{\link{odeModel}}}
-  \item{whichpar}{names of parameters which are to be optimized}
-
+  \item{whichpar}{character vector with names of parameters which are to be 
+  optimized (subset of parameter names of the \code{simObj}.}
   \item{obstime}{vector with time steps for which observational data are available}
   \item{yobs}{data frame with observational data for all or a subset of 
     state variables. Their names must correspond exacly with existing names of state 
@@ -31,8 +31,8 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs,
     variables if they depend on parameters.}
   \item{debuglevel}{a positive number that specifies the amount of debugging 
     information printed}
-  \item{fn}{function that returns the quality criterium that is minimized,
-    defaults to \code{\link{ssqOdeModel}}.}
+  \item{fn}{optionalm user-supplied function that returns the quality criterium 
+    that is minimized, defaults to \code{\link{ssqOdeModel}}.}
   \item{method}{optimization method, see \code{\link[stats]{optim}}}
   \item{lower, upper}{Bounds of the parameters for method L-BFGS-B, see 
     \code{\link[stats]{optim}}. The bounds are also respected by other optimizers

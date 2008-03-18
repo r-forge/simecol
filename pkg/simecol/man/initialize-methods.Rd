@@ -33,7 +33,8 @@
       of a \code{simObj} instance that can perform computations during the
       object creation process. The \code{initfunc} must have \code{obj} as its
       only argument and must return the modified version of this \code{obj},
-      see examples below.
+      see examples below. As a side effect end to ensure consistency, \code{initialize}
+      clears outputs stored in slot \code{out} from former simulations.
     }
   }
 }

@@ -11,6 +11,8 @@
 setMethod("initialize", signature(.Object="simObj"),
   function(.Object, ...) {
     .Object <- callNextMethod()
+    ## delete outputs from former simulations
+    .Object@out <- NULL
     if (is.function(.Object@initfunc)) {
       initfunc                <- .Object@initfunc
       equations               <- .Object@equations

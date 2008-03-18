@@ -73,6 +73,10 @@
 \alias{out,gridModel-method}
 \alias{out,odeModel-method}
 
+\alias{out<-}
+\alias{out<--methods}
+\alias{out<-,simObj-method}
+
 \title{Accessor Functions for `simObj' Objects}
 \description{
   Get or set simulation model parameters, main or sub-equations, initial
@@ -104,7 +108,7 @@
    initfunc(obj) <- value
 
    out(obj, ...)
-   out(obj, ...)
+   out(obj) <- NULL
 }
 \arguments{
   \item{obj}{A valid \code{simObj} instance.}
@@ -124,10 +128,15 @@
   applied names must exactly correspond to the names and number (!) of state
   variables. The restrictions of \code{parms} or \code{equations} are less strict
   (additional values for ``future use'' are allowed).
+  
   The function \code{times} allows either to assign or to modify a special
   vector with three elements named \code{from}, \code{to} and \code{by} or to
   overwrite \code{times} with an un-named sequence (e.g.
   \code{seq(1, 100, 0.1)}.
+  
+  To ensure object consistency function \code{out} cannot assign arbitrary values.
+  It can only extract or delete the contents (by assigning \code{NULL}) of the 
+  \code{out}-slot.
 }
 
 \value{A list, named vector, matrix or function (for
@@ -153,5 +162,15 @@
     parms(lv)["dummy"] <- 1
     # remove dummy parameter
     parms(lv) <- parms(lv)[names(parms(lv)) != "dummy"]
+    
+    # simulation and extraction of outputs
+    lv <- sim(lv)
+    o <- out(lv)
+    
+    # remove outputs from object
+    out(lv) <- NULL
+    # store object persistently to the disk
+    save(lv, file="lv.Rdata")           # in binary form
+    dput(as.list(lv), file="lv-list.R") # in text form
 }
 \keyword{programming}

@@ -25,6 +25,7 @@ setGeneric("initfunc", function(obj, ...) standardGeneric("initfunc"))
 setGeneric("initfunc<-", function(obj, value) standardGeneric("initfunc<-"))
 
 setGeneric("out", function(obj, ...) standardGeneric("out"))
+setGeneric("out<-", function(obj, value) standardGeneric("out<-"))
 ## the out slot is readonly
 
 setMethod("parms", "simObj",
@@ -156,6 +157,14 @@ setMethod("out", "simObj",
     o <- obj@out
     if (last) o[length(o)] else o
   }
+)
+
+setMethod("out<-", "simObj",
+    function(obj, value) {
+      if(!is.null(value)) stop("``out'' can only be set to NULL")
+      obj@out <- value
+      invisible(obj)
+    }
 )
 
 setMethod("out", "gridModel",
