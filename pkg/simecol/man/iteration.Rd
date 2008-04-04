@@ -62,31 +62,31 @@
 }
 
 \examples{
-    data(conway)
-    ## plot after simulation:
-    plot(sim(conway), delay=100)
+data(conway)
+## plot after simulation:
+plot(sim(conway), delay=100)
 
-    ## plot during simulation
-    sim(conway, animate=TRUE, delay=100)
-    
-    ## discrete version of logistic growth function
-    dlogist <- new("odeModel",
-    main = function (time, init, parms, ...) {
-      x <- init
-      p <- parms
-      x[1] <- x[1] + p["r"] * x[1] * (1 - x[1] / p["K"])
-      #       ^^^^ important !!! new value, not derivative
-      list(c(x))
-    },
-    parms  = c(r=0.1, K=10),
-    times  = seq(0, 100, 1),
-    init   = c(population=0.1),
-    solver = "iteration" #!!!
-  )
-  
-  plot(sim(dlogist))
-  
-  parms(dlogist)["r"] <- 2
-  plot(sim(dlogist))
+## plot during simulation
+sim(conway, animate=TRUE, delay=100)
+
+##### discrete version of logistic growth equation
+dlogist <- new("odeModel",
+main = function (time, init, parms, ...) {
+  x <- init
+  p <- parms
+  x[1] <- x[1] + p["r"] * x[1] * (1 - x[1] / p["K"])
+  #       ^^^^ important !!! new value, not derivative
+  list(c(x))
+},
+parms  = c(r=0.1, K=10),
+times  = seq(0, 100, 1),
+init   = c(population=0.1),
+solver = "iteration" #!!!
+)
+
+plot(sim(dlogist))
+
+parms(dlogist)["r"] <- 2
+plot(sim(dlogist))
 }
 \keyword{misc}
