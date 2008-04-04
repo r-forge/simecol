@@ -12,7 +12,6 @@ logist <- new("odeModel",
   parms  = c(r=0.1, K=10),
   times  = seq(0, 100, 1),
   init   = c(population=0.1),
-  out    = list(x=0),
   solver = "lsoda"
 )
 

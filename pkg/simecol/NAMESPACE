@@ -22,8 +22,9 @@ exportMethods(coerce, as.list, as.simObj)
 
 export(neighbours, neighbors, eightneighbours, eightneighbors, seedfill)
 export(approxTime, approxTime1, fromtoby)
-#export(lsoda)
-export(rk4, euler, iteration)
+export(euler, iteration)
+#export(rk4, lsoda)
+
 export(addtoenv, sEdit, peaks)
 export(pcu, pcuseries, rho2alpha, alpha2rho)
 

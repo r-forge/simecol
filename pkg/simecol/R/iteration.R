@@ -5,10 +5,42 @@
 ## NOTE 2: the special parameter DELTAT is set here to ensure
 ##         consistency with the times vector.
 
+
 setGeneric("iteration",
   function(y, times=FALSE, func=FALSE, parms=FALSE, animate=FALSE, ...)
   standardGeneric("iteration")
 )
+
+
+
+setMethod("iteration", "numeric",
+  function(y, times=NULL, func=NULL, parms=NULL, animate=FALSE, ...) {
+    if (!is.numeric(y))     stop("`y' must be numeric")
+    if (!is.numeric(times)) stop("`times' must be numeric")
+    if (!is.function(func)) stop("`func' must be a function")
+    # if (!is.numeric(parms)) stop("`parms' must be numeric")
+    
+    n     <- length(y)
+    parms <- c(parms, DELTAT = 0)
+    nm    <- c("time", if (!is.null(attr(y, "names")))
+             names(y) else as.character(1:n))
+    out <- unlist(func(times[1], y, parms))
+    for (i in 2:length(times)) {
+      time <- times[i]
+      parms["DELTAT"] <- times[i] - times[i - (i>1)] # is zero if i=1
+      y    <- unlist(func(time, y, parms))
+      out  <- rbind(out, y)
+      if (animate) {
+        plot(out, ...)
+      }
+    }
+    row.names(out) <- NULL
+    out <- as.data.frame(cbind(times, out))
+    names(out) <- nm
+    out
+  }
+)
+
 
 setMethod("iteration", "simObj",
   function(y, times=NULL, func=NULL, parms=NULL, animate=FALSE, ...) {
@@ -38,6 +70,7 @@ setMethod("iteration", "simObj",
   }
 )
 
+
 setMethod("iteration", "odeModel",
   function(y, times=NULL, func=NULL, parms=NULL, animate=FALSE, ...) {
     init              <- y@init
@@ -47,8 +80,9 @@ setMethod("iteration", "odeModel",
     inputs            <- y@inputs
     equations         <- y@equations
     environment(func) <- environment()
-    attach(equations)
-    on.exit(detach(equations))
+    equations         <- addtoenv(equations)
+    #attach(equations)
+    #on.exit(detach(equations))
     n   <- length(init)
     parms <- c(parms, DELTAT = 0)
     nm  <- c("time", if (!is.null(attr(init, "names")))

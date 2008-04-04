@@ -14,14 +14,29 @@
 }
 \usage{
   euler(y, times, func, parms, ...) 
-  # euler(y) 
 }
 \arguments{
-  \item{y}{The \code{odeModel} object to be solved.}
-  \item{times}{Placeholder for compatibility with the \pkg{odesolve} package.}
-  \item{func}{Placeholder for compatibility with the \pkg{odesolve} package.}
-  \item{parms}{Placeholder for compatibility with the \pkg{odesolve} package.}
-  \item{...}{Reserved for further extensions.}
+  \item{y }{the initial values for the ode system.  If \code{y} has a
+      name attribute, the names will be used to label the output matrix.}
+  \item{times }{times at which explicit estimates for \code{y} are
+      desired.  The first value in \code{times} must be the initial time.}
+  \item{func }{a user-supplied function that computes the values of the
+      derivatives in the ode system (the \emph{model defininition}) at time
+      t.
+      The user-supplied function  \code{func} must be called as:
+      \code{yprime = func(t, y, parms)}.  \code{t} is the current time point
+      in the integration, \code{y} is the current estimate of the variables
+      in the ode system, and \code{parms} is a vector of parameters (which
+      may have a names attribute, desirable in a large system).
+  
+      The return value of func should be a list, whose first element is a
+      vector containing the derivatives of \code{y} with respect to
+      \code{time}, and whose second element is a vector (possibly with a
+      \code{\link{names}} attribute) of global values that are required at
+      each point in \code{times}.}
+  \item{parms }{vector or list holding the parameters used in \code{func} 
+     that should be modifiable without rewriting the function.}
+  \item{... }{additional arguments, allowing this to be a generic function}
 
 }
 
@@ -39,7 +54,7 @@
 
 \seealso{
   \code{\link{sim}}, \code{\link{parms}}
-  \code{\link{rk4}}, \code{\link[odesolve]{lsoda}}, \code{\link{iteration}}.
+  \code{\link[odesolve]{rk4}}, \code{\link[odesolve]{lsoda}}, \code{\link{iteration}}.
 }
 
 \examples{

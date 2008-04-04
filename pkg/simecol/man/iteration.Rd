@@ -1,6 +1,7 @@
 \name{iteration}
 \alias{iteration}
 \alias{iteration-methods}
+\alias{iteration,numeric-method}
 \alias{iteration,simObj-method}
 \alias{iteration,odeModel-method}
 
@@ -13,10 +14,26 @@
   iteration(y, times=FALSE, func=FALSE, parms=FALSE, animate = FALSE, ...)
 }
 \arguments{
-  \item{y}{The \code{simObj} object to be iterated.}
-  \item{times}{Placeholder for compatibility with the \pkg{odesolve} package.}
-  \item{func}{Placeholder for compatibility with the \pkg{odesolve} package.}
-  \item{parms}{Placeholder for compatibility with the \pkg{odesolve} package.}
+  \item{y }{the initial values for the system.  If \code{y} has a
+      name attribute, the names will be used to label the output matrix.}
+  \item{times }{times at which explicit estimates for \code{y} are
+      desired.  The first value in \code{times} must be the initial time.}
+  \item{func }{a user-supplied function that computes the values of the
+      \emph{next time step} (not the derivatives !!!) 
+      in the system (the \emph{model defininition}) at time t.
+      The user-supplied function  \code{func} must be called as:
+      \code{yprime = func(t, y, parms)}.  \code{t} is the current time point
+      in the integration, \code{y} is the current estimate of the variables
+      in the ode system, and \code{parms} is a vector of parameters (which
+      may have a names attribute, desirable in a large system).
+  
+      The return value of func should be a list, whose first element is a
+      vector containing the derivatives of \code{y} with respect to
+      \code{time}, and whose second element is a vector (possibly with a
+      \code{\link{names}} attribute) of global values that are required at
+      each point in \code{times}.}
+  \item{parms }{vector or list holding the parameters used in \code{func} 
+     that should be modifiable without rewriting the function.}
   \item{animate}{Animation during the simulation (if available for the specified
     class.}
   \item{\dots}{Optional arguments passed to the \code{plot} function if
@@ -27,13 +44,11 @@
 
 \details{
   The solver method \code{iteration} is used to simulate discrete event
-  models. It creates a local environment in a way that parameters,
-  inputs and equations are visible within the main function of the
-  \code{simObj}.
+  models. 
   
-  In contrast to the ODE solvers, the \code{main} function of the model
-  must not return the first derivative but instead of this
-  the new state at the specified times explicitly.
+  In contrast to differential equation solvers, the \code{main} function of the model
+  must not return the first derivative but instead and explicitly
+  the new state at the specified times.
   
   The actual value of time is available in the \code{main} function as \code{time}
   and the current increment as \code{parms$DELTAT} or \code{parms["DELTAT"]}
@@ -43,7 +58,7 @@
 }
 \seealso{
   \code{\link{sim}}, \code{\link{parms}},
-  \code{\link[odesolve]{lsoda}}, \code{\link{rk4}}, \code{\link{euler}}.
+  \code{\link[odesolve]{lsoda}}, \code{\link[odesolve]{rk4}}, \code{\link{euler}}.
 }
 
 \examples{
@@ -53,5 +68,25 @@
 
     ## plot during simulation
     sim(conway, animate=TRUE, delay=100)
+    
+    ## discrete version of logistic growth function
+    dlogist <- new("odeModel",
+    main = function (time, init, parms, ...) {
+      x <- init
+      p <- parms
+      x[1] <- x[1] + p["r"] * x[1] * (1 - x[1] / p["K"])
+      #       ^^^^ important !!! new value, not derivative
+      list(c(x))
+    },
+    parms  = c(r=0.1, K=10),
+    times  = seq(0, 100, 1),
+    init   = c(population=0.1),
+    solver = "iteration" #!!!
+  )
+  
+  plot(sim(dlogist))
+  
+  parms(dlogist)["r"] <- 2
+  plot(sim(dlogist))
 }
 \keyword{misc}
