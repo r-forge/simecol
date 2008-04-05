@@ -37,9 +37,9 @@
       sub-equations (sub-models) of the
       model. Sub-equations can be interdependent and can be called
       directly from within \code{main} or \code{initialize}.
-    \item \code{parms}: a list (for \code{gridModel}s) or vector (all
-      other pre-definded classes) with constant model parameters,
-    \item  \code{times}: vector of time steps or a vector with three
+    \item \code{parms}: a list (or vector for some classes) with 
+      constant model parameters,
+    \item  \code{times}: vector of time steps or vector with three
       named values \code{from}, \code{to}, \code{by} specifying the
       simulation time steps. The from-to-by form can be edited with
      \code{fixParms}.
@@ -53,10 +53,12 @@
       \code{main} function. Performance optimized version of
       \code{approx} (see \code{\link{approxTime}}) are available.
      \item \code{solver}: character string specifying the numerical algorithm
-       used. Currently \code{"lsoda"} (from package \code{odesolve}),
-       \code{"rk4"}, \code{"euler"} and \code{"iterator"} are supported.
-       It is possible to provide own algorithms (solvers). Please have a look at
-       the code at the beginning of \code{"rk4"} or \code{"iterator"}.
+       used. Currently \code{"lsoda"} and \code{"rk4"} are directly imported from package 
+       \code{odesolve}). In addition to this solvers from packages \code{"deSolve"}
+        and \code{"ddesolve"} can also be used.
+        Simecol introduces two additional solvers, \code{"euler"} and 
+        \code{"iterator"} (for models with discrete time steps) and it is 
+        also possible to provide own algorithms (solvers).
      \item \code{out}: this slot holds the simulation results after a
        simulation run as data frame or list (of matrices).
      \item \code{initfunc}: this slot can hold an optional function which is called

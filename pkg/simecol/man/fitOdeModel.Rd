@@ -37,7 +37,7 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs,
   \item{lower, upper}{Bounds of the parameters for method L-BFGS-B, see 
     \code{\link[stats]{optim}}. The bounds are also respected by other optimizers
     by means of an internal transformation of the parameter space (see 
-    \code{\link{p.constrain}}).}
+    \code{\link{p.constrain}}). In this case, \emph{named vectors} are required.}
   \item{control}{A list of control parameters for \code{\link[stats]{optim}}}
   \item{\dots}{additional parameters passed to the solver method
     (e.g. \code{\link[odesolve]{lsoda}})}
@@ -73,29 +73,37 @@ yobs$X <- yobs$X + rnorm(yobs$X, sd= 0.1 * sd(yobs$X))
 # times(cs2)["by"] <- 0.1
 # solver(cs2) <- "rk4"
 
-## or, faster: only required steps for solver with automatic step size
+## or, faster: use lsoda and and return only required steps that are in the data
 times(cs2) <- obstime
 solver(cs2) <- "lsoda"
 
 ## Nelder-Mead (default)
 whichpar  <- c("vm", "km")
 
-res <- fitOdeModel(cs2, whichpar=whichpar, obstime, yobs, 
+res <- fitOdeModel(cs2, whichpar=whichpar, obstime, yobs,
   debuglevel=0,
   control=list(trace=TRUE))
 
 ## assign fitted parameters to the model, i.e. as start values for next step
-parms(cs2)[whichpar] <- res$par 
+parms(cs2)[whichpar] <- res$par
 
 ## alternatively, L-BFGS-B (allows lower and upper bounds for parameters)
-res <- fitOdeModel(cs2, whichpar=c("vm", "km"), obstime, yobs, 
+res <- fitOdeModel(cs2, whichpar=c("vm", "km"), obstime, yobs,
   debuglevel=0, fn = ssqOdeModel,
   method = "L-BFGS-B", lower = 0,
   control=list(trace=TRUE),
   atol=1e-4, rtol=1e-4)
 
+## alternative 2, transform parameters to constrain unconstrained method
+## Note: lower and upper are *named* vectors
+res <- fitOdeModel(cs2, whichpar=c("vm", "km"), obstime, yobs,
+  debuglevel=0, fn = ssqOdeModel,
+  method = "BFGS", lower = c(vm=0, km=0), upper=c(vm=4, km=20),
+  control=list(trace=TRUE),
+  atol=1e-4, rtol=1e-4)
+
 ## set model parameters to  fitted values and simulate again
-parms(cs2)[whichpar] <- res$par 
+parms(cs2)[whichpar] <- res$par
 times(cs2) <- c(from=0, to=20, by=1)
 ysim <- out(sim(cs2))
 
@@ -105,6 +113,7 @@ plot(obstime, yobs$X, ylim = range(yobs$X, ysim$X))
 lines(ysim$time, ysim$X, col="red")
 plot(obstime, yobs$S, ylim= range(yobs$S, ysim$S))
 lines(ysim$time, ysim$S, col="red")
+
 }
 
 \keyword{ misc }

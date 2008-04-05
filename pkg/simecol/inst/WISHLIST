@@ -1,7 +1,8 @@
 o graphical representatiopn of models in the helpfiles???
-o parameter optimization (model fitting)
+o improved constrained algorithms for parameter optimization (model fitting)
 o dynamic size of internal C buffers for seedfill
 o improved dialog version to edit parameters (Tcl/Tk)
-
+o alternative solution to avoid addtoenv()
+o sanity checks to avoid possible name clashes
 
 

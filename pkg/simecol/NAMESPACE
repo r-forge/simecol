@@ -20,24 +20,23 @@ exportMethods(initialize, initfunc, "initfunc<-")
 
 exportMethods(coerce, as.list, as.simObj)
 
-export(neighbours, neighbors, eightneighbours, eightneighbors, seedfill)
-export(approxTime, approxTime1, fromtoby)
-export(euler, iteration)
-#export(rk4, lsoda)
-
-export(addtoenv, sEdit, peaks)
-export(pcu, pcuseries, rho2alpha, alpha2rho)
-
-export(ssqOdeModel, fitOdeModel)
-export(p.constrain, p.unconstrain)
-
-## not necessary because example models are stored as *data*
-# export(lv, lv3, conway, diffusion, upca) 
-
 ## generating functions
 export(simObj, odeModel, gridModel, rwalkModel)
 
-## random number stuff
-#export(pcu, pcuseries, rho2alpha, alpha2rho)
+## utilities
+export(addtoenv, fromtoby)
+export(neighbours, neighbors, eightneighbours, eightneighbors, seedfill)
+export(approxTime, approxTime1, sEdit, peaks)
+export(euler, iteration)
+#export(rk4, lsoda)
 
+## parameter fitting
+export(ssqOdeModel, fitOdeModel)
+export(p.constrain, p.unconstrain)
+
+## random number stuff
+export(pcu, pcuseries, rho2alpha, alpha2rho)
+
+## not necessary because example models are stored as *data*
+# export(lv, lv3, conway, diffusion, upca) 
 

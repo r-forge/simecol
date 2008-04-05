@@ -1,3 +1,17 @@
+0.5-5
+
+o reworked ODE solvers, rk4 and lsoda generics removed,
+  solvers are now called directly from sim,
+  ensures compatibility with the desolve package without
+  the need to write generics for all possible (and future)
+  ode solvers
+o rehabilitation of addtoenv()
+o documentation updates
+
+0.5-4
+
+o experimental code for parameter fitting of ODE models
+
 0.5-3
 
 o added citation to JSS article about simecol

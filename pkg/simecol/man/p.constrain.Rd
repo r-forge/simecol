@@ -24,9 +24,11 @@ p.unconstrain(p, lower = -Inf, upper = Inf, f = 1)
   in order to be able to use the unconstrained optimizers of \code{\link{optim}} for
   constrained optimization. 
   The transformation functions are
-  \eqn{p' = tan(pi/2 * (2 * p - upper - lower) / (upper - lower)) / f}
+  \deqn{p' = \tan(\pi/2 \cdot (2 p - upper - lower) / (upper - lower)) \cdot 1/f}{%
+       p' = tan(pi/2 * (2 * p - upper - lower) / (upper - lower)) / f}  
    and its inverse
-   \eqn{p = 1/2 * (upper + lower) + (upper - lower) * atan(f * p')/pi}.
+   \deqn{p = (upper + lower)/2 + (upper - lower) \cdot \arctan(f \cdot p')/\pi}{%
+        p = 1/2 * (upper + lower) + (upper - lower) * arctan(f * p')/pi}.
 }
 \value{
   vector with transformed (resp. back-transformed) values.

@@ -29,8 +29,6 @@ addtoenv(L, p=parent.frame())
   This is a very special function that uses environment manipulations.
   Its purpose is to `open' the access to interdependend functions within
   a common list structure (function list).
-  This function is no longer used in recent versions of \pkg{simecol} and
-  may be removed in future versions.
 }
 \seealso{
   \code{\link{attach}},
