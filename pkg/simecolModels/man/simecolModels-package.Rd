@@ -12,8 +12,8 @@ simecol specification.
 \tabular{ll}{
 Package: \tab simecolModels\cr
 Type: \tab Package\cr
-Version: \tab 0.1\cr
-Date: \tab 2007-12-07\cr
+Version: \tab 0.2.1\cr
+Date: \tab 2008-04-07\cr
 License: \tab Gnu Public License 2.0 or above\cr
 }
 }
