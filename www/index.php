@@ -174,7 +174,6 @@ line:</p>
   </tbody>
 </table>
 
-<!--  currently broken
 
 <h4>Development Versions:</h4>
 <table border="1" cellpadding="4" cellspacing="0">
@@ -188,9 +187,8 @@ line:</p>
   </tbody>
 </table>
 
--->
 
-<h4>SVN Access</h4>
+<h4>Subversion (SVN) Access</h4>
 
 <ul>
 <li> Anonymous SVN access (read only): <span style="font-family: monospace;">svn checkout svn://svn.r-forge.r-project.org/svnroot/simecol</span>
