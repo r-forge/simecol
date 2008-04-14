@@ -78,7 +78,7 @@ daphnia_deb <- function() {
     ## Equations are stored in an external list of functions which are
     ## shared between different models
     equations = daphnia_deb_equations,
-    solver = "lsoda",
+    solver = "rk4",
     initfunc = function(obj) {
        parms     <- as.list(parms(obj))
        length    <- 0.65

@@ -67,8 +67,7 @@ for(f in foodconc){    # food loop
     for(t in temp){    # temperature loop
       daphnia@inputs <- data.frame(food=f, t.kelvin=t+273.15)
       ## numerical integration
-      solver(daphnia) <- "lsoda"
-      out <- as.data.frame(out(sim(daphnia)))
+      out <- as.data.frame(out(sim(daphnia, atol=1e-4, rtol=1e-4)))
       ## preparation of outputs
       out <- cbind(out, food = f, temp = t,
                    length = equations(daphnia)$weight2length(out$weight, parms(daphnia)["l2w"])
