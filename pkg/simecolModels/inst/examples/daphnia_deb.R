@@ -30,7 +30,7 @@ daphnia_deb <- function() {
 
         ## 2) reproduction if the individual is mature
         if(weight2length(weight, p$l2w) > p$SAM) {
-            degg <- (1 - p$kappa) * p$ass.eff * ingestion / p$cE
+            degg <- (1 - p$kappa) * ass.eff * ingestion / p$cE
           } else {
             degg <- 0
         }

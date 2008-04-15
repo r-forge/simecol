@@ -30,7 +30,7 @@ daphnia_deb <- function() {
 
         ## 2) reproduction if the individual is mature
         if(weight2length(weight, p$l2w) > p$SAM) {
-            degg <- (1 - p$kappa) * p$ass.eff * ingestion / p$cE
+            degg <- (1 - p$kappa) * ass.eff * ingestion / p$cE
           } else {
             degg <- 0
         }
@@ -78,7 +78,7 @@ daphnia_deb <- function() {
     ## Equations are stored in an external list of functions which are
     ## shared between different models
     equations = daphnia_deb_equations,
-    solver = "rk4",
+    solver = "lsoda",
     initfunc = function(obj) {
        parms     <- as.list(parms(obj))
        length    <- 0.65
