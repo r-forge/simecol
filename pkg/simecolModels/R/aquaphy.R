@@ -18,7 +18,7 @@
 #
 ################################################################################
 
-aquaphy <- 
+aquaphy <-  function() {
  new("odeModel",
    main = function(time, init, parms){
     with(as.list(c(init,parms)),{  # unpack the state variables, parameters
@@ -96,5 +96,6 @@ aquaphy <-
     solver = "lsoda"
 
   )
+}
 
 
