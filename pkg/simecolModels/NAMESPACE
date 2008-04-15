@@ -17,3 +17,7 @@ export(daphnia_ibm, daphnia_tefi, daphnia_deb)
 export(daphnia_deb_phyto, daphnia_deb_ibm)
 
 export(daphnia_deb_equations, daphnia_deb_lifeequations)
+
+export(aquaphy)
+
+
