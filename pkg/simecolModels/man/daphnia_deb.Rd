@@ -107,8 +107,8 @@ for(f in foodconc){ # food-loop
     }
 }
 
-## draw a legend
-legend(50,0,c("  5°C","10°C","15°C","20°C","25°C"),
+## draw a legend, NOTE: \260 is encoding for degree
+legend(50,0,c("  5\260C","10\260C","15\260C","20\260C","25\260C"),
        xjust=1, yjust=0, lwd=1.5, lty=1:5, cex=1.5, bty="n")
 }
 \keyword{misc}
