@@ -34,7 +34,7 @@ Please respect the specific references on the help pages of the respective model
 }
 
 \seealso{
-\code{\link[simecol:simecol-package]{simecol-package}} ~~
+\code{\link[simecol:simecol-package]{simecol-package}}
 }
 \examples{
 ## ~~ simple examples of the most important functions ~~
