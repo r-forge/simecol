@@ -3,7 +3,7 @@
 ########################################################################
 
 lv <- new("odeModel", 
-  main = function (time, init, parms, ...) {
+  main = function (time, init, parms) {
     x <- init
     p <- parms
     dx1 <-   p["k1"] * x[1] - p["k2"] * x[1] * x[2]

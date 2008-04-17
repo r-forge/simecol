@@ -3,7 +3,7 @@
 ########################################################################
 
 logist <- new("odeModel",
-  main = function (time, init, parms, ...) {
+  main = function (time, init, parms) {
     x <- init
     p <- parms
     dx1 <-   p["r"] * x[1] * (1 - x[1] / p["K"])

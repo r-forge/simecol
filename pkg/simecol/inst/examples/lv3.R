@@ -4,7 +4,7 @@
 ##########################################
 
 lv3<- new("odeModel",
-  main = function(time, init, parms, ...) {
+  main = function(time, init, parms) {
     x <- init
     p <- parms
 
