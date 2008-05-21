@@ -37,6 +37,7 @@ setMethod("parms", "simObj",
 setMethod("parms<-", "simObj", 
     function(obj, value) {
       obj@parms <- value
+      obj@out <- NULL
       invisible(obj)
     }
 )
@@ -65,6 +66,7 @@ setMethod("times<-", "simObj",
           print("Warning: Ignored. Invalid (or incomplete) names in right hand side of assignment.")
         }
       }
+      obj@out <- NULL
       invisible(obj)
     }
 )
@@ -78,6 +80,7 @@ setMethod("init", "simObj",
 setMethod("init<-", "simObj",
     function(obj, value) {
       obj@init <- value
+      obj@out <- NULL
       invisible(obj)
     }
 )
@@ -85,6 +88,7 @@ setMethod("init<-", "simObj",
 setMethod("init<-", c("gridModel", "matrix"),
     function(obj, value) {
       obj@init <- value
+      obj@out <- NULL      
       invisible(obj)
     }
 )
@@ -103,6 +107,7 @@ setMethod("inputs", "simObj",
 setMethod("inputs<-", "simObj",
     function(obj, value) {
       obj@inputs <- value
+      obj@out <- NULL      
       invisible(obj)
     }
 )
@@ -114,6 +119,7 @@ setMethod("main", "simObj",
 setMethod("main<-", "simObj",
     function(obj, value) {
       obj@main <- value
+      obj@out <- NULL      
       invisible(obj)
     }
 )
@@ -125,6 +131,7 @@ setMethod("equations", "simObj",
 setMethod("equations<-", "simObj",
     function(obj, value) {
       obj@equations <- value
+      obj@out <- NULL      
       invisible(obj)
     }
 )
@@ -136,6 +143,7 @@ setMethod("initfunc", "simObj",
 setMethod("initfunc<-", "simObj",
     function(obj, value) {
       obj@initfunc <- value
+      obj@out <- NULL      
       invisible(obj)
     }
 )
@@ -147,6 +155,7 @@ setMethod("solver", "simObj",
 setMethod("solver<-", "simObj",
     function(obj, value) {
       obj@solver <- value
+      obj@out <- NULL      
       invisible(obj)
     }
 )
@@ -162,6 +171,7 @@ setMethod("out", "simObj",
 setMethod("out<-", "simObj",
     function(obj, value) {
       if(!is.null(value)) stop("``out'' can only be set to NULL")
+      obj@out <- NULL      
       obj@out <- value
       invisible(obj)
     }
