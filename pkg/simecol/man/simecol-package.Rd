@@ -54,7 +54,7 @@
       \code{approx} (see \code{\link{approxTime}}) are available.
      \item \code{solver}: character string specifying the numerical algorithm
        used. Currently \code{"lsoda"} and \code{"rk4"} are directly imported from package 
-       \code{odesolve}). In addition to this solvers from packages \code{"deSolve"}
+       \code{deSolve}). In addition to this solvers from packages \code{"deSolve"}
         and \code{"ddesolve"} can also be used.
         Simecol introduces two additional solvers, \code{"euler"} and 
         \code{"iterator"} (for models with discrete time steps) and it is 

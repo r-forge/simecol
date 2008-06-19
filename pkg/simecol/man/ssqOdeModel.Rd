@@ -31,7 +31,7 @@ ssqOdeModel(p, simObj, obstime, yobs,
   \item{debuglevel}{a positive number that specifies the amount of debugging 
     information printed}
   \item{\dots}{additional parameters passed to the solver method (e.g.
-    \code{\link[odesolve]{lsoda}})}
+    \code{\link[deSolve]{lsoda}})}
 }
 \details{
   This is the default function called by function \code{\link{fitOdeModel}}. 

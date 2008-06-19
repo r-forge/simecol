@@ -1,3 +1,8 @@
+0.5-7
+
+o the package uses now deSolve instead of odesolve
+o euler is now imported from deSolve and removed from simecol
+
 0.5-5
 
 o reworked ODE solvers, rk4 and lsoda generics removed,

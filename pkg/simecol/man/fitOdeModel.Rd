@@ -40,7 +40,7 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs,
     \code{\link{p.constrain}}). In this case, \emph{named vectors} are required.}
   \item{control}{A list of control parameters for \code{\link[stats]{optim}}}
   \item{\dots}{additional parameters passed to the solver method
-    (e.g. \code{\link[odesolve]{lsoda}})}
+    (e.g. \code{\link[deSolve]{lsoda}})}
 }
 \details{
   This function works currently only with \code{odeModel} objects where 

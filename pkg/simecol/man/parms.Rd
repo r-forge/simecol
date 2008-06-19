@@ -150,7 +150,7 @@
 \examples{
     data(lv)
     parms(lv)
-    parms(lv)       <- c(k1=0.2, k2=0.5, k1=0.3)
+    parms(lv)       <- c(k1=0.2, k2=0.5, k3=0.3)
     parms(lv)["k2"] <- 0.5
 
     data(conway)
