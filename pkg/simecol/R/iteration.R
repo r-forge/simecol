@@ -18,7 +18,6 @@ setMethod("iteration", "numeric",
     if (!is.numeric(y))     stop("`y' must be numeric")
     if (!is.numeric(times)) stop("`times' must be numeric")
     if (!is.function(func)) stop("`func' must be a function")
-    # if (!is.numeric(parms)) stop("`parms' must be numeric")
     
     n     <- length(y)
     parms <- c(parms, DELTAT = 0)
@@ -51,8 +50,6 @@ setMethod("iteration", "simObj",
     inputs            <- y@inputs
     equations         <- y@equations
     environment(func) <- environment()
-    #attach(equations)
-    #on.exit(detach(equations))
     equations               <- addtoenv(equations)
     parms$DELTAT <- 0
     out <- list(func(times[1], init, parms))
@@ -81,8 +78,6 @@ setMethod("iteration", "odeModel",
     equations         <- y@equations
     environment(func) <- environment()
     equations         <- addtoenv(equations)
-    #attach(equations)
-    #on.exit(detach(equations))
     n   <- length(init)
     parms <- c(parms, DELTAT = 0)
     nm  <- c("time", if (!is.null(attr(init, "names")))
