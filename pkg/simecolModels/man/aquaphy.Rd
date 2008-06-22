@@ -1,5 +1,5 @@
-\name{aquaphy}
-\alias{aquaphy}
+\name{Aquaphy}
+\alias{Aquaphy}
 
 \title{a physiological model of unbalanced algal growth}
 \description{Phytoplankton model with uncoupled carbon and nitrogen assimilation.
@@ -12,7 +12,7 @@ All these state variables are expressed in mmol C m-3.
 Only proteins contain nitrogen and chlorophyll, at a fixed amount (i.e. using a fixed stoichiometric ratio).
 As the relative amount of proteins changes in the algae, so does the N:C and the Chl:C ratio.
 \cr An additional state variable, dissolved inorganic nitrogen (DIN) has units of mmol N m-3.}
-\usage{aquaphy()}
+\usage{Aquaphy()}
 \format{An S4 object according to the \code{\link[simecol]{odeModel}} specification. 
 \cr The object contains the following slots:
 
@@ -26,7 +26,7 @@ As the relative amount of proteins changes in the algae, so does the N:C and the
 \examples{
 
 # initialize model
-aquaphy <- aquaphy()
+aquaphy <- Aquaphy()
 
 # show model code, parameter settings,...
 print(aquaphy)

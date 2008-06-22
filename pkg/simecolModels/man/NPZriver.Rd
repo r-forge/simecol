@@ -28,6 +28,8 @@ The object contains the following slots:
 \item[\code{parms}] Vector with the named parameters of the model - see code
 \item[\code{times}] Simulation time and integration interval (if dynamic simulation); 
   not used if the steady-state is estimated.
+\item[\code{solver}]  User supplied solver function that calls \code{steady.1D}
+  with appropriate simulation control parameters and re-arranges output data.
 \item[\code{initfunc}] Function that initialises the state variables and calculates 
   the box lenghts.
 }
@@ -43,27 +45,18 @@ myNPZriver <- NPZriver()
 # show model code, parameter settings,...
 print(myNPZriver)
 
+# Note that the model has a specialized solver function built in:
+solver(myNPZriver)
+
+# Alternative way: 
+#   use standard solver and pass additional parameters through sim
+# solver(myNPZriver) <- "NPZ_steady.1D"
+# myNPZriver <- sim(myNPZriver, nspec=3, pos=TRUE)
+
+
 #====================#
 # 3 Model runs       #
 #====================#
-
-# note additional parameters for the steady.1D solver
-myNPZriver <- sim(myNPZriver, nspec=3, pos=TRUE)
-
-# Alternative way: 
-# define a special solver with required solver parameters
-# and final data rearrangement
-NPZ_steady.1D <- function(y, times, func, parms)  
-{
-  # steady-state condition of state variables, one vector
-  out <- steady.1D(y, time=times, func, parms, nspec=3, pos=TRUE)$y
-  # rearrange as data.frame
-  with (as.list(parms),
-    data.frame(N=out[1:Nb], P=out[(Nb+1):(2*Nb)], Z=out[(2*Nb+1):(3*Nb)])
-  )
-}
-
-solver(myNPZriver) <- "NPZ_steady.1D"
 
 # steady-state solution, v=1 km d-1
 outp       <- out(sim(myNPZriver))
@@ -87,7 +80,7 @@ P <- cbind(P, outp$P)
 Z <- cbind(Z, outp$Z)
 
 #====================#
-# plotting 
+# plotting           #
 #====================#
 par(mfrow=c(2, 2))
 parms <- as.list(parms(myNPZriver)) 

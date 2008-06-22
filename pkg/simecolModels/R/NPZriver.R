@@ -84,6 +84,15 @@ NPZriver <- function() {
         return(obj)        
       })
     },
-    solver = "steady.1D"
+    # this model comes with a user defined solver,
+    #   i.e. a function instead of a character that points to an existing solver
+    solver = function(y, times, func, parms, ...) {
+      # steady-state condition of state variables, one vector
+      out <- steady.1D(y, time=times, func, parms, nspec=3, pos=TRUE, ...)$y
+      # rearrange as data.frame
+      with (as.list(parms),
+        data.frame(N=out[1:Nb], P=out[(Nb+1):(2*Nb)], Z=out[(2*Nb+1):(3*Nb)])
+      )
+    }
   )
 }
