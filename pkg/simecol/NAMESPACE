@@ -7,7 +7,7 @@ importFrom(graphics, plot)
 import(deSolve)
 
 exportClasses(simObj, odeModel, gridModel, rwalkModel)
-exportClasses(numericOrlist,listOrNULL,functionOrNULL,listOrdata.frame)
+exportClasses(numericOrlist,listOrNULL,functionOrNULL,listOrdata.frame,functionOrcharacter)
 
 exportMethods(sim, parms, "parms<-", init, "init<-", times, "times<-")
 exportMethods(inputs, "inputs<-", main, "main<-", equations, "equations<-")

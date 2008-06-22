@@ -4,6 +4,7 @@
 
 ## helper classes
 setClassUnion("functionOrNULL", c("NULL", "function"))
+setClassUnion("functionOrcharacter", c("character", "function"))
 setClassUnion("listOrNULL", c("NULL", "list"))
 setClassUnion("numericOrlist", c("numeric", "list"))
 setClassUnion("listOrdata.frame", c("list", "data.frame"))
@@ -17,7 +18,7 @@ setClass("simObj",
            init      = "ANY",
            parms     = "ANY",
            inputs    = "ANY",
-           solver    = "character",
+           solver    = "functionOrcharacter",
            out       = "ANY",
            initfunc  = "functionOrNULL"
          )

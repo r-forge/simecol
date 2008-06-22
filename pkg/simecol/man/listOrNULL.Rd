@@ -4,10 +4,11 @@
 \alias{listOrdata.frame-class}
 \alias{functionOrNULL-class}
 \alias{numericOrlist-class}
+\alias{functionOrcharacter-class}
 
 \title{Helpful Union Classes}
-\description{Classes representing either lists or NULL (i.e. empty),
-  functions or NULL, numeric vector or list or list or data.frame.}
+\description{Classes representing either list or NULL (i.e. empty),
+  function or NULL, function or character vector, numeric vector or list, or list or data.frame.}
   
 \section{Objects from the Class}{These classes are virtual: No objects may
   be created from it.}
