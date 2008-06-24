@@ -12,10 +12,6 @@ setMethod("iteration", "indbasedModel",
     equations         <- y@equations
     environment(func) <- environment()
     equations         <- addtoenv(equations)
-    #attach(equations)
-    #on.exit(detach(equations))
-
-    # parms <- c(parms, equations) # not useful, because equations are nested
     parms$DELTAT <- 0
     res <- observer(init)
     out <- res

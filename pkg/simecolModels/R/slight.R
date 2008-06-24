@@ -1,3 +1,23 @@
+###########################################################
+# Salmo-Light: An absolute simplistic lake model
+# May not be applied for real world questions!
+#----------------------------------------------------------
+# References: 
+# BENNDORF, J. and F. RECKNAGEL, 1982: 
+#    Problems of application of the ecological model SALMO
+#    to lakes and reservoirs having various trophic states. 
+#    Ecol. Model. 17: 129-145.
+# STRASKRABA, M. and A. GNAUCK, 1983: 
+#    Modellierung limnischer Ökosysteme. 
+#    Gustav Fischer Verlag, Jena.
+# Implementation:
+#    Thomas Petzoldt, 01.02.2002
+#    thomas.petzoldt@tu-dresden.de
+# License: GPL 2.0
+# Purpose: Teaching
+###########################################################
+
+
 `slight` <-
 function() {
   new("odeModel",

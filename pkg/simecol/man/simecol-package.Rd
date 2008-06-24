@@ -50,15 +50,17 @@
     \item \code{inputs}: time dependend or spatially resolved external
       inputs can be specified as data frame or matrix (more efficient). It
       is up to the user to evaluate the corresponding values within the
-      \code{main} function. Performance optimized version of
+      \code{main} function. Performance optimized versions of
       \code{approx} (see \code{\link{approxTime}}) are available.
      \item \code{solver}: character string specifying the numerical algorithm
-       used. Currently \code{"lsoda"} and \code{"rk4"} are directly imported from package 
-       \code{deSolve}). In addition to this solvers from packages \code{"deSolve"}
-        and \code{"ddesolve"} can also be used.
-        Simecol introduces two additional solvers, \code{"euler"} and 
-        \code{"iterator"} (for models with discrete time steps) and it is 
-        also possible to provide own algorithms (solvers).
+       used, e.g. \code{"lsoda"}, \code{"rk4"} or \code{"euler"} from package 
+       \code{deSolve}). In addition, solvers from package
+        \code{"ddesolve"} can also be used.
+        In contrast to \code{"euler"} that can be used for difference equations 
+        (i.e. \code{main} returns derivatives), \code{"iterator"} is intended for
+        models where main returns the new state (i.e for individual-based models).
+        It is also possible to reference own algorithms (solvers) that are defined
+        in the useer workspace or to assign solver functions directly.
      \item \code{out}: this slot holds the simulation results after a
        simulation run as data frame or list (of matrices).
      \item \code{initfunc}: this slot can hold an optional function which is called
@@ -95,7 +97,7 @@
 
 The following are sources of information on \code{simecol}:
 \tabular{ll}{
-Home page\tab u <- "http://hhbio.wasser.tu-dresden.de/projects/simecol/"; browseURL(u)\cr
+Home page\tab u <- "http://www.simecol.de/"; browseURL(u)\cr
 News\tab  file.show(system.file("NEWS", package = "simecol"))\cr
 Wish List\tab  file.show(system.file("WISHLIST", package = "simecol"))\cr
 Acknowledgements\tab  file.show(system.file("THANKS", package = "simecol"))\cr

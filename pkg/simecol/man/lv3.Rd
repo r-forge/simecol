@@ -47,8 +47,9 @@ specification.  The object contains the following slots:
     data(lv3)
     plot(sim(lv3))
     solver(lv3) <- "lsoda"
+    times(lv3)["by"] <- 5  # set masximum external time step to a large value
     plot(sim(lv3))         # wrong! automatic time step overlooks internal inputs
-    plot(sim(lv3, hmax=1)) # integration with correct maximum time step
+    plot(sim(lv3, hmax=1)) # integration with correct maximum internal time step
 }
 
 \keyword{datasets}
