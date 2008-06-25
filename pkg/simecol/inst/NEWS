@@ -2,7 +2,12 @@
 
 o the package uses now deSolve instead of odesolve
 o euler is now imported from deSolve and removed from simecol
-o allow solver slot to contain not only character but also function 
+o allow solver slot to contain not only character but also function
+o plain text version of JSS publication added as vignette
+
+0.5-6
+
+o small improvements and updates 
 
 0.5-5
 

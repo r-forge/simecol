@@ -1,0 +1,1557 @@
+\documentclass[article,shortnames,nojss]{jss}
+
+\usepackage{amsmath,amssymb,thumbpdf}
+\usepackage{textcomp}%has degree celsius
+
+\renewcommand{\textfraction}{0.2}
+\renewcommand{\bottomfraction}{0.7}
+\renewcommand{\topfraction}{0.7}
+\renewcommand{\floatpagefraction}{0.8}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% almost as usual
+\author{Thomas Petzoldt\\ Technische Universit\"at Dresden\And
+        Karsten Rinke \\ Universit\"at Konstanz}
+\title{\pkg{simecol}: An Object-Oriented Framework for Ecological Modeling in \proglang{R}}
+
+
+%% for pretty printing and a nice hypersummary also set:
+\Plainauthor{Thomas Petzoldt, Karsten Rinke} %% comma-separated
+\Plaintitle{simecol: An Object-Oriented Framework for Ecological Modeling in R} %% without formatting
+\Shorttitle{Ecological Modeling with \pkg{simecol}} %% a short title (if necessary)
+
+%% an abstract and keywords
+\Abstract{
+The \pkg{simecol} package provides an open structure 
+to implement, simulate and share ecological models. A generalized object-oriented 
+architecture improves readability and potential code re-use of models and
+makes \pkg{simecol}-models freely extendable and simple to use.
+The \pkg{simecol} package was implemented in the \proglang{S4} class system
+of the programming language \proglang{R}. 
+Reference applications, e.g.\ predator-prey models or grid models are provided 
+which can be used as a starting point for own developments.
+Compact example applications and the complete code of an individual-based
+model of the water flea \textit{Daphnia} document the efficient usage of  \pkg{simecol} for 
+various purposes in ecological modeling,  e.g.\ scenario analysis, stochastic
+simulations and individual based population dynamics.
+Ecologists are encouraged to exploit the abilities of \pkg{simecol} to structure 
+their work and to use \proglang{R} and object-oriented programming
+as a suitable medium for the distribution and share of ecological modeling code.
+
+\textbf{Note:} A previous version of this introduction to the
+R package simecol has been published as \citet{Petzoldt2007} in the Journal of 
+Statistical Software, \url{http://www.jstatsoft.org/v22/i09}.
+Please refer to the original publication when citing this work.
+}
+\Keywords{ecological modeling, individual-based model,
+  object-oriented programming (OOP), code-sharing, \proglang{R}}
+\Plainkeywords{ecological modeling, individual-based model,
+  object-orientated programming (OOP), code-sharing, R} %% without formatting
+%% at least one keyword must be supplied
+
+%% publication information
+%% NOTE: This needs to filled out ONLY IF THE PAPER WAS ACCEPTED.
+%% If it was not (yet) accepted, leave them commented.
+%% \Volume{13}
+%% \Issue{9}
+%% \Month{September}
+%% \Year{2004}
+%% \Submitdate{2004-09-29}
+%% \Acceptdate{2004-09-29}
+
+%% The address of (at least) one author should be given
+%% in the following format:
+\Address{
+  Thomas Petzoldt\\
+  Institut f\"ur Hydrobiologie\\
+  Technische Universit\"at Dresden\\
+  01062 Dresden, Germany\\
+  E-mail: \email{thomas.petzoldt@tu-dresden.de}\\
+  URL: \url{http://tu-dresden.de/Members/thomas.petzoldt/}\\
+  \\
+  Karsten Rinke\\
+  Limnologisches Institut\\
+  Universit\"at Konstanz\\
+  Mainaustrasse 252\\
+  Konstanz, Germany\\
+  E-mail: \email{karsten.rinke@uni-konstanz.de}\\
+  URL: \url{http://www.uni-konstanz.de/limnologie/ags/Karsten/}
+}
+%% It is also possible to add a telephone and fax number
+%% before the e-mail in the following format:
+%% Telephone: +49/351/463-34954
+%% Fax: +49/351/463-34954
+
+%% for those who use Sweave please include the following line (with % symbols):
+%% need no \usepackage{Sweave.sty}
+
+%% end of declarations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\SweaveOpts{engine=R, eps=FALSE, fig=FALSE, echo=FALSE, include=FALSE, prefix.string=tp}
+
+\begin{document}
+
+<<init,echo=FALSE, include=FALSE, fig=FALSE>>=
+library("simecol")
+data(lv, package = "simecol")
+options("width"=72)
+options("prompt" = "R> ", "continue" = "+  ")
+@
+
+%% include your article here, just as usual
+%% Note that you should use the \pkg{}, \proglang{} and \code{} commands.
+
+\section[Introduction]{Introduction}
+%% Note: If there is markup in \(sub)section, then it has to be escape as above.
+
+The \proglang{R} system with the underlying \proglang{S} programming language is well
+suited for the development, implementation and analysis of dynamic
+models. It is, in addition to data analysis, increasingly used for model simulations
+in many disciplines like pharmacology \citep{Torno2004a}, psychology \citep{Maas2006},
+microbiology \citep{Jensen2006}, epidemiology \citep{Hartley2006}, ecology
+\citep{Fussmann2003,Rinke2005,Levey2005} or econometrics
+\citep{Cribari-Neto1999,Zeileis2005}. Existing
+applications already cover a range from small conceptual process and
+teaching models up to coupled hydrodynamic-ecological models \citep{Rolinski2005}.
+Small models can be implemented easily in pure \proglang{R} \citep{Petzoldt2003a}
+or by means of the \proglang{XML}-based Systems Biology Markup Language \proglang{SBML}
+and the corresponding Bioconductor package \citep{Radivoyevitch2004}.
+For more complex or computation intensive simulations
+\proglang{R} is primarily used as an environment for data management,
+simulation control and data analysis, while the model core may be
+implemented in other languages like \proglang{C/C++}, \proglang{FORTRAN} or
+\proglang{JAVA}.
+
+This works perfectly at the extremes, but problems appear with medium-sized
+models. While larger modeling projects usually start with an extensive
+planning and design phase carried out by experienced people,
+small models can be implemented ad-hoc without problems in \proglang{R}
+from scratch or by modification of online help examples. On the other hand, medium-sized
+applications often start by extension of small examples up to ever
+increasing size and complexity. An adequate design period is often skipped
+and at the end of a modeling project no time remains for re-design or
+appropriate documentation. The resulting programs are necessarily ill-structured
+in most cases or at least exhibit a very special, proprietary design.
+
+The situation is even worse in ecological modeling, because this discipline is broad,
+modeling strategies vary substantially and ecological modelers
+are very creative. Different families of models (e.g.\ statistical, differential
+equations, discrete event, individual-based, spatially explicit) are applied alone
+or in mixtures to different ecological systems (terrestrial, limnetic, marine)
+and scales (individuals, laboratory systems, lakes/rivers/forests, oceans,
+biosphere).
+Not enough that there is a Babel of programming languages and simulation systems,
+there is also a Babel of approaches. There are often cases where it seems to
+be necessary to understand the whole source code when one tries to modify only
+one single parameter value or to introduce a new equation and it is not seldom
+easier to re-write code from scratch than to reuse an existing one.
+
+We aim to propose a possible way out of the dilemma, an open
+structure to implement and simulate ecological
+models.
+The \proglang{R} package \pkg{simecol} is provided to demonstrate the 
+feasibility of this approach including a starter set of examples and utility 
+functions to work with such models.
+
+After giving a description of the design goals and the specification of the
+\code{simObj} class in Sections \ref{s:goals} and \ref{s:approach}
+we demonstrate basic use of the package in Section \ref{s:examples}.
+The different mechanisms available to implement and simulate
+\code{simObj} models are explained in Section \ref{s:implementation}.
+A complete individual-based model is given in Section \ref{s:ownmodels}
+to elucidate how to use and extend \pkg{simecol} in the
+modeling process. Finally, we discuss perspectives of \proglang{R}
+and \pkg{simecol} in ecological modeling as well as relations to
+other packages (Section \ref{s:discussion}).
+
+\section{Design goals}\label{s:goals}
+
+Our first goal is to provide a generalized architecture for the
+implementation of ecological models. Such a unified style, which can be
+considered as a template or prototype of model implementations,
+provides manifold advantages for a scientific community.
+The structured architecture will increase readability of the code
+by separating model equations from other code elements,
+e.g.\ for numerical techniques. This will enable ecological modellers to use
+\proglang{R} as a communication medium and allows to distribute
+model source code together with its documentation, e.g.\ as executable part of the
+``standard protocol for describing individual-based and agent-based models''
+suggested by \citet{Grimm2006}.
+
+We want to stress that we don not intend to establish yet another
+simulation system. Complete simulation systems are numerous and
+well-established for specified applications, e.g.\
+STELLA\footnote{\url{http://www.iseesystems.com/}},
+Berkeley Madonna\footnote{\url{http://www.berkeleymadonna.com/}},
+VENSIM\footnote{\url{http://www.vensim.com/}},
+EcoBeaker\footnote{\url{http://www.ecobeaker.com/}} or the GNU open
+source system ECOBAS \citep{Benz2001a}. A comprehensive overview about
+software used in ecological modeling is given elsewhere e.g.\ at
+\url{http://www.systemdynamics.org/} or Chapter 8 of \citet{Grimm2005}.
+These simulation systems can be extremely effective for the specific
+class of applications they are intended for, but, they often lack the
+full power and flexibility of a programming language.
+In such cases, model frameworks or simulation libraries are commonly
+used to support one specific model family, e.g.\ \proglang{PASCAL}
+templates for ordinary differential and delay-differential equations
+\citep{Gurney1998}, an object-oriented \proglang{C++} framework like
+OSIRIS \citep{Mooij1996} for individual-based models or the
+\proglang{Objective C} framework
+SWARM\footnote{\url{http://www.swarm.org/}} for agent-based simulations.
+
+An alternative approach is the use of high-level programming environments and
+matrix oriented languages like
+MATLAB\footnote{\url{http://www.mathworks.com/}} or \proglang{R}
+\citep{Rcore2006}. Such languages allow a more interactive development
+cycle, compared to compiled languages, and outweigh their performance
+handicap by efficient algorithms and compiled libraries for numerics
+and data management. Both openness and interactivity have made the
+\proglang{R} system a universal scripting interface for the free
+combination of a large diversity of applications in statistics and
+scientific computing.
+
+The second design goal is to be as open as possible and to take advantage of
+the open philosophy of \proglang{R}. Users should be allowed to
+employ the full power of \proglang{R}'s graphical, statistical and
+data management functions and to use arbitrary code written in
+\proglang{R} or compiled  languages.
+The complete code of \pkg{simecol}-models should be published under a license
+that minimizes dependence from others and guarantees unrestricted use in science
+and education, including the possibility to be modified by others.
+Within this context, \pkg{simecol} is intended to provide a framework on the
+meta-level identifying structure-components of ecological simulation models.
+
+Our third design goal is ease of use and simplicity.
+One of the main characteristics of programming languages like \proglang{S} and
+\proglang{R} is that users become programmers \citep{Chambers2000}.
+Unfortunately, ecologists are commonly not well-trained in programming, which
+often hampers their application of models. Therefore, we aim to provide a
+software layer that bridges this gap and helps ecologists to work with models.
+In consequence, this means for \pkg{simecol} that simplicity of implementation
+is more important than efficiency. The system should support a broad
+level of user experience -- in our case ecological models covering the
+whole range from teaching models to research applications.
+
+From the perspective of a first time user it should be possible to run simulations
+without knowing too much about \proglang{R} and implementation details. A simulation
+of an ecological model should be as easy as fitting a linear model in
+\proglang{R} (see example in Section \ref{s:simulation}).
+A number of memorable ``commands'', i.e.\ a few essential but not overwhelmingly
+extensive generics for simulation, printing, plotting and data access, and utility functions
+accompany this package. Both the functions and also the simulation models should
+have meaningful defaults to enable new users to get almost immediate success
+and to enable experienced developers to structure their applications and to avoid
+unnecessary copy and paste \citep{Maechler2004}.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Approach}\label{s:approach}
+
+The approach follows directly from the design goals to provide (i)
+a standardized structure, (ii) open and reusable code and (iii) ease of use of
+``the model''. It is almost self-evident to apply an object-oriented design, 
+consisting of:
+
+\begin{enumerate}
+\item A general and extensible class description suitable for ecological
+  simulation models that allows sub-classes for different model families
+  and multiple instances (objects of class \code{simObj})
+  which can be used simultaneously without interference,
+\item Generic functions which work on objects of these classes and behave
+  differently depending on the model family they work with.
+\end{enumerate}
+
+All equations, constants and data needed for one particular simulation 
+should be included in the model object, with the exception of general and widely
+needed functions, e.g.\ numerical algorithms. In the following sections we first
+analyse what is generally needed and then describe the particular approach.
+
+\subsection{State space approach}\label{c:statespace}
+
+Most ecological models can be formulated by means of a state space representation, known
+from statistics and control theory (Figure \ref{f:statespace}).
+This applies to dynamic (discrete resp. continuous) systems as
+well as to static, time independent systems when postulating that the latter case
+is a subset. A general description that is valid for both
+linear and nonlinear systems can be given as:
+
+\begin{align}
+\mathbf{\dot{x}}(t) & = \mathbf{f}(t, \mathbf{x}(t), \mathbf{u}(t), \mathbf{p})\\
+\mathbf{y}(t)       & = \mathbf{g}(t, \mathbf{x}(t), \mathbf{u}(t), \mathbf{p})
+\end{align}
+
+where $\mathbf{x}$ is the state of the system and $\dot{\mathbf{x}}$ its first
+derivative, $t$ the time, $\mathbf{u}(t)$ is the input vector (or vector of
+boundary conditions), and
+$\mathbf{y}$ is the output vector.
+The functions $\mathbf{f}$ and $\mathbf{g}$ are
+the state transition function and the observation function, respectively, which rely on
+a vector  $\mathbf{p}$ of constant parameters.
+
+A simulation of a dynamic system is obtained by applying a suitable numerical
+algorithm to the function $\mathbf{f}$. This algorithm can be a simple iteration or,
+when $\mathbf{f}$ is a system of ordinary differential equations, an appropriate
+ODE solver or a function giving an analytical solution.
+
+Compared to the usual statistical models in \proglang{R}, ecological
+models are more diverse in their structure and exhibit tight
+relationships between procedural code (methods, equations) and data.
+Non-trivial ecological models are based on more or less modular building
+blocks (submodels), which are either base equations or complex models
+themselves.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{statespace}
+\caption{\label{f:statespace} State space diagram of a dynamic system ($\mathbf{x}(t)$:
+   state vector of the system, $\mathbf{x}(t_0)$ initial state, $\mathbf{\dot{x}}$:
+   first derivative of the state vector,
+   $\mathbf{u}$: input matrix, $\mathbf{y}(t)$: model output,
+   $\mathbf{f}$ state transition function, $\mathbf{g}$ observation function,
+   $\mathbf{p}$ constant parameters of
+  $\mathbf{f}$ and $\mathbf{g}$), figure redrawn after \protect\citet{Ludyk1995},
+  see also \protect\citet{Bossel1992} and \protect\citet{Wolkenhauer2005}.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{classes}
+\caption{\label{f:classes} Class diagram of \code{simObj} and related classes.
+ The subclasses and example model objects are provided as reference for
+ user-defined and future extensions.}
+\end{figure}
+
+
+\subsection{The simObj specification}
+
+In essence, what do we need to implement a not too narrow
+class of ecological models?  We need self-contained objects derived from
+classes with suitable properties and methods (data slots and function slots)
+resulting from the state space description: state variables, model equations
+and algorithms, model parameters (constants),
+input values, time steps, the name of an appropriate numerical algorithm (solver),
+and an optional set of possibly nested sub-models (sub-equations). These parts
+are implemented as slots of the \code{simObj} class from which subclasses for
+different model families can inherit (Figure \ref{f:classes}).
+
+%\pagebreak
+
+A small set of supporting functions is provided to work with these objects,
+namely:
+
+\begin{itemize}
+\item Generic functions for simulation, printing, plotting,
+  slot manipulation (accessor functions) and object creation
+  (\code{initialize} functions),
+\item Utility functions, e.g.\ neighborhood relations for cellular automata.
+\end{itemize}
+
+\subsection{Generic functions}
+
+In the \proglang{S4} class model of the \proglang{S} language methods are based on generic
+functions. They specify the behavior of a particular function, depending on the
+class of the function arguments \citep{Chambers2001}. All generic functions in
+\pkg{simecol} are defined as default methods for the class \code{simObj} and
+specific methods exist if necessary for subclasses. If new subclasses are
+defined for additional model families by the user it may be necessary to create
+new methods that work with these user-defined data types and provide
+the required functionality.
+
+\subsubsection{Simulation}\label{s:simulation}
+
+The core function to work with \code{simObj}ects is the generic function
+\code{sim(simObj, ...)}, which, for dynamic systems, simulates an initial value
+problem using the initial state, boundary conditions, equations and parameters stored in one
+particular \code{simObj} instance by calling the numerical algorithm referred by its name
+in the \code{solver} slot of \code{simObj}.
+Common for all versions of \code{sim} is the pass-back modification behavior,
+i.e.\ a modified version of the original \code{simObj}
+is returned with a newly added or updated slot \code{out} holding the simulation results:
+
+<<out, echo=TRUE, eval=FALSE>>=
+library("simecol")
+data(lv, package = "simecol")
+lv <- sim(lv)
+plot(lv)
+o1 <- out(lv)
+@
+
+The functionality of \code{sim} can vary for different subclasses
+of \code{simObj} e.g.\ \code{odeModel}, \code{gridModel}, \code{rwalkModel}.
+This behavior results mainly from a different data structure of the state variables
+and the set of numerical algorithms that are adequate for a given family of
+ecological models.
+Whereas ODE models have a vector for state and a data frame for outputs, grid
+models may have a grid matrix for state and a list of grids (one grid per time step)
+as output, and finally, random walk models may have a list for the initial state
+of the particles and a list of lists for the output.
+
+The returned \code{simObj} can be printed and plotted directly with appropriate
+functions, the simulation results can be extracted with \code{out} or the
+resulting \code{simObj} can be used in another simulation with modified data
+or functionality.
+
+\subsubsection{Accessor functions}
+
+Similar to the \code{out} function other accessor functions are available for
+all slots with (in opposite to \code{out}) not only read but also write access.
+These functions are used similarly like the base function \code{names} and work with the
+appropriate data structures, see help files for details. The functions
+allow to change either the whole content of the respective slot or
+to change single elements, e.g.\ parameter values, time steps or equations. 
+For example, the following will change only the parameter value of \code{k1}:
+
+<<parm1,echo=TRUE>>=
+parms(lv)
+parms(lv)["k1"] <- 0.4
+@
+
+An entirely new parameter is added to the parameter vector via:
+
+<<parm2,echo=TRUE>>=
+parms(lv)["a"] <- 1
+parms(lv)
+@
+
+Elements can be deleted when a modified version of the parameter vector is assigned:
+
+
+<<parms3,echo=TRUE>>=
+parms(lv) <- parms(lv)[-4]
+parms(lv)
+@
+
+The behavior is analogous for all other slots with the exception of
+\code{out}, given that the correct data type for the respective slot
+(vector, list or matrix) is used.
+
+In addition to the command line accessor functions, graphical \proglang{Tcl/Tk} versions
+exist (\code{fixParms}, \code{fixTimes}, \code{fixInit}), however, more complex 
+data types cannot be handled yet by these functions.
+
+\subsubsection{Numerical algorithms}
+
+In order to simulate ecological models of various types, the appropriate numerical algorithms can be plugged into
+the \code{sim} function either by using an existing function, e.g.\ from this package,
+by imported solvers of package \pkg{odesolve} or by user-defined algorithms.
+
+The algorithm used for one particular \code{simObj} is stored as character string
+in the \code{solver} slot of the object.
+User-defined algorithms have to provide interfaces (parameter line, output structure) and
+functionality (see below) that fit into the respective object specification and are
+compatible to the data structures of the particular class.
+
+\subsection{Utility functions}
+
+A few utility functions are provided for overcoming frequently occuring problems.
+However, it is not planned to overload \pkg{simecol} with numerous utilities as most of
+them are application-specific. Additional supporting functions should be written
+in the user workspace when they are needed or may be included in optional packages.
+
+
+\subsubsection{Interpolation}
+
+Dynamic systems often require interpolation of input data. This is particularly
+important for ODE solvers with automatic step size adjustment and there are cases
+where excessive interpolation outweighs the advantages of automatic step size
+determination.
+
+The performance of linear approximation is crucial and we found that the performance
+of the respective functions from the \pkg{base} package can be increased if
+\code{approxfun} is used instead of \code{approx}, if matrices are used instead
+of data frames and if the number of data (nodes) in the inputs is limited
+to the essential minimum.
+In addition to this, two special versions \code{approxTime}
+and \code{approxTime1} provided by \pkg{simecol} may be useful, see the
+help file for details.
+
+\subsubsection{Neighborhood functions}
+
+The computation of neighborhood is time critical for cellular automata. Two
+\proglang{C++} functions, \code{eightneighbors} (direct neighbors) and
+\code{neighbors} (generalized neighborhood with arbitrary weight matrices)
+are provided for rectangular grids. The implementation of these functions is
+straightforward and may serve as a starting point for even more efficient
+solutions or other grid types, for example hexagonal or 3D grids.
+
+Neighborhood functions can also be used for spatially explicit models.
+Models of this family commonly include both, an explicit spatial 
+representation of organisms (in most cases with real-valued locations) and a 
+grid-based representation of environmental factors \citep{Dunning1995, Grimm2005}.
+                  
+\subsection{Example models}
+
+A set of small ecological models is supplied with the package. These models are intended
+as a starting point for testing the package and for own developments. The models
+are provided in two versions, as binary objects in the data directory and
+in full source code in the directory ``examples''. The number of example models is intentionally
+limited and will grow only moderately in the future. In addition to this,
+ecological models which follow the \code{simObj} specification are well suited
+to be published and shared between scientists either as single code objects or
+in domain specific packages.
+
+\begin{figure}
+\rule{\textwidth}{0.1mm}
+\\
+\begin{minipage}{0.58\textwidth}
+\small
+\begin{Code}
+CA <- new("gridModel",
+    main = function(time, init, parms) {
+      z     <- init
+      nb    <- eightneighbors(z)
+      pgen  <- 1 - (1 - parms$pbirth)^nb
+      zgen  <- ifelse(z == 0 & 
+                 runif(z) < pgen, 1, 0)
+      zsurv <- ifelse(z >= 1 & 
+                 runif(z) < (1 - parms$pdeath), 
+                 z + 1, 0)
+      zgen + zsurv
+    },
+    parms  = list(pbirth = 0.02, pdeath = 0.01),
+    times  = c(from = 1, to = 50, by = 1),
+    init   = matrix(0, nrow = 40, ncol = 40),
+    solver = "iteration"
+)
+init(CA)[18:22,18:22] <- 1
+\end{Code}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\includegraphics[width=\textwidth]{ca}
+\end{minipage}
+\\
+\rule{\textwidth}{0.1mm}
+\caption{\label{f:stochCA} Stochastic cellular automaton, source code (left) and
+after 50 iterations (right).}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Two introductory examples}\label{s:examples}
+
+\subsection{Cellular automaton}
+
+At the first level of experience, users can simply explore example models
+supplied with the package or provided by other users without
+carrying too much on implementation details. They can be loaded with
+\code{source} from harddisk or the Internet,
+for example the stochastic cellular automaton shown in Figure \ref{f:stochCA}:
+
+<<CA,eval=FALSE, echo=TRUE>>=
+library("simecol")
+data(CA, package="simecol")
+CA <- sim(CA)
+plot(CA)
+@
+
+Note, that the \code{sim} function uses pass-back modification, i.e.\ the result
+is the complete \code{simObj} with the model outputs inserted.
+The advantage is that the resulting \code{simObj} is consistent, i.e.\ the model
+output corresponds to the equations, parameters and other settings of the \code{simObj}.
+Now, the settings may be inspected and changed, e.g.\ the number of time steps:
+
+<<CA,eval=FALSE, echo=TRUE>>=
+times(CA)
+times(CA) <- c(to=100)
+CA <- sim(CA)
+plot(CA)
+@
+
+\subsection{Predator-prey model}\label{s:predprey}
+
+A second built-in demonstration example of \pkg{simecol},
+is the elementary Lotka-Volterra predator-prey model,
+which can be given by two ordinary differential equations:
+
+\begin{align}
+\frac{dX_1}{d1} &= k_1 X_1 - k_2 X_1 X_2   \label{e:lv1}\\
+\frac{dX_2}{d1} &= - k_3 X_1 + k_2 X_1 X_2 \label{e:lv2}
+\end{align}
+
+In order to reproduce a schoolbook example two scenarios may be created by modifying
+two copies (clones) of \code{lv}:
+
+<<lv1,echo=TRUE>>=
+library("simecol")
+data(lv, package="simecol")
+lv1 <- lv2 <- lv
+@
+
+We now inspect default settings of initial values and parameters, modify them
+as required for \code{lv2} and simulate both scenarios:
+
+<<lv2,echo=TRUE>>=
+init(lv1)
+parms(lv1)
+parms(lv2)["k3"] <- 0.1
+lv1 <- sim(lv1)
+lv2 <- sim(lv2)
+@
+
+The outputs of \code{lv1} and \code{lv2} can be compared visually using the
+plotting method of the \code{odeModel} class (\code{plot(lv1)}) or
+with regular plotting functions after extracting the outputs (Figure \ref{f:lv12}).
+It is quite obvious that scenario 1 produces stable cycles and that scenario 2
+is at equilibrium for the given initial values and parametrization, because of:
+
+\begin{alignat}{2}
+\frac{dX_1}{d1} &= 0.2 \cdot 0.5 - 0.2 \cdot 0.5 \cdot 1 &= 0 \\
+\frac{dX_2}{d1} &= -0.1 \cdot 1  + 0.2 \cdot 0.5 \cdot 1 &= 0
+\end{alignat}
+
+
+<<lv12,echo=FALSE,fig=TRUE,width=10,height=5>>=
+o1 <- out(lv1); o2 <- out(lv2)
+par(mfrow=c(1,2), las=1)
+plot(o1$time, o1$prey, ylab="Prey, Predator",
+  xlab="Time", col="blue", type="l", ylim=c(0,2), main="Scenario 1")
+lines(o1$time, o1$predator, col="red", lty="dashed")
+plot(o2$time, o2$prey, ylab="Prey, Predator",
+  xlab="Time", col="blue", type="l", ylim=c(0,2), main="Scenario 2")
+lines(o2$time, o2$predator, col="red", lty="dashed")
+legend(10, 2, c("Prey", "Predator"), col=c("blue", "red"),
+  lty=c("solid", "dashed"), lwd=1)
+@
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{tp-lv12}
+\caption{\label{f:lv12} Two scenarios of a basic Lotka-Volterra model.
+Scenario 1 (left) shows stable cycles, Scenario 2 (right) is at
+equilibrium.}
+\end{figure}
+
+
+It is a particular advantage of \proglang{R}, that the complete set
+of statistical functions is immediately available, e.g.\ to inspect
+summary statistics like the range:
+
+<<lv_range,echo=TRUE>>=
+sapply(o1[c("predator", "prey")], range)
+sapply(o2[c("predator", "prey")], range)
+@
+
+The identity of the lower and upper limits for scenario 2 confirm the equilibrium
+state. Moreover, the period length of the cycles of scenario 1 can be analysed by
+means of spectral analysis:
+
+<<lv_spectrum,echo=TRUE, include=FALSE>>=
+tlv <- times(lv1)
+ots        <- ts(o1[c("predator", "prey")], start=tlv["from"], end=tlv["to"], deltat=tlv["by"])
+sp         <- spectrum(ots, spans=c(3,3), log="no")
+1/sp$freq[sp$spec[,1] == max(sp$spec[,1])]
+@
+
+which yields an estimated period length of approximately
+\Sexpr{round(1/sp$freq[sp$spec[,1] == max(sp$spec[,1])])} time units.
+
+
+
+\begin{table}[tp]
+\caption{\label{t:lvmodel} Implementation example of the elementary
+Lotka-Volterra model}
+
+\hrulefill
+\begin{Code}
+lv <- new("odeModel",
+  main = function (time, init, parms, ...) {
+    x <- init
+    p <- parms
+    dx1 <-   p["k1"] * x[1] - p["k2"] * x[1] * x[2]
+    dx2 <- - p["k3"] * x[2] + p["k2"] * x[1] * x[2]
+    list(c(dx1, dx2))
+  },
+  parms  = c(k1=0.2, k2=0.2, k3=0.2),
+  times  = c(from=0, to=100, by=0.5),
+  init   = c(prey=0.5, predator=1),
+  solver = "rk4"
+)
+\end{Code}
+\hrulefill
+\end{table}
+
+
+\begin{table}[tp]
+\caption{\label{t:upca} Uniform Period Chaotic Amplitude Model after
+  \citet{Blasius1999}. Note that function \code{f1} is nested within \code{f2}.}
+
+\hrulefill
+\begin{Code}
+upca <- new("odeModel",
+  main = function(time, init, parms) {
+    u      <- init[1]
+    v      <- init[2]
+    w      <- init[3]
+    with(as.list(parms), {
+      du <-  a * u           - alpha1 * f(u, v, k1)
+      dv <- -b * v           + alpha1 * f(u, v, k1) - alpha2 * f(v, w, k2)
+      dw <- -c * (w - wstar) + alpha2 * f(v, w, k2)
+      list(c(du, dv, dw))
+   })
+  },
+  equations  = list(
+    f1 = function(x, y, k){x * y},                    # Lotka-Volterra
+    f2 = function(x, y, k){f1(x, y, k) / (1 + k * x)} # Holling II
+  ),
+  times  = c(from=0, to=100, by=0.1),
+  parms  = c(a=1, b=1, c=10, alpha1=0.2, alpha2=1,
+              k1=0.05, k2=0, wstar=0.006),
+  init = c(u=10, v=5, w=0.1),
+  solver = "lsoda"
+)
+
+equations(upca)$f <- equations(upca)$f1
+\end{Code}
+\hrulefill
+\end{table}
+
+\section{Implementation of simecol models}\label{s:implementation}
+
+\subsection{Lotka-Volterra model}
+
+The implementation of the Lotka-Volterra equations is straightforward and results
+in a compact \proglang{S4} object (Table \ref{t:lvmodel}). The two equations
+(Eq. \ref{e:lv1}, \ref{e:lv2}) can easily be put into the
+main function and there is no need for sub-equations. The code can be made even
+simpler without the two assignments at the beginning of main, but with respect
+to more structured models we found it generally advantageous to keep the default
+values of the names in the parameter line and on the other hand to use common
+symbols in the equations.
+
+\subsection{Models with nested subequations}
+
+For large models with numerous equations or for models with alternative 
+(i.e.\ exchangeable) submodels it may be preferable to use a separate structure. 
+Although \pkg{simecol} principally allows implementing subroutines as local 
+functions of the \code{main} slot or even directly in the user workspace such 
+a strategy would not be in line with our design goals. Instead, the 
+\code{equation}-slot of the \code{simObj} class definition provides the structure
+where relevant submodels and model equations are stored. 
+Consequent usage of the \code{equation} slot helps to increase the readability
+of the \code{main} function, leads to more structurized code and complies with 
+the object-oriented paradigm. Moreover, the \code{equation} slot can be used to
+store alternative submodels, see Table \ref{t:upca} for a small example.
+
+In this example, two versions of the functional response can be enabled alternatively
+by assigning one of \code{f1} or \code{f2} to \code{f} via \code{equations}
+(last line of the Table \ref{t:upca}) and with the same mechanism it is possible
+to introduce further functional response curves.
+
+The example shows also several techniques for scoping: (i) the parameter vector
+is ``unpacked'' using \code{with}\footnote{This requires conversion of the parameter
+vector into a list. Parameter vectors are only used in the \code{odeModel} class
+to ease implementation of teaching models, all other classes natively use lists.},
+(ii) parameters are explicitly passed to subequations and (iii) slot functions of \code{equations}
+can be used without explicit pass through, a functionality that is provided by the
+\code{solver} functions. The result is, that
+all elements of the \code{equations} slot are visible within \code{main} and
+within all other functions of \code{equations}.
+
+\subsection{Input data}
+
+The simulation models presented so far are autonomous, i.e.\ they have no external
+forcing data (matrix $\mathbf u$ in Figure \ref{f:statespace}). Such time dependent
+data, e.g.\ food availability or meteorological conditions, which are required in
+many practical cases can be provided in the \code{inputs} slot.  In order to give
+a minimal example we may create a new \code{odeModel} by modifying a clone
+\code{lv\_ef} of the elementary predator-prey model.
+To enable external forcing a modified version of the \code{main} slot is introduced,
+that simulates substrate ($S$) dependent growth of the prey population:
+
+<<lv_ef1,echo=TRUE>>=
+lv_ef <- lv
+
+main(lv_ef) <-  function (time, init, parms, ...) {
+  x <- init
+  p <- parms
+  S <- approxTime1(inputs, time, rule=2)["s.in"]
+  dx1 <-   S * p["k1"] * x[1] - p["k2"] * x[1] * x[2]
+  dx2 <- - p["k3"] * x[2] + p["k2"] * x[1] * x[2]
+  list(c(dx1, dx2))
+}
+@
+
+For linear interpolation the utility function \code{approxTime1} is used here 
+to read the input at correct time steps from the input matrix, which can be given as:
+
+<<lv_ef2,echo=TRUE>>=
+inputs(lv_ef) <-  as.matrix(data.frame(
+  time = c(0, 30, 30.1, 100),
+  s.in = c(0,  0,  .5,     .5)
+))
+@
+
+Note, that inputs are converted into a matrix for performance reasons because otherwise
+repeated conversions were performed by \code{approxTime1}, or similarly by
+\code{approx}, which would be time consuming, especially for larger
+input data sets.
+
+The resulting model can then be easily simulated and plotted and results in
+Figure \ref{f:lv_eff3}:
+
+<<lv_eff3,fig=TRUE,width=8,height=4,echo=TRUE>>=
+o <- out(sim(lv_ef))
+matplot(o$time,o[2:3], xlab="Time",
+  ylab="Substrate, Prey, Predator", type="l",
+  lty=c("solid", "dashed"), col=c("blue", "red"), las=1)
+inp <- as.data.frame(inputs(lv_ef))
+lines(inp$time, inp$s.in, col="darkgreen", lwd=2, lty="11")
+@
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{tp-lv_eff3}
+@
+\caption{\label{f:lv_eff3} Externally forced predator-prey model
+(prey: blue, solid; predator: red, dashed) with resource (green dotted line).}
+\end{figure}
+
+
+\begin{table}
+\caption{\label{t:lv_efr} Predator-prey simulation with stochastic input
+  variables. The example is derived from the externally forced object \code{lv\_ef}.
+  An initialisation function \code{initfunc} is provided which is called
+  by \code{initialize} and returns a re-initialized \code{obj} with
+  a new random sample of input values. The utility function \code{fromtoby}
+  is used to expand the time vector from its compact form 
+  \code{c(from=, to=, by=)} into a sequence.}
+
+\hrulefill
+%% switch R> prompt temporarily off  (table style)
+<<echo=FALSE,include=FALSE>>=
+options("prompt" = " ", "continue" = " ")
+@
+
+<<lv_efr,echo=TRUE,fig=TRUE,width=10,height=6>>=
+lv_efr <- lv_ef
+tt     <- fromtoby(times(lv_efr))
+o      <- matrix(0, nrow=length(tt), ncol=10)
+initfunc(lv_efr) <- function(obj) {
+  tt <- fromtoby(times(obj))
+  inputs(obj) <- as.matrix(data.frame(
+    time = tt,
+    s.in = pmax(rnorm(tt, mean=1, sd=0.5), 0)
+  ))
+  obj
+}
+for (i in 1:10) {
+  lv_efr <- initialize(lv_efr)
+  lv_efr <- sim(lv_efr)
+  o[,i] <- out(lv_efr)$prey
+}
+matplot(tt, o, xlab="Time", ylab="Prey", las=1, type="l")
+@
+
+%% switch R> prompt on again
+<<echo=FALSE,include=FALSE>>=
+options("prompt" = "R> ", "continue" = "+ ")
+@
+\hrulefill
+\end{table}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{tp-lv_efr}
+\caption{\label{f:lvefr} Ten stochastic realizations of the model from Table
+  \ref{t:lv_efr}.}
+\end{figure}
+
+
+\subsection{Initializing}
+
+Sometimes, it may be required to perform computations while initializing a
+\code{simObj}. This may be either required to ensure consistency between different
+slots (e.g.\ parameters, inputs and initial values) to perform error checking or
+to create non-deterministic variants. Initializing methods, which exist in \proglang{R}
+as class methods of the generic \code{initialize}, are called either explicitly
+or implicitly during object creation. The syntax allows,
+in principal, two different modes of use. One can either provide all slots of
+the object in creation as named arguments to \code{new} or one can provide an
+existing \code{simObj} as the first un-named argument to \code{initialize}
+in order to get a re-initialized clone.
+
+In the case of \code{simObj} this mechanism is extended by
+an optionally existing function slot \code{initfunc}, which is executed during the
+object creation process. Object creation is then as follows: in the first step
+an incomplete object is created internally via \code{new} according to the slots given
+and in the second step this object in creation is passed to the \code{obj} argument of
+\code{initfunc} which performs the final steps and returns the complete object.
+
+It would, of course, also be possible to create a provisional object first and
+to modify it afterwards with accessor functions, but \code{initfunc} provides a more efficient solution and
+helps to ensure consistency, e.g.\ between parameters and inputs, between
+\code{times} and \code{inputs} or between
+different state variables.
+
+In the example shown in Table \ref{t:lv_efr} new instances with
+different stochastic realizations of the input variables are created and simulated
+(see Figure \ref{f:lvefr}).
+Note that \code{initfunc} is called automatically every time, when
+new instances are created via \code{new} or \code{initialize}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Creating own models}\label{s:ownmodels}
+
+\subsection{The modeling cycle}
+
+The modeling process is an iterative cycle of tasks \cite[see][]{Grimm2005}.
+It begins with the formulation of (i) questions and (ii) hypotheses, (iii) the
+translation of these questions into a specific model structure, (iv) the
+implementation of the model in form of computer software, (v) the analysis,
+test and (in most cases) revision of the model, and (vi) communication of the
+model and its results to the scientific community.
+Another view is given by \citet{Fowler1997}, who with respect to software modeling
+suggested to distiguish three different perspectives:
+
+\begin{enumerate}
+\item Conceptional perspective,
+\item Specification perspective,
+\item Implementation perspective.
+\end{enumerate}
+
+These perspectives are complementary to the tasks defined by \citet{Grimm2005} when
+tasks (i)--(ii) are regarded as conceptional and task (iii) as specification.
+In the following we concentrate on task (iv) to explain by means of a real,
+but still simple example, how a specified model can be implemented using \proglang{R} 
+and the \pkg{simecol} software.
+
+\subsection{Conceptional perspective: an individual-based model of Daphnia}
+
+The scientific purpose of the \textit{Daphnia} model given here was
+the analysis of demographic effects of \textit{Daphnia} (water flea) populations.
+Two main hypotheses should be tested:
+
+\begin{itemize}
+\item Size-selective predation leads to an increased population mortality rate, 
+  compared to non-selective predation by fish \citep{Mehner1998}.
+\item In comparison to predictions from the conventional Lotka-Volterra approach 
+  the inclusion of demographic effects results in a delayed but then inexpectedly 
+  rapid decline of abundance during periods of food limitation due to
+  ageing effects \citep{Huelsmann2002}.
+\end{itemize}
+
+Due to a multiple number of important features, the genus \textit{Daphnia} (water flea)
+is an outstanding model organism in limnology, toxicology and population ecology, so
+results derived on this example may be of general interest to other areas as well.
+
+The \textit{Daphnia} model consists of three general parts:
+
+\begin{enumerate}
+\item A semi-empirical model of temperature and food dependent somatic growth and
+  egg production derived from laboratory experiments
+  (TeFI = temperature-food-interaction model) according to \citet{Rinke2003},
+\item An empirical function of egg development time after \citet{Bottrell1976},
+\item A non-spatial individual-based simulation of population dynamics.
+\end{enumerate}
+
+Individual-based models (IMBs) are a popular technique in ecological modeling 
+\citep{DeAngelis1992a,Grimm1999,Grimm2005}. It is our aim to demonstrate
+how such models can be implemented with \pkg{simecol}.
+
+\subsection{Model specification}
+
+The state of the system is defined as a sample of individuals, each having four states:
+age, size, number of eggs and age of eggs. Population development is dependend on 
+two environmental variables, food (phytoplankton, given in $\rm mg\,L^{-1}$ carbon)
+and temperature (in \textcelsius). The model is simulated in fixed time steps
+(usually 0.1 day) over a period of several days up to a few months. The time scales 
+are selected with respect to the egg development time, which is about 4.4 days at
+15\,\textcelsius \citep{Bottrell1976}.
+
+The life cycle of \textit{Daphnia} starts with the release of neonate individuals of
+a given size ($L_0$) from the brood chamber of the mother into the water.
+Somatic growth follows the von Bertalanffy growth equation \citep{Bertalanffy1957},
+depending on several empirical parameters. As soon as an individual reaches a fixed size 
+at maturity (SAM) a clutch of eggs is produced (spawned), whereby the clutch size
+(number of eggs) is controlled by food availablility.
+After a temperature dependend egg development time the
+individuals from this clutch are released (hatched) and the cycle is started again
+(parthenogenetic, i.e.\ asexual reproduction).
+
+Mortality can be modelled with arbitrary deterministic or stochastic mortality functions, 
+e.g.\ size dependent mortality due to fish predation, but for the first simulation
+a deterministic fixed maximum age is used.
+All equations and parameters are given in detail in \citet{Rinke2003}
+and although more elaborate bioenergetic \textit{Daphnia}
+models are available in the meantime \citep{Rinke2005,Rinke2005a}, the relatively
+simple model given here should be sufficient for the intended purpose.
+
+\subsection{Model implementation}
+
+\subsubsection{Definition of a user-defined subclass}
+
+A subclass for non-spatial individual-based models is not yet available in
+\pkg{simecol}, but can be easily derived from \code{simObj} as class with
+appropriate data types, in particular with a \code{data.frame} for the
+table of the individuals stored in \code{init}:
+
+<<ibm_class,echo=TRUE,eval=FALSE>>=
+setClass("indbasedModel",
+  representation(
+    parms  = "list",
+    init   = "data.frame"
+  ),
+  contains = "simObj"
+)
+@
+
+\subsubsection{Implementation of the model equations}
+
+The implementation which is provided in Table \ref{t:ibmdaphnia1} and \ref{t:ibmdaphnia2}
+in the appendix starts with the selection of an appropriate data structure
+for the state variables. A table of individuals
+with four columns: age, size, number of eggs and age of eggs (\code{eggage})
+is realized as data frame with one row for each individual.
+The data frame is initialized with an arbitrary number of start individuals
+(e.g.\ one single juvenile animal in the \code{init} slot).
+
+The \code{main} function simulates the life cycle of \textit{Daphnia} and calls the
+sub-equations \code{live}, \code{survive} and \code{hatch} which implement
+the following processes:
+
+\begin{description}
+  \item[live:] The age of all individuals and the egg-age for
+    individuals with eggs is incremented by the actual
+    time step \code{DELTAT}. Then, the empirical function \code{tefi} is called
+    to estimate length and potential number of eggs as a function of age, food
+    and temperature. The data frame of individuals is then updated and for all
+    adult individuals (size > size at maturity, SAM) which actually have no eggs
+    the appropriate number of eggs is initialized.
+  \item[survive:] The survival function returns the subset of surviving
+    individuals. Note that it is particularly easy in \proglang{R} to implement
+    survival with the \code{subset} function by simply applying a logical rule to
+    the table of individuals and returning only those rows which match the condition.
+  \item[hatch:] In a first step the the actual egg age is compared with the
+    egg development time. Then the total number of mature eggs is counted
+    and a data frame (\code{newinds}) with an appropriate number of individuals is 
+    created (function \code{newdaphnia}. Population growth occurs by appending 
+    the data frame with newborns (\code{newinds}) to the data frame of the 
+    surviving (\code{inds}).
+\end{description}
+
+All functions of the life cycle receive the actual table of individuals
+(\code{init}) as their first argument and return an updated table
+\code{inds} which is then passed back to \code{init}.
+
+The model is simulated by iteration over the time vector. Note that in contrast
+to ODE models the \code{main} function explicitly returns the new state and
+not derivatives. To account for this, the \code{iteration} algorithm is to be
+used here and not one of the ODE solvers like \code{euler}, \code{rk4} or \code{lsoda}.
+
+A number of constant parameters is needed by the empirical model
+\citep[see][for details]{Rinke2003}, which are represented as list within
+the \code{parms} slot.
+
+\subsection{Model simulation}
+
+With the \code{ibm\_Daphnia} object derived from the \code{indbasedModel} class 
+and given as complete source code in Tables \ref{t:ibmdaphnia1} and
+\ref{t:ibmdaphnia2} it is now possible to perform a first simulation:
+
+<<ibm_daphnia, echo=FALSE, include=FALSE>>=
+source("ibm_daphnia.R")
+@
+
+<<sim_ibm_daphnia, echo=TRUE,eval=FALSE>>=
+solver(ibm_daphnia) <- "iteration"
+ibm_daphnia <- sim(ibm_daphnia)
+@
+
+This already works with the \code{iteration} method provided by the package,
+but the default behavior may not be optimal for the concrete subclass.
+
+One disadvantage here is the fact that the default
+\code{iteration} algorithm stores the complete state data structure
+(i.e.\ the complete data frame) for each time step as list in the \code{out} slot.
+This behavior is rather memory consuming for individual-based simulations with
+several hundred or thousand individuals. Moreover, no adequate plotting method is
+currently available for such a list of data frames and therefore the default
+\code{plot(simObj)} method simply returns a warning message.
+
+\subsection{Class-specific functions and methods}
+
+Depending on the complexity of the model it may be necessary to supply either
+an own solver function or a complete \code{sim} method. The difference is that only one
+\code{sim} method is available for one particular class, but several solver
+functions may be provided as alternatives for one class, either as \proglang{S4} methods with
+different names or as ordinary (non generic) functions.
+
+In most cases it should be sufficient to write class specific solvers, but for
+complicated data structures or hybrid model architectures it may be necessary to
+provide class specific \code{sim} methods.
+In case of the individual-based \textit{Daphnia} model, the solver should be of type
+``iterator'' but with additional functionality to reduce the amount of data
+stored in \code{out}. To do this, \code{mysolver} given in Table \ref{t:mysolver} has a
+local function \code{observer}, which for each time step returns one line
+of summary statistics for all individuals. Additionally, it would be also possible to
+write data to logfiles, to print selected data to screen or to display animated
+graphics during simulation.
+
+The argument naming of the solver functions is compatible with the ODE solvers of the
+\pkg{odesolve}-package with respect to the first four arguments. Moreover, some essential
+functionality must be provided by all solvers:
+
+\begin{enumerate}
+\item Extraction of slots of the \code{simObj} (argument \code{y}) to local
+  variables, expansion of \code{y@times} via \code{fromtoby}, \code{attach} and
+  \code{detach} for the list of equations as given in the example,
+\item Iteration loop or any other appropriate numeric algorithm,
+\item Assignment of the special parameter DELTAT (optional, if needed by the model),
+\item Accumulation of essential simulation results to the outputs (\code{out}-slot)
+  and assignment of explanatory variable names, in this case done by \code{observer}.
+\end{enumerate}
+
+Depending on the data structure, it is also possible to write a class specific plot
+function:
+
+<<ibm_plot,eval=FALSE, echo=TRUE>>=
+setMethod("plot", c("indbasedModel", "missing"), function(x, y, ...) {
+  o <- out(x)
+  par(mfrow=c(2, 2))
+  plot(o$times, o$meanage,  type="l", xlab="Time", ylab="Mean age (d)")
+  plot(o$times, o$meaneggs, type="l", xlab="Time", ylab="Eggs per individual")
+  plot(o$times, o$number,   type="l", xlab="Time", ylab="Abundance")
+  plot(o$times, o$number,   type="l", xlab="Time", ylab="Abundance", log="y")
+})
+@
+
+\subsection{Model application}
+
+Now, the model can be simulated and used for the intended application,
+e.g.\ hypothesis testing, parameter estimation or scenario analysis:
+
+<<daphnia1,eval=TRUE,echo=TRUE,include=FALSE,fig=TRUE,width=8,height=8>>=
+solver(ibm_daphnia) <- "myiteration"
+ibm_daphnia <- sim(ibm_daphnia)
+plot(ibm_daphnia)
+@
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.7\textwidth]{tp-daphnia1}
+\caption{\label{f:daphnia1} Result of the \code{plot} method of the
+ \textit{Daphnia} model, top: mean age of the population and number of eggs
+   indicating synchronized population development; bottom: exponential
+   population growth in linear resp.\ logarithmic scale.}
+\end{figure}
+
+It is beyond the scope of this paper to provide an overview over simulation techniques
+or to answer domain specific questions about \textit{Daphnia} population dynamics;
+however, the following example is intended to give an impression how \pkg{simecol}
+models can be used in practice. The example deals with the effect of size-selective
+predation, similar to the more extensive analysis of \citet{Mooij1997}. Four
+scenarios will be compared:
+
+\begin{description}
+  \item [Sc0:] no mortality at all,
+  \item [Sc1:] constant mortality (independent of body length),
+  \item [Sc2:] small individuals preferred (typical for invertebrate predators like
+    \textit{Chaoborus}, phantom midge larvae),
+  \item [Sc3:] large individuals preferred (typical for adult fish).
+\end{description}
+
+At the first step we create one clone of the \code{daphnia\_ibm}-object, assign
+settings common to all scenarios and an initial sample population:
+
+<<ibm_init,echo=TRUE>>=
+Sc0                                   <- ibm_daphnia
+times(Sc0)                            <- c(from=0, to=30, by=0.2)
+parms(Sc0)[c("temp", "food", "mort")] <- c(15, 0.4, 0.1)
+init(Sc0) <- data.frame(age=rep(10, 50), size = rep(2.5, 50),
+                        eggs=rep(5, 50), eggage=runif(50, 0, 4))
+@
+
+Then we replace the default \code{survive}-function with a
+more general one which depends on a user-specified mortality function \code{fmort}:
+
+<<ibm_eqations,echo=TRUE>>=
+equations(Sc0)$survive = function(inds, parms) {
+  abundance <- nrow(inds)
+  rnd       <- runif(abundance)
+  mort      <- fmort(parms$mort, inds$size) * parms$DELTAT
+  subset(inds, rnd > mort)
+}
+@
+
+Copies of object \code{Sc0} are created and modified according to the scenario
+specification.
+In the example below we have
+two functions with constant mortality and two other functions where per capita
+mortality is higher for the larger or smaller individuals, respectively:
+
+<<ibm_mort,echo=TRUE>>=
+Sc1 <- Sc2 <- Sc3 <- Sc0
+equations(Sc0)$fmort <- function(mort, x) 0
+equations(Sc1)$fmort <- function(mort, x) mort
+equations(Sc2)$fmort <- function(mort, x){
+  mort * 2 * rank(-x) / (length(x) + 1)
+}
+equations(Sc3)$fmort <- function(mort, x){
+  mort * 2 * rank(x) / (length(x) + 1)
+}
+@
+
+Finally, the scenarios can be simulated, either line by line as in Section
+\ref{s:predprey} or listwise with \code{lapply}:
+
+<<ibm_seed,echo=FALSE>>=
+set.seed(123)
+@
+
+%% workaround to avoid line break here
+<<ibm_sim_sc,echo=FALSE>>=
+sc <- lapply(list(Sc0=Sc0, Sc1=Sc1, Sc2=Sc2, Sc3=Sc3), sim)
+@
+
+\begin{Code}
+sc <- lapply(list(Sc0=Sc0, Sc1=Sc1, Sc2=Sc2, Sc3=Sc3), sim)
+\end{Code}
+
+\begin{figure}
+\centering
+<<daphnia2,eval=TRUE,fig=TRUE,include=TRUE,width=8,height=6>>=
+growthrate <- function(obj) {
+  o <- subset(out(obj), times > 10)
+  m <- lm(log(o$number) ~ o$times)
+  as.vector(coef(m)[2])
+}
+
+abundplot <- function(ref, sc1, sc2, sc3){
+  par(las=1)
+  plot(out(ref)[c("times", "number")],
+      type="l", xlab="Time", ylab="Abundance",
+      log="y", ylim=c(10, 5000),
+      main="",
+      font=2, font.lab=2, lwd=2
+  )
+  lines(out(sc1)[c("times", "number")], col="blue", lty="6222", lwd=2)
+  lines(out(sc2)[c("times", "number")], col="darkgreen", lty="22", lwd=2)
+  lines(out(sc3)[c("times", "number")], col="red", lty="66", lwd=2)
+  legend("topleft",
+    c(paste("Sc0: no mortality,     r =", round(growthrate(ref),2), collapse=" "),
+      paste("Sc1: random mort.   r =", round(growthrate(sc1),2), collapse=" "),
+      paste("Sc2: small pref.        r =", round(growthrate(sc2),2), collapse=" "),
+      paste("Sc3: large pref.         r =", round(growthrate(sc3),2), collapse=" ")
+      ),
+    col=c("black","blue","darkgreen","red"), lty=c("solid", "6222", "22", "66"),
+    bty="n", lwd=2
+  )
+}
+abundplot(sc$Sc0, sc$Sc1, sc$Sc2, sc$Sc3)
+@
+\caption{\label{f:daphnia2} Time series of \textit{Daphnia} abundance for
+different scenarios with non-selective resp.\ size selective mortality. Population
+growth rates ($r$ in $\rm d^{-1}$) were approximated by log-linear regression for
+all data points after an initial period of 10 days.}
+\end{figure}
+
+The result shows very clearly the influence of demography on population growth
+(Figure \ref{f:daphnia2}).
+Given that the population growth rate $r$ without any mortality (i.e.\ equal to the birth rate $b$)
+is approximately \Sexpr{round(growthrate(sc$Sc0), 2)}$\mathrm d^{-1}$ in \code{Sc0} and the mortality
+rate $d$ is set to $0.1$$\mathrm d^{-1}$, it is plausible that the population
+growth rate in \code{Sc1} is:
+
+\[
+r = b-d \approx \Sexpr{round(growthrate(sc$Sc1), 2)} \mathrm d^{-1}
+\]
+
+In case of size-selective predation, demography has to be taken into
+account in order to get realistic estimations of $r$. The simulation
+shows an increased population loss in case of fish predation (\code{Sc3},
+$r=\Sexpr{round(growthrate(sc$Sc3), 2)}$) and a lower effect in case of
+\textit{Chaoborus} (\code{Sc2}, $r=\Sexpr{round(growthrate(sc$Sc2), 2)}$).
+Please see \citet{Mooij1997,Mooij2003} for details and how the results may depend
+on fecundity of the prey, the shape of the selection function and the dynamics
+of predator and prey.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}\label{s:discussion}
+
+The main contribution of the \pkg{simecol} package is the proposal
+of a generalized, declarative structure to describe ecological models.
+This structure was inspired by the state space representation used in control theory
+and is intended as a pragmatic solution to unify the upcoming diversity of
+\proglang{R} implementations of ecological models.
+The object-oriented \code{simObj} structure may be useful also in other areas
+and for other models like continuous-time Markov processes and stochastic differential
+equations.
+
+With the set of examples presented and some additional models developed in our workgroup,
+the matrix-oriented \proglang{R} language was found to be well suited for model
+development (rapid prototyping) and model evaluation. According to our experience,
+a structured OOP style is more efficient compared to a purely
+functional style, or even worse, ad-hoc programming.
+
+The functional OOP system of \proglang{R} is different from languages like
+\proglang{JAVA} or \proglang{C++} and the approach of generic functions for common
+tasks seems to be more appropriate for statistical data analysis
+than for ecological simulation models which have not only variable data but also
+variable code.
+Moreover, the lack of references and the invisibility of member variables
+in slot functions of the same object was seemingly inconvenient and needed
+re-thinking. However, the \proglang{R} language with its \proglang{Scheme}
+heritage \citep{Ihaka1996} is a ``programmable programming language''. Lexical
+scoping and local environments \citep{Gentleman2000} allow to change its
+default behavior if needed. There were temptations to apply an alternative OOP
+paradigm that allows for
+references e.g.\ \pkg{R.oo} \citep{Bengtsson2003} or \pkg{proto} \citep{Kates2005},
+but it was decided to stay with the default behavior as much as possible.
+Similarly, we used only flat object hierarchies and abandoned delegation-based
+approaches and instead suggest cloning (creation time sharing) as a standard
+technique to create derived objects.
+
+At a first look \proglang{R} seems to be less suited for large applications, e.g.\
+turbulence models, where \proglang{C} and \proglang{FORTRAN} are standard
+or for complex individual-based simulations with large numbers of interacting
+individuals, where class-based OOP in the flavor of \proglang{C++} or \proglang{JAVA}
+is regarded as more natural \citep{Grimm2005}.
+However, even such applications can take advantage of \pkg{simecol}, either
+because of vectorization in \proglang{R} (\code{subset} is in fact highly efficient) 
+or due to the possibility to embed compiled code as shared library.
+For large applications or external simulation programs, \pkg{simecol} objects
+can be constructed as an interface provided that the external program is open
+enough to be linked or at least is callable in batch mode. 
+
+The package is designed to be open for local extensions and further
+evolution of the package itself. A limited number of classes will follow,
+e.g.\ for individual-based models similar to the \textit{Daphnia} example or for
+purely statistical models like neural networks. An integrated parameter estimation
+functionality may follow as well as an interface to quantitative and qualitative
+model evaluation criteria \citep{Jachner2007}. Moreover, interfaces to other promising
+approaches to solve simulation models in \proglang{R} may be worth to be established,
+e.g.\ to the \proglang{XML} based description language of the
+bioconductor package \pkg{SBMLR} \citep{Radivoyevitch2004}, or
+to the nonlinear mixed effects modelling package \pkg{nlmeODE} of \citet{Torno2004a}
+who independently developed a similar list-based object structure for a class
+of ordinary differential equation models.
+
+Another appealing approach is the stoichiometry-matrix based approach for
+ODE models of aquatic systems (wastewater treatment, biofilm, rivers and lakes,
+\url{http://www.eawag.ch/organisation/abteilungen/siam/lehre/Modaqecosys/}). 
+These \proglang{R} scripts, developed by
+a prominent group in water modeling \citep[e.g.\ ][]{Reichert1994,Reichert2001},
+are currently used for teaching of aquatic modeling together with model assessment like
+sensitivity and uncertainty analysis, optimization, and frequentist or Bayesian
+model tests.
+
+Our work presented so far can serve as a starting point and demonstrates, that
+\proglang{R} together with OOP is well suited as a medium for the development, distribution and
+share of ecological modeling code. Reference applications and utility functions
+will help ecologists to structure their work.
+The open source license of \proglang{R} and its accompanying packages
+should encourage own applications, which remain under complete control of the
+developer. Moreover, the intentionally lightweight character of \pkg{simecol} and
+the compact code of the solutions would enable the user to unhinge his model from
+\pkg{simecol} whenever required and to port it to other systems. As a conclusion,
+one can make nothing wrong when starting to model with \proglang{R} but it may
+be possible that one stays with it for a long time.
+
+
+
+\section*{Acknowledgments}\label{s:acknowledgments}
+
+We wish to express our thanks to René Sachse for suggestions while developing 
+his own \pkg{simecol} models and to the participants of the
+``Modeling for Limnologists'' workshop for testing and feedback.
+We are grateful to two anynymous reviewers for their constructive remarks which helped
+to improve the manuscript.
+
+
+%\bibliographystyle{jss}
+\bibliography{petzoldt_jss}
+
+\clearpage
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\bottomfraction}{0.95}
+\renewcommand{\floatpagefraction}{0.95}
+
+\appendix
+\section{The individual-based Daphnia model}\label{s:appendix}
+
+\begin{table}[htb]
+\caption{\label{t:ibmdaphnia1} Individual-based \textit{Daphnia} model (part I,
+  class definition, main equation, parameters, initial state, time steps, solver)}
+\small
+\hrulefill
+\begin{Code}
+library("simecol")
+setClass("indbasedModel",
+  representation(parms  = "list", init   = "data.frame"), contains = "simObj"
+)
+
+ibm_daphnia <- new("indbasedModel",
+  main = function(time, init, parms) {
+    init <- live(init, parms)
+    init <- survive(init, parms)
+    init <- hatch(init, parms)
+    init
+  },
+  parms = list(
+    # parameters of the somatic growth equation
+    a1          = 1.167,    # (mm)
+    a2          = 0.573,    # (mg L^-1)
+    a3          = 1.420,    # (mm)
+    a4          = 2.397,    # (d),
+    b1          = 1.089e-2, # (d^-1)
+    b2          = 0.122,    # ((deg. C)^-1)
+    # parameters of the clutch size equation
+    X_max_slope = 23.83,    # (eggs)
+    K_s_slope   = 0.65,     # (mg L^-1)
+    beta_min    = -29.28,   # (eggs)
+    u_c         = 1,        # (L mg^-1) unit conversion factor
+    # parameters of the individual-based model
+    L_0_Hall    = 0.35,     # (mm) SON (size of neonanates) of Hall data
+    L_0         = 0.65,     # (mm) SON
+    SAM         = 1.50,     # (mm) SAM (size at maturity)
+    maxage      = 60,       # (d)
+    # constant environmental conditions
+    temp        = 20,       # (deg C)
+    food        = 0.5       # (mg L^-1)
+  ),
+  init      = data.frame(age=0, size=0.65, eggs=0, eggage=0),
+  times     = c(from=0, to=60, by=1),
+  solver    = "myiteration", # or default method: "iteration"
+  equations = list()
+)
+\end{Code}
+\hrulefill
+\end{table}
+
+
+
+\begin{table}
+\caption{\label{t:ibmdaphnia2} Individual-based \textit{Daphnia} model
+  (part II, equations and algorithms)}
+\small
+\hrulefill
+\begin{Code}
+equations(ibm_daphnia) <- list(
+  newdaphnia = function(SON, n) {
+    if (n>0) {
+      data.frame(age = rep(0, n), size = SON, eggs = 0, eggage = 0)
+    } else {
+      NULL
+    }
+  },
+  bottrell = function(temp) {
+    exp(3.3956 + 0.2193 * log(temp) - 0.3414 * log(temp)^2)
+  },
+  tefi = function(time, temp, food, parms){
+    with(parms, {
+      deltaL <- L_0 - L_0_Hall
+      k      <- b1 * exp(b2 * temp)
+      L_max  <- (a1 * food)/(a2 + food) + a3 - k * a4
+      L      <- L_max - (L_max - L_0_Hall) * exp (-k * time) + deltaL
+      E      <- (X_max_slope * food)/(K_s_slope + food) * L +
+                  beta_min * (1 - exp(-u_c * food))
+      as.data.frame(cbind(L, E))
+  })},
+  live = function(inds, parms){
+    with(parms,{
+      ninds       <- nrow(inds)
+      inds$age    <- inds$age + DELTAT
+      inds$eggage <- ifelse(inds$size > SAM & inds$eggs > 0,
+                            inds$eggage + DELTAT, 0)
+      tefi_out    <- tefi(inds$age, temp, food, parms)
+      inds$size   <- tefi_out$L
+      neweggs     <- round(tefi_out$E)
+      inds$eggs   <- ifelse(inds$size > SAM & inds$eggage==0,
+                            neweggs, inds$eggs)
+      inds
+  })},
+  survive  = function(inds, parms) subset(inds, inds$age < parms$maxage),
+  hatch = function(inds, parms) {
+    newinds <- NULL
+    with(parms, {
+      edt       <- bottrell(temp)
+      have.neo  <- which(inds$eggs > 0 & inds$eggage > edt)
+      eggs      <- inds$eggs[have.neo]
+      new.neo   <- sum(eggs)
+      inds$eggs[have.neo]  <-  inds$eggage[have.neo] <- 0
+      newinds <- newdaphnia(L_0, new.neo)
+      rbind(inds, newinds)
+    })
+  }
+)
+\end{Code}
+\hrulefill
+\end{table}
+
+
+\begin{table}
+\caption{\label{t:mysolver} Solver function and \code{plot} method for the
+  \textit{Daphnia} model}
+
+\hrulefill
+\begin{Code}
+## a more appropriate solver (note the observer function
+myiteration <- function(y, times=NULL, func=NULL, parms=NULL,
+                        animate=FALSE, ...) {
+  observer <- function(res) {
+    # eggs, size, age, eggage
+    number   <- nrow(res)
+    meansize <- mean(res$size)
+    meanage  <- mean(res$age)
+    meaneggs <- mean(res$eggs)
+    c(number=number, meansize=meansize, meanage=meanage, meaneggs=meaneggs)
+  }
+  init              <- y@init
+  times             <- fromtoby(y@times)
+  func              <- y@main
+  parms             <- y@parms
+  inputs            <- y@inputs
+  equations         <- y@equations
+  equations         <- addtoenv(equations)
+  environment(func) <- environment()
+  parms$DELTAT <- 0
+  res <- observer(init)
+  out <- res
+  for (i in 2:length(times)) {
+    time <- times[i]
+    parms$DELTAT <- times[i] - times[i-1]
+    init <- func(time, init, parms)
+    res  <- observer(init)
+    out  <- rbind(out, res)
+   }
+  row.names(out) <- NULL
+  out <- cbind(times, out)
+  as.data.frame(out)
+}
+## a plotting function that matches the output structure of the observer
+setMethod("plot", c("indbasedModel", "missing"), function(x, y, ...) {
+  o <- out(x)
+  par(mfrow=c(2, 2))
+  plot(o$times, o$meanage,  type="l", xlab="Time", ylab="Mean age (d)")
+  plot(o$times, o$meaneggs, type="l", xlab="Time", ylab="Eggs per indiv.")
+  plot(o$times, o$number,   type="l", xlab="Time", ylab="Abundance")
+  plot(o$times, o$number, type="l", xlab="Time", ylab="Abundance", log="y")
+})
+## RUN the MODEL ##
+ibm_daphnia <- sim(ibm_daphnia)
+plot(ibm_daphnia)
+\end{Code}
+\hrulefill
+\end{table}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% clean up
+<<cleanup,echo=FALSE,include=FALSE>>=
+options("prompt" = "> ", "continue" = "+ ")
+@
+\end{document}
+
+
+
+
+
+
+
