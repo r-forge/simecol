@@ -7,14 +7,13 @@
 The original model was published in Soetaert and herman (1994). The implementation
 in R is described in Soetaert and Herman (2008), chapter 6.6.5.
 
-
 The model equations are:
-\[
-\frac{{\partial  & {\rm{C}}}}{{\partial  & t}} =  
-- \frac{\partial }{{A \cdot \partial  & x}}(Q \cdot {\rm{C}}) 
-+ \frac{\partial }{{A \cdot \partial  & x}}(A \cdot E_x  \cdot \frac{{\partial  & {\rm{C}}}}{{\partial  & x}}) 
+\deqn{
+\frac{{\partial   {\rm{C}}}}{{\partial   t}} =
+- \frac{\partial }{{A \cdot \partial   x}}(Q \cdot {\rm{C}})
++ \frac{\partial }{{A \cdot \partial   x}}(A \cdot E_x  \cdot \frac{{\partial  & {\rm{C}}}}{{\partial   x}})
 + g \cdot {\rm{C}}
-\]
+}{dC/dt=-1/A*(d/dx(Q.C))+1/A*d/dx(A*E_x*(dC/dx))+g*C}
 
 where C is marine zooplankton concentration (gram dry weight/m3), A is estuarine cross-sectional surface area (m2),
 Q is freshwater flow (m3/d), Ex is tidal dispersion (m2/d) and x is position along the estuarine length axis.
@@ -91,7 +90,8 @@ mtext(outer=TRUE, side=3, "Marine Zooplankton in the Scheldt", cex=1.5)
 
 }
 \references{
-Chapter 6.6.5  from the book by Soetaert and Herman, 2008. A practical guide to ecological Modelling. Springer.
+Soetaert, K and P.M.J. Herman, 2008. A practical guide to ecological Modelling. Using R as a simulation platform. Springer.
+(Chapter 6.6.5)
 
 Soetaert and Herman, 1994. One foot in the grave: zooplankton drift into the Westerschelde estuary (The Netherlands).  
 Marine Ecology Progress Series 105: 19-29.

@@ -7,15 +7,32 @@
 
 The model describes 
 \describe{
-  \item Nutrients,  
-  \item Phytoplankton and 
-  \item Zooplankton (NPZ model). 
+  \item Nutrients (N),
+  \item Phytoplankton (P)
+  \item Zooplankton (Z).
 }
 
-  The physical component consists of an advective transport term (river flow) only. 
+  The physical component consists of an advective transport term (river flow, velocity v) only.
 
   The river has constant cross-sectional surface and is 100 km long. It is subdivided in 100 boxes.
   
+  The equations are:
+  \deqn{
+\frac{{\partial N}}{{\partial   t}} =  - v\frac{{\partial N}}{{\partial   x}} - \mu  \cdot \frac{N}{{N + kn}}\cdot P + g \cdot \frac{P}{{P + kp}}\cdot Z \cdot (1 - \gamma ) + m \cdot Z
+}{dN/dt=-v*dN/dx - mu*N/(N+kn)*P+g*P/(P+kp)*Z*(1-gamma)+m*Z}
+
+  \deqn{
+\frac{{\partial P}}{{\partial   t}} =  - v\frac{{\partial P}}{{\partial   x}} + \mu  \cdot \frac{N}{{N + kn}}\cdot P - g \cdot \frac{P}{{P + kp}}\cdot Z
+}{dP/dt=-v*dP/dx + mu*N/(N+kn)*P-g*P/(P+kp)*Z}
+
+
+\deqn{
+\frac{{\partial Z}}{{\partial   t}} =  - v\frac{{\partial Z}}{{\partial   x}} + g \cdot \frac{P}{{P + kp}}\cdot Z \cdot \gamma  - m \cdot Z
+}{dZ/dt=-v*dZ/dx + g*P/(P+kp)*Z*gamma -m*Z}
+  
+where, for the nutrients, the first term is transport, the second term uptake by phytoplankton growth,
+the third term is excreted fraction due to zooplankton grazing and the last term is zooplankton mortality.
+
   For the numerical approximation of the partial differential equations, see Soetaert and Herman, 2008
 }
 \usage{NPZriver()}
