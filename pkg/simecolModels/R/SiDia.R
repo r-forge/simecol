@@ -37,17 +37,17 @@ SiDia <- function() {
         
         dBSi        <- -diff(BSiFlux)/thick/(1-Porosity)  - Dissolution
         
-        return(list(c(dBSi=dBSi,dDSi=dDSi),
-                   Dissolution=Dissolution,
-                   DSiSurfFlux =DSiFlux[1],DSIDeepFlux =DSiFlux[N+1],
-             BSiDeepFlux =BSiFlux[N+1]))
+        return(list(c(dBSi = dBSi, dDSi = dDSi),
+                   Dissolution = Dissolution,
+                   DSiSurfFlux = DSiFlux[1], DSIDeepFlux = DSiFlux[N+1],
+                   BSiDeepFlux = BSiFlux[N+1]))
        })
     },
     parms = c(
       # sediment parameters
 # N should NOT be a parameter; it shoudl be calculated, but i cannot make the
 # model work unless N is a parameter...
-       N        = 200,        # Total number of boxes
+       N        = 0,          # Total number of boxes (dummy value before initialization)
        thick    = 0.05,       # thickness of sediment layers (cm)
        por0     = 0.9,        # surface porosity (-)
        pordeep  = 0.7,        # deep porosity    (-)
@@ -70,16 +70,30 @@ SiDia <- function() {
     initfunc = function(obj) {      # initialisation
       pars <- parms(obj)
       with(as.list(pars),{
-# THIS DID NOT WORK
-#        Intdepth = seq(0,10,by=thick)         # depth at upper interface of each layer
-        Nint     = N+1                             # number of interfaces
-        Intdepth = seq(0,by=thick,len=Nint)        # depth at upper interface of each layer
+## THIS DID NOT WORK
+##        Intdepth = seq(0,10,by=thick)         # depth at upper interface of each layer
+#        Nint     = N+1                             # number of interfaces
+#        Intdepth = seq(0,by=thick,len=Nint)        # depth at upper interface of each layer
+#
+#        Depth    = 0.5*(Intdepth[-Nint] +Intdepth[-1]) # depth at middle of each layer
+## THOMAS: N should be estimated here, but then I cannot access N in the solver
+## so I had to make N a parameter can this be fixed?....
+##       N        = length(Depth)                       # number of layers
 
-        Depth    = 0.5*(Intdepth[-Nint] +Intdepth[-1]) # depth at middle of each layer
-# THOMAS: N should be estimated here, but then I cannot access N in the solver
-# so I had to make N a parameter can this be fixed?....
-#       N        = length(Depth)                       # number of layers
-
+## ThPe: Is this what you want?   
+##  but: 
+##    - I don't understand why you tried to compute Intdepth two times !!!
+##    - where does the "10" come from ?  Should be a parameter
+        Intdepth <- seq(0, 10, by=thick)
+        Nint     <- length(Intdepth)
+        N        <- Nint - 1
+        Depth    <- 0.5*(Intdepth[-Nint] +Intdepth[-1]) # depth at middle of each layer
+        
+        parms(obj)["N"] <- N  # this ist the important step! write the new N back to parms
+        # you can also store N in the init-slot (the states), but then you have
+        # to define a new class with init as list. It may then also necessary to define
+        # the appropriate slot functions (i.e. out)  and to re-define the solver
+## end of alternative formulation
         init(obj) = rep(1, 2 * N)                      # initial condition; any positive number will do
         Porosity = pordeep + (por0-pordeep)*exp(-Depth*porcoef)     # porosity profile, middle of layers
         IntPor   = pordeep + (por0-pordeep)*exp(-Intdepth*porcoef)  # porosity profile, upper interface

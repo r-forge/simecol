@@ -1,8 +1,19 @@
+o Models: SiDia and OmexDia
+  - ThPe: made N a "dependend parameter" calculated during initifunc
+  - Karline please check this
+  - Suggestion: make Depth (or Maxdepth) a parameter (instead of the hard-coded 10)
+  - If succesful: --> code cleanup
+
 o seealso:
   - link to \code{\link[simecol:simecol-package]{simecol-package}} from all.Rd files
 
 o improve simecolModels-package
   - list (or table) of all models by author
+
+o code cosmetics
+  - indentation
+  - spaces
+  - use <- instead of = whereever appropriate
 
 o short vignettes
   - explanation of the model-generating functions (motivation, advantages, ...)

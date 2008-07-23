@@ -129,10 +129,12 @@ plot(Db,Intdepth,ylim=c(10,0),xlab="cm2/d" ,main="Bioturbation",type="l",lwd=2)
 
 }
 \references{
-Soetaert, K and P.M.J. Herman, 2008. A practical guide to ecological Modelling. Using R as a simulation platform. Springer.
-(Chapters 3.6.5 and 7.8.5)
+Soetaert, K and P.M.J. Herman, 2008. A practical guide to ecological Modelling. 
+Using R as a simulation platform. Springer. (Chapters 3.6.5 and 7.8.5)
 
-Schink, D.R., Guinasso, N.L., Fanning, K.A., 1975. Processes affecting the concentration of silica at the sediment-water interface of the Atlantic Ocean. Journal of Geophysical Research, 80, 3013-3031.
+Schink, D.R., Guinasso, N.L., Fanning, K.A., 1975. Processes affecting the 
+concentration of silica at the sediment-water interface of the Atlantic Ocean. 
+Journal of Geophysical Research, 80, 3013-3031.
 
 }
 

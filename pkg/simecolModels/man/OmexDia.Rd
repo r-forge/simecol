@@ -101,7 +101,9 @@ legend=c("15gC/m2/yr","50gC/m2/yr","2gC/m2/yr"),title="flux")
 
 mtext(outer=TRUE,side=3,line=-2,cex=1.5,"OMEXDIAmodel")
 
-
+# The following example takes a while, so we skip it during package
+# check. However, it can be simulated without problems by the user.
+\dontrun{
 # 2. DYNAMIC RUN
 #--------------------------------
 # new instance of the model
@@ -155,6 +157,7 @@ Cflux  <- CONC[,6*N+1]
 O2flux <- CONC[,6*N+2]
 matplot(Times,cbind(Cflux,O2flux),type="l",ylab="nmol/cm2/d",lwd=2,main="Fluxes")
 legend("topright",c("Carbon","Oxygen"),col=c(1,2),lwd=2)
+}
 }
 \references{
 Soetaert K., Herman P. M. J. and Middelburg J., 1996. A model of early diagenetic processes from the shelf to abyssal depths. Geochim. Cosmochim. Acta, 60(6):1019-1040.
