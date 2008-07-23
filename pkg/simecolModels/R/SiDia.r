@@ -16,56 +16,55 @@ SiDia <- function() {
   new("odeModel",
     main = function(time = 0, state, parms) {
       with (c(as.list(parms),inputs$boxes), {
- BSi<- state[1:N]              # Biogenic silicate (solid)
- DSi<- state[(N+1):(2*N)]      # Dissolved silicate
-
-  # diffusive fluxes at upper interface of each layer
-  # upper concentration imposed (bwDSi), lower: zero gradient
- DSiFlux <- -SedDisp *   IntPor *diff(c(bwDSi ,DSi,DSi[N]))/thick
- BSiFlux <- -Db      *(1-IntPor)*diff(c(BSi[1],BSi,BSi[N]))/thick
-
- BSiFlux[1] <- BSidepo                         # upper boundary flux is imposed
-
- # BSi dissolution    #
-
- Dissolution <- rDissSi * BSi*(1.- DSi/EquilSi )^pow
- Dissolution <- pmax(0,Dissolution)
-
- # Rate of change= Flux gradient, corrected for porosity and dissolution
- dDSi        <- -diff(DSiFlux)/thick/Porosity      +           # transport
-                 Dissolution * (1-Porosity)/Porosity           # biogeochemistry
-
- dBSi        <- -diff(BSiFlux)/thick/(1-Porosity)  - Dissolution
-
- return(list(c(dBSi=dBSi,dDSi=dDSi),
-             Dissolution=Dissolution,
-             DSiSurfFlux =DSiFlux[1],DSIDeepFlux =DSiFlux[N+1],
+        BSi<- state[1:N]              # Biogenic silicate (solid)
+        DSi<- state[(N+1):(2*N)]      # Dissolved silicate
+        
+        # diffusive fluxes at upper interface of each layer
+        # upper concentration imposed (bwDSi), lower: zero gradient
+        DSiFlux <- -SedDisp *   IntPor *diff(c(bwDSi ,DSi,DSi[N]))/thick
+        BSiFlux <- -Db      *(1-IntPor)*diff(c(BSi[1],BSi,BSi[N]))/thick
+        
+        BSiFlux[1] <- BSidepo                         # upper boundary flux is imposed
+        
+        # BSi dissolution    #
+        
+        Dissolution <- rDissSi * BSi*(1.- DSi/EquilSi )^pow
+        Dissolution <- pmax(0,Dissolution)
+        
+        # Rate of change= Flux gradient, corrected for porosity and dissolution
+        dDSi        <- -diff(DSiFlux)/thick/Porosity      +           # transport
+                       Dissolution * (1-Porosity)/Porosity           # biogeochemistry
+        
+        dBSi        <- -diff(BSiFlux)/thick/(1-Porosity)  - Dissolution
+        
+        return(list(c(dBSi=dBSi,dDSi=dDSi),
+                   Dissolution=Dissolution,
+                   DSiSurfFlux =DSiFlux[1],DSIDeepFlux =DSiFlux[N+1],
              BSiDeepFlux =BSiFlux[N+1]))
        })
     },
     parms = c(
-     # sediment parameters
+      # sediment parameters
 # N should NOT be a parameter; it shoudl be calculated, but i cannot make the
 # model work unless N is a parameter...
-     N        = 200,        # Total number of boxes
-     thick    = 0.05,       # thickness of sediment layers (cm)
-     por0     = 0.9,        # surface porosity (-)
-     pordeep  = 0.7,        # deep porosity    (-)
-     porcoef  = 2  ,        # porosity decay coefficient  (/cm)
-
-     dB0      = 1/365,      # cm2/day       - bioturbation coefficient
-     dBcoeff  = 2    ,
-     mixdepth = 5    ,      # cm
-
-     SedDisp  = 0.4  ,      # molecular diffusion coefficient, cm2/d
-
-     # biogeochemical parameters
-     rDissSi  = 0.005,      # dissolution rate, /day
-     EquilSi  = 800  ,      # equilibrium concentration
-     pow      = 1    ,
-     BSidepo  = 0.2*100,    # nmol/cm2/day
-     bwDSi    = 150         # µmol/l
-
+       N        = 200,        # Total number of boxes
+       thick    = 0.05,       # thickness of sediment layers (cm)
+       por0     = 0.9,        # surface porosity (-)
+       pordeep  = 0.7,        # deep porosity    (-)
+       porcoef  = 2  ,        # porosity decay coefficient  (/cm)
+  
+       dB0      = 1/365,      # cm2/day       - bioturbation coefficient
+       dBcoeff  = 2    ,
+       mixdepth = 5    ,      # cm
+  
+       SedDisp  = 0.4  ,      # molecular diffusion coefficient, cm2/d
+  
+       # biogeochemical parameters
+       rDissSi  = 0.005,      # dissolution rate, /day
+       EquilSi  = 800  ,      # equilibrium concentration
+       pow      = 1    ,
+       BSidepo  = 0.2*100,    # nmol/cm2/day
+       bwDSi    = 150         # µmol/l
     ),
     times  = 0,                     # t=0 for steady-state calculation
     initfunc = function(obj) {      # initialisation

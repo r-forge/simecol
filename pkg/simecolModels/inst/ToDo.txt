@@ -1,0 +1,17 @@
+o seealso:
+  - link to \code{\link[simecol:simecol-package]{simecol-package}} from all.Rd files
+
+o improve simecolModels-package
+  - list (or table) of all models by author
+
+o short vignettes
+  - explanation of the model-generating functions (motivation, advantages, ...)
+
+
+o observer-slot: move to "base" simecol package??
+
+o indbasedModel class    --"--
+
+...
+
+o write R-News article
