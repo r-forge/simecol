@@ -9,52 +9,60 @@
 ################################################################################
 
 algaepH <-  function() {
-  new("odeModel",
-    main = function(time, init, parms, Nitrate=TRUE){
-    
-      # Internal function to find the root of pH
-      pHfunction <- function(pH, k1, k2, DIC, Alkalinity )
-      {
-        H    <- 10^(-pH)
-        HCO3 <- H*k1  /(H*(k1+H) + k1*k2)*DIC
-        CO3  <- k1*k2 /(H*(k1+H) + k1*k2)*DIC
-        
-        EstimatedAlk  <- (- H) *1.e6  + HCO3 + 2*CO3
-        
-        return(EstimatedAlk  - Alkalinity)
-      }
-      
-      with(as.list(c(init,parms)),{  # unpack the state variables, parameters
-      
-        PAR    <- 0.
-        if(time%%24 < dayLength) PAR <- parDay
-        
-        Growth <- maxGrowth*DIN/(DIN+ksDIN)*PAR/(PAR+ksPAR)*ALGAE -
-                    respRate * ALGAE
-        
-        dDIN   <- -Growth                       # DIN is consumed
-        dDIC   <- -Growth * CNratio             # DIC is consumed ~ CN ratio
-        dALGAE <- Growth                        # algae increase by growth
-        ifelse (Nitrate, dALKALINITY <- Growth, # alkalinity production if growing on nitrate
-                dALKALINITY <- -Growth)         # alkalinity consumption if growing on ammonium
-        
-        # estimate the pH
-        pH  <- uniroot(pHfunction,lower=0,upper=12,tol=1.e-20,
-               k1=k1,k2=k2, DIC=DIC,Alkalinity=ALKALINITY)$root
-        
-        list(c(dDIN, dALGAE, dALKALINITY, dDIC), c(PAR=PAR, pH=pH)  )
-      })
-    },
-    # dissociation constants are available via package "seacarb"
-    #  require(seacarb)
-    #  Salinity     <- 0
-    #  Temperature  <- 20
-    #  WDepth       <- 0
-    #  k1           <- K1(Salinity,Temperature,WDepth)    # Carbonate k1
-    #  k2           <- K2(Salinity,Temperature,WDepth)    # Carbonate k2
+ new("odeModel",
+   main = function(time, init, parms, Nitrate=TRUE){
 
+   # Internal function to find the root of pH
+    pHfunction <- function(pH, k1,k2,kN, DIC, DIN, Alkalinity )
+    {
+     H    <- 10^(-pH)
+     HCO3 <- H*k1  /(H*(k1+H) + k1*k2)*DIC
+     CO3  <- k1*k2 /(H*(k1+H) + k1*k2)*DIC
+     # Alkalinity = HCO3 + 2*CO3 - H
+     EstimatedAlk  <- (- H) *1.e6  + HCO3 + 2*CO3
+
+     return(EstimatedAlk  - Alkalinity)
+     if (!Nitrate)
+     {
+      NH3  <- kN/(kN+H)*DIN
+     # Alkalinity = HCO3 + 2*CO3 - H - NH3
+      EstimatedAlk <- EstimatedAlk + NH3
+     }
+    }
+
+    with(as.list(c(init,parms)),{  # unpack the state variables, parameters
+
+    PAR    <- 0.
+    if(time%%24 < dayLength) PAR <- parDay
+
+    Growth <- maxGrowth*DIN/(DIN+ksDIN)*PAR/(PAR+ksPAR)*ALGAE -
+                respRate * ALGAE
+
+    dDIN   <- -Growth                   # DIN is consumed
+    dDIC   <- -Growth * CNratio         # DIC is consumed ~ CN ratio
+    dALGAE <- Growth                    # algae increase by growth
+    ifelse (Nitrate, dALKALINITY <- Growth, # alkalinity production if growing on nitrate
+            dALKALINITY <- -Growth)         # alkalinity consumption if growing on ammonium
+
+
+    # estimate the pH
+    pH  <- uniroot(pHfunction,lower=0,upper=12,tol=1.e-20,
+           k1=k1,k2=k2,kN=kN, DIC=DIC, DIN=DIN, Alkalinity=ALKALINITY)$root
+
+   list(c(dDIN,dALGAE,dALKALINITY,dDIC),c(PAR=PAR,pH=pH)  )
+    })
+    },
+# dissociation constants are available via package "seacarb"
+#  require(seacarb)
+#  Salinity     <- 0
+#  Temperature  <- 20
+#  WDepth       <- 0
+#  k1           <- K1(Salinity,Temperature,WDepth)    # Carbonate k1
+#  k2           <- K2(Salinity,Temperature,WDepth)    # Carbonate k2
+#  kN           <- Kn(..
     parms = c(k1=9.6095e-7  ,   #mol/kg sol    carbonate dissociation ct 1
               k2=3.41048e-10,   #mol/kg sol    carbonate dissociation ct 2
+              kN=3.969655e-10,  #mol/kg sol    dissociation ct ammmon.
               maxGrowth =0.125, #molN/molN/hr  Maximal growth rate
               ksPAR     =100,   #µEinst/m2/s   Half-saturation ct for light-limited growth
               ksDIN     =1.0,   #mmolN/m3      Half-saturation ct of N uptake Phytoplankton
@@ -70,6 +78,7 @@ algaepH <-  function() {
               ALKALINITY =2200,   #mmol/m3
               DIC        =2100),  #mmolC/m3
     solver = "lsoda"
+
   )
 }
 
