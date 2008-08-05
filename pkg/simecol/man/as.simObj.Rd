@@ -50,5 +50,15 @@ olv3 <- as(llv3, "simObj")
 
 llv3 <- as.list(lv3)
 olv3 <- as.simObj(llv3)
+
+dput(as.list(lv3), control="useSource")
+\dontrun{
+## save human readable object representation
+dput(as.list(lv3), file="lv3.R", control=c("all"))
+## read it back and test it
+l_lv3 <- dget("lv3.R")
+o_lv3 <- as.simObj(l_lv3)
+plot(sim(o_lv3))
+}
 }
 \keyword{ misc }

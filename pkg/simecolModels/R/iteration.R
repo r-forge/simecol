@@ -1,8 +1,17 @@
 setMethod("iteration", "indbasedModel",
   function(y, times=NULL, func=NULL, parms=NULL,
                           animate=FALSE, ...) {
-    observer = function(init){
-      if (is.null(y@observer)) init else y@observer(init)
+    observer = function(init, time, i, out, y){
+      if (is.null(y@observer)) {
+        ## default: return state
+        init 
+      } else {
+        if (length(formals(y@observer)) == 1) {
+          y@observer(init)                    # for compatibility
+        } else {
+          y@observer(init, time, i, out, y)   # experimental
+        }
+      }
     }
     init              <- y@init
     times             <- fromtoby(y@times)
@@ -13,21 +22,21 @@ setMethod("iteration", "indbasedModel",
     environment(func) <- environment()
     equations         <- addtoenv(equations)
     parms$DELTAT <- 0
-    res <- observer(init)
+    res <- observer(init, times[1], 1, NULL, y)
     out <- res
     for (i in 2:length(times)) {
       time <- times[i]
       parms$DELTAT <- times[i] - times[i-1]
       init <- func(time, init, parms)
-      res  <- observer(init)
+      res  <- observer(init, time, i, out, y)
       if (is.vector(res)) {
-        out  <- rbind(out, res)
+        out  <- rbind(out, res, deparse.level=0)
       } else {
         out  <- c(out, list(res))
       }
     }
     if(is.vector(res)) {
-      row.names(out) <- NULL
+      # row.names(out) <- NULL ## now obsolete, see deparse.level=0
       out <- cbind(times, out)
       out <- as.data.frame(out)
     } else {
