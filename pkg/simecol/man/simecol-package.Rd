@@ -18,7 +18,7 @@
   (scientists and students) an interactive environment to implement,
   distribute, simulate and document ecological and other dynamic models without
   the need to write long simulation programs. For this purpose, an object
-  oriented approach using the \textbf{S4} class system
+  oriented approach using the S4 class system
   is proposed, which should provide a consistent but still
   flexible and extensible way to implement simulation models of different
   types, namely:
@@ -106,22 +106,13 @@
   The package is supplemented with several utility functions
   (e.g. \code{\link{seedfill}} or \code{\link{neighbours}}), which can
   be used independently from \code{simObj} objects.
-
-The following are sources of information on \code{simecol}:
-\tabular{ll}{
-Home page\tab u <- "http://www.simecol.de/"; browseURL(u)\cr
-News\tab  file.show(system.file("NEWS", package = "simecol"))\cr
-Wish List\tab  file.show(system.file("WISHLIST", package = "simecol"))\cr
-Acknowledgements\tab  file.show(system.file("THANKS", package = "simecol"))\cr
-This File\tab  package?simecol\cr
-Help files as PDF\tab  u <- "http://cran.r-project.org/doc/packages/simecol.pdf"; browseURL(u)\cr
 }
 
-}
+
 
 \references{
   Petzoldt, T and K. Rinke (2007), \pkg{simecol}: An Object-Oriented Framework for
-    Ecological Modeling in \textbf{R}. Journal of Statistical Software,
+    Ecological Modeling in \R. Journal of Statistical Software,
     22(9). URL \url{http://www.jstatsoft.org/v22/i09/}.
 }
 
@@ -161,8 +152,13 @@ demo(jss)
 browseURL(paste(system.file(package="simecol"), "/examples", sep=""))
 
 ## show package vignette with introductory article
-vignette("introduction")
-edit(vignette("introduction"))
+vignette("simecol-introduction")
+edit(vignette("simecol-introduction"))
+
+## open the installation directory of simecol
+##   (NEWS, THANKS, FAQ, ToDo, WISHLIST, ...)
+browseURL(paste(system.file(package="simecol"), "/", sep=""))
+
 
 ## Open Project Homepage
 browseURL("http://www.simecol.de")

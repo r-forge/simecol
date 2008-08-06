@@ -16,7 +16,7 @@
   An object with the same type like \code{x}.
 }
 \details{
-  If called with a vector or list of vectors and if \textbf{Tcl/Tk} is
+  If called with a vector or list of vectors and if \bold{Tcl/Tk} is
   installed, a dialog box is shown in which data can be entered. If the
   \code{x} is not of type vector or list of vectors, a default
   editing method is called.

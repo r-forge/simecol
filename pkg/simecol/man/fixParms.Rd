@@ -18,7 +18,7 @@
 \description{
   The functions invoke an editor dialog for parameters, initial
   values or time steps of \code{simObj} objects and then assign the
-  new (edited) version of \code{x} in the user's workspace. A \textbf{Tcl/Tk}
+  new (edited) version of \code{x} in the user's workspace. A \bold{Tcl/Tk}
   version or spreadsheet editor is displayed if possible depending
   on the structure of the respective slot.
 }
