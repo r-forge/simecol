@@ -43,12 +43,39 @@ The object contains the following slots:
 \examples{
   \dontrun{
     data(diffusion)
+    ## (1) basic example
     plot(sim(diffusion))
-    # show "grid of environmental conditions"
+    ## show "grid of environmental conditions"
     image(inputs(diffusion))
-    # set conditions to "1", i.e. remove "refuge" in the middle
-    inputs(diffusion) <- matrix(1, 100, 100)
-    plot(sim(diffusion))
+    
+    ## (2) scenario
+    ##     with homogeneous environment (no "refuge" in the middle)
+    no_refuge <- diffusion # Cloning of the whole model object
+    inputs(no_refuge) <- matrix(1, 100, 100)
+    plot(sim(no_refuge))
+    
+    ## (3) example of using an observer function
+    observer(diffusion) <- function(state, ...) {
+      ## numerical output to the screen
+      cat("mean x=", mean(state$x),
+          ", mean y=", mean(state$y),
+          ", sd   x=", sd(state$x),
+          ", sd   y=", sd(state$y), "\n")
+      # animation
+      par(mfrow=c(2,2))
+      plot(state$x, state$y, xlab="x", ylab="y", pch=16, col="red", xlim=c(0, 100))
+      hist(state$y)
+      hist(state$x)
+      # default case: return the state --> iteration stores it in "out"
+      init
+    }
+
+    sim(diffusion)
+    
+    ## (4) remove the observer
+    observer(diffusion) <- NULL
+    diffusion <- sim(diffusion)
+    
   }
 }
 

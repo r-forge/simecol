@@ -92,7 +92,11 @@ setMethod("iteration", "simObj",
     equations         <- addtoenv(equations)
     parms$DELTAT <- 0
     res <- observer(init, times[1], 1, NULL, y)
-    out <- res
+    if (is.vector(res)) {
+        out  <- res
+      } else {
+        out  <- list(res)
+      }
     for (i in 2:length(times)) {
       time <- times[i]
       parms$DELTAT <- times[i] - times[i-1]

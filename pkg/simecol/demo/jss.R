@@ -1,9 +1,8 @@
 ###################################################
 ### Initialization and graphics settings
 ###################################################
-if(dev.cur() <= 1) get(getOption("device"))()
-opar <- par(ask = interactive() &&
-            (.Device %in% c("X11", "GTK", "gnome", "windows","quartz")))
+opar   <- par(no.readonly=TRUE)
+oask   <- devAskNewPage(dev.interactive(orNone = TRUE))
 defpar <- par(no.readonly = TRUE)
 
 library("simecol")
@@ -243,5 +242,6 @@ abundplot <- function(ref, sc1, sc2, sc3){
 }
 abundplot(sc$Sc0, sc$Sc1, sc$Sc2, sc$Sc3)
 
-## The End
-par(opar)
+## clean up
+par(defpar)
+devAskNewPage(oask)

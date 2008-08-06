@@ -131,7 +131,7 @@ Help files as PDF\tab  u <- "http://cran.r-project.org/doc/packages/simecol.pdf"
 }
 
 \examples{
-## -- binary examples -------------------------------
+## (1) Quick Start Examples ====================================================
 data(lv)        # load basic Lotka-Volterra model
 
 \dontrun{fixParms(lv)}
@@ -141,16 +141,34 @@ lv <- sim(lv)
 plot(lv)
 results <- out(lv)
 
+\dontrun{
 data(conway)    # Conway's game of life
 init(conway) <- matrix(0, 10, 10)
-\dontrun{fixInit(conway)} # enter some "1"
-sim(conway, animate=TRUE, delay=10)
-
-## -- sourcecode examples ----------------------------
-## open the directory with all sourcecode examples
-\dontrun{
-browseURL(paste(system.file(package="simecol"), "/examples", sep=""))
+times(conway) <-  1:100
+fixInit(conway) # enter some "1"
+sim(conway, animate=TRUE, delay=100)
 }
+
+## (2) Additional Resources ====================================================
+\dontrun{
+## open the directory with source code of demo
+browseURL(paste(system.file(package="simecol"), "/demo", sep=""))
+
+## run demo
+demo(jss)
+
+## open the directory with R sourcecode examples
+browseURL(paste(system.file(package="simecol"), "/examples", sep=""))
+
+## show package vignette with introductory article
+vignette("introduction")
+edit(vignette("introduction"))
+
+## Open Project Homepage
+browseURL("http://www.simecol.de")
+}
+
+
 }
 
 \keyword{misc}
