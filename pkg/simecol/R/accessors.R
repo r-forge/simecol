@@ -24,6 +24,9 @@ setGeneric("main<-", function(obj, value) standardGeneric("main<-"))
 setGeneric("initfunc", function(obj, ...) standardGeneric("initfunc"))
 setGeneric("initfunc<-", function(obj, value) standardGeneric("initfunc<-"))
 
+setGeneric("observer", function(obj, ...) standardGeneric("observer"))
+setGeneric("observer<-", function(obj, value) standardGeneric("observer<-"))
+
 setGeneric("out", function(obj, ...) standardGeneric("out"))
 setGeneric("out<-", function(obj, value) standardGeneric("out<-"))
 ## the out slot is readonly
@@ -147,6 +150,19 @@ setMethod("initfunc<-", "simObj",
       invisible(obj)
     }
 )
+
+
+setMethod("observer", "simObj",
+    function(obj) {obj@observer}
+)
+
+setMethod("observer<-", "simObj",
+    function(obj, value) {
+      obj@observer <- value
+      invisible(obj)
+    }
+)
+
 
 setMethod("solver", "simObj",
     function(obj) {obj@solver}

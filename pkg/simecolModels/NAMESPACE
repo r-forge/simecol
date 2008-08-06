@@ -12,9 +12,9 @@ import(deSolve, rootSolve, simecol)
 ### basic functions of the package       #
 ### ------------------------------------ #
 
-exportClasses(indbasedModel, timedepModel)
+exportClasses(timedepModel)
 
-exportMethods("iteration", "observer", "observer<-")
+exportMethods("iteration")
 
 ### ------------------------------------ #
 ### functions that generate the models   #

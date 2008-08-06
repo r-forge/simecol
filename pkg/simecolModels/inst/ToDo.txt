@@ -19,9 +19,9 @@ o short vignettes
   - explanation of the model-generating functions (motivation, advantages, ...)
 
 
-o observer-slot: move to "base" simecol package??
+o observer-slot: move to "base" simecol package??       --- done
 
-o indbasedModel class    --"--
+o indbasedModel class    --"--                          --- done
 
 ...
 

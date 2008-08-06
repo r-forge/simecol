@@ -7,6 +7,7 @@
 \alias{odeModel-class}
 \alias{gridModel-class}
 \alias{rwalkModel-class}
+\alias{indbasedModel-class}
 
 \docType{package}
 
@@ -15,8 +16,8 @@
 \description{
   The \pkg{simecol} package is intended to give users
   (scientists and students) an interactive environment to implement,
-  distribute, simulate and document ecological and other dynamic models without the
-  need to write long simulation programs. For this purpose, an object
+  distribute, simulate and document ecological and other dynamic models without
+  the need to write long simulation programs. For this purpose, an object
   oriented approach using the \textbf{S4} class system
   is proposed, which should provide a consistent but still
   flexible and extensible way to implement simulation models of different
@@ -25,8 +26,9 @@
     \item ordinary differential equation (ode) models (class \code{odeModel}),
     \item grid-oriented individual-based models (class \code{gridModel}), and
     \item particle diffusion-type models (class \code{rwalkModel}),
-    \item non-spatial individual-based models or other model types by deriving
-      a user specified subclass from \code{simObj}.
+    \item individual-based models (class \code{indbasedModel}),
+    \item other model types by deriving a user specified subclass from
+    \code{simObj}.
   }
   Each simulation model is implemented as S4 object (superclass \code{simObj})
   with the following slots:
@@ -61,8 +63,18 @@
         models where main returns the new state (i.e for individual-based models).
         It is also possible to reference own algorithms (solvers) that are defined
         in the useer workspace or to assign solver functions directly.
+     \item \code{observer}: optional slot which determines the data stored
+       during the simulation. A user-provided \code{observer} function can also
+       be used to write logging information to the screen or to the hard-disk,
+       to perform run-time visualisation, or statistical analysis during the
+       simulation.\cr
+       Note that the \code{observer}-mechanism works only with
+       \code{\link{iteration}} solvers. It is currently not supported by
+       \code{odeModel}s and \code{gridModel}s.
      \item \code{out}: this slot holds the simulation results after a
-       simulation run as data frame or list (of matrices).
+       simulation run as data frame (if the return value of \code{main} is a vector)
+       or as list (otherwise). The type of data stored in \code{out} can be
+       manipulated by providing a user-definded \code{observer} function.
      \item \code{initfunc}: this slot can hold an optional function which is called
        automatically when a new object is created by \code{new} or when it
        is re-initialized by \code{initialize}.

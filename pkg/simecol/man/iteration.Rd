@@ -3,6 +3,7 @@
 \alias{iteration-methods}
 \alias{iteration,numeric-method}
 \alias{iteration,simObj-method}
+\alias{iteration,gridModel-method}
 \alias{iteration,odeModel-method}
 
 \title{Discrete Simulation}
@@ -55,7 +56,16 @@
   depending on the data type of \code{parms}.
   
   Normally, this function is run indirectly from \code{\link{sim}}.
+
+  The default \code{iteration} method of class \code{simObj} supports the
+  \code{observer} mechanism. This means that a function stored in slot
+  \code{observer} is called during each iteration step with the return value
+  of \code{main} as its first argument. You can use this to determine the amount
+  of data stored during each iteration step (e.g. whole population or only
+  mean values for individual based models), to do run-time animation or to
+  write log files.
 }
+
 \seealso{
   \code{\link{sim}}, \code{\link{parms}},
   \code{\link[deSolve]{lsoda}}, \code{\link[deSolve]{rk4}}, \code{\link[deSolve]{euler}}.

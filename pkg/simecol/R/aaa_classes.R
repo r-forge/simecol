@@ -19,6 +19,7 @@ setClass("simObj",
            parms     = "ANY",
            inputs    = "ANY",
            solver    = "functionOrcharacter",
+           observer  = "functionOrNULL",
            out       = "ANY",
            initfunc  = "functionOrNULL"
          )
@@ -27,7 +28,8 @@ setClass("simObj",
 setClass("odeModel",
          representation(
            parms  = "numericOrlist",
-           init   = "numeric"
+           init   = "numeric",
+           observer ="NULL" # observer not possible for ODE models
          ),
          contains = "simObj"
 )
@@ -44,6 +46,14 @@ setClass("rwalkModel",
          representation(
            parms  = "list",
            init   = "ANY" # or dataframeOrMatrix
+         ),
+         contains = "simObj"
+)
+
+setClass("indbasedModel",
+         representation(
+           parms  = "list",
+           init   = "listOrdata.frame"
          ),
          contains = "simObj"
 )

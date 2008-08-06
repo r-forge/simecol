@@ -67,6 +67,14 @@
 \alias{initfunc<--methods}
 \alias{initfunc<-,simObj-method}
 
+\alias{observer}
+\alias{observer-methods}
+\alias{observer,simObj-method}
+
+\alias{observer<-}
+\alias{observer<--methods}
+\alias{observer<-,simObj-method}
+
 \alias{out}
 \alias{out-methods}
 \alias{out,simObj-method}
@@ -103,6 +111,9 @@
 
    solver(obj, ...)
    solver(obj) <- value
+   
+   observer(obj, ...)
+   observer(obj) <- value
    
    initfunc(obj, ...)
    initfunc(obj) <- value

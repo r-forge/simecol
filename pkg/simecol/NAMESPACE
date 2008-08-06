@@ -6,15 +6,14 @@ importFrom(graphics, plot)
 
 import(deSolve)
 
-exportClasses(simObj, odeModel, gridModel, rwalkModel)
+exportClasses(simObj, odeModel, gridModel, rwalkModel, indbasedModel)
 exportClasses(numericOrlist,listOrNULL,functionOrNULL,listOrdata.frame,functionOrcharacter)
 
 exportMethods(sim, parms, "parms<-", init, "init<-", times, "times<-")
 exportMethods(inputs, "inputs<-", main, "main<-", equations, "equations<-")
-exportMethods(solver, "solver<-", out, "out<-")
+exportMethods(solver, "solver<-", observer, "observer<-", out, "out<-")
 
-exportMethods(plot, print)
-exportMethods(show)
+exportMethods(plot, print, show)
 exportMethods(fixInit, fixParms, fixTimes)
 exportMethods(initialize, initfunc, "initfunc<-")
 
