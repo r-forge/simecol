@@ -159,12 +159,12 @@ edit(vignette("simecol-introduction"))
 ##   (NEWS, THANKS, FAQ, ToDo, WISHLIST, ...)
 browseURL(paste(system.file(package="simecol"), "/", sep=""))
 
-
 ## Open Project Homepage
 browseURL("http://www.simecol.de")
 }
 
-
+## How to cite package simecol in publications
+citation("simecol")
 }
 
 \keyword{misc}
