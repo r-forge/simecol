@@ -37,6 +37,10 @@ Please respect the specific references on the help pages of the respective model
 \code{\link[simecol:simecol-package]{simecol-package}}
 }
 \examples{
-## ~~ simple examples of the most important functions ~~
+## -- sourcecode examples ----------------------------
+## open the directory with all sourcecode examples
+\dontrun{
+browseURL(paste(system.file(package="simecolModels"), "/examples", sep=""))
+} 
 }
 \keyword{ package }

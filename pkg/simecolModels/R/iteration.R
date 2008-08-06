@@ -3,9 +3,10 @@ setMethod("iteration", "indbasedModel",
                           animate=FALSE, ...) {
     observer = function(init, time, i, out, y){
       if (is.null(y@observer)) {
-        ## default: return state
+        ## default: simply return the state
         init 
       } else {
+        ## call a function provided by the observer slot of the simObj
         if (length(formals(y@observer)) == 1) {
           y@observer(init)                    # for compatibility
         } else {
