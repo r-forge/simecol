@@ -124,33 +124,6 @@ setMethod("iteration", "simObj",
   }
 )
 
-setMethod("iteration", "gridModel",
-  function(y, times=NULL, func=NULL, parms=NULL, animate=FALSE, ...) {
-    init              <- y@init
-    times             <- fromtoby(y@times)
-    func              <- y@main
-    parms             <- y@parms
-    inputs            <- y@inputs
-    equations         <- y@equations
-    environment(func) <- environment()
-    equations         <- addtoenv(equations)
-    parms$DELTAT <- 0
-    ## ToDo: add observer functionality for gridModel
-    out <- list(func(times[1], init, parms))
-    for (i in 2:length(times)) {
-      time <- times[i]
-      parms$DELTAT <- times[i] - times[i-1]
-      init <- func(time, init, parms)
-      out  <- c(out, list(init))
-      if (animate) {
-        y@out   <- out
-        plot(y, index=i, ...)
-      }
-    }
-    out
-  }
-)
-
 
 setMethod("iteration", "odeModel",
   function(y, times=NULL, func=NULL, parms=NULL, animate=FALSE, ...) {

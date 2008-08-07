@@ -2,13 +2,12 @@
 function(){
   new("odeModel",
     main = function(time, init, parms) {
-      x <- init
-      with(as.list(parms), {
-        mu  <- mu.m * x[2]/(km + x[2])
-        dx1 <- mu * x[1] - D * x[1]               # microcystis
-        dx2 <-  D *(S0 - x[2]) - 1/Y * mu * x[1]  # substrate
-        dx3 <- mu * p * x[1] - (D + dM) * x[3]    # mcyst
-        list(c(dx1, dx2, dx3))
+      with(as.list(c(init, parms)), {
+        mu  <- mu.m * phos/(km + phos)
+        dcells <- mu * cells - D * cells               # microcystis
+        dphos  <-  D *(S0 - phos) - 1/Y * mu * cells   # substrate
+        dmcyst <- mu * p * cells - (D + dM) * mcyst    # mcyst
+        list(c(dcells, dphos, dmcyst))
       })
     },
     parms = c(

@@ -69,8 +69,8 @@
        to perform run-time visualisation, or statistical analysis during the
        simulation.\cr
        Note that the \code{observer}-mechanism works only with
-       \code{\link{iteration}} solvers. It is currently not supported by
-       \code{odeModel}s and \code{gridModel}s.
+       \code{\link{iteration}} solvers. It is generally not avalable for
+       \code{odeModel}s.
      \item \code{out}: this slot holds the simulation results after a
        simulation run as data frame (if the return value of \code{main} is a vector)
        or as list (otherwise). The type of data stored in \code{out} can be
@@ -120,6 +120,17 @@
 \author{
   Thomas Petzoldt \email{thomas.petzoldt@tu-dresden.de}
 }
+
+\seealso{
+  \code{\link{CA}},
+  \code{\link{chemostat}},
+  \code{\link{conway}},
+  \code{\link{diffusion}},
+  \code{\link{lv}},
+  \code{\link{lv3}},
+  \code{\link{upca}}.
+}
+
 
 \examples{
 ## (1) Quick Start Examples ====================================================

@@ -89,6 +89,23 @@ rwalkModel  <- function(obj=NULL, main=NULL, equations=NULL,
   invisible(obj)
 }
 
+indbasedModel  <- function(obj=NULL, main=NULL, equations=NULL,
+                      times=c(from=0, to=10, by=1),
+                      init=NULL, parms=list(), inputs=NULL,
+                      solver="iteration", initfunc=NULL) {
+  if (is(obj, "indbasedModel")) {
+    obj <- initialize(obj)
+  } else {
+    obj <- new("indbasedModel", main=main,
+               equations=equations, times=times,
+               init=init, parms=parms, inputs=inputs, solver=solver,
+               initfunc=initfunc)
+  }
+  invisible(obj)
+}
+
+
+
 ## === template to derive your own initialize method ===
 #setMethod("initialize",
 #          signature(.Object="odeModel"),
