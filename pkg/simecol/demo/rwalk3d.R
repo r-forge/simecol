@@ -12,6 +12,9 @@
 ##     maybe with slightly different syntax
 ##   - rwalk3d will become an example model of simecol
 ################################################################################
+opar   <- par(no.readonly=TRUE)
+oask   <- devAskNewPage(dev.interactive(orNone = TRUE))
+defpar <- par(no.readonly = TRUE)
 
 library(simecol)
 
@@ -119,11 +122,19 @@ rwalk3d <- new("rwalkModel",
 equations(rwalk3d)$move <- equations(rwalk3d)$rectangular
 
 ## simulate the model and do a little bit statistics
+par(defpar) # interactive on
+
 rwalk3d <- sim(rwalk3d, animate=TRUE)
 o <- as.data.frame(out(rwalk3d, last=TRUE))
+
+par(opar) # interactive off (for animation)
+
 hist(o$x)
 var(o$x) + var(o$y) + var(o$z)                      # estimated variance
 (parms(rwalk3d)$delta)^2 * times(rwalk3d)["to"]     # expected variance
+
+par(defpar) # interactive on
+x11()
 
 ## change the movement rule to the other alternative
 equations(rwalk3d)$move <- equations(rwalk3d)$circular
@@ -132,9 +143,13 @@ parms(rwalk3d)$turn <- .1
 rwalk3d <- initialize(rwalk3d)
 rwalk3d <- sim(rwalk3d)
 
+par(opar) # interactive off (for animation)
+
 ## plot the trajectories
 trajectories3d(rwalk3d)
 trajectories3d(rwalk3d, method="rgl")
+
+par(defpar) # interactive on
 
 ## assign an observer function to the model for 3D visualization at run-time
 observer(rwalk3d) <- function(x, ...) {
@@ -160,3 +175,7 @@ parms(rwalk3d)$wraparound <- TRUE
 parms(rwalk3d)$ninds <- 50
 rwalk3d <- initialize(rwalk3d)
 rwalk3d <- sim(rwalk3d)
+
+## clean up
+par(defpar)
+devAskNewPage(oask)

@@ -3,6 +3,7 @@
 o new class indbasedModel
 o new slot "observer"
 o .Rdata files re-generated (with observer slot)
+o simulation re-initializes objects thst have an initfunc 
 
 0.5-7
 

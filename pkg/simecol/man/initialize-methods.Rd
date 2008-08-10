@@ -8,7 +8,8 @@
 
 \description{
   This function is used to initialize objects derived from the \code{simObj}
-  superclass.
+  superclass, it is by default automatically called during object creation and 
+  by \code{sim}.
 }
 \usage{
   \S4method{initialize}{simObj}(.Object, \dots)
@@ -67,12 +68,13 @@
         obj
       }
     )
+    plot(sim(lv_efr))                     # initialize called automatically
+    plot(sim(lv_efr))                     # automatic initialization, different figure
 
-    plot(sim(lv_efr))           # first call
-    plot(sim(lv_efr))           # same figure with identical object
+    lv_efr<- initialize(lv_efr)           # re-initialize manually
+    plot(sim(lv_efr, initialize = FALSE)) # simulation with this new configuration
+    
 
-    lv_efr<- initialize(lv_efr) # re-initializes, new random inputs
-    plot(sim(lv_efr))           # different figure
 }
 \keyword{methods}
 

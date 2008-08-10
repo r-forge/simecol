@@ -38,7 +38,7 @@
     \item \code{equations}: an optional non-nested list holding arbitrary
       sub-equations (sub-models) of the
       model. Sub-equations can be interdependent and can be called
-      directly from within \code{main} or \code{initialize}.
+      directly from within \code{main} or \code{initfunc}.
     \item \code{parms}: a list (or vector for some classes) with 
       constant model parameters,
     \item  \code{times}: vector of time steps or vector with three
@@ -77,7 +77,7 @@
        manipulated by providing a user-definded \code{observer} function.
      \item \code{initfunc}: this slot can hold an optional function which is called
        automatically when a new object is created by \code{new} or when it
-       is re-initialized by \code{initialize}.
+       is re-initialized by \code{initialize} or \code{sim}.
   }  
 
   \code{simObj} model objects should be defined and created using the

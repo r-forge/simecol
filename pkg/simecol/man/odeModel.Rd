@@ -2,6 +2,7 @@
 \alias{odeModel}
 \alias{gridModel}
 \alias{rwalkModel}
+\alias{indbasedModel}
 
 \title{Generating-functions (constructors) to create objects of
   classes `odeModel', `rwalkModel' and `gridModel'.}
@@ -16,15 +17,20 @@ odeModel(obj = NULL, main = NULL,
         init = numeric(0), parms = numeric(0),
         inputs = NULL, solver = "rk4", initfunc = NULL)
 
-gridModel(obj=NULL, main=NULL,
-        equations=NULL, times=c(from=0, to=10, by=1),
-        init=matrix(0), parms=list(),
-        inputs=NULL, solver="iteration", initfunc=NULL)
+gridModel(obj = NULL, main = NULL,
+        equations = NULL, times = c(from=0, to=10, by=1),
+        init = matrix(0), parms = list(),
+        inputs = NULL, solver = "iteration", initfunc = NULL)
 
-rwalkModel(obj=NULL, main=NULL, 
-        equations=NULL, times=c(from=0, to=10, by=1),
-        init=NULL, parms=list(),
-        inputs=NULL, solver="iteration", initfunc=NULL)
+rwalkModel(obj = NULL, main = NULL, 
+        equations = NULL, times = c(from = 0, to = 10, by = 1),
+        init = NULL, parms = list(),
+        inputs = NULL, solver = "iteration", initfunc = NULL)
+        
+indbasedModel(obj = NULL, main = NULL, 
+        equations = NULL, times = c(from = 0, to = 10, by = 1),
+        init = NULL, parms = list(),
+        inputs = NULL, solver = "iteration", initfunc = NULL)        
 }
 
 \arguments{

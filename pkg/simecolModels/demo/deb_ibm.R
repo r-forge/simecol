@@ -41,7 +41,7 @@ observer(deb_ibm) <- function (statelist) {
         length = mean(Z$length), refVol = refVol)
 }
 
-deb_ibm <- initialize(deb_ibm)
+#deb_ibm <- initialize(deb_ibm)
 
 times(deb_ibm)["to"] <- 200
 parms(deb_ibm)$samplesize <- c(100, 200)

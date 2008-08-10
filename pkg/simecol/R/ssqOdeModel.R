@@ -28,9 +28,9 @@ function(p = NULL, simObj, obstime, yobs,
   
   ## assign parameters and re-initialize model if necessary
   if (!is.null(p)) parms(simObj)[names(p)] <- p
-  if (initialize) simObj <- initialize(simObj)
+  #if (initialize) simObj <- initialize(simObj)
   ## simulate the model
-  simObj <- sim(simObj, ...)
+  simObj <- sim(simObj, initialize = initialize, ...)
   o      <- out(simObj)
   ysim   <- approxTime(o, obstime)
 

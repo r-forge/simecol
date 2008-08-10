@@ -39,8 +39,10 @@ The object contains the following slots:
      and food (\code{F}, mg C/L).}
   \item{solver}{Character string with the integration method (default: 'iteration'.}
   \item{init, initfunc}{\code{init} is initialized automatically according to the
-     parameter values. You should call \code{initialize} if you change \code{L_0}
-     to get consistent results (see example).}
+     parameter values.
+     % You should call \code{initialize} if you change \code{L_0}
+     % to get consistent results (see example).
+  }
 }
 
 \details{
@@ -76,7 +78,7 @@ o <- out(m)
 plot(m)
 
 parms(m)$L0 <- 0.5
-m <- initialize(m)
+#m <- initialize(m)   # not more necessary, done automatically by sim()
 plot(sim(m))
 }
 

@@ -1,7 +1,8 @@
-setGeneric("sim", function(obj, ...) standardGeneric("sim"))
+setGeneric("sim", function(obj, initialize = TRUE, ...) standardGeneric("sim"))
 
 setMethod("sim", "simObj",
-  function(obj, ...) {
+  function(obj, initialize = TRUE, ...) {
+    if (initialize & !is.null(obj@initfunc)) obj <- initialize(obj)
     out <- do.call(obj@solver, list(obj, ...))
     obj@out <- out
     invisible(obj)
@@ -9,7 +10,8 @@ setMethod("sim", "simObj",
 )
 
 setMethod("sim", "odeModel",
-  function(obj, ...) {
+  function(obj, initialize = TRUE, ...) {
+    if (initialize & !is.null(obj@initfunc)) obj <- initialize(obj)
     times             <- fromtoby(obj@times)
     func              <- obj@main
     inputs            <- obj@inputs
@@ -24,7 +26,8 @@ setMethod("sim", "odeModel",
 )
 
 setMethod("sim", "gridModel",
-  function(obj, ...) {
+  function(obj, initialize = TRUE, ...) {
+    if (initialize & !is.null(obj@initfunc)) obj <- initialize(obj)
     times <- fromtoby(obj@times)
     out <- do.call(obj@solver, list(obj, ...))
     obj@out <- out

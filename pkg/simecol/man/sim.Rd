@@ -10,11 +10,16 @@
  Several methods depending on the class of the model are available.
 }
 \usage{
-  sim(obj, ...)
+  sim(obj, initialize=TRUE, ...)
   # sim(obj, animation=FALSE, delay=0, ...)
 }
 \arguments{
   \item{obj}{an object of class \code{simObj} or one of its subclasses.}
+  \item{initialize}{re-initialize the object if the object contains a 
+    user-defined  initializing function (\code{initfunc}). Setting \code{initialize} 
+    to \code{FALSE} can be useful to avoid time-consuming computations during 
+    initialization or to reproduce simulations of models which assign random values
+    during the initialization process.}
   \item{animation}{logical value to switch animation on (for classes
     \code{gridModel} and \code{rwalkModel}.}
   \item{delay}{delay (in ms and in addition to the time
@@ -28,12 +33,17 @@
   \item{obj = "simObj"}{simulates the respective model object with
     optional animation.}
   \item{obj = "odeModel"}{simulates the respective model object.}
+  \item{obj = "indbasedModel"}{simulates the respective model object with
+    optional animation.}
   \item{obj = "gridModel"}{simulates the respective model object with
     optional animation.}
+    
   }
 }
 \details{
-  Objects of class \code{rwalkModel} are simulated by the default \code{simObj}
+  \code{sim} re-initializes the model object (if \code{initialize==TRUE} and 
+  calls the appropriate solver, specified in the \code{solver}-slot.
+  Objects of class \code{rwalkModel} and \code{indbasedModel} are simulated by the default \code{simObj}
   method. If you derive own sublasses from \code{simObj} it may be neccessary
   to write an appropriate \code{sim} method and/or solver function.
 }

@@ -61,8 +61,8 @@ The object contains the following slots:
 }
 \examples{
   mcystmod <- mcyst_batch_mc()
-  ## initialize draws new random numbers for the signals
-  plot(sim(initialize(mcystmod)))
+  ## sim initializes automatically and draws new random numbers for the signals
+  plot(sim(mcystmod))
 
   ## derive a scenario
 
@@ -72,7 +72,7 @@ The object contains the following slots:
   
   ## Monte Carlo Simulation
   for (i in 1:10) { # number of runs, increase this to > 1000 for real simulations
-     out <- out(sim(initialize(mcystmod)))
+     out <- out(sim(mcystmod))
     if (i==1) allout <- out else allout <- rbind(allout, out)
   }
   
