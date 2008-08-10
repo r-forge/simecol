@@ -872,7 +872,8 @@ or implicitly during object creation. The syntax allows,
 in principal, two different modes of use. One can either provide all slots of
 the object in creation as named arguments to \code{new} or one can provide an
 existing \code{simObj} as the first un-named argument to \code{initialize}
-in order to get a re-initialized clone.
+in order to get a re-initialized clone.\footnote{Initialization is now done 
+automatically before each call to sim (introduced in version 0.6).}
 
 In the case of \code{simObj} this mechanism is extended by
 an optionally existing function slot \code{initfunc}, which is executed during the
