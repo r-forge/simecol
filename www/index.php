@@ -88,7 +88,13 @@ echo $contents; } ?>
 </tr>
 
 </table>
- 
+
+<h2>Author</h2>
+
+<ul>
+<li> Thomas Petzoldt, Technische Universit&auml;t Dresden, Institut f&uuml;r Hydrobiologie </li>
+<li> <a href="http://tu-dresden.de/Members/thomas.petzoldt">http://tu-dresden.de/Members/thomas.petzoldt </a> </li>
+</ul> 
 
 <h2>What is <span style="color: rgb(153, 0, 0);">simecol</span> and what is <span style="color: rgb(153, 0, 0);">simecolModels</span>?</h2>
 
