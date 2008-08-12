@@ -27,7 +27,7 @@ daphnia_deb_lifeequations <-list(
 
   ## living
   live = function(model){
-    out <- as.vector(out(sim(model), last=TRUE))[-1]
+    out <- as.vector(out(sim(model, initialize=FALSE), last=TRUE))[-1]
     vec2list(out)
   },
 
