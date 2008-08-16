@@ -12,10 +12,10 @@ The algae are either growing on nitrate or on ammonium.}
 
 The object contains the following slots:
 
-\item[\code{main}] algaepH model specifications.
-\item[\code{parms}] Vector with the named parameters of the model - see code
-\item[\code{times}] Simulation time and integration interval.
-\item[\code{init}] Vector with start values for state variables
+\item \code{main}  algaepH model specifications.
+\item \code{parms}  Vector with the named parameters of the model - see code
+\item \code{times}  Simulation time and integration interval.
+\item \code{init}  Vector with start values for state variables
 }
 \author{Karline Soetaert}
 \examples{

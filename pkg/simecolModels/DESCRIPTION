@@ -6,6 +6,7 @@ Author: Thomas Petzoldt
 Depends: R (>= 2.3.0), stats, graphics, utils, methods, deSolve, rootSolve, simecol
 Encoding: latin1
 LazyLoad: yes
+LazyData: yes
 Maintainer: Thomas Petzoldt <thomas.petzoldt@tu-dresden.de> 
 Description: Object oriented framework to simulate ecological (and other) dynamic systems
 License: GPL (>= 2)  

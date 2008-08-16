@@ -40,16 +40,15 @@ the third term is excreted fraction due to zooplankton grazing and the last term
 
 The object contains the following slots:
 
-\describe{
-\item[\code{main}]  Model specifications.
-\item[\code{parms}] Vector with the named parameters of the model - see code
-\item[\code{times}] Simulation time and integration interval (if dynamic simulation); 
+\item \code{main}   Model specifications.
+\item \code{parms}  Vector with the named parameters of the model - see code
+\item \code{times}  Simulation time and integration interval (if dynamic simulation);
   not used if the steady-state is estimated.
-\item[\code{solver}]  User supplied solver function that calls \code{steady.1D}
+\item \code{solver}   User supplied solver function that calls \code{steady.1D}
   with appropriate simulation control parameters and re-arranges output data.
-\item[\code{initfunc}] Function that initialises the state variables and calculates 
+\item \code{initfunc}  Function that initialises the state variables and calculates
   the box lenghts.
-}
+
 The model is solved to steady-state using steady-state solver 
 \code{\link[rootSolve]{steady.1D}} from package \code{\link[rootSolve]{rootSolve}}.
 }
@@ -122,7 +121,9 @@ mtext(side=3, outer=TRUE, "NPZ model in a river", line=-1.5, cex=1.5)
 
 }
 \references{
-Chapter 7.9.5  from the book by Soetaert and Herman, 2008. A practical guide to ecological Modelling. Springer.
+Chapter 7.9.5  from the book:
+
+Soetaert K and PMJ Herman, 2008. A practical guide to ecological Modelling - using R as a simulation platform. Springer.
 }
 
 \seealso{R-package \code{\link[simecol]{simecol}} for a description of the 

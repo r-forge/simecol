@@ -16,12 +16,13 @@ As the relative amount of proteins changes in the algae, so does the N:C and the
 \format{An S4 object according to the \code{\link[simecol]{odeModel}} specification. 
 \cr The object contains the following slots:
 
-\describe{
-\item[\code{main}] Aquaphy model specifications.
-\item[\code{parms}] Vector with the named parameters of the model - see code
-\item[\code{times}] Simulation time and integration interval.
-\item[\code{init}] Vector with start values for algal state variables and DIN.
-}}
+
+\item \code{main}  Aquaphy model specifications.
+\item \code{parms}  Vector with the named parameters of the model - see code
+\item \code{times}  Simulation time and integration interval.
+\item \code{init}  Vector with start values for algal state variables and DIN.
+
+}
 \author{Karline Soetaert}
 \examples{
 

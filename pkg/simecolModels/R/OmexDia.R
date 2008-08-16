@@ -59,26 +59,26 @@ OmexDia <- function() {
         Oxicminlim <- O2/(O2+ksO2oxic)                     # limitation terms
         Denitrilim <- (1-O2/(O2+kinO2denit))*NO3/(NO3+ksNO3denit)
         Anoxiclim  <- (1-O2/(O2+kinO2anox))*(1-NO3/(NO3+kinNO3anox))
-        Rescale    <- 1/(Oxicminlim+Denitrilim+Anoxiclim)
+        Rescale    <- 1/(Oxicminlim+Denitrilim+Anoxiclim)  # to make sure it adds to 1
         
         OxicMin    <- DICprod_Min*Oxicminlim*Rescale        # oxic mineralisation
         Denitrific <- DICprod_Min*Denitrilim*Rescale        # Denitrification
         AnoxicMin  <- DICprod_Min*Anoxiclim *Rescale        # anoxic mineralisation
         
-        # reoxidation and ODU deposition
+        # reoxidation and ODU deposition (e.g. pyrite formation)
         Nitri      <- rnit  *NH3*O2/(O2+ksO2nitri)
         OduOx      <- rODUox*ODU*O2/(O2+ksO2oduox)
         
-        pDepo      <- min(1,0.233*(w*365)^0.336 )
+        pDepo      <- min(1,0.233*(w*365)^0.336 )           # depends on the sedimentation rate w
         OduDepo    <- AnoxicMin*pDepo
         
         # the rate of change=- Flux gradient    + biogeochemistry
         dFDET <- -diff(FDETFlux)/thick/(1-Porosity) - rFast*FDET
         dSDET <- -diff(SDETFlux)/thick/(1-Porosity) - rSlow*SDET
-        dO2   <- -diff(O2Flux) /thick/Porosity -  OxicMin      -2* Nitri -      OduOx
-        dNH3  <- -diff(NH3Flux)/thick/Porosity + (DINprod_Min  - Nitri) / (1.+NH3Ads)
-        dNO3  <- -diff(NO3Flux)/thick/Porosity - 0.8*Denitrific + Nitri
-        dODU  <- -diff(ODUFlux)/thick/Porosity + AnoxicMin  - OduOx - OduDepo
+        dO2   <- -diff(O2Flux)  /thick/Porosity -  OxicMin    -2* Nitri - OduOx
+        dNH3  <- -diff(NH3Flux) /thick/Porosity + (DINprod_Min  - Nitri) / (1.+NH3Ads)
+        dNO3  <- -diff(NO3Flux) /thick/Porosity - 0.8*Denitrific + Nitri
+        dODU  <- -diff(ODUFlux) /thick/Porosity + AnoxicMin  - OduOx - OduDepo
         
         #
         
@@ -90,9 +90,8 @@ OmexDia <- function() {
     },
     parms = c(
       # sediment parameters
-      # N should NOT be a parameter; it shoudl be calculated, but i cannot make the
-      # model work unless N is a parameter...
-      N        = 300,        # Total number of boxes
+      N        = 300,        # Total number of boxes, dummy value before initialising...
+      sedDepth = 15,         # Total depth of modeled sediment (cm)
       thick    = 0.05,       # thickness of sediment layers (cm)
       por0     = 0.9,        # surface porosity (-)
       pordeep  = 0.7,        # deep porosity    (-)
@@ -139,32 +138,13 @@ OmexDia <- function() {
     initfunc = function(obj) {      # initialisation
       pars <- parms(obj)
       with(as.list(pars),{
-## THIS DID NOT WORK
-##        Intdepth = seq(0,10,by=thick)         # depth at upper interface of each layer
-#        Nint     = N+1                             # number of interfaces
-#        Intdepth = seq(0,by=thick,len=Nint)        # depth at upper interface of each layer
-#
-#        Depth    = 0.5*(Intdepth[-Nint] +Intdepth[-1]) # depth at middle of each layer
-## THOMAS: N should be estimated here, but then I cannot access N in the solver
-## so I had to make N a parameter can this be fixed?....
-##       N        = length(Depth)                       # number of layers
-
-## ThPe: Is this what you want?   
-##  but: 
-##    - I don't understand why you tried to compute Intdepth two times !!!
-##    - where does the "10" come from ?  Should be a parameter
-        Intdepth <- seq(0, 10, by=thick)
-        Nint     <- length(Intdepth)
-        N        <- Nint - 1
+        Intdepth <- seq(0, sedDepth, by=thick)  # depth at upper layer interfaces
+        Nint     <- length(Intdepth)            # number of interfaces
+        N        <- Nint - 1                    # number of layers
         Depth    <- 0.5*(Intdepth[-Nint] +Intdepth[-1]) # depth at middle of each layer
-        
-        parms(obj)["N"] <- N  # this ist the important step! write the new N back to parms
-        # you can also store N in the init-slot (the states), but then you have
-        # to define a new class with init as list. It may then also necessary to define
-        # the appropriate slot functions (i.e. out)  and to re-define the solver
-## end of alternative formulation
 
-        init(obj) = rep(1, 6 * N)                      # initial condition; any positive number will do
+        parms(obj)["N"] <- N  # write the new N back to parms
+
         Porosity = pordeep + (por0-pordeep)*exp(-Depth*porcoef)     # porosity profile, middle of layers
         IntPor   = pordeep + (por0-pordeep)*exp(-Intdepth*porcoef)  # porosity profile, upper interface
 
@@ -177,17 +157,18 @@ OmexDia <- function() {
     # this model comes with a user defined solver,
     #   i.e. a function instead of a character that points to an existing solver
     solver = function(y, times, func, parms, ...) {
+      N = parms["N"]
+      ini = rep(1, 6 * N)                      # initial condition; any positive number will do
+
       # steady-state condition of state variables, one vector
-      out <- steady.1D(y, time=times, func, parms, nspec=6, pos=TRUE, ...)$y
+      out <- steady.1D(y=ini, time=times, func, parms, nspec=6, pos=TRUE, ...)$y
       # rearrange as data.frame
-      with (as.list(parms),
         data.frame(FDET = out[1:N          ],
                    SDET = out[(N+1)  :(2*N)],
                    O2   = out[(2*N+1):(3*N)],
                    NO3  = out[(3*N+1):(4*N)],
                    NH3  = out[(4*N+1):(5*N)],
                    ODU  = out[(5*N+1):(6*N)])
-      )
-    }
+      }
   )
 }

@@ -1,10 +1,12 @@
-\name{OmexDia}
-\alias{OmexDia}
+\name{OmexDiaDLL}
+\alias{OmexDiaDLL}
 
-\title{Carbon, nitrogen and oxygen diagenesis in marine sediments}
+\title{Carbon, nitrogen and oxygen diagenesis in marine sediments - compiled code}
 \description{Model describing the dynamics of carbon, nitrogen and oxygen
  in a marine sediment. (Soetaert et al., 1996 a,b).
 
+ Model written in FORTRAN and linked as a DLL
+ 
 The model describes six state variables, in several hundreds of layers:
 \item 2 fractions of organic carbon (FDET,SDET): fast and slow decaying, solid substance
 \item Oxygen (O2), dissolved substance
@@ -39,17 +41,16 @@ The model is solved to steady-state using steady-state solver
 \examples{
 
 # create an instance of the model
-myOmexDia <- OmexDia()
+myOmexDia <- OmexDiaDLL()
 
 # show model code, parameter settings,...
 print(myOmexDia)
 
 # show just the parameters
-parms(myOmexDia)    # or myOmexDia@parms
+parms(myOmexDia)[1:34]
 
 # Note that the model has a specialized solver function built in:
 solver(myOmexDia)
-
 
 #====================#
 # 3 Model runs       #
@@ -57,14 +58,16 @@ solver(myOmexDia)
 
 # three runs with different deposition rates
 parms(myOmexDia)["MeanFlux"] <- 15000/12*100/365  # nmol/cm2/day  - Carbon deposition: 15gC/m2/yr
+print(system.time(
 sol  <- out(sim(myOmexDia))
+))
+
 FDET <- sol$FDET
 SDET <- sol$SDET
 O2   <- sol$O2
 NO3  <- sol$NO3
 NH3  <- sol$NH3
 ODU  <- sol$ODU
-
 
 parms(myOmexDia)["MeanFlux"]   <- 50000/12*100/365  # nmol/cm2/day  - Carbon deposition: 50gC/m2/yr
 sol  <- out(sim(myOmexDia))
@@ -88,7 +91,7 @@ ODU  <- cbind(ODU,sol$ODU)
 # plotting           #
 #====================#
 par(mfrow=c(2,2))
-TOC  <- (FDET+SDET)*1200/10^9/2.5     # % organic carbon (excess)
+TOC  <- (FDET+SDET)*1200/10^9/2.5     #
 
 Depth    <- inputs(myOmexDia)$boxes$Depth
 matplot(TOC,Depth,ylim=c(15,0),xlab="procent" ,main="TOC",
@@ -106,12 +109,10 @@ legend=c("15gC/m2/yr","50gC/m2/yr","2gC/m2/yr"),title="flux")
 mtext(outer=TRUE,side=3,line=-2,cex=1.5,"OMEXDIAmodel")
 
 # The following example takes a while, so we skip it during package
-# check. However, it can be simulated without problems by the user.
-\dontrun{
 # 2. DYNAMIC RUN
 #--------------------------------
 # new instance of the model
-dynOmexDia <- OmexDia()
+dynOmexDia <- OmexDiaDLL()
 parms(dynOmexDia)["MeanFlux"] <- 15000/12*100/365  # 15gC/m2/yr
 
 # steady-state solution used to initialise dynamic run
@@ -127,9 +128,10 @@ times(dynOmexDia) <- Times
 
 # different solver: dynamic simulation
 solver(dynOmexDia) <- function(y, times, func, parms)
-    ode.1D(y, times=times, func, parms, nspec=6)
+  ode.1D(y, times=times, fun="omexdiamod",parms=parms(dynOmexDia)[-(1:9)],
+         dllname="simecolModels",method="lsodes",nspec=6,initfunc="initomexdia",
+         nout=8,lrw=55531)
 
-# this takes a while...
 dyna  <- out(sim(dynOmexDia))
 CONC  <- dyna [,-1] # remove time column
 
@@ -161,7 +163,7 @@ Cflux  <- CONC[,6*N+1]
 O2flux <- CONC[,6*N+2]
 matplot(Times,cbind(Cflux,O2flux),type="l",ylab="nmol/cm2/d",lwd=2,main="Fluxes")
 legend("topright",c("Carbon","Oxygen"),col=c(1,2),lwd=2)
-}
+
 }
 \references{
 Soetaert K, PMJ Herman and JJ Middelburg, 1996. A model of early diagenetic processes from the shelf to abyssal depths. Geochim. Cosmochim. Acta, 60(6):1019-1040.
@@ -175,8 +177,7 @@ Soetaert K and PMJ Herman, 2008. A practical guide to ecological Modelling - usi
 
 \seealso{R-package \code{\link[simecol]{simecol}} for a description of the 
   \code{\link[simecol]{simObj}} class
-  \code{\link{OmexDiaDLL}}, the FORTRAN-version of the omexdia model
-
+  \code{\link{OmexDia}}, the R-version of the omexdia model
 }
 
 \keyword{ misc }

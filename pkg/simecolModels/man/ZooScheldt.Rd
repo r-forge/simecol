@@ -32,12 +32,12 @@ For the numerical approximation of the partial differential equations, see Soeta
 
 The object contains the following slots:
 
-\describe{
-\item[\code{main}]  Model specifications.
-\item[\code{parms}] Vector with the named parameters of the model - see code
-\item[\code{times}] Simulation time and integration interval.
-\item[\code{init}] Vector with start values for the zooplankton state variables.
-}
+\item \code{main}   Model specifications.
+\item \code{parms}  Vector with the named parameters of the model - see code
+\item \code{times}  Simulation time and integration interval.
+\item \code{init}  Vector with start values for the zooplankton state variables.
+
+
 The model is solved using integration routine \code{\link[deSolve]{ode.1D}} from package \code{\link[deSolve]{deSolve}}.
 }
 \author{Karline Soetaert}

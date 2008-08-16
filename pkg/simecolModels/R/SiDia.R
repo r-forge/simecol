@@ -20,19 +20,19 @@ SiDia <- function() {
         DSi<- state[(N+1):(2*N)]      # Dissolved silicate
         
         # diffusive fluxes at upper interface of each layer
-        # upper concentration imposed (bwDSi), lower: zero gradient
+        # DSi: upper concentration imposed (bwDSi), lower: zero gradient
         DSiFlux <- -SedDisp *   IntPor *diff(c(bwDSi ,DSi,DSi[N]))/thick
+
+        # BSi: upper boundary flux is imposed, lower boundary = zero-gradient.
         BSiFlux <- -Db      *(1-IntPor)*diff(c(BSi[1],BSi,BSi[N]))/thick
-        
-        BSiFlux[1] <- BSidepo                         # upper boundary flux is imposed
+        BSiFlux[1] <- BSidepo
         
         # BSi dissolution    #
-        
         Dissolution <- rDissSi * BSi*(1.- DSi/EquilSi )^pow
         Dissolution <- pmax(0,Dissolution)
         
         # Rate of change= Flux gradient, corrected for porosity and dissolution
-        dDSi        <- -diff(DSiFlux)/thick/Porosity      +           # transport
+        dDSi        <- -diff(DSiFlux)/thick/Porosity      +          # transport
                        Dissolution * (1-Porosity)/Porosity           # biogeochemistry
         
         dBSi        <- -diff(BSiFlux)/thick/(1-Porosity)  - Dissolution
@@ -45,9 +45,9 @@ SiDia <- function() {
     },
     parms = c(
       # sediment parameters
-# N should NOT be a parameter; it shoudl be calculated, but i cannot make the
-# model work unless N is a parameter...
-       N        = 0,          # Total number of boxes (dummy value before initialization)
+      # N is recalculated as a function of sedDepth and thick in initfunc
+       N        = 200,        # Total number of boxes (dummy value before initialization)
+       sedDepth = 10,         # Total depth of modeled sediment (cm)
        thick    = 0.05,       # thickness of sediment layers (cm)
        por0     = 0.9,        # surface porosity (-)
        pordeep  = 0.7,        # deep porosity    (-)
@@ -70,31 +70,15 @@ SiDia <- function() {
     initfunc = function(obj) {      # initialisation
       pars <- parms(obj)
       with(as.list(pars),{
-## THIS DID NOT WORK
-##        Intdepth = seq(0,10,by=thick)         # depth at upper interface of each layer
-#        Nint     = N+1                             # number of interfaces
-#        Intdepth = seq(0,by=thick,len=Nint)        # depth at upper interface of each layer
-#
-#        Depth    = 0.5*(Intdepth[-Nint] +Intdepth[-1]) # depth at middle of each layer
-## THOMAS: N should be estimated here, but then I cannot access N in the solver
-## so I had to make N a parameter can this be fixed?....
-##       N        = length(Depth)                       # number of layers
-
-## ThPe: Is this what you want?   
-##  but: 
-##    - I don't understand why you tried to compute Intdepth two times !!!
-##    - where does the "10" come from ?  Should be a parameter
-        Intdepth <- seq(0, 10, by=thick)
-        Nint     <- length(Intdepth)
-        N        <- Nint - 1
+        Intdepth <- seq(0, sedDepth, by=thick)  # depth at upper layer interfaces
+        Nint     <- length(Intdepth)            # number of interfaces
+        N        <- Nint - 1                    # number of layers
         Depth    <- 0.5*(Intdepth[-Nint] +Intdepth[-1]) # depth at middle of each layer
         
-        parms(obj)["N"] <- N  # this ist the important step! write the new N back to parms
-        # you can also store N in the init-slot (the states), but then you have
-        # to define a new class with init as list. It may then also necessary to define
-        # the appropriate slot functions (i.e. out)  and to re-define the solver
-## end of alternative formulation
-        init(obj) = rep(1, 2 * N)                      # initial condition; any positive number will do
+        parms(obj)["N"] <- N  # write the new N back to parms
+
+        init(obj) = rep(1, 2 * N)    # initial condition; any positive number will do
+
         Porosity = pordeep + (por0-pordeep)*exp(-Depth*porcoef)     # porosity profile, middle of layers
         IntPor   = pordeep + (por0-pordeep)*exp(-Intdepth*porcoef)  # porosity profile, upper interface
 
@@ -105,7 +89,7 @@ SiDia <- function() {
       })
     },
     # this model comes with a user defined solver,
-    #   i.e. a function instead of a character that points to an existing solver
+    # i.e. a function that points to an existing solver
     solver = function(y, times, func, parms, ...) {
       # steady-state condition of state variables, one vector
       out <- steady.1D(y, time=times, func, parms, nspec=2, pos=TRUE, ...)$y

@@ -57,16 +57,16 @@ For the numerical approximation of these partial differential equations, see Soe
 
 The object contains the following slots:
 
-\describe{
-\item[\code{main}]  Model specifications.
-\item[\code{parms}] Vector with the named parameters of the model - see code
-\item[\code{times}] Simulation time and integration interval (if dynamic simulation); 
+\item \code{main}  Model specifications.
+\item \code{parms} Vector with the named parameters of the model - see code
+\item \code{times} Simulation time and integration interval (if dynamic simulation);
   not used if the steady-state is estimated.
-\item[\code{solver}]  User supplied solver function that calls \code{steady.1D}
+\item \code{solver}  User supplied solver function that calls \code{steady.1D}
   with appropriate simulation control parameters and re-arranges output data.
-\item[\code{initfunc}] Function that initialises the state variables and calculates 
+\item \code{initfunc} Function that initialises the state variables and calculates
   the sediment grid, porosity and bioturbation profiles.
-}
+
+
 The model is solved to steady-state using steady-state solver 
 \code{\link[rootSolve]{steady.1D}} from package \code{\link[rootSolve]{rootSolve}}.
 }

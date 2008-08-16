@@ -7,6 +7,7 @@
 }
 
 import(deSolve, rootSolve, simecol)
+useDynLib(simecolModels, .registration = TRUE)
 
 ### ------------------------------------ #
 ### basic functions of the package       #
@@ -28,6 +29,7 @@ export(daphnia_deb_phyto, daphnia_deb_ibm)
 export(daphnia_deb_equations, daphnia_deb_lifeequations)
 
 ## models from Karline Soetaart, NIOO, The Netherlands
-export(Aquaphy, ZooScheldt, NPZriver, SiDia, OmexDia, algaepH, NPZD)
+export(Aquaphy, ZooScheldt, NPZriver, SiDia, OmexDia, OmexDiaDLL,
+       algaepH, NPZD)
 
 
