@@ -1,21 +1,28 @@
-## simecol - object with compiled code
+################################################################################
+##
+## Example on using compiled code efficiently *with* simecol
+##
+##
+## thomas.petzoldt@tu-dresden.de
+##
+################################################################################
 
 library("simecol")
 
 # compile C++ code within R
 # (requires installed compiler)
 # on Windows: http://www.murdoch-sutherland.com/Rtools/
-system("R CMD SHLIB lotka.cpp")
+system("R CMD SHLIB clotka.cpp")
 
 
-modeldll <- dyn.load("lotka.dll")
+modeldll <- dyn.load("clotka.dll")
 
 clotka <- new("odeModel",
   ## note that this main does not contain the equations directly
   ## but returns information where these can be found
   main = function(time, init, parms) {
      # list with dllname, func, nout, [jacfunc]
-     list(lib     = "lotka",
+     list(lib     = "clotka",
           func    = "dlotka",
           jacfunc = NULL,
           nout    = 2)
@@ -47,7 +54,8 @@ plot(clotka)
 times(clotka)["to"] <- 1000
 plot(sim(clotka))
 
-## another simulation with decreased accuracy for testing
+## another simulation with intentionally reduced accuracy
+## for testing
 plot(sim(clotka, atol=1))
 
 dyn.unload(as.character(modeldll[2]))

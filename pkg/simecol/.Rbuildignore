@@ -8,7 +8,12 @@ inst/doc/.*\.out
 inst/doc/.*\.aux 
 inst/doc/.*\.bak 
 inst/doc/.*\.$$$
-inst/doc/\.Rhistory 
-
+inst/doc/\.Rhistory
+.*\.dll
+.*\.so
+.*\.o
+.*\.rc
+.*\.d
+Makedeps
 
 work

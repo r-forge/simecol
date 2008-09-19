@@ -4,6 +4,7 @@ o new class indbasedModel
 o new slot "observer"
 o .Rdata files re-generated (with observer slot)
 o simulation re-initializes objects that have an initfunc
+o example of an ODE model that passes compiled code directly to the solver
 o this is the useR!2008 (Dortmund) release 
 
 0.5-7
