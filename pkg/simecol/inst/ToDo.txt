@@ -1,14 +1,10 @@
-2008-08-06
- - include indbasedModel class; agentModel ???
+2008-09-11
  - observer slot for more (all??) models?
-   (observer is not useful for odeModels)
+   (observer may not be useful for odeModels)
  - check documentation of solver-slot
  - demo/examples in simecolModels-package.Rd
 
- - find a way to copy all examples from /R to /examples
+ - find a way to copy all examples automatically 
+   from /R to /examples
 
-2008-05-21
- - switch from odesolve to deSolve               ok
- - remove euler (is now in deSolve)              ok
- - r-initialize during sim if initfunc  exists
- 
+ - additional package vignettes (long-term)

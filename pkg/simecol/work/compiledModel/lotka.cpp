@@ -32,9 +32,9 @@ extern "C" {
       ydot[0] = k1 * y[0]        - k2 * y[0] * y[1];
       ydot[1] = k2 * y[0] * y[1] - k3 * y[1];
       
-      // additional outputs
+      // additional outputs, for demo purposes only
       yout[0] = aGlobalVar;
-      yout[1] = 0;//y[1];    
+      yout[1] = y[1];    
   }
   
   /* Jacobian */

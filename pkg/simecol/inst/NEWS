@@ -3,7 +3,8 @@
 o new class indbasedModel
 o new slot "observer"
 o .Rdata files re-generated (with observer slot)
-o simulation re-initializes objects thst have an initfunc 
+o simulation re-initializes objects that have an initfunc
+o this is the useR!2008 (Dortmund) release 
 
 0.5-7
 
