@@ -47,7 +47,7 @@ res   <- out(sim(myNPZD))
 #------------------------#
 # PLOTTING model output: #
 #------------------------#
-windows()
+x11()
 par(mfrow=c(2,2), oma=c(0,0,3,0))   # set number of plots (mfrow) and margin size (oma)
 
 plot (Times,res$PAR        ,type="l",lwd=2,main="PAR"        ,xlab="time, hours",ylab="microEinst/m2/s")
