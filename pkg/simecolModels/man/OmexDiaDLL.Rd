@@ -130,7 +130,8 @@ times(dynOmexDia) <- Times
 solver(dynOmexDia) <- function(y, times, func, parms)
   ode.1D(y, times=times, fun="omexdiamod",parms=parms(dynOmexDia)[-(1:9)],
          dllname="simecolModels",method="lsodes",nspec=6,initfunc="initomexdia",
-         nout=8,lrw=55531)
+         nout=8,outnames=c("O2flux","NO3flux","NH3flux","ODUflux","TotMin",
+                   "OxicMin","Denitri","Nitri"),lrw=55531)
 
 dyna  <- out(sim(dynOmexDia))
 CONC  <- dyna [,-1] # remove time column
@@ -159,11 +160,11 @@ contour(x=Times,y=Depth,z=NH3, add = TRUE)
 
 mtext(outer=TRUE,side=3,line=-2,cex=1.5,"OMEXDIAmodel")
 
-Cflux  <- CONC[,6*N+1]
-O2flux <- CONC[,6*N+2]
-matplot(Times,cbind(Cflux,O2flux),type="l", xlab="time, days",
+NO3flux  <- CONC[,"NO3flux"]
+O2flux   <- CONC[,"O2flux"]
+matplot(Times,cbind(NO3flux,O2flux),type="l", xlab="time, days",
   ylab=expression(nmol~cm^{-2}~d^{-1}),lwd=2,main="Fluxes")
-legend("topright",c("Carbon","Oxygen"),col=c(1,2),lwd=2, bty="n")
+legend("topright",c("Nitrate","Oxygen"),col=c(1,2),lwd=2, bty="n")
 
 }
 \references{

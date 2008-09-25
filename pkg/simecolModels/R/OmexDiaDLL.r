@@ -69,9 +69,9 @@ OmexDiaDLL <- function() {
     ),
     times  = 0,                     # t=0 for steady-state calculation
     initfunc = function(obj) {      # initialisation
-
       pars <- parms(obj)
       with(as.list(pars),{
+        if(length(init(obj))==0) {init(obj) = rep(1, 6 * N)}
         Intdepth <- seq(0, by=thick, len=N+1)  # depth at upper layer interfaces
         Nint     <- N+1             # number of interfaces
         Depth    <- 0.5*(Intdepth[-Nint] +Intdepth[-1]) # depth at middle of each layer
@@ -91,10 +91,11 @@ OmexDiaDLL <- function() {
     #   i.e. a function instead of a character that points to an existing solver
     solver = function(y, times, func, parms, ...) {
       with (as.list(parms),{
-      y = rep(1, 6 * N)
-      # steady-state condition of state variables, one vector
+       # steady-state condition of state variables, one vector
       out <- steady.1D (y=y, fun="omexdiamod",parms=unlist(parms[-(1:9)]),
-                   maxiter=100,dllname="simecolModels",
+                   maxiter=100,dllname="simecolModels",outnames=c("O2flux",
+                   "NO3flux","NH3flux","ODUflux","TotMin","OxicMin","Denitri",
+                   "Nitri"),
                    method="stodes",nspec=6,pos=TRUE,initfunc="initomexdia",nout=8)$y
       # rearrange as data.frame
         data.frame(FDET = out[1:N          ],

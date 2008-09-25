@@ -41,10 +41,10 @@ The model is solved to steady-state using steady-state solver
 # create an instance of the model
 myOmexDia <- OmexDia()
 
-# show model code, parameter settings,...
-print(myOmexDia)
+# show model code
+print(main(myOmexDia))
 
-# show just the parameters
+# show the parameters
 parms(myOmexDia)    # or myOmexDia@parms
 
 # Note that the model has a specialized solver function built in:

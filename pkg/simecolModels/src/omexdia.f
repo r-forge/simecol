@@ -108,21 +108,16 @@
 ! Rate of change due to transport: solute substances
       CALL tran1dliq(O2 ,bwO2 ,dispO2 ,w,por,intpor,dx,dxint,Flux,dO2)     
       yout(1) = Flux(1) ! sediment-water O2 flux
-      yout(2) = Flux(N) ! deep burial flux of O2
-                        
+
       CALL tran1dliq(NO3,bwNO3,dispNO3,w,por,intpor,dx,dxint,Flux,dNO3)                        
-      yout(3) = Flux(1)
-      yout(4) = Flux(N)
+      yout(2) = Flux(1)
 
       CALL tran1dliq(NH3,bwNH3,dispNH3/(1+NH3Ads),w,por,intpor,dx,dxint,   &
      &               Flux,dNH3)                        
-      yout(5) = Flux(1)
-      yout(6) = Flux(N)
+      yout(3) = Flux(1)
 
       CALL tran1dliq(ODU,bwODU,dispODU,w,por,intpor,dx,dxint,Flux,dODU)                        
-      yout(7) = Flux(1)
-      yout(8) = Flux(N)
-
+      yout(4) = Flux(1)
 
 ! Production of DIC and DIN, expressed per cm3 LIQUID/day
       Cprod= (rFast*FDET        +rSlow*SDET        )*(1.-por)/por
@@ -165,6 +160,15 @@
           dConc(i+5*N) = dODU(i) 
        enddo
 
+! the integrated rates
+! Total mineralisation
+      yout(5) = integrate(Cprod,dx,por,N)
+! Total oxic mineralisation
+      yout(6) = integrate(OxicMin,dx,por,N)
+! Total denitrificatin
+      yout(7) = integrate(Denitrific,dx,por,N)
+! Total nitrification
+      yout(8) = integrate(Nitri,dx,por,N)
       return
       end
 

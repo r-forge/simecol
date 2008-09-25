@@ -138,6 +138,7 @@ OmexDia <- function() {
     initfunc = function(obj) {      # initialisation
       pars <- parms(obj)
       with(as.list(pars),{
+        if(length(init(obj))==0) {init(obj) = rep(1, 6 * N)}
         Intdepth <- seq(0, sedDepth, by=thick)  # depth at upper layer interfaces
         Nint     <- length(Intdepth)            # number of interfaces
         N        <- Nint - 1                    # number of layers
@@ -158,10 +159,9 @@ OmexDia <- function() {
     #   i.e. a function instead of a character that points to an existing solver
     solver = function(y, times, func, parms, ...) {
       N = parms["N"]
-      ini = rep(1, 6 * N)                      # initial condition; any positive number will do
 
       # steady-state condition of state variables, one vector
-      out <- steady.1D(y=ini, time=times, func, parms, nspec=6, pos=TRUE, ...)$y
+      out <- steady.1D(y=y, time=times, func, parms, nspec=6, pos=TRUE, ...)$y
       # rearrange as data.frame
         data.frame(FDET = out[1:N          ],
                    SDET = out[(N+1)  :(2*N)],
