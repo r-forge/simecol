@@ -46,6 +46,54 @@ echo $contents; } ?>
 
 <link rel="stylesheet" href="style.css">
 
+
+<h2>What is <span style="color: rgb(153, 0, 0);">simecol</span> and what is <span style="color: rgb(153, 0, 0);">simecolModels</span>?</h2>
+
+<p><span style="font-family: monospace; font-weight: bold; color:
+rgb(153, 0, 0);"><span style="font-family:
+sans-serif;">simecol</span></span> (<span style="color: rgb(153, 0, 0);
+font-weight: bold;">sim</span>ulation of <span style="color: rgb(153, 0,
+0); font-weight: bold;">ecol</span>ogical systems) is an <span
+style="font-weight: bold; color: rgb(51, 51, 153);">R</span> package
+which is based on an object oriented programming paradigm for the
+implementation of ecological simulation models.</p>
+
+<p> The <code style="color: rgb(153, 0, 0);">simecol</code> package is
+intended to give users (students and scientists) an interactive
+environment to implement, distribute, simulate and document basic and
+advanced ecological models without the need to write long simulation
+programs. For this purpose, an object oriented approach is developed,
+which should provide a consistent but still flexible and extensible way
+to implement simulation models of different types, namely </p>
+
+<ul>
+  <li>ordinary differential equation (ODE) models,</li>
+  <li>non-spatial individual-based models,</li>
+  <li>grid-oriented individual-based models,</li>
+  <li>particle diffusion-type models</li>
+  <li>and more.</li>
+</ul>
+
+<p> Each simulation model is implemented as <code style="color: rgb(153,
+0, 0);">simecol</code><span style="color: rgb(153, 0, 0);">
+</span>simulation model object with components <code style="color:
+rgb(153, 0, 0);">main</code><span style="color: rgb(153, 0,
+0);">,</span> holding the main model equations, rules or arbitrary
+program code <span style="font-family: monospace; color: rgb(153, 0,
+0);">equations</span> (optional, a list of possibly nested sub-models or
+sub-equations ), <code style="color: rgb(153, 0, 0);">parms</code><span
+style="color: rgb(153, 0, 0);"> </span>with model parameters,<span
+style="font-family: monospace; color: rgb(153, 0, 0);"> init</span> with
+the initial state, <span style="font-family: monospace; color: rgb(153,
+0, 0);">inputs</span> (optional) for external input data and <code
+style="color: rgb(153, 0, 0);">times</code><span style="color: rgb(153,
+0, 0);"> </span>to define the simulation time and the time steps used.
+</p>
+
+<p><span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecolModels</span>
+is a simulation model collection, together with additional classes, demos and experimental code.
+
+
 <h2>Downloads and Project Pages</h2>
 
 <table style="text-align: left; width: 100%;" border="1" cellpadding="4" cellspacing="0">
@@ -96,53 +144,7 @@ echo $contents; } ?>
 <li> <a href="http://tu-dresden.de/Members/thomas.petzoldt">http://tu-dresden.de/Members/thomas.petzoldt </a> </li>
 </ul> 
 
-<h2>What is <span style="color: rgb(153, 0, 0);">simecol</span> and what is <span style="color: rgb(153, 0, 0);">simecolModels</span>?</h2>
 
-<p><span style="font-family: monospace; font-weight: bold; color:
-rgb(153, 0, 0);"><span style="font-family:
-sans-serif;">simecol</span></span> (<span style="color: rgb(153, 0, 0);
-font-weight: bold;">sim</span>ulation of <span style="color: rgb(153, 0,
-0); font-weight: bold;">ecol</span>ogical systems) is an <span
-style="font-weight: bold; color: rgb(51, 51, 153);">R</span> package
-which is based on an object oriented programming paradigm for the
-implementation of ecological simulation models.</p>
-
-<p> The <code style="color: rgb(153, 0, 0);">simecol</code> package is
-intended to give users (students and scientists) an interactive
-environment to implement, distribute, simulate and document basic and
-advanced ecological models without the need to write long simulation
-programs. For this purpose, an object oriented approach is developed,
-which should provide a consistent but still flexible and extensible way
-to implement simulation models of different types, namely </p>
-
-<ul>
-  <li>ordinary differential equation (ODE) models,</li>
-  <li>non-spatial individual-based models,</li>
-  <li>grid-oriented individual-based models,</li>
-  <li>particle diffusion-type models</li>
-  <li>and more.</li>
-</ul>
-
-<p> Each simulation model is implemented as <code style="color: rgb(153,
-0, 0);">simecol</code><span style="color: rgb(153, 0, 0);">
-</span>simulation model object with components <code style="color:
-rgb(153, 0, 0);">main</code><span style="color: rgb(153, 0,
-0);">,</span> holding the main model equations, rules or arbitrary
-program code <span style="font-family: monospace; color: rgb(153, 0,
-0);">equations</span> (optional, a list of possibly nested sub-models or
-sub-equations ), <code style="color: rgb(153, 0, 0);">parms</code><span
-style="color: rgb(153, 0, 0);"> </span>with model parameters,<span
-style="font-family: monospace; color: rgb(153, 0, 0);"> init</span> with
-the initial state, <span style="font-family: monospace; color: rgb(153,
-0, 0);">inputs</span> (optional) for external input data and <code
-style="color: rgb(153, 0, 0);">times</code><span style="color: rgb(153,
-0, 0);"> </span>to define the simulation time and the time steps used.
-</p>
-
-<p><span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecolModels</span>
-is a simulation model collection, together with additional classes, demos and experimental code.
-
-<br>
 <h2>Prerequisites</h2>
 
 <ul>
@@ -219,10 +221,11 @@ href="mailto:thomas.petzoldt@tu-dresden.de">request</a>.</li>
 <h3>Additional Material</h3>
 
 <ul>
+  <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2008-lecture.pdf">Lecture slides</a> from the useR-2006 conference about <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span> (including the most recent features)
+  <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2006-poster.pdf">Poster</a> and <a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR2006-slides">lecture slides</a> of the <a href="http://www.r-project.org/useR-2006/">useR-2006</a> conference comparing OOP approaches and introducing <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span><span style="font-weight: bold; color: rgb(153, 0, 0);"></span>.</li>
   <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2004.pdf">Lecture slides</a> from the useR-2004 conference about the <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span> concept and the (old) S3 list-based approach.<br>
   </li>
   <li><a href="http://hhbio.wasser.tu-dresden.de/projects/modlim/doc/modlim.pdf">German tutorial</a> describing ecological modelling with <span style="font-weight: bold; color: rgb(51, 51, 153);">R</span> in general (a little bit outdated and still without <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span>).</li>
-  <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2006-poster.pdf">Poster</a> and <a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR2006-slides">lecture slides</a> of the <a href="http://www.r-project.org/useR-2006/">useR-2006</a> conference comparing OOP approaches and introducing <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span><span style="font-weight: bold; color: rgb(153, 0, 0);"></span>.</li>
 </ul>
 
 <h2>Examples<span style="color: rgb(192, 192, 192);"></span></h2>
