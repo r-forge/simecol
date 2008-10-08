@@ -111,9 +111,9 @@
 
 
 \references{
-  Petzoldt, T and K. Rinke (2007), \pkg{simecol}: An Object-Oriented Framework for
-    Ecological Modeling in \R. Journal of Statistical Software,
-    22(9). URL \url{http://www.jstatsoft.org/v22/i09/}.
+  Petzoldt, T and K. Rinke (2007) \pkg{simecol}: An Object-Oriented Framework for
+    Ecological Modeling in \R. \emph{Journal of Statistical Software},
+    \bold{22}(9). URL \url{http://www.jstatsoft.org/v22/i09/}.
 }
 
 
@@ -136,7 +136,9 @@
 ## (1) Quick Start Examples ====================================================
 data(lv)        # load basic Lotka-Volterra model
 
-\dontrun{fixParms(lv)}
+\dontrun{
+fixParms(lv)
+}
 parms(lv)
 main(lv)
 lv <- sim(lv)
