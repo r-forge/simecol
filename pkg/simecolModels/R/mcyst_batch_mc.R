@@ -1,3 +1,7 @@
+### Jähnichen, S.; Ihle, T. and Petzoldt, T. (2008)
+### Variability of microcystin cell quota: A small model explains dynamics and
+### equilibria. Limnologica - Ecology and Management of Inland Waters
+### 38, 339-349
 
 mcyst_batch_mc <- function(){
   new("odeModel",

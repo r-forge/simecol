@@ -4,6 +4,7 @@ useDynLib(simecol, .registration = TRUE)
 
 importFrom(graphics, plot)
 
+## package with ODE solvers
 import(deSolve)
 
 exportClasses(simObj, odeModel, gridModel, rwalkModel, indbasedModel)
@@ -27,13 +28,13 @@ export(addtoenv, fromtoby)
 export(neighbours, neighbors, eightneighbours, eightneighbors, seedfill)
 export(approxTime, approxTime1, sEdit, peaks)
 export(iteration)
-#export(euler, rk4, lsoda) # from deSolve
 
 ## parameter fitting
 export(ssqOdeModel, fitOdeModel)
 export(p.constrain, p.unconstrain)
 
-## random number stuff
+## generate bivariate correlated uniformly distributed random numbers
+## from Plackett bivariate uniform distribution
 export(pcu, pcuseries, rho2alpha, alpha2rho)
 
 ## not necessary because example models are stored as *data*

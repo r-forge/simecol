@@ -50,14 +50,17 @@ The object contains the following slots:
   original publications.
 }
 \references{
-  Jähnichen, Ihle and Petzoldt (submitted)
+  Jähnichen, S., Ihle, T. and Petzoldt, T. (2008).
+  Variability of microcystin cell quota: A small model explains dynamics and
+  equilibria. \emph{Limnologica - Ecology and Management of Inland Waters},
+  \bold{38}, 339-349. URL \url{http://dx.doi.org/10.1016/j.limno.2008.05.003}
 }
 
 \seealso{
   \code{\link[simecol]{sim}},
   \code{\link[simecol]{parms}},
-  \code{\link[simecol]{init}},
-  \code{\link[simecol]{times}}.
+  \code{\link[simecol:parms]{init}},
+  \code{\link[simecol:parms]{times}}.
 }
 \examples{
   mcystmod <- mcyst_batch_mc()

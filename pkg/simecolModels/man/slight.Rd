@@ -80,8 +80,8 @@ Fischer, Jena.
 \seealso{
   \code{\link[simecol]{sim}},
   \code{\link[simecol]{parms}},
-  \code{\link[simecol]{init}},
-  \code{\link[simecol]{times}}.
+  \code{\link[simecol:parms]{init}},
+  \code{\link[simecol:parms]{times}}.
 }
 \examples{
 slight <- slight()
