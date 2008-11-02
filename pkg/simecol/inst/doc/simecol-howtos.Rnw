@@ -1,0 +1,496 @@
+\documentclass[article,shortnames,nojss]{jss}
+
+\usepackage{amsmath,amssymb,thumbpdf}
+\usepackage{textcomp}%has degree celsius
+
+\renewcommand{\textfraction}{0.2}
+\renewcommand{\bottomfraction}{0.7}
+\renewcommand{\topfraction}{0.7}
+\renewcommand{\floatpagefraction}{0.8}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% almost as usual
+\author{Thomas Petzoldt\\ Technische Universit\"at Dresden}
+
+\title{\pkg{simecol}-Howto: Tips, Tricks and Building Blocks}
+%\VignetteIndexEntry{Introduction to the simecol package}
+
+%% for pretty printing and a nice hypersummary also set:
+\Plainauthor{Thomas Petzoldt} %% comma-separated
+\Plaintitle{simecol-Howto: Tips, Tricks and Building Blocks} %% without formatting
+\Shorttitle{simecol-Howto} %% a short title (if necessary)
+
+%% an abstract and keywords
+\Abstract{
+This document is intended as a lose collection of sections  that describe
+different aspects of modelling and model implementation in \proglang{R} unsing
+the \pkg{simecol} package.
+
+The howto-collection supplements the original publication of the package
+\citep{Petzoldt2007} from which an updated version is also part of this package.
+Please refer to the original publication when citing this work.
+}
+\Keywords{\proglang{R}, \pkg{simecol}, ecological modeling, object-oriented programming (OOP), compiled code, debugging}
+\Plainkeywords{R, simecol, ecological modeling, compiled code, debugging} %% without formatting
+%% at least one keyword must be supplied
+
+%% Publication of this collection in JSS is not intended, but it may be possible
+%% that I/we may submit single chapters in R-News.
+
+%% publication information
+%% NOTE: This needs to filled out ONLY IF THE PAPER WAS ACCEPTED.
+%% If it was not (yet) accepted, leave them commented.
+%% \Volume{XX}
+%% \Issue{X}
+%% \Month{XXXXX}
+%% \Year{XXXX}
+%% \Submitdate{XXXX-XX-XX}
+%% \Acceptdate{XXXX-XX-XX}
+
+%% The address of (at least) one author should be given
+%% in the following format:
+\Address{
+  Thomas Petzoldt\\
+  Institut f\"ur Hydrobiologie\\
+  Technische Universit\"at Dresden\\
+  01062 Dresden, Germany\\
+  E-mail: \email{thomas.petzoldt@tu-dresden.de}\\
+  URL: \url{http://tu-dresden.de/Members/thomas.petzoldt/}\\
+}
+%% It is also possible to add a telephone and fax number
+%% before the e-mail in the following format:
+%% Telephone: +49/351/463-34954
+%% Fax: +49/351/463-34954
+
+%% for those who use Sweave please include the following line (with % symbols):
+%% need no \usepackage{Sweave.sty}
+
+%% end of declarations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\SweaveOpts{engine=R, eps=FALSE, fig=FALSE, echo=TRUE, include=FALSE, prefix.string=howto, width=6, height=4}
+
+\begin{document}
+
+<<init,echo=FALSE, include=FALSE, fig=FALSE>>=
+library("simecol")
+data(lv, package = "simecol")
+options("width"=72)
+options("prompt" = "R> ", "continue" = "+  ")
+@
+
+%% include your article here, just as usual
+%% Note that you should use the \pkg{}, \proglang{} and \code{} commands.
+
+\section{Introduction}
+
+
+\section[Building simecol objects]{Building \pkg{simecol} objects}
+
+The intention behind \pkg{simecol} is the construction of "`all-in-one"' model
+objects. That is, everything that defines one particular model, equations and data
+are stored together in one \code{simObj} (spoken: sim-Object), and only some general
+algorithms (e.g. diferential equation solvers or interpolation routines) remain
+external, preferably as package functions (e.g. function \code{lsoda} in package
+\pkg{deSolve} or as functions in the user workspace.
+
+This strategy has three main advantages:
+
+\begin{enumerate}
+\item You can have several independent versions of one model in the computer memory at the
+  same time. These instances may have different settings, parameters and data
+  or even use different formula, but they don't interfere with each other.
+  Moreover, if all data and functions are \emph{encapsulated} in their \code{simObj}ects,
+  identifiers can be re-used and it is, for example, not neccessary to keep track
+  over a large number of variable names or to invent
+  new identifiers for parameter sets of different scenarios.
+\item You can give \code{simObj}ects away, either in binary form or as source
+  code objects. Everything essential to run such a model is included, not only the
+  formula but also defaults for parameter and data. You, or your users need only
+  \proglang{R}, some packages and your model object. It is also possible to
+  start model objects directly from the internet or, on the other side, to
+  distribute model collections as \proglang{R} packages.
+\item All \code{simObj}ects can be handled, simulated and modified with the same
+  generic functions, e.g. \code{sim}, \code{plot} or \code{parms}.
+  Your users can start playing with your models without the need to understand
+  all the internals.
+\end{enumerate}
+
+While it is, of course, preferable to have all parts of a model encapsulated
+in one object, it is not mandatory to have the complete working model object before
+using simecol.
+
+\pkg{simecol} models (\code{simObj}ects) can be built up step by step, starting with
+mixed applications composed by rudimentary simObjects and ordinary user space functions
+and then encapsulating all the parts until the final all-in-one object is ready.
+
+\subsection{An Example}
+
+We start with the example, given in the simecol-introduction \citep{Petzoldt2007},
+an implementation of the UPCA model of \citet{Blasius1999}, but we write it
+in the usual \pkg{deSolve} style, e.g. without using simecol:
+
+<<upca1>>=
+f <- function(x, y, k){x*y / (1+k*x)}  # Holling II
+
+func <- function(time, y, parms) {
+  with(as.list(c(parms, y)), {
+    du <-  a * u           - alpha1 * f(u, v, k1)
+    dv <- -b * v           + alpha1 * f(u, v, k1) +
+                           - alpha2 * f(v, w, k2)
+    dw <- -c * (w - wstar) + alpha2 * f(v, w, k2)
+    list(c(du, dv, dw))
+  })
+}
+
+times  <- seq(0, 100, 0.1)
+parms  <- c(a=1, b=1, c=10, alpha1=0.2, alpha2=1, k1=0.05, k2=0, wstar=0.006)
+y      <- c(u=10, v=5, w=0.1)
+@
+
+The model is defined by 5 variables in the \proglang{R} user space, namely
+f, func, times, parms and init.  The implementation is similar to the examples
+of package \pkg{deSolve} and we can solve it exactly in the same manner:
+
+<<upca2, fig=TRUE>>=
+library(deSolve)
+out <- lsoda(y, times, func, parms)
+matplot(out[,1], out[,-1], type="l")
+@
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{howto-upca2}
+\caption{\label{howto-upca1} Output of UPCA model, solved mit \code{lsoda}
+from package \pkg{deSolve}.}
+\end{figure}
+
+
+\subsection{Transistion to simecol} \label{s4definition}
+
+If we compare this example with the simecol structure, we may see that they are
+kind of similar. This obvious coincidence is quite natural, because the notation
+of both, \pkg{deSolve} and \pkg{simecol}, is based on the state-space notation
+of control theory\footnote{see \url{http://en.wikipedia.org/wiki/State_space_(controls)},
+version of 2008-11-01}.
+
+Due to this, it needs only small restructuring and renaming to form a \code{simObj}:
+
+<<upca3, keep.source=TRUE>>=
+library("simecol")
+f <- function(x, y, k){x*y / (1+k*x)}  # Holling II
+
+upca <- new("odeModel",
+  main = function(time, y, parms) {
+    with(as.list(c(parms, y)), {
+      du <-  a * u           - alpha1 * f(u, v, k1)
+      dv <- -b * v           + alpha1 * f(u, v, k1) +
+                             - alpha2 * f(v, w, k2)
+      dw <- -c * (w - wstar) + alpha2 * f(v, w, k2)
+      list(c(du, dv, dw))
+    })
+  },
+  times  = seq(0, 100, 0.1),
+  parms  = c(a=1, b=1, c=10, alpha1=0.2, alpha2=1, k1=0.05, k2=0, wstar=0.006),
+  init   = c(u=10, v=5, w=0.1),
+  solver = "lsoda"
+)
+@
+
+You may notice, that the assignment operators ``\code{<-}'' changed to declarative
+``\code{=}'' for the slot definitions, that some of the names (y, func) were
+changed to the pre-defined slot names of simecol and that all the slot definitions
+are now comma separated arguments of the \code{new} function that creates the
+\code{upca} object. The solver method \code{lsoda} is also given as a character string
+pointing to the original \code{lsoda} function in package \pkg{deSolve}.
+
+The new object can now be simulated with the \code{sim} function of \pkg{simecol},
+that returns the object with all original slots and an additional slot \code{out}
+holding the output values.  A generic \code{plot} function is available for basic
+plotting of the outputs:
+
+<<upca4>>=
+upca <- sim(upca)
+plot(upca)
+@
+
+and it is also possible to extract the results with the accessor function
+\code{out}, and to use an arbitrary, user-defined plot function:
+
+<<upca5, fig=TRUE>>=
+plotupca <- function(obj, ...) {
+  o <- out(obj)
+  matplot(o[,1], o[,-1], type="l", ...)
+  legend("topleft", legend = c("u", "v", "w"), lty=1:3, , bg="white",col = 1:3)
+}
+plotupca(upca)
+@
+
+%\begin{figure}
+%\centering
+%\includegraphics[width=\textwidth]{howto-upca5}
+%\caption{\label{howto-upca5} A user-defined plot function.}
+%\end{figure}
+
+
+O.K., that's it, but note that function \code{f} is not yet part of the simecol
+object, what we call here a ``mixed implementation''. This function code{f} is
+rather simple here, and it would be also possible to call functions of arbitrary
+complexity from \code{main}.
+
+\subsection{Creating scenarios}
+
+After defining one simecol object (that we can call a parent object or a prototype),
+we can now create derived objects, simply by copying (cloning) and modification.
+As an example, we create two scenarios with different parameter sets:
+
+<<upca6, fig=TRUE>>=
+sc1 <- sc2 <- upca
+parms(sc1)["wstar"] <- 0
+parms(sc2)["wstar"] <- 0.1
+sc1 <- sim(sc1)
+sc2 <- sim(sc2)
+par(mfrow=c(1,2))
+plotupca(sc1, ylim=c(0, 250))
+plotupca(sc2, ylim=c(0, 250))
+@
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{howto-upca6}
+\caption{\label{howto-upca6} Two scenarios of the UPCA model (left: wstar=0, right: wstar=0.1; functional response f is Holling II).}
+\end{figure}
+
+If we simulate and plot these scenarios, we see an exponentially growing $u$
+in both cases, and cycles resp. an equilibrium state for $v$ and $w$ for the
+scenarios respectively (figure \ref{howto-upca6}).
+
+If we change now the functional response function $f$ from  Holling II to
+Lotka-Volterra:
+
+<<upca7>>=
+f <- function(x, y, k){x * y}
+@
+
+both model scenarios, sc1 and sc2 are affected by this new definition:
+
+<<upca8,fig=TRUE>>=
+sc1 <- sim(sc1)
+sc2 <- sim(sc2)
+par(mfrow=c(1,2))
+plotupca(sc1, ylim=c(0, 15))
+plotupca(sc2, ylim=c(0, 15))
+@
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{howto-upca8}
+\caption{\label{howto-upca8} Two scenarios of the UPCA model (left: wstar=0, right: wstar=0.1; functional response f is Holling II).}
+\end{figure}
+
+with a stable limit cycle for $u$ and $v$ in scenario 1 and an equilibrium for
+all state variables in scenario 2 (figure \ref{howto-upca8}). You may also note that the new function \code{f}
+has exactly the same parameters as above, including the, in the second case obsolete,
+parameter \code{k}.
+
+In the examples above, function \code{f} is an ordinary function in the user
+workspace, but it is also possible to implement such functions (or sub-models)
+directly as part of the model object. As one possibility, one might consider
+to define local functions within \code{main}, but that would have the disadvantage
+that such functions are not easily accessible from outside.
+
+To enable this, simecol has an optional slot ``equations'',
+that can hold a list of submodels. This equations-slot can be defined either
+during object creation, or functions may be added afterwards. In the following,
+we derive to new clones with the default parameter settings from the original
+upca-object, and then add the Holling II functional resonse to scenario 1 and
+the Lotka-Volterra functional response to scenario 2 (figure \ref{howto-upca9}):
+
+<<upca9,fig=TRUE>>=
+sc1 <- sc2 <- upca
+equations(sc1)$f <- function(x, y, k){x*y / (1+k*x)}
+equations(sc2)$f <- function(x, y, k){x * y}
+sc1 <- sim(sc1)
+sc2 <- sim(sc2)
+par(mfrow=c(1,2))
+plotupca(sc1, ylim=c(0, 15))
+plotupca(sc2, ylim=c(0, 15))
+@
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{howto-upca9}
+\caption{\label{howto-upca9} Two scenarios of the UPCA model (left: functional response f is Holling II, right f is Lotka-Volterra).}
+\end{figure}
+
+This method allows to compare models with different structure and it is
+also possible to define model objects with different versions of submodels
+built-in, that can be alternatively enabled:
+
+<<upca10>>=
+upca <- new("odeModel",
+  main = function(time, y, parms) {
+    with(as.list(c(parms, y)), {
+      du <-  a * u           - alpha1 * f(u, v, k1)
+      dv <- -b * v           + alpha1 * f(u, v, k1) +
+                             - alpha2 * f(v, w, k2)
+      dw <- -c * (w - wstar) + alpha2 * f(v, w, k2)
+      list(c(du, dv, dw))
+    })
+  },
+  equations  = list(
+    f1 = function(x, y, k){x*y},           # Lotka-Volterra
+    f2 = function(x, y, k){x*y / (1+k*x)}  # Holling II
+  ),
+  times  = seq(0, 100, 0.1),
+  parms  = c(a=1, b=1, c=10, alpha1=0.2, alpha2=1, k1=0.05, k2=0, wstar=0.006),
+  init   = c(u=10, v=5, w=0.1),
+  solver = "lsoda"
+)
+
+equations(upca)$f <- equations(upca)$f1
+@
+
+\subsection{Debugging}
+
+As stated before, joint encapsulation of all functions and data in simObjects
+has many advantages, but there is also one disadvantage, namely debugging.
+Debugging of S4 objects may be cumbersome, especially when slot-functions
+(e.g. main, equations, initfunc) come into play. These difficulties are not
+much important for well-functioning ready-made model objects, but they may
+appear as an additional burden during the development of simecol objects, in
+particular if these models are technically not that simple as our example.
+
+Fortunately, there is an easy workaround, that is, implementing the technically
+challenging parts in the user-workspace first using the above mentioned mixed
+style and after everything works 	satisfactorily, integrating these parts
+to the object. In the example below, we implement the main model as workspace
+function \code{fmain}\footnote{Note that this function must never be named ``func'',
+for some rather esotheric internal reasons which we shall not discuss further here.}
+with the same interface (parameters and return values)
+as above, that is then called by the \code{main}-function of the simObj:
+
+<<upca11>>=
+f <- function(x, y, k){x*y / (1+k*x)}  # Holling II
+
+fmain <-  function(time, y, parms) {
+  with(as.list(c(parms, y)), {
+    du <-  a * u           - alpha1 * f(u, v, k1)
+    dv <- -b * v           + alpha1 * f(u, v, k1) +
+                           - alpha2 * f(v, w, k2)
+    dw <- -c * (w - wstar) + alpha2 * f(v, w, k2)
+    list(c(du, dv, dw))
+  })
+}
+
+upca <- new("odeModel",
+  main = function(time, y, parms) fmain(time, y, parms),
+  times  = seq(0, 100, 0.1),
+  parms  = c(a=1, b=1, c=10, alpha1=0.2, alpha2=1, k1=0.05, k2=0, wstar=0.006),
+  init   = c(u=10, v=5, w=0.1),
+  solver = "lsoda"
+)
+@
+
+This function \code{fmain} as well as any other submodels like \code{f} can now
+be debugged with the usual \proglang{R} tools, e.g. \code{debug}:
+
+<<eval=FALSE>>=
+debug(fmain)
+upca <- sim(upca)
+@
+
+and debugging can be stopped by \code{undebug(fmain)}. If everything works,
+you can add the body of \code{fmain} to \code{upca} manually, and it is even
+possible to do this in the formalized \code{simecol} way of object modification:
+
+<<upca12, keep.source=TRUE>>=
+main(upca)        <- fmain   # assign workspace function to main slot
+equations(upca)$f <- f       # assign workspace function to equations
+rm(fmain, f)   # optional, for saving memory and avoiding confusion
+str(upca)      # show the object
+@
+
+
+
+
+
+\section{Different ways to store simObjects}
+
+One of the main advantages of \pkg{simecol} is, that model objects can be made
+persistent and that it is easy to distribute and share simObjects over the
+internet.
+
+The most obvious and simple form is, of course, to use the original source code
+of the objects, i.e. the function call to the \code{new} with all the slots
+which creates the S4-object (see section \ref{s4definition}), but there are also other possibilities.
+
+simecol objects can be saved in binary form as S4 object binaries with the
+\code{save} method of R, which stores the whole object with all its equations,
+initial values, parameters etc. and also the simulation outputs if the model
+was simulated before saving.
+
+<<upca13, keep.source=TRUE>>=
+save(upca, file="upca.Rdata")  # persistent storage of the model object
+load("upca.Rdata")             # load the model
+@
+
+Another possibility is conversion of the \proglang{S4} object to a list
+representation:
+
+<<>>=
+l.upca <- as.list(upca)
+@
+
+This method allows to get an alternative text representation of the \code{simObj},
+that can be manipulated by code parsing programs or dumped to the hard disk:
+
+<<>>=
+dput(l.upca, file="upca_list.R")
+@
+
+and this is completely reversible via:
+
+<<>>=
+l.upca <- dget("upca_list.R")
+upca <- as.simObj(l.upca)
+@
+
+Sometimes it may be required to save simObjects in an un-initialized
+form, in particular if they are to be distributed in packages.
+
+.... functions
+
+
+%\section{The initfunc}
+% basics already explained in the manual
+% avoiding re-initialization
+
+\section{Using alternative solver packages}
+
+\pkg{PBSddeSolve}-example
+
+user-defined solvers and assigning a function to the solver-slot
+
+\section{Implementing models in compiled languages}
+
+
+%\bibliographystyle{jss}
+\bibliography{petzoldt_jss}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% clean up
+<<cleanup,echo=FALSE,include=FALSE>>=
+options("prompt" = "> ", "continue" = "+ ")
+@
+\end{document}
+
+
+
+
+
+
+
