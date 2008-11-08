@@ -55,8 +55,8 @@ sans-serif;">simecol</span></span> (<span style="color: rgb(153, 0, 0);
 font-weight: bold;">sim</span>ulation of <span style="color: rgb(153, 0,
 0); font-weight: bold;">ecol</span>ogical systems) is an <span
 style="font-weight: bold; color: rgb(51, 51, 153);">R</span> package
-which is based on an object oriented programming paradigm for the
-implementation of ecological simulation models.</p>
+which is based on an object oriented paradigm for the
+implementation of dynamic simulation models.</p>
 
 <p> The <code style="color: rgb(153, 0, 0);">simecol</code> package is
 intended to give users (students and scientists) an interactive
@@ -154,7 +154,7 @@ a freely available system for statistical computation
 and graphics. Current versions require <a style="font-weight: bold;" href="http://cran.r-project.org">R
 version
 2.30</a> or above.</li>
-  <li>simecol depends on the <span style="color: rgb(153, 0, 0); font-family: monospace; font-weight: bold;">odesolve</span> package for numerical integration.</li>
+  <li>simecol depends on the <span style="color: rgb(153, 0, 0); font-family: monospace; font-weight: bold;">deSolve</span> package for numerical integration.</li>
   <li>optional: the <span style="color: rgb(153, 0, 0); font-family: monospace; font-weight: bold;">tcltk</span> package is required for the graphical parameter editing functions </li>
   <li>Operating systems: All operating systems on which <span style="font-weight: bold; color: rgb(51, 51, 153);">R</span>
 can be
