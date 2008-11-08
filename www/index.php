@@ -221,7 +221,7 @@ href="mailto:thomas.petzoldt@tu-dresden.de">request</a>.</li>
 <h3>Additional Material</h3>
 
 <ul>
-  <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2008-lecture.pdf">Lecture slides</a> from the useR-2006 conference about <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span> (including the most recent features)
+  <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2008-lecture.pdf">Lecture slides</a> from the <b>useR-2008</b> conference about <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span> (including the most recent features)
   <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2006-poster.pdf">Poster</a> and <a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR2006-slides">lecture slides</a> of the <a href="http://www.r-project.org/useR-2006/">useR-2006</a> conference comparing OOP approaches and introducing <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span><span style="font-weight: bold; color: rgb(153, 0, 0);"></span>.</li>
   <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2004.pdf">Lecture slides</a> from the useR-2004 conference about the <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span> concept and the (old) S3 list-based approach.<br>
   </li>
