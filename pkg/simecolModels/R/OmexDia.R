@@ -161,14 +161,17 @@ OmexDia <- function() {
       N = parms["N"]
 
       # steady-state condition of state variables, one vector
-      out <- steady.1D(y=y, time=times, func, parms, nspec=6, pos=TRUE, ...)$y
-      # rearrange as data.frame
-        data.frame(FDET = out[1:N          ],
-                   SDET = out[(N+1)  :(2*N)],
-                   O2   = out[(2*N+1):(3*N)],
-                   NO3  = out[(3*N+1):(4*N)],
-                   NH3  = out[(4*N+1):(5*N)],
-                   ODU  = out[(5*N+1):(6*N)])
+      out <- steady.1D(y=y, time=times, func, parms, nspec=6, pos=TRUE, ...)
+
+      # rearrange as list with a data.frame
+       list(y= data.frame(FDET = out$y[1:N ],
+                   SDET = out$y[(N+1)  :(2*N)],
+                   O2   = out$y[(2*N+1):(3*N)],
+                   NO3  = out$y[(3*N+1):(4*N)],
+                   NH3  = out$y[(4*N+1):(5*N)],
+                   ODU  = out$y[(5*N+1):(6*N)]),
+            Cflux = out$Cflux, O2flux=out$O2flux,NH3flux=out$NH3flux,
+            NO3flux=out$NO3flux,ODUflux=out$ODUflux)
       }
   )
 }

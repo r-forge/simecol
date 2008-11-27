@@ -32,8 +32,16 @@ The object contains the following slots:
   the sediment grid, porosity and bioturbation profiles.
 
 
-The model is solved to steady-state using steady-state solver 
+The model is solved to steady-state using steady-state solver.
 \code{\link[rootSolve]{steady.1D}} from package \code{\link[rootSolve]{rootSolve}}.
+
+The output consists of a list with the following elements:
+
+\item \code{y} a data.frame with the profiles of FDET, SDET, O2, NO3, NH3 and ODU, units
+of micromol/l (solid or liquid).
+\item \code{Cflux}, \code{O2flux}, \code{NH3flux}, \code{NO3flux}, and \code{ODUflux},
+the fluxes of carbon, oxygen, ammonium, nitrate and ODU across the sediment-water interface
+, units of nmol/cm2/day
 }
 \author{Karline Soetaert}
 \examples{
@@ -57,7 +65,7 @@ solver(myOmexDia)
 
 # three runs with different deposition rates
 parms(myOmexDia)["MeanFlux"] <- 15000/12*100/365  # nmol/cm2/day  - Carbon deposition: 15gC/m2/yr
-sol  <- out(sim(myOmexDia))
+sol  <- out(sim(myOmexDia))$y
 FDET <- sol$FDET
 SDET <- sol$SDET
 O2   <- sol$O2
@@ -67,7 +75,7 @@ ODU  <- sol$ODU
 
 
 parms(myOmexDia)["MeanFlux"]   <- 50000/12*100/365  # nmol/cm2/day  - Carbon deposition: 50gC/m2/yr
-sol  <- out(sim(myOmexDia))
+sol  <- out(sim(myOmexDia))$y
 FDET <- cbind(FDET,sol$FDET)
 SDET <- cbind(SDET,sol$SDET)
 O2   <- cbind(O2 ,sol$O2 )
@@ -76,7 +84,7 @@ NH3  <- cbind(NH3,sol$NH3)
 ODU  <- cbind(ODU,sol$ODU)
 
 parms(myOmexDia)["MeanFlux"]   <- 2000/12*100/365  # nmol/cm2/day  - Carbon deposition: 2gC/m2/yr
-sol  <- out(sim(myOmexDia))
+sol  <- out(sim(myOmexDia))$y
 FDET <- cbind(FDET,sol$FDET)
 SDET <- cbind(SDET,sol$SDET)
 O2   <- cbind(O2 ,sol$O2 )
@@ -115,7 +123,7 @@ dynOmexDia <- OmexDia()
 parms(dynOmexDia)["MeanFlux"] <- 15000/12*100/365  # 15gC/m2/yr
 
 # steady-state solution used to initialise dynamic run
-sol  <- out(sim(dynOmexDia))
+sol  <- out(sim(dynOmexDia))$y
 
 init(dynOmexDia) <- unlist(sol)
 

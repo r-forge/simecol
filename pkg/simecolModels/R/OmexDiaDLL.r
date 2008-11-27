@@ -96,14 +96,18 @@ OmexDiaDLL <- function() {
                    maxiter=100,dllname="simecolModels",outnames=c("O2flux",
                    "NO3flux","NH3flux","ODUflux","TotMin","OxicMin","Denitri",
                    "Nitri"),
-                   method="stodes",nspec=6,pos=TRUE,initfunc="initomexdia",nout=8)$y
-      # rearrange as data.frame
-        data.frame(FDET = out[1:N          ],
-                   SDET = out[(N+1)  :(2*N)],
-                   O2   = out[(2*N+1):(3*N)],
-                   NO3  = out[(3*N+1):(4*N)],
-                   NH3  = out[(4*N+1):(5*N)],
-                   ODU  = out[(5*N+1):(6*N)])
+                   method="stodes",nspec=6,pos=TRUE,initfunc="initomexdia",nout=8)
+      # rearrange as a list with a data.frame and single values
+        list(y=data.frame(FDET = out$y[1:N          ],
+                   SDET = out$y[(N+1)  :(2*N)],
+                   O2   = out$y[(2*N+1):(3*N)],
+                   NO3  = out$y[(3*N+1):(4*N)],
+                   NH3  = out$y[(4*N+1):(5*N)],
+                   ODU  = out$y[(5*N+1):(6*N)]),
+        O2flux=out$O2flux,NO3flux=out$NO3flux,NH3flux=out$NH3flux,
+        ODUflux=out$ODUflux,TotMin=out$TotMin,OxicMin=out$OxicMin,
+        Denitri=out$Denitri,Nitri=out$Nitri
+                   )
       })
     }
   )
