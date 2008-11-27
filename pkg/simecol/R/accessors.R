@@ -205,6 +205,7 @@ setMethod("out", "odeModel",
   # if last==TRUE: returns a vector (similar to init, time as first value)
   function(obj, last=FALSE) {
     o <- obj@out
+    if (is.matrix(o)) o <- as.data.frame(o)
     if (last) unlist(o[nrow(o), ]) else o
   }
 )

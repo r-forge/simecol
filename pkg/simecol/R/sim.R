@@ -20,7 +20,8 @@ setMethod("sim", "odeModel",
 
     equations        <- addtoenv(equations)
     out <- do.call(obj@solver, list(obj@init, times, func, obj@parms, ...))
-    obj@out <- as.data.frame(out)
+    #obj@out <- as.data.frame(out)
+    obj@out <- out
     invisible(obj)
   }
 )
