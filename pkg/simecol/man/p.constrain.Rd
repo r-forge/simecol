@@ -20,7 +20,7 @@ p.unconstrain(p, lower = -Inf, upper = Inf, f = 1)
   \item{f}{optional scaling factor.}
 }
 \details{
-  These functions are employed by \code{\link{fitOdeModel}} \code{link{ssqOdeModel}} 
+  These functions are employed by \code{\link{fitOdeModel}} \code{\link{ssqOdeModel}}
   in order to be able to use the unconstrained optimizers of \code{\link{optim}} for
   constrained optimization. 
   The transformation functions are
@@ -40,7 +40,7 @@ and Technology (EAWAG), CH - 8600 Duebendorf Switzerland,
 \url{http://www.aquasim.eawag.ch/e_aquasim_manual.html}}
 
 
-\seealso{\code{\link{fitOdeModel}}, \code{link{ssqOdeModel}}}
+\seealso{\code{\link{fitOdeModel}}, \code{\link{ssqOdeModel}}}
 
 \examples{
 xx <- seq(-100, 100, 2)
