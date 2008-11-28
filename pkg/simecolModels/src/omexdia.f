@@ -84,7 +84,7 @@
 
       double precision :: integrate
 !............................ statements ..................................
-       if (IP(1) < 8)  call rexit("nout should be at least 8")
+       if (IP(1) < 9)  call rexit("nout should be at least 9")
 
 ! from Conc to fdet, sdet, o2,...
        do i = 1,N 
@@ -97,7 +97,8 @@
        enddo
 
       CFlux  = MeanFlux * (1+sin(2.*3.14158*t/365.))
-       
+      yout(1) = CFlux
+	 
 ! Rate of change due to transport: solid substances
       CALL tran1Dsol(FDET,cFlux*pFast,Db,w,por,intpor,dx,dxint,            &
      &               Flux,dFDET)
@@ -107,17 +108,17 @@
 
 ! Rate of change due to transport: solute substances
       CALL tran1dliq(O2 ,bwO2 ,dispO2 ,w,por,intpor,dx,dxint,Flux,dO2)     
-      yout(1) = Flux(1) ! sediment-water O2 flux
-
-      CALL tran1dliq(NO3,bwNO3,dispNO3,w,por,intpor,dx,dxint,Flux,dNO3)                        
-      yout(2) = Flux(1)
+      yout(2) = Flux(1) ! sediment-water O2 flux
 
       CALL tran1dliq(NH3,bwNH3,dispNH3/(1+NH3Ads),w,por,intpor,dx,dxint,   &
      &               Flux,dNH3)                        
       yout(3) = Flux(1)
 
-      CALL tran1dliq(ODU,bwODU,dispODU,w,por,intpor,dx,dxint,Flux,dODU)                        
+      CALL tran1dliq(NO3,bwNO3,dispNO3,w,por,intpor,dx,dxint,Flux,dNO3)                        
       yout(4) = Flux(1)
+
+      CALL tran1dliq(ODU,bwODU,dispODU,w,por,intpor,dx,dxint,Flux,dODU)                        
+      yout(5) = Flux(1)
 
 ! Production of DIC and DIN, expressed per cm3 LIQUID/day
       Cprod= (rFast*FDET        +rSlow*SDET        )*(1.-por)/por
@@ -162,13 +163,13 @@
 
 ! the integrated rates
 ! Total mineralisation
-      yout(5) = integrate(Cprod,dx,por,N)
+      yout(6) = integrate(Cprod,dx,por,N)
 ! Total oxic mineralisation
-      yout(6) = integrate(OxicMin,dx,por,N)
+      yout(7) = integrate(OxicMin,dx,por,N)
 ! Total denitrificatin
-      yout(7) = integrate(Denitrific,dx,por,N)
+      yout(8) = integrate(Denitrific,dx,por,N)
 ! Total nitrification
-      yout(8) = integrate(Nitri,dx,por,N)
+      yout(9) = integrate(Nitri,dx,por,N)
       return
       end
 
@@ -231,11 +232,13 @@
            Flux(i) = Flux(i)   + 0.5*v*porfac(i)*y(i)
          enddo
          Flux(N+1) = Flux(N+1) + 0.5*v*porfac(N+1)*ydown
-              
+
+! Fluxes per bulk
+       Flux = Flux * porint
+
 ! rate of change = flux gradient, corrected for surface (porosity) changes 
        do i =1,N
-         dy(i) = (Flux(i)*porint(i)-Flux(i+1)*porint(i+1))                &
-     &             /por(i)/dx(i)  
+         dy(i) = (Flux(i)-Flux(i+1))  /por(i)/dx(i)
        enddo
        
        end subroutine

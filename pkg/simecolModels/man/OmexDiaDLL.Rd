@@ -140,8 +140,8 @@ times(dynOmexDia) <- Times
 solver(dynOmexDia) <- function(y, times, func, parms)
   ode.1D(y, times=times, fun="omexdiamod",parms=parms(dynOmexDia)[-(1:9)],
          dllname="simecolModels",method="lsodes",nspec=6,initfunc="initomexdia",
-         nout=8,outnames=c("O2flux","NO3flux","NH3flux","ODUflux","TotMin",
-                   "OxicMin","Denitri","Nitri"),lrw=55531)
+         nout=9,outnames=c("Cflux","O2flux","NH3flux","NO3flux","ODUflux",
+                   "TotMin","OxicMin","Denitri","Nitri"),lrw=55531)
 
 dyna  <- out(sim(dynOmexDia))
 CONC  <- dyna [,-1] # remove time column

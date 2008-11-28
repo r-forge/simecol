@@ -27,32 +27,37 @@ OmexDia <- function() {
         
         # Transport fluxes
         #==================
+        # advection, corrected for porosity effects
+        v <- w * (1-IntPor[N+1])/(1-IntPor)
         
         # Solid substances: upper boundary = deposition, lower=zero-gradient
+        # Advection is here approximated by centered differences
         FDETFlux<- -Db*(1-IntPor)*diff(c(FDET[1],FDET,FDET[N]))/thick   + #diffusion
-                    w * c(FDET[1],FDET)                                   #advection
+                    0.5*v*(1-IntPor) * c(FDET[1],FDET)                  + #advection
+                    0.5*v*(1-IntPor) * c(FDET,FDET[N])
         FDETFlux[1] <-  Flux*pFast                                        #deposition
         
         SDETFlux<- -Db*(1-IntPor)*diff(c(SDET[1],SDET,SDET[N]))/thick   +
-                    w * c(SDET[1],SDET)
+                    0.5*v*(1-IntPor) * c(SDET[1],SDET)                  +
+                    0.5*v*(1-IntPor) * c(SDET,SDET[N])
         SDETFlux[1] <-  Flux*(1.-pFast)
         
         # Solute substances: upper boundary=imposed concentration
         O2Flux   <- -DispO2  *   IntPor *diff(c(bwO2  ,O2 ,O2[N] ))/thick    +
-                    w * c(bwO2 ,O2)
+                    v * IntPor * c(bwO2 ,O2)
         
         NO3Flux  <- -DispNO3 *   IntPor *diff(c(bwNO3 ,NO3,NO3[N]))/thick    +
-                    w * c(bwNO3 ,NO3)
+                    v * IntPor * c(bwNO3 ,NO3)
         
-        NH3Flux  <- -DispNH3 *   IntPor *diff(c(bwNH3 ,NH3,NH3[N]))/thick    +
-                    w * c(bwNH3 ,NH3)
+        NH3Flux  <- -DispNH3/(1+NH3Ads) * IntPor *diff(c(bwNH3 ,NH3,NH3[N]))/thick    +
+                    v * IntPor * c(bwNH3 ,NH3)
         
         ODUFlux  <- -DispODU *   IntPor *diff(c(bwODU ,ODU,ODU[N]))/thick    +
-                    w * c(bwODU ,ODU)
+                    v * IntPor * c(bwODU ,ODU)
         
         
         # production of DIC and DIN, expressed per cm3 LIQUID/day
-        DICprod_Min <- (rFast*FDET         +rSlow*SDET       )*(1.-Porosity)/Porosity
+        DICprod_Min <- (rFast*FDET        +rSlow*SDET        )*(1.-Porosity)/Porosity
         DINprod_Min <- (rFast*FDET*NCrFdet+rSlow*SDET*NCrSdet)*(1.-Porosity)/Porosity
         
         # oxic mineralisation, denitrification, anoxic mineralisation
@@ -80,19 +85,24 @@ OmexDia <- function() {
         dNO3  <- -diff(NO3Flux) /thick/Porosity - 0.8*Denitrific + Nitri
         dODU  <- -diff(ODUFlux) /thick/Porosity + AnoxicMin  - OduOx - OduDepo
         
-        #
-        
+        # Integrated rates
+        TotMin  <-  sum(DICprod_Min*Porosity*thick)
+        OxicMin <-  sum(OxicMin*Porosity*thick)
+        Denitri <-  sum(Denitrific*Porosity*thick)
+        Nitri   <-  sum(Nitri*Porosity*thick)
+
         return(list(c(dFDET,dSDET,dO2,dNO3,dNH3,dODU),
                     Cflux = Flux, O2flux=O2Flux[1],NH3flux=NH3Flux[1],
-                    NO3flux=NO3Flux[1],ODUflux=ODUFlux[1]))
+                    NO3flux=NO3Flux[1],ODUflux=ODUFlux[1], TotMin=TotMin,
+                    OxicMin=OxicMin,Denitri=Denitri,Nitri=Nitri))
 
       })
     },
     parms = c(
       # sediment parameters
-      N        = 300,        # Total number of boxes, dummy value before initialising...
+      N        = 200,        # Total number of boxes, dummy value before initialising...
       sedDepth = 15,         # Total depth of modeled sediment (cm)
-      thick    = 0.05,       # thickness of sediment layers (cm)
+      thick    = 0.1,        # thickness of sediment layers (cm)
       por0     = 0.9,        # surface porosity (-)
       pordeep  = 0.7,        # deep porosity    (-)
       porcoef  = 2  ,        # porosity decay coefficient  (/cm)
@@ -138,13 +148,12 @@ OmexDia <- function() {
     initfunc = function(obj) {      # initialisation
       pars <- parms(obj)
       with(as.list(pars),{
-        if(length(init(obj))==0) {init(obj) = rep(1, 6 * N)}
-        Intdepth <- seq(0, sedDepth, by=thick)  # depth at upper layer interfaces
-        Nint     <- length(Intdepth)            # number of interfaces
-        N        <- Nint - 1                    # number of layers
+        Intdepth <- seq(0, by=thick, len=N+1)  # depth at upper layer interfaces
+        Nint     <- N+1             # number of interfaces
         Depth    <- 0.5*(Intdepth[-Nint] +Intdepth[-1]) # depth at middle of each layer
 
-        parms(obj)["N"] <- N  # write the new N back to parms
+        parms(obj)["sedDepth"] <- Intdepth[N+1]         # write the updated total depth
+        if(length(init(obj))==0) {init(obj) = rep(1, 6 * N)}
 
         Porosity = pordeep + (por0-pordeep)*exp(-Depth*porcoef)     # porosity profile, middle of layers
         IntPor   = pordeep + (por0-pordeep)*exp(-Intdepth*porcoef)  # porosity profile, upper interface
@@ -171,7 +180,8 @@ OmexDia <- function() {
                    NH3  = out$y[(4*N+1):(5*N)],
                    ODU  = out$y[(5*N+1):(6*N)]),
             Cflux = out$Cflux, O2flux=out$O2flux,NH3flux=out$NH3flux,
-            NO3flux=out$NO3flux,ODUflux=out$ODUflux)
+            NO3flux=out$NO3flux,ODUflux=out$ODUflux,TotMin=out$TotMin,
+            OxicMin=out$OxicMin,Denitri=out$Denitri,Nitri=out$Nitri)
       }
   )
 }

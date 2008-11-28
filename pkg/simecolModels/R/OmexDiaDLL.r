@@ -18,7 +18,7 @@ OmexDiaDLL <- function() {
     parms = c(
 
       # sediment parameters
-      N        = 200,        # Total number of boxes, dummy value before initialising...
+      N        = 200,        # Total number of boxes, CANNOT BE changed!
       sedDepth = 15,         # Total depth of modeled sediment (cm)
       thick    = 0.1,        # thickness of sediment layers (cm)
       por0     = 0.9,        # surface porosity (-)
@@ -75,6 +75,7 @@ OmexDiaDLL <- function() {
         Intdepth <- seq(0, by=thick, len=N+1)  # depth at upper layer interfaces
         Nint     <- N+1             # number of interfaces
         Depth    <- 0.5*(Intdepth[-Nint] +Intdepth[-1]) # depth at middle of each layer
+        parms(obj)["sedDepth"] <- Intdepth[N+1]         # write the updated total depth
 
         Porosity = pordeep + (por0-pordeep)*exp(-Depth*porcoef)     # porosity profile, middle of layers
         IntPor   = pordeep + (por0-pordeep)*exp(-Intdepth*porcoef)  # porosity profile, upper interface
@@ -93,10 +94,11 @@ OmexDiaDLL <- function() {
       with (as.list(parms),{
        # steady-state condition of state variables, one vector
       out <- steady.1D (y=y, fun="omexdiamod",parms=unlist(parms[-(1:9)]),
-                   maxiter=100,dllname="simecolModels",outnames=c("O2flux",
-                   "NO3flux","NH3flux","ODUflux","TotMin","OxicMin","Denitri",
-                   "Nitri"),
-                   method="stodes",nspec=6,pos=TRUE,initfunc="initomexdia",nout=8)
+                   maxiter=100,dllname="simecolModels",
+                   method="stodes",nspec=6,pos=TRUE,initfunc="initomexdia",nout=9)
+      names (out$var) <- c("Cflux","O2flux",
+                   "NH3flux","NO3flux","ODUflux","TotMin","OxicMin","Denitri",
+                   "Nitri")
       # rearrange as a list with a data.frame and single values
         list(y=data.frame(FDET = out$y[1:N          ],
                    SDET = out$y[(N+1)  :(2*N)],
@@ -104,9 +106,11 @@ OmexDiaDLL <- function() {
                    NO3  = out$y[(3*N+1):(4*N)],
                    NH3  = out$y[(4*N+1):(5*N)],
                    ODU  = out$y[(5*N+1):(6*N)]),
-        O2flux=out$O2flux,NO3flux=out$NO3flux,NH3flux=out$NH3flux,
-        ODUflux=out$ODUflux,TotMin=out$TotMin,OxicMin=out$OxicMin,
-        Denitri=out$Denitri,Nitri=out$Nitri
+        Cflux=out$var[["Cflux"]],O2flux=out$var[["O2flux"]],
+        NH3flux=out$var[["NH3flux"]],NO3flux=out$var[["NO3flux"]],
+        ODUflux=out$var[["ODUflux"]],TotMin=out$var[["TotMin"]],
+        OxicMin=out$var[["OxicMin"]],Denitri=out$var[["Denitri"]],
+        Nitri=out$var[["Nitri"]]
                    )
       })
     }
