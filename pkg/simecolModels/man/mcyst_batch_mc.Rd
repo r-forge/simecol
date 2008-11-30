@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{mcyst_batch_mc}
 
 \alias{mcyst_batch_mc}
@@ -50,7 +51,7 @@ The object contains the following slots:
   original publications.
 }
 \references{
-  Jähnichen, S., Ihle, T. and Petzoldt, T. (2008).
+  J\enc{ä}{ae}hnichen, S., Ihle, T. and Petzoldt, T. (2008).
   Variability of microcystin cell quota: A small model explains dynamics and
   equilibria. \emph{Limnologica - Ecology and Management of Inland Waters},
   \bold{38}, 339-349. URL \url{http://dx.doi.org/10.1016/j.limno.2008.05.003}

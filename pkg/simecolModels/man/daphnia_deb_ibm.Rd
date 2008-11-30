@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{daphnia_deb_ibm}
 \alias{daphnia_deb_ibm}
 \alias{daphnia_deb_phyto}
@@ -40,7 +41,7 @@ The object contains the following slots:
 
 Rinke, K. (2006).  Species-oriented model approaches to Daphnia spp.: linking 
 the individual level to the population level. PhD Thesis. 
-Technische Universität Dresden, Fakultät Forst-, Geo- und Hydrowissenschaften.
+Technische Universit\enc{ä}{ae}t Dresden, Fakult\enc{ä}{ae}t Forst-, Geo- und Hydrowissenschaften.
 \url{http://nbn-resolving.de/urn:nbn:de:swb:14-1146736164110-76933}
 
 Rinke, K. & Vijverberg, J. (2005). A Model Approach to Evaluate the Effect of 

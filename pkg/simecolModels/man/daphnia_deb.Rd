@@ -32,7 +32,7 @@ The object contains the following slots:
 \references{
 Rinke, K. and Vijverberg, J. (2005). A model approach to evaluate the effect
 of temperature and food concentration on individual life-history and population
-dynamics of \textit{Daphnia}. \emph{Ecological Modelling} \bold{186}, 326--344.
+dynamics of Daphnia. \emph{Ecological Modelling} \bold{186}, 326--344.
 }
 
 

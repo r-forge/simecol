@@ -4,7 +4,6 @@ Date: 2008-09-19
 Title: Model collection for the simecol package
 Author: Thomas Petzoldt, Karline Soetaert
 Depends: R (>= 2.3.0), stats, graphics, utils, methods, deSolve, rootSolve, simecol
-Encoding: latin1
 LazyLoad: yes
 LazyData: yes
 Maintainer: Thomas Petzoldt <thomas.petzoldt@tu-dresden.de> 

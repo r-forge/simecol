@@ -1,3 +1,4 @@
+\encoding{latin1}
 \name{slight}
 \alias{slight}
 
@@ -64,7 +65,7 @@ The object contains the following slots:
 \references{
 Benndorf, J. (1979). Kausalanalyse, theoretische Synthese und Simulation des
 Eutrophierungsprozesses in stehenden und gestauten
-Gewässern. Habilitationsschrift. Technische Universität
+Gew\enc{ä}{ae}ssern. Habilitationsschrift. Technische Universit\enc{ä}{ae}t
 Dresden, Fakultät Bau-, Wasser- und Forstwesen, 165 S.
 
 Benndorf, J. and Recknagel, F. (1982).
@@ -72,7 +73,7 @@ Problems of application of the ecological model SALMO
 to lakes and reservoirs having various trophic states.
 Ecol. Model. 17: 129-145.
 
-Straskraba, M. and Gnauck, A. (1983). Modellierung limnischer Ökosysteme.
+Straskraba, M. and Gnauck, A. (1983). Modellierung limnischer \enc{Ö}{Oe}kosysteme.
 Fischer, Jena.
 }
 
