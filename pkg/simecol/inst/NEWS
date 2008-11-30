@@ -1,6 +1,12 @@
+0.6-2
+
+
+
 0.6-1
 
 o start writing new vignette "simecol-howto"
+o data frame conversion for outputs of class odeModel now only for matrices and
+in out, not in sim.
 
 0.6
 

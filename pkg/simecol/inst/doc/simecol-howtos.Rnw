@@ -237,7 +237,7 @@ plotupca(upca)
 
 
 O.K., that's it, but note that function \code{f} is not yet part of the simecol
-object, what we call here a ``mixed implementation''. This function code{f} is
+object, what we call here a ``mixed implementation''. This function \code{f} is
 rather simple here, and it would be also possible to call functions of arbitrary
 complexity from \code{main}.
 
@@ -471,12 +471,13 @@ form, in particular if they are to be distributed in packages.
 
 \section{Using alternative solver packages}
 
-\pkg{PBSddeSolve}-example
+\pkg{PBSddeSolve}-example  \dots
 
-user-defined solvers and assigning a function to the solver-slot
+user-defined solvers and assigning a function to the solver-slot \dots
 
 \section{Implementing models in compiled languages}
 
+an example how to use compiled code the main function  \dots
 
 %\bibliographystyle{jss}
 \bibliography{petzoldt_jss}
