@@ -7,7 +7,7 @@ function(simObj, whichpar=names(parms(simObj)),
   initialize = TRUE, 
   debuglevel = 0, 
   fn = ssqOdeModel,  
-  method = c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN"),
+  method = c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN", "PORT"),
   lower = -Inf, upper = Inf, control = list(), ...)  {
 
   method <- match.arg(method)
@@ -19,7 +19,7 @@ function(simObj, whichpar=names(parms(simObj)),
   }
   upper. <-  Inf
   lower. <- -Inf
-  if (method != "L-BFSG-B") {
+  if (!(method %in% c("L-BFSG-B", "PORT"))) {
     upper. <- upper
     lower. <- lower 
     upper <-   Inf
@@ -27,15 +27,25 @@ function(simObj, whichpar=names(parms(simObj)),
   }
   
   par <- p.unconstrain(par, lower., upper.)
-    
-  m <- optim(par, fn = fn, simObj = simObj, obstime = obstime,
-           yobs = yobs, sd.yobs = sd.yobs, initialize = initialize,
-           lower. = lower.,
-           upper. = upper.,
-           debuglevel = debuglevel,           
-           method = method,
-           lower = lower, upper = upper,
-           control = control, ...)
+
+  if (method == "PORT") {
+    m <- nlminb(start=par, objective = fn, #gradient = NULL, hessian = NULL,
+             simObj = simObj, obstime = obstime,
+             yobs = yobs, sd.yobs = sd.yobs,
+             pnames = names(par),  # !!! workaround as nlminb does not pass the names
+             initialize = initialize,
+             debuglevel = debuglevel,
+             scale = 1, control = control)#, lower = lower, upper = upper)
+  } else {
+    m <- optim(par, fn = fn, simObj = simObj, obstime = obstime,
+             yobs = yobs, sd.yobs = sd.yobs, initialize = initialize,
+             lower. = lower.,
+             upper. = upper.,
+             debuglevel = debuglevel,
+             method = method,
+             lower = lower, upper = upper,
+             control = control, ...)
+  }
   cat(m$message, "\n")
   m$par <- p.constrain(m$par, lower., upper.)           
   m 

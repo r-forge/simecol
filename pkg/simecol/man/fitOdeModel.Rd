@@ -1,6 +1,6 @@
 \name{fitOdeModel}
 \alias{fitOdeModel}
-\title{Parameter fitting for odeModel objects}
+\title{Parameter Fitting for odeModel Objects}
 \description{
   Fit parameters of \code{odeModel} objects to measured data.
 }
@@ -8,39 +8,41 @@
 fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs, 
   sd.yobs = as.numeric(lapply(yobs, sd)), initialize = TRUE, 
   debuglevel = 0, fn = ssqOdeModel, 
-  method = c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN"), 
+  method = c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN", "PORT"),
   lower = -Inf, 
   upper = Inf, 
   control = list(), ...)
 }
 
 \arguments{
-  \item{simObj}{a valid object of class \code{\link{odeModel}}}
+  \item{simObj}{a valid object of class \code{\link{odeModel}},}
   \item{whichpar}{character vector with names of parameters which are to be 
-  optimized (subset of parameter names of the \code{simObj}.}
-  \item{obstime}{vector with time steps for which observational data are available}
+  optimized (subset of parameter names of the \code{simObj},}
+  \item{obstime}{vector with time steps for which observational data are available,}
   \item{yobs}{data frame with observational data for all or a subset of 
     state variables. Their names must correspond exacly with existing names of state 
-    variables in the \code{\link{odeModel}}.}
-  \item{sd.yobs}{vector of given standard deviations for all observational
-    variables given in \code{yobs}. If no standard deviations are given,
-    these are estimated from \code{yobs}.}
+    variables in the \code{\link{odeModel}},}
+  \item{sd.yobs}{vector of given standard deviations (or scale)
+    for all observational variables given in \code{yobs}.
+    If no standard deviations (resp. scales) are given,
+    these are estimated from \code{yobs},}
   \item{initialize}{optional boolean value whether the simObj should be 
     re-initialized after the assignment of new parameter values. This can be
     necessary in certain models to assign consistent values to initial state 
     variables if they depend on parameters.}
   \item{debuglevel}{a positive number that specifies the amount of debugging 
-    information printed}
+    information printed,}
   \item{fn}{objective function, i.e. function that returns
-    the quality criterium that is minimized, defaults to \code{\link{ssqOdeModel}}.}
-  \item{method}{optimization method, see \code{\link[stats]{optim}}}
-  \item{lower, upper}{Bounds of the parameters for method L-BFGS-B, see 
-    \code{\link[stats]{optim}}. The bounds are also respected by other optimizers
+    the quality criterium that is minimized, defaults to \code{\link{ssqOdeModel}},}
+  \item{method}{optimization method, see \code{\link[stats]{optim}},}
+  \item{lower, upper}{bounds of the parameters for method L-BFGS-B, see
+    \code{\link[stats]{optim}} and for method PORT see \code{\link[stats]{nlminb}}.
+    The bounds are also respected by other optimizers
     by means of an internal transformation of the parameter space (see 
     \code{\link{p.constrain}}). In this case, \emph{named vectors} are required.}
-  \item{control}{A list of control parameters for \code{\link[stats]{optim}}}
+  \item{control}{a list of control parameters for \code{\link[stats]{optim}},}
   \item{\dots}{additional parameters passed to the solver method
-    (e.g. \code{\link[deSolve]{lsoda}})}
+    (e.g. \code{\link[deSolve]{lsoda}}).}
 }
 \details{
   This function works currently only with \code{odeModel} objects where 
@@ -48,9 +50,12 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs,
 }
 \value{
   A list with the optimized parameters and other information, 
-  see \code{\link{optim}} for details.
+  see \code{\link[stats]{optim}} resp. \code{\link[stats]{nlminb}} for details.
 }
-\seealso{\code{\link{ssqOdeModel}}, \code{\link[stats]{optim}}}
+\note{
+  The interface to the PORT algorithm will change for R version 2.8.1
+}
+\seealso{\code{\link{ssqOdeModel}}, \code{\link[stats]{optim}} }
 \examples{
 ## ======== load example model =========
 data(chemostat)

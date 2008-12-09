@@ -33,7 +33,10 @@ p.unconstrain(p, lower = -Inf, upper = Inf, f = 1)
 \value{
   vector with transformed (resp. back-transformed) values.
 }
-\references{Reichert, T. (1998) AQUASIM 2.0 User Manual.
+\references{This trick seems to be quite common, but in most cases it is preferred to
+apply optimizers that can handle constraints internally.
+
+Reichert, T. (1998) AQUASIM 2.0 User Manual.
 Computer Program for the Identification and Simulation
 of Aquatic Systems. Swiss Federal Institute for Environmental Science 
 and Technology (EAWAG), CH - 8600 Duebendorf Switzerland,

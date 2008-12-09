@@ -1,11 +1,12 @@
 
 `ssqOdeModel` <-
 function(p = NULL, simObj, obstime, yobs, 
-  sd.yobs = as.numeric(lapply(yobs, sd)), 
+  sd.yobs = as.numeric(lapply(yobs, sd)),
+  pnames = NULL,
   initialize = TRUE, 
   lower. = -Inf, upper. = Inf,
   debuglevel = 0, ...)  {
-  
+
   ## sanity checks
   nobs <- ncol(yobs)
   obsnames <- names(yobs)
@@ -25,9 +26,11 @@ function(p = NULL, simObj, obstime, yobs,
  
   if (debuglevel > 1) print(p)
 
-  
+  if (!is.null(pnames)) names(p) <- pnames ## workaround for nlminb
+
   ## assign parameters and re-initialize model if necessary
   if (!is.null(p)) parms(simObj)[names(p)] <- p
+  
   #if (initialize) simObj <- initialize(simObj)
   ## simulate the model
   simObj <- sim(simObj, initialize = initialize, ...)
