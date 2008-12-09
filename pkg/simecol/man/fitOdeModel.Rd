@@ -57,8 +57,12 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs,
 }
 \seealso{\code{\link{ssqOdeModel}}, \code{\link[stats]{optim}} }
 \examples{
+library(simecol)
+
 ## ======== load example model =========
 data(chemostat)
+
+#source("chemostat.R")
 
 ## derive scenarios
 cs1 <- cs2 <- chemostat
@@ -89,6 +93,7 @@ res <- fitOdeModel(cs2, whichpar=whichpar, obstime, yobs,
   debuglevel=0,
   control=list(trace=TRUE))
 
+res$par
 ## assign fitted parameters to the model, i.e. as start values for next step
 parms(cs2)[whichpar] <- res$par
 
@@ -99,6 +104,8 @@ res <- fitOdeModel(cs2, whichpar=c("vm", "km"), obstime, yobs,
   control=list(trace=TRUE),
   atol=1e-4, rtol=1e-4)
 
+res$par
+
 ## alternative 2, transform parameters to constrain unconstrained method
 ## Note: lower and upper are *named* vectors
 res <- fitOdeModel(cs2, whichpar=c("vm", "km"), obstime, yobs,
@@ -106,6 +113,21 @@ res <- fitOdeModel(cs2, whichpar=c("vm", "km"), obstime, yobs,
   method = "BFGS", lower = c(vm=0, km=0), upper=c(vm=4, km=20),
   control=list(trace=TRUE),
   atol=1e-4, rtol=1e-4)
+
+res$par
+
+
+## alternative 3, use PORT algorithm
+## Note: lower and upper are *named* vectors
+parms(cs2)[whichpar] <- c(vm=1, km=2)
+
+res <- fitOdeModel(cs2, whichpar=c("vm", "km"), obstime, yobs,
+  debuglevel=0, fn = ssqOdeModel,
+  method = "PORT", lower = c(vm=0, km=0), upper=c(vm=4, km=20),
+  control=list(trace=TRUE),
+  atol=1e-4, rtol=1e-4)
+
+res$par
 
 ## set model parameters to  fitted values and simulate again
 parms(cs2)[whichpar] <- res$par

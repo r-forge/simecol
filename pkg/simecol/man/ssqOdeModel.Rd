@@ -9,7 +9,7 @@
 ssqOdeModel(p, simObj, obstime, yobs, 
   sd.yobs = as.numeric(lapply(yobs, sd)), 
   initialize = TRUE, lower. = -Inf, upper. = Inf,
-  debuglevel = 0, ...)
+  debuglevel = 0, ..., pnames = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,7 +31,10 @@ ssqOdeModel(p, simObj, obstime, yobs,
   \item{debuglevel}{a positive number that specifies the amount of debugging 
     information printed}
   \item{\dots}{additional parameters passed to the solver method (e.g.
-    \code{\link[deSolve]{lsoda}})}
+    \code{\link[deSolve]{lsoda}}),}
+  \item{pnames}{names of the parameters, optionally passed from fitOdeModel.
+    This argument is a workaround for \R versions below 2.8.1. It may be removed
+    in future versions of \pkg{simecol}.}.
 }
 \details{
   This is the default function called by function \code{\link{fitOdeModel}}. 

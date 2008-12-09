@@ -2,10 +2,9 @@
 `ssqOdeModel` <-
 function(p = NULL, simObj, obstime, yobs, 
   sd.yobs = as.numeric(lapply(yobs, sd)),
-  pnames = NULL,
   initialize = TRUE, 
   lower. = -Inf, upper. = Inf,
-  debuglevel = 0, ...)  {
+  debuglevel = 0, ..., pnames = NULL)  {
 
   ## sanity checks
   nobs <- ncol(yobs)
