@@ -19,7 +19,7 @@ function(simObj, whichpar=names(parms(simObj)),
   }
   upper. <-  Inf
   lower. <- -Inf
-  if (!(method %in% c("L-BFSG-B", "PORT"))) {
+  if (!(method %in% c("L-BFGS-B", "PORT"))) {           #typo: was BFSG
     upper. <- upper
     lower. <- lower 
     upper <-   Inf
