@@ -34,19 +34,23 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs,
     information printed,}
   \item{fn}{objective function, i.e. function that returns
     the quality criterium that is minimized, defaults to \code{\link{ssqOdeModel}},}
-  \item{method}{optimization method, see \code{\link[stats]{optim}},}
+  \item{method}{optimization method, see \code{\link[stats]{nlminb}} for the PORT
+    algorithm and \code{\link[stats]{optim}} for all other methods,}
   \item{lower, upper}{bounds of the parameters for method L-BFGS-B, see
     \code{\link[stats]{optim}} and for method PORT see \code{\link[stats]{nlminb}}.
     The bounds are also respected by other optimizers
     by means of an internal transformation of the parameter space (see 
     \code{\link{p.constrain}}). In this case, \emph{named vectors} are required.}
-  \item{control}{a list of control parameters for \code{\link[stats]{optim}},}
+  \item{control}{a list of control parameters for \code{\link[stats]{optim}} resp.
+     \code{\link[stats]{nlminb}},}
   \item{\dots}{additional parameters passed to the solver method
     (e.g. \code{\link[deSolve]{lsoda}}).}
 }
 \details{
   This function works currently only with \code{odeModel} objects where 
   \code{parms} is a vector, not a list.
+  Note also that the control parameters of the PORT algorithm are different from
+  the control parameters of the other optimizers.
 }
 \value{
   A list with the optimized parameters and other information, 
