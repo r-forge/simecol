@@ -19,14 +19,14 @@ The object contains the following slots:
       \item{\code{v}}{producer (prey),}
       \item{\code{w}}{consumer (predator).}
     }
+    \item{\code{equations}}{Two alternative (and switchable) equations
+      for the functional response.}
+    \item{\code{parms}}{Vector with the named parameters of the model,
+      see references for details.}
+    \item{\code{times}}{Simulation time and integration interval.}
+    \item{\code{init}}{Vector with start values for \code{u}, \code{v} and \code{w}.}
+    \item{\code{solver}}{Character string with the integration method.}
   }
-  \item{\code{equations}}{Two alternative (and switchable) equations
-    for the functional response.}
-  \item{\code{parms}}{Vector with the named parameters of the model,
-    see references for details.}
-  \item{\code{times}}{Simulation time and integration interval.}
-  \item{\code{init}}{Vector with start values for \code{u}, \code{v} and \code{w}.}
-  \item{\code{solver}}{Character string with the integration method.}
 }
 
 \details{
