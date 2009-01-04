@@ -38,19 +38,6 @@ Please refer to the original publication when citing this work.
 \Plainkeywords{R, simecol, ecological modeling, compiled code, debugging} %% without formatting
 %% at least one keyword must be supplied
 
-%% Publication of this collection in JSS is not intended, but it may be possible
-%% that I/we may submit single chapters in R-News.
-
-%% publication information
-%% NOTE: This needs to filled out ONLY IF THE PAPER WAS ACCEPTED.
-%% If it was not (yet) accepted, leave them commented.
-%% \Volume{XX}
-%% \Issue{X}
-%% \Month{XXXXX}
-%% \Year{XXXX}
-%% \Submitdate{XXXX-XX-XX}
-%% \Acceptdate{XXXX-XX-XX}
-
 %% The address of (at least) one author should be given
 %% in the following format:
 \Address{
@@ -61,10 +48,6 @@ Please refer to the original publication when citing this work.
   E-mail: \email{thomas.petzoldt@tu-dresden.de}\\
   URL: \url{http://tu-dresden.de/Members/thomas.petzoldt/}\\
 }
-%% It is also possible to add a telephone and fax number
-%% before the e-mail in the following format:
-%% Telephone: +49/351/463-34954
-%% Fax: +49/351/463-34954
 
 %% for those who use Sweave please include the following line (with % symbols):
 %% need no \usepackage{Sweave.sty}
@@ -459,25 +442,177 @@ l.upca <- dget("upca_list.R")
 upca <- as.simObj(l.upca)
 @
 
-Sometimes it may be required to save simObjects in an un-initialized
+Sometimes it may be useful to store simObjects in an un-initialized
 form, in particular if they are to be distributed in packages.
 
-.... functions
+Let's demonstrate this again with a simple Lotka-Volterra model. In the first
+step, we define a function, that returns a \code{simecol} object:
+
+<<lvgen,fig=FALSE>>=
+genLV <- function() {
+  new("odeModel",
+    main = function (time, init, parms) {
+      x <- init
+      p <- parms
+      dx1 <-   p["k1"] * x[1] - p["k2"] * x[1] * x[2]
+      dx2 <- - p["k3"] * x[2] + p["k2"] * x[1] * x[2]
+      list(c(dx1, dx2))
+    },
+    parms  = c(k1=0.2, k2=0.2, k3=0.2),
+    times  = c(from=0, to=100, by=0.5),
+    init   = c(prey=0.5, predator=1),
+    solver = "lsoda"
+  )
+}
+@
+
+Now, the function contains the instruction, how \proglang{R} can create a new
+instance of such a model. The \code{simecol} object is not created yet, but a call
+to the creator function can bring it into live:
+
+<<lvgen2>>=
+lv1 <- genLV()
+plot(sim(lv1))
+@
+
+This style is used in package \pkg{simecolModels}\footnote{\pkg{simecolModels}
+can be downloaded from the R-Forge server, \url{http://simecol.r-forge.r-project.org/}.},
+a collection of (mostly) published ecological models.
 
 
 %\section{The initfunc}
 % basics already explained in the manual
 % avoiding re-initialization
 
-\section{Using alternative solver packages}
+%\section{Using alternative solver packages}
 
-\pkg{PBSddeSolve}-example  \dots
+%\pkg{PBSddeSolve}-example  \dots
 
-user-defined solvers and assigning a function to the solver-slot \dots
+%user-defined solvers and assigning a function to the solver-slot \dots
+
+%\section{Using vectorized equations}
 
 \section{Implementing models in compiled languages}
 
-an example how to use compiled code the main function  \dots
+Compilation of model code can speed up simulations considerably and there are
+two ways to gain from compiled code. It is possible to to use functions written in
+\proglang{C/C++} or \proglang{Fortran} in the ordinary way described in the
+``Writing R Extensions'' manual \citep{Rexts2006}. This can speed up computations
+but still needs communication overhead because the control is given back to
+\proglang{R} in every simulation step.
+
+In addition to this it is also possible to enable direct communication between
+integration routines and the model code if both are available in compiled code
+and if direct call of a compiled model is supported by the integrator. All integrators
+of the \code{lsoda}-family of solvers support this and additional solvers may
+support this in the future, see the \pkg{deSolve} documentation for details.
+
+Now, let's inspect an example. We firstly provide our model as described in the
+\code{deSolve} documentation, here again the Lotka-Volterra-model:
+
+\begin{verbatim}
+/* file: clotka.c */
+#include <R.h>
+
+static double parms[3];
+
+#define k1 parms[0]
+#define k2 parms[1]
+#define k3 parms[2]
+
+/* It is possible to define global variables here */
+static double aGlobalVar = 99.99;   // for testing only
+
+/* initializer: same name as the dll (without extension) */
+void clotka(void (* odeparms)(int *, double *)) {
+    int N = 3;
+    odeparms(&N, parms);
+    Rprintf("model parameters succesfully initialized\n");
+}
+
+/* Derivatives */
+void dlotka(int *neq, double *t, double *y, double *ydot, double *yout, int *ip) {
+    // sanity checks
+    if (ip[0] < 2) error("nout should be at least 2");
+    // derivatives
+    ydot[0] = k1 * y[0]        - k2 * y[0] * y[1];
+    ydot[1] = k2 * y[0] * y[1] - k3 * y[1];
+
+    // additional outputs, here for demo purposes only
+    yout[0] = aGlobalVar;
+    yout[1] = ydot[0];
+}
+\end{verbatim}
+
+
+The `define' macros are a typical \proglang{C}-trick to get readable names
+for the parameters. This method is simple and efficient, but there are, of course,
+other possibilities, for example using dynamic variables.
+
+..... continue here with compilation
+
+Compilation requires an installed C compiler, e.g. an appropriate version of
+\code{gcc} on Linux or Macintosh, resp. the R-Tools collection\url{http://www.murdoch-sutherland.com/Rtools/}
+provided by Duncan Murdoch for Windows.
+
+<<compile.clotka,fig=FALSE,eval=FALSE>>=
+system("R CMD SHLIB clotka.c")
+@
+
+
+
+..... and the R part:
+
+
+<<clotka_R,eval=FALSE>>=
+modeldll <- dyn.load("clotka.dll")
+
+clotka <- new("odeModel",
+  ## note that this main does not contain the equations directly
+  ## but returns information where these can be found
+  main = function(time, init, parms) {
+     # list with dllname, func, nout, [jacfunc]
+     list(lib     = "clotka",
+          func    = "dlotka",
+          jacfunc = NULL,
+          nout    = 2)
+  },
+  ## parms, times, init are provided as usual, enabling
+  ## scenario control like for "ordinary" simecol models
+  parms  = c(k1=0.2, k2=0.2, k3=0.2),
+  times  = c(from=0, to=100, by=0.5),
+  init   = c(prey=0.5, predator=1),
+  ## a special solver function that evaluates functlist
+  ## and passes its contents directly to the lsoda
+  ## in the "compiled function" mode
+  solver = function(init, times, funclist, parms, ...) {
+    f <- funclist()
+    as.data.frame(lsoda(init, times, func=f$func,
+      parms = parms, dllname = f$lib, jacfunc=f$jacfunc, nout = f$nout, ...)
+    )
+  }
+)
+
+clotka <- sim(clotka)
+
+## the two graphivs on top are the states
+## the other are additional variables returned by the C code
+## (for demonstration purposes here)
+plot(clotka)
+
+## Another simulation with more time steps
+times(clotka)["to"] <- 1000
+plot(sim(clotka))
+
+## another simulation with intentionally reduced accuracy
+## for testing
+plot(sim(clotka, atol=1))
+
+dyn.unload(as.character(modeldll[2]))
+@
+
+... describe the list structure and the solver
+
 
 %\bibliographystyle{jss}
 \bibliography{petzoldt_jss}
