@@ -20,8 +20,8 @@ function(simObj, whichpar=names(parms(simObj)),
   upper. <-  Inf
   lower. <- -Inf
   if (!(method %in% c("L-BFGS-B", "PORT"))) {
-    upper. <- upper
-    lower. <- lower 
+    upper. <- upper[whichpar]
+    lower. <- lower[whichpar]
     upper <-   Inf
     lower <- - Inf
   }
@@ -32,10 +32,10 @@ function(simObj, whichpar=names(parms(simObj)),
     m <- nlminb(start=par, objective = fn, #gradient = NULL, hessian = NULL,
              simObj = simObj, obstime = obstime,
              yobs = yobs, sd.yobs = sd.yobs,
-             pnames = names(par),  # !!! workaround as nlminb does not pass the names
+             pnames = names(par),  # !!! workaround as nlminb does not pass the names  in R < 2.8.1
              initialize = initialize,
              debuglevel = debuglevel,
-             scale = 1, control = control)#, lower = lower, upper = upper)
+             scale = 1, control = control, lower = lower, upper = upper)
   } else {
     m <- optim(par, fn = fn, simObj = simObj, obstime = obstime,
              yobs = yobs, sd.yobs = sd.yobs, initialize = initialize,
