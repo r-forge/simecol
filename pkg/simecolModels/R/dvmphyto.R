@@ -179,7 +179,9 @@ dvm_phyto <- function() {
           Xr.resp = Xr.resp, Xk.resp = Xk.resp, Xr.sed.v = Xr.sed.v,
           Xk.sed.v = Xk.sed.v, Xr.imp = Xr.imp, Xk.imp = Xk.imp, P.imp = P.imp)
       })
-      parms(obj) <- c(p, pnew)
+      ## important! new parameters should overwrite old ones
+      parms(obj) <-  c(p[!(names(p) %in% names(pnew))], pnew)
+
       obj
     }
   )
