@@ -487,6 +487,7 @@ a collection of (mostly) published ecological models.
 %\section{Using alternative solver packages}
 
 %\pkg{PBSddeSolve}-example  \dots
+% use a time delayed differential model as example
 
 %user-defined solvers and assigning a function to the solver-slot \dots
 
