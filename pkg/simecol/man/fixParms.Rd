@@ -36,16 +36,16 @@
   \code{\link[utils]{fix}}
 }
 \examples{
-  \dontrun{
-    data(lv)        # load basic Lotka-Volterra model
-    fixParms(lv) 
-    plot(sim(lv))
+\dontrun{
+data(lv)        # load basic Lotka-Volterra model
+fixParms(lv) 
+plot(sim(lv))
 
-    data(conway)    # Conway's game of life
-    init(conway) <- matrix(0, 10, 10)
-    fixInit(conway) # enter some "1"
-    sim(conway, animate=TRUE, delay=100)
-  }
+data(conway)    # Conway's game of life
+init(conway) <- matrix(0, 10, 10)
+fixInit(conway) # enter some "1"
+sim(conway, animate=TRUE, delay=100)
+}
 }
 
 \keyword{utilities}

@@ -1,8 +1,8 @@
 0.6-2
 
 o fitOdeModel supports now PORT algorithm (nlminb)
-o fixed documentation flaws
-o work on "simecol-howto"
+o documentation improvements
+o first version of "simecol-howto"
 
 
 0.6-1

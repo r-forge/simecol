@@ -37,7 +37,7 @@
      that should be modifiable without rewriting the function.}
   \item{animate}{Animation during the simulation (if available for the specified
     class.}
-  \item{\dots}{Optional arguments passed to the \code{plot} function if
+  \item{\dots}{optional arguments passed to the \code{plot} function if
     \code{animate=TRUE}.}
 }
 
@@ -45,25 +45,25 @@
 
 \details{
   The solver method \code{iteration} is used to simulate discrete event
-  models. 
+  models.
   
-  In contrast to differential equation solvers, the \code{main} function of the model
-  must not return the first derivative but instead and explicitly
-  the new state at the specified times.
+  In contrast to differential equation solvers, the \code{main} function
+  of the model must not return the first derivative but instead and
+  explicitly the new state at the specified times.
   
-  The actual value of time is available in the \code{main} function as \code{time}
-  and the current increment as \code{parms$DELTAT} or \code{parms["DELTAT"]}
-  depending on the data type of \code{parms}.
+  The actual value of time is available in the \code{main} function as
+  \code{time} and the current increment as \code{parms$DELTAT} or
+  \code{parms["DELTAT"]} depending on the data type of \code{parms}.
   
   Normally, this function is run indirectly from \code{\link{sim}}.
 
-  The default \code{iteration} method of class \code{simObj} supports the
-  \code{observer} mechanism. This means that a function stored in slot
-  \code{observer} is called during each iteration step with the return value
-  of \code{main} as its first argument. You can use this to determine the amount
-  of data stored during each iteration step (e.g. whole population or only
-  mean values for individual based models), to do run-time animation or to
-  write log files.
+  The default \code{iteration} method of class \code{simObj} supports
+  the \code{observer} mechanism. This means that a function stored in
+  slot \code{observer} is called during each iteration step with the
+  return value of \code{main} as its first argument. You can use this to
+  determine the amount of data stored during each iteration step
+  (e.g. whole population or only mean values for individual based
+  models), to do run-time animation or to write log files.
 }
 
 \seealso{
@@ -81,16 +81,16 @@ sim(conway, animate=TRUE, delay=100)
 
 ##### discrete version of logistic growth equation
 dlogist <- new("odeModel",
-main = function (time, init, parms, ...) {
-  x <- init
-  p <- parms
-  x[1] <- x[1] + p["r"] * x[1] * (1 - x[1] / p["K"])
-  #       ^^^^ important !!! new value, not derivative
-  list(c(x))
-},
-parms  = c(r=0.1, K=10),
-times  = seq(0, 100, 1),
-init   = c(population=0.1),
+  main = function (time, init, parms, ...) {
+    x <- init
+    p <- parms
+    x[1] <- x[1] + p["r"] * x[1] * (1 - x[1] / p["K"])
+    #       ^^^^ important !!! new value, not derivative
+    list(c(x))
+  },
+  parms  = c(r=0.1, K=10),
+  times  = seq(0, 100, 1),
+  init   = c(population=0.1),
 solver = "iteration" #!!!
 )
 

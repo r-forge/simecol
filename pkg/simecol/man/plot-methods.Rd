@@ -17,27 +17,33 @@
 }
 
 \arguments{
-  \item{x}{An object of class \code{simObj}.}
+  \item{x}{an object of class \code{simObj},}
 %  \item{y}{omitted.}
-  \item{index}{Index of time steps to be plotted.}
-  \item{delay}{Delay  (in ms) between consecutive images (for \code{gridModel}s)
-    or xy-plots (for \code{rwalkModel}s).}
-  \item{...}{Optional plotting parameters.}
+  \item{index}{index of time steps to be plotted,}
+  \item{delay}{delay (in ms) between consecutive images (for
+    \code{gridModel}s) or xy-plots (for \code{rwalkModel}s),
+  }
+  \item{...}{optional plotting parameters.}
 }
 
 \section{Methods}{
-\describe{
-  \item{x = "ANY", y = "ANY"}{Generic function: see \code{\link[graphics]{plot}}.}
-  \item{x = "simObj", \dots}{
-    returns a warning that a specific method is required, depending on the
-    actual data structure.}
-  \item{x = "odeModel", \dots}{
-    plots time series of the state variables. Optional plotting parameters
-    are possible.}
-  \item{x = "gridModel", \dots}{displays a series of images for
-    the simulated grid.}
-  \item{x = "rwalkModel", \dots}{displays a series of x-y plots
-    of the simulated individuals.}
+  \describe{
+
+    \item{x = "ANY", y = "ANY"}{Generic function: see
+      \code{\link[graphics]{plot}}.  }
+
+    \item{x = "simObj", \dots}{returns a warning that a specific method is
+      required, depending on the actual data structure.}
+
+    \item{x = "odeModel", \dots}{plots time series of the state
+      variables. Optional plotting parameters are possible.}
+
+    \item{x = "gridModel", \dots}{displays a series of images for the
+      simulated grid.}
+
+    \item{x = "rwalkModel", \dots}{displays a series of x-y plots of the
+      simulated individuals.}
+
   }
 }
 \keyword{methods}

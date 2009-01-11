@@ -9,10 +9,11 @@
 \usage{peaks(x, y=NULL, mode="maxmin")}
 
 \arguments{
-  \item{x, y}{The coordinates of given points.}
-  \item{mode}{Specifies if both maxima and minima (\code{mode="maxmin"})
-  or only maxima (\code{mode="max"}) or minima (\code{mode="min"}) are
-  requested.}
+  \item{x, y}{the coordinates of given points.}
+  \item{mode}{specifies if both maxima and minima (\code{mode="maxmin"})
+    or only maxima (\code{mode="max"}) or minima (\code{mode="min"}) are
+    requested.
+  }
 }
 
 \value{
@@ -25,9 +26,9 @@
   
 }
 \examples{
-    x <- sin(seq(0,10,0.1))
-    plot(x)
-    points(peaks(x), col="red", pch=15)
+x <- sin(seq(0, 10, 0.1))
+plot(x)
+points(peaks(x), col="red", pch=15)
 }
 
 \keyword{misc}

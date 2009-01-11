@@ -4,8 +4,8 @@
 \alias{rwalkModel}
 \alias{indbasedModel}
 
-\title{Generating-functions (constructors) to create objects of
-  classes `odeModel', `rwalkModel' and `gridModel'.}
+\title{Generating-functions (Constructors) to Create Objects of
+  Classes `odeModel', `rwalkModel' and `gridModel'.}
 
 \description{
   These functions can be used to create \code{simObj} instances without

@@ -13,14 +13,14 @@
   \S4method{print}{simObj}(x, all = FALSE, ...)
 }
 \arguments{
-  \item{x}{An object of class \code{simObj} or one of its subclasses.}
-  \item{all}{Specifies whether all slots are printed. Default is that
+  \item{x}{an object of class \code{simObj} or one of its subclasses.}
+  \item{all}{specifies whether all slots are printed. Default is that
     only not-empty slots are printed and the contents of \code{out} are suppressed.}
-  \item{...}{Optional parameters passed to print.}
+  \item{...}{optional parameters passed to print.}
 }
 \section{Methods}{
   \describe{
-    \item{x = "ANY"}{Generic function: see \code{\link[base]{print}}.}
+    \item{x = "ANY"}{generic function: see \code{\link[base]{print}}.}
     \item{x = "simObj"}{prints the contents (slots) of the \code{simObj} object.}
   }
 }
