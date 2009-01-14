@@ -26,24 +26,24 @@
 
 %% an abstract and keywords
 \Abstract{
-The \pkg{simecol} package provides an open structure 
-to implement, simulate and share ecological models. A generalized object-oriented 
+The \pkg{simecol} package provides an open structure
+to implement, simulate and share ecological models. A generalized object-oriented
 architecture improves readability and potential code re-use of models and
 makes \pkg{simecol}-models freely extendable and simple to use.
 The \pkg{simecol} package was implemented in the \proglang{S4} class system
-of the programming language \proglang{R}. 
-Reference applications, e.g.\ predator-prey models or grid models are provided 
+of the programming language \proglang{R}.
+Reference applications, e.g.\ predator-prey models or grid models are provided
 which can be used as a starting point for own developments.
 Compact example applications and the complete code of an individual-based
-model of the water flea \textit{Daphnia} document the efficient usage of  \pkg{simecol} for 
+model of the water flea \textit{Daphnia} document the efficient usage of  \pkg{simecol} for
 various purposes in ecological modeling,  e.g.\ scenario analysis, stochastic
 simulations and individual based population dynamics.
-Ecologists are encouraged to exploit the abilities of \pkg{simecol} to structure 
+Ecologists are encouraged to exploit the abilities of \pkg{simecol} to structure
 their work and to use \proglang{R} and object-oriented programming
 as a suitable medium for the distribution and share of ecological modeling code.
 
 \textbf{Note:} A previous version of this introduction to the
-R package simecol has been published as \citet{Petzoldt2007} in the Journal of 
+R package simecol has been published as \citet{Petzoldt2007} in the Journal of
 Statistical Software, \url{http://www.jstatsoft.org/v22/i09}.
 Please refer to the original publication when citing this work.
 }
@@ -153,8 +153,8 @@ easier to re-write code from scratch than to reuse an existing one.
 We aim to propose a possible way out of the dilemma, an open
 structure to implement and simulate ecological
 models.
-The \proglang{R} package \pkg{simecol} is provided to demonstrate the 
-feasibility of this approach including a starter set of examples and utility 
+The \proglang{R} package \pkg{simecol} is provided to demonstrate the
+feasibility of this approach including a starter set of examples and utility
 functions to work with such models.
 
 After giving a description of the design goals and the specification of the
@@ -254,7 +254,7 @@ unnecessary copy and paste \citep{Maechler2004}.
 
 The approach follows directly from the design goals to provide (i)
 a standardized structure, (ii) open and reusable code and (iii) ease of use of
-``the model''. It is almost self-evident to apply an object-oriented design, 
+``the model''. It is almost self-evident to apply an object-oriented design,
 consisting of:
 
 \begin{enumerate}
@@ -266,7 +266,7 @@ consisting of:
   differently depending on the model family they work with.
 \end{enumerate}
 
-All equations, constants and data needed for one particular simulation 
+All equations, constants and data needed for one particular simulation
 should be included in the model object, with the exception of general and widely
 needed functions, e.g.\ numerical algorithms. In the following sections we first
 analyse what is generally needed and then describe the particular approach.
@@ -403,7 +403,7 @@ all slots with (in opposite to \code{out}) not only read but also write access.
 These functions are used similarly like the base function \code{names} and work with the
 appropriate data structures, see help files for details. The functions
 allow to change either the whole content of the respective slot or
-to change single elements, e.g.\ parameter values, time steps or equations. 
+to change single elements, e.g.\ parameter values, time steps or equations.
 For example, the following will change only the parameter value of \code{k1}:
 
 <<parm1,echo=TRUE>>=
@@ -431,7 +431,7 @@ The behavior is analogous for all other slots with the exception of
 (vector, list or matrix) is used.
 
 In addition to the command line accessor functions, graphical \proglang{Tcl/Tk} versions
-exist (\code{fixParms}, \code{fixTimes}, \code{fixInit}), however, more complex 
+exist (\code{fixParms}, \code{fixTimes}, \code{fixInit}), however, more complex
 data types cannot be handled yet by these functions.
 
 \subsubsection{Numerical algorithms}
@@ -480,10 +480,10 @@ straightforward and may serve as a starting point for even more efficient
 solutions or other grid types, for example hexagonal or 3D grids.
 
 Neighborhood functions can also be used for spatially explicit models.
-Models of this family commonly include both, an explicit spatial 
-representation of organisms (in most cases with real-valued locations) and a 
+Models of this family commonly include both, an explicit spatial
+representation of organisms (in most cases with real-valued locations) and a
 grid-based representation of environmental factors \citep{Dunning1995, Grimm2005}.
-                  
+
 \subsection{Example models}
 
 A set of small ecological models is supplied with the package. These models are intended
@@ -506,10 +506,10 @@ CA <- new("gridModel",
       z     <- init
       nb    <- eightneighbors(z)
       pgen  <- 1 - (1 - parms$pbirth)^nb
-      zgen  <- ifelse(z == 0 & 
+      zgen  <- ifelse(z == 0 &
                  runif(z) < pgen, 1, 0)
-      zsurv <- ifelse(z >= 1 & 
-                 runif(z) < (1 - parms$pdeath), 
+      zsurv <- ifelse(z >= 1 &
+                 runif(z) < (1 - parms$pdeath),
                  z + 1, 0)
       zgen + zsurv
     },
@@ -569,7 +569,7 @@ which can be given by two ordinary differential equations:
 
 \begin{align}
 \frac{dX_1}{dt} &= k_1 X_1 - k_2 X_1 X_2   \label{e:lv1}\\
-\frac{dX_2}{dt} &= - k_3 X_1 + k_2 X_1 X_2 \label{e:lv2}
+\frac{dX_2}{dt} &= - k_3 X_2 + k_2 X_1 X_2 \label{e:lv2}
 \end{align}
 
 In order to reproduce a schoolbook example two scenarios may be created by modifying
@@ -724,15 +724,15 @@ symbols in the equations.
 
 \subsection{Models with nested subequations}
 
-For large models with numerous equations or for models with alternative 
-(i.e.\ exchangeable) submodels it may be preferable to use a separate structure. 
-Although \pkg{simecol} principally allows implementing subroutines as local 
-functions of the \code{main} slot or even directly in the user workspace such 
-a strategy would not be in line with our design goals. Instead, the 
+For large models with numerous equations or for models with alternative
+(i.e.\ exchangeable) submodels it may be preferable to use a separate structure.
+Although \pkg{simecol} principally allows implementing subroutines as local
+functions of the \code{main} slot or even directly in the user workspace such
+a strategy would not be in line with our design goals. Instead, the
 \code{equation}-slot of the \code{simObj} class definition provides the structure
-where relevant submodels and model equations are stored. 
+where relevant submodels and model equations are stored.
 Consequent usage of the \code{equation} slot helps to increase the readability
-of the \code{main} function, leads to more structurized code and complies with 
+of the \code{main} function, leads to more structurized code and complies with
 the object-oriented paradigm. Moreover, the \code{equation} slot can be used to
 store alternative submodels, see Table \ref{t:upca} for a small example.
 
@@ -775,7 +775,7 @@ main(lv_ef) <-  function (time, init, parms, ...) {
 }
 @
 
-For linear interpolation the utility function \code{approxTime1} is used here 
+For linear interpolation the utility function \code{approxTime1} is used here
 to read the input at correct time steps from the input matrix, which can be given as:
 
 <<lv_ef2,echo=TRUE>>=
@@ -817,7 +817,7 @@ lines(inp$time, inp$s.in, col="darkgreen", lwd=2, lty="11")
   An initialisation function \code{initfunc} is provided which is called
   by \code{initialize} and returns a re-initialized \code{obj} with
   a new random sample of input values. The utility function \code{fromtoby}
-  is used to expand the time vector from its compact form 
+  is used to expand the time vector from its compact form
   \code{c(from=, to=, by=)} into a sequence.}
 
 \hrulefill
@@ -872,7 +872,7 @@ or implicitly during object creation. The syntax allows,
 in principal, two different modes of use. One can either provide all slots of
 the object in creation as named arguments to \code{new} or one can provide an
 existing \code{simObj} as the first un-named argument to \code{initialize}
-in order to get a re-initialized clone.\footnote{Initialization is now done 
+in order to get a re-initialized clone.\footnote{Initialization is now done
 automatically before each call to sim (introduced in version 0.6).}
 
 In the case of \code{simObj} this mechanism is extended by
@@ -918,7 +918,7 @@ suggested to distiguish three different perspectives:
 These perspectives are complementary to the tasks defined by \citet{Grimm2005} when
 tasks (i)--(ii) are regarded as conceptional and task (iii) as specification.
 In the following we concentrate on task (iv) to explain by means of a real,
-but still simple example, how a specified model can be implemented using \proglang{R} 
+but still simple example, how a specified model can be implemented using \proglang{R}
 and the \pkg{simecol} software.
 
 \subsection{Conceptional perspective: an individual-based model of Daphnia}
@@ -928,10 +928,10 @@ the analysis of demographic effects of \textit{Daphnia} (water flea) populations
 Two main hypotheses should be tested:
 
 \begin{itemize}
-\item Size-selective predation leads to an increased population mortality rate, 
+\item Size-selective predation leads to an increased population mortality rate,
   compared to non-selective predation by fish \citep{Mehner1998}.
-\item In comparison to predictions from the conventional Lotka-Volterra approach 
-  the inclusion of demographic effects results in a delayed but then inexpectedly 
+\item In comparison to predictions from the conventional Lotka-Volterra approach
+  the inclusion of demographic effects results in a delayed but then inexpectedly
   rapid decline of abundance during periods of food limitation due to
   ageing effects \citep{Huelsmann2002}.
 \end{itemize}
@@ -950,31 +950,31 @@ The \textit{Daphnia} model consists of three general parts:
 \item A non-spatial individual-based simulation of population dynamics.
 \end{enumerate}
 
-Individual-based models (IMBs) are a popular technique in ecological modeling 
+Individual-based models (IMBs) are a popular technique in ecological modeling
 \citep{DeAngelis1992a,Grimm1999,Grimm2005}. It is our aim to demonstrate
 how such models can be implemented with \pkg{simecol}.
 
 \subsection{Model specification}
 
 The state of the system is defined as a sample of individuals, each having four states:
-age, size, number of eggs and age of eggs. Population development is dependend on 
+age, size, number of eggs and age of eggs. Population development is dependend on
 two environmental variables, food (phytoplankton, given in $\rm mg\,L^{-1}$ carbon)
 and temperature (in \textcelsius). The model is simulated in fixed time steps
-(usually 0.1 day) over a period of several days up to a few months. The time scales 
+(usually 0.1 day) over a period of several days up to a few months. The time scales
 are selected with respect to the egg development time, which is about 4.4 days at
 15\,\textcelsius \citep{Bottrell1976}.
 
 The life cycle of \textit{Daphnia} starts with the release of neonate individuals of
 a given size ($L_0$) from the brood chamber of the mother into the water.
 Somatic growth follows the von Bertalanffy growth equation \citep{Bertalanffy1957},
-depending on several empirical parameters. As soon as an individual reaches a fixed size 
+depending on several empirical parameters. As soon as an individual reaches a fixed size
 at maturity (SAM) a clutch of eggs is produced (spawned), whereby the clutch size
 (number of eggs) is controlled by food availablility.
 After a temperature dependend egg development time the
 individuals from this clutch are released (hatched) and the cycle is started again
 (parthenogenetic, i.e.\ asexual reproduction).
 
-Mortality can be modelled with arbitrary deterministic or stochastic mortality functions, 
+Mortality can be modelled with arbitrary deterministic or stochastic mortality functions,
 e.g.\ size dependent mortality due to fish predation, but for the first simulation
 a deterministic fixed maximum age is used.
 All equations and parameters are given in detail in \citet{Rinke2003}
@@ -1029,9 +1029,9 @@ the following processes:
     the table of individuals and returning only those rows which match the condition.
   \item[hatch:] In a first step the the actual egg age is compared with the
     egg development time. Then the total number of mature eggs is counted
-    and a data frame (\code{newinds}) with an appropriate number of individuals is 
-    created (function \code{newdaphnia}. Population growth occurs by appending 
-    the data frame with newborns (\code{newinds}) to the data frame of the 
+    and a data frame (\code{newinds}) with an appropriate number of individuals is
+    created (function \code{newdaphnia}. Population growth occurs by appending
+    the data frame with newborns (\code{newinds}) to the data frame of the
     surviving (\code{inds}).
 \end{description}
 
@@ -1050,7 +1050,7 @@ the \code{parms} slot.
 
 \subsection{Model simulation}
 
-With the \code{ibm\_Daphnia} object derived from the \code{indbasedModel} class 
+With the \code{ibm\_Daphnia} object derived from the \code{indbasedModel} class
 and given as complete source code in Tables \ref{t:ibmdaphnia1} and
 \ref{t:ibmdaphnia2} it is now possible to perform a first simulation:
 
@@ -1314,11 +1314,11 @@ or for complex individual-based simulations with large numbers of interacting
 individuals, where class-based OOP in the flavor of \proglang{C++} or \proglang{JAVA}
 is regarded as more natural \citep{Grimm2005}.
 However, even such applications can take advantage of \pkg{simecol}, either
-because of vectorization in \proglang{R} (\code{subset} is in fact highly efficient) 
+because of vectorization in \proglang{R} (\code{subset} is in fact highly efficient)
 or due to the possibility to embed compiled code as shared library.
 For large applications or external simulation programs, \pkg{simecol} objects
 can be constructed as an interface provided that the external program is open
-enough to be linked or at least is callable in batch mode. 
+enough to be linked or at least is callable in batch mode.
 
 The package is designed to be open for local extensions and further
 evolution of the package itself. A limited number of classes will follow,
@@ -1335,7 +1335,7 @@ of ordinary differential equation models.
 
 Another appealing approach is the stoichiometry-matrix based approach for
 ODE models of aquatic systems (wastewater treatment, biofilm, rivers and lakes,
-\url{http://www.eawag.ch/organisation/abteilungen/siam/lehre/Modaqecosys/}). 
+\url{http://www.eawag.ch/organisation/abteilungen/siam/lehre/Modaqecosys/}).
 These \proglang{R} scripts, developed by
 a prominent group in water modeling \citep[e.g.\ ][]{Reichert1994,Reichert2001},
 are currently used for teaching of aquatic modeling together with model assessment like
@@ -1358,7 +1358,7 @@ be possible that one stays with it for a long time.
 
 \section*{Acknowledgments}\label{s:acknowledgments}
 
-We wish to express our thanks to René Sachse for suggestions while developing 
+We wish to express our thanks to René Sachse for suggestions while developing
 his own \pkg{simecol} models and to the participants of the
 ``Modeling for Limnologists'' workshop for testing and feedback.
 We are grateful to two anynymous reviewers for their constructive remarks which helped
