@@ -54,23 +54,21 @@ parms(sc2)["DVM"] <- TRUE
 parms(sc3)["DVM"] <- TRUE
 parms(sc3)["ZXr.graz.max.ind"] <- parms(dvmphyto)["ZXr.graz.max.ind"] * 3
 parms(sc3)["ZXk.graz.max.ind"] <- parms(dvmphyto)["ZXk.graz.max.ind"] * 3
-#sc3 <- initialize(sc3) ## not more necessary
 
 parms(sc4)["DVM"] <- TRUE
 parms(sc4)["ZXr.graz.max.ind"] <- parms(dvmphyto)["ZXr.graz.max.ind"] * 3
 parms(sc4)["ZXk.graz.max.ind"] <- parms(dvmphyto)["ZXk.graz.max.ind"] * 3
 parms(sc4)["Z.mort.min.d"]     <- parms(dvmphyto)["Z.mort.min.d"]     * 3
 parms(sc4)["Z.mort.temp.d"]    <- parms(dvmphyto)["Z.mort.temp.d"]    * 3
-parms(sc4)["Z.resp.ind.d"]     <- parms(dvmphyto)["Z.resp.ind.d"]     * 3
-#sc4 <- initialize(sc4) ## not more necessary
+parms(sc4)["f.Z.resp"]         <- 3
 
 parms(sc5)["DVM"] <- FALSE
 parms(sc5)["ZXr.graz.max.ind"] <- parms(dvmphyto)["ZXr.graz.max.ind"] * 3
 parms(sc5)["ZXk.graz.max.ind"] <- parms(dvmphyto)["ZXk.graz.max.ind"] * 3
 parms(sc5)["Z.mort.min.d"]     <- parms(dvmphyto)["Z.mort.min.d"]     * 3
 parms(sc5)["Z.mort.temp.d"]    <- parms(dvmphyto)["Z.mort.temp.d"]    * 3
-parms(sc5)["Z.resp.ind.d"]     <- parms(dvmphyto)["Z.resp.ind.d"]     * 3
-#sc5 <- initialize(sc5) ## not more necessary
+parms(sc5)["f.Z.resp"]         <- 3
+
 
 ## it is also possible to use "chained cloning" e.g. to clone
 ## sc5 as copy of sc4 and then to modify the DVM parameter only

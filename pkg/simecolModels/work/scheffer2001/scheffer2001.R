@@ -2,7 +2,7 @@
 # Original Model from:
 #   Scheffer, M.; Straile, D.; van Nes, E. H. & Hosper, H.
 #   Climatic warming causes regime shifts in lake food webs
-#   Limnol. Oceanogr., 2001, 6, 1780–1783
+#   Limnol. Oceanogr., 2001, 6, 1780-1783
 #
 # R Re-Implementation by Thomas Petzoldt
 #   - formal change: consistent capitalization of F and h_Z
@@ -32,11 +32,11 @@ scheffer2001 <-  function() {
       K    = 10,     # (mg DWT L^-1) algal carrying capacity
       g    = 0.4,    # (day^-1) maximum zooplankton grazing rate
       h_A  = 0.6,    # (mg DWT L^-1) half-saturation algal concentration for zooplankton grazing
-      d    = 0.01,   # (—) inflow rate of algae from ungrazed parts
-      e    = 0.6,    # (—) efficiency of food conversion to growth
+      d    = 0.01,   # (-) inflow rate of algae from ungrazed parts
+      e    = 0.6,    # (-) efficiency of food conversion to growth
       m    = 0.15,   # (day^-1) loss rate of zooplankton
       h_Z  = 0.5,    # (mg DWT L^-1) half-saturation zooplankton concentration for fish predation
-      eps  = 0.7,    # (—) seasonal forcing strength
+      eps  = 0.7,    # (-) seasonal forcing strength
       F    = 0.0965, # (-) fish density
       q    = 0.812,  # (-) temperature coefficient
       equinox =  365 # 365.24218967  # length of a year

@@ -131,7 +131,9 @@ dvm_phyto <- function() {
       P.imp.d          = 0.137,       #   mgP/m3 d  P-import, slightly eutrophic
       yield.CP         = 24.4,        #   mgC / mugP   Yield Carbon per P (Redfield)
       yield.mort       = 24.4,        #   mugP / mgC   remin of P, Daphnienmort., SALMO
-      yield.fae        = 0.7          #   part of remineralized P of Zoopl. faeces, SALMO
+      yield.fae        = 0.7,         #   part of remineralized P of Zoopl. faeces, SALMO
+      ## scenario parameters to change intermediate variables
+      f.Z.resp         = 1
     ),
     times  = c(from=0, to=100 * 24, by=1), # time step is hours
     init = c(Xr = 0.05, Xk = 0.05, Z = 0.05, P = 30), # in mg/L, P in \mug/L
@@ -157,7 +159,7 @@ dvm_phyto <- function() {
         ZXk.graz.max     <- ZXk.graz.max.ind / Z.w
         Z.mort.min       <- Z.mort.min.d / 24
         Z.mort.temp      <- Z.mort.temp.d / 24
-        Z.resp.ind.d     <- 0.288  * Z.w ^ 0.85        #  gC/Ind d   Author?
+        Z.resp.ind.d     <- f.Z.resp * 0.288  * Z.w ^ 0.85 #  gC/Ind d   Author?
         Z.resp.max       <- Z.resp.ind.d / Z.w / 24    #  gC/h   Author?
         Xr.mu.max        <- Xr.mu.max.d / 24           #  1/h
         Xk.mu.max        <- Xk.mu.max.d / 24           #  1/h
