@@ -3,6 +3,7 @@
 o fitOdeModel supports now PORT algorithm (nlminb)
 o documentation improvements
 o first version of "simecol-howto"
+o new utility mixNamedVec
 
 
 0.6-1

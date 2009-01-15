@@ -24,7 +24,7 @@ exportMethods(coerce, as.list, as.simObj)
 export(simObj, odeModel, gridModel, rwalkModel)
 
 ## utilities
-export(addtoenv, fromtoby)
+export(addtoenv, fromtoby, mixNamedVec)
 export(neighbours, neighbors, eightneighbours, eightneighbors, seedfill)
 export(approxTime, approxTime1, sEdit, peaks)
 export(iteration)
@@ -38,5 +38,5 @@ export(p.constrain, p.unconstrain)
 export(pcu, pcuseries, rho2alpha, alpha2rho)
 
 ## not necessary because example models are stored as *data*
-# export(lv, lv3, conway, diffusion, upca) 
+# export(lv, lv3, conway, diffusion, upca)
 

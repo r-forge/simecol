@@ -15,7 +15,7 @@ dvm_phyto <- function() {
       Xk <- init[2]
       Z  <- init[3]
       P  <- init[4]
-  
+
       with(as.list(parms), {
         e <- 10 ^ -3  # duration of twilight
         # day night rhythm
@@ -25,7 +25,7 @@ dvm_phyto <- function() {
         phot <- function(i0, ki, eps, z) {
                 1/(eps) * log((i0 + ki)/(ki + i0 * exp(-eps*z)))}
         eps <- eps.min + Xr.eps * Xr + Xk.eps * Xk     #epsilon, see Scavia80
-  
+
         Xr.hi <- phot(I.t, Xr.ki, eps, z.mix) / z.mix
         Xk.hi <- phot(I.t, Xk.ki, eps, z.mix) / z.mix
         Xr.mu <- Xr.mu.max *  (P / (P + Xr.kp)) * Xr.hi
@@ -34,14 +34,14 @@ dvm_phyto <- function() {
         Xk.growth <- Xk.mu * Xk
         Xr.sed <- Xr.sed.v / z.mix * Xr
         Xk.sed <- Xk.sed.v / z.mix * Xk
-  
+
         ZXr.graz <- ZXr.graz.max * Xr / (ZXr.graz.ks + Xr + Xk) * Z
         ZXk.graz <- ZXk.graz.max * Xk / (ZXk.graz.ks + Xk + Xr) * Z
-  
+
         Z.mort <- (Z.mort.min + Z.mort.temp * temp) * Z / (Z.mort.kmo + Z) * Z
-  
+
         if ((time - 5) %% 24 + 1 <= 16) a <- TRUE else a <- FALSE
-  
+
         if (a){
           if (DVM) {
             ZXr.graz   <- 0
@@ -49,18 +49,18 @@ dvm_phyto <- function() {
             Z.resp.max <- 0
             Z.mort     <- 0
         }}
-  
+
         ZXr.assi     <- ZXr.graz * Z.ae
         ZXk.assi     <- ZXk.graz * Z.ae
         Z.assi       <- (ZXr.graz + ZXk.graz) * Z.ae
         Z.assi.max   <- ZXr.graz.max * Z.ae
-  
-        Z.resp.grund <- Z.resp.max * 0.5
+
+        Z.resp.base <- Z.resp.max * 0.5
         Z.resp.assi  <- Z.resp.max * 0.5 *  Z.assi / Z.assi.max
-        Z.resp       <- (Z.resp.grund + Z.resp.assi) * Z
-  
+        Z.resp       <- (Z.resp.base + Z.resp.assi) * Z
+
         fae <- (1-Z.ae)*(ZXr.graz + ZXk.graz)
-  
+
         dXr <- Xr.growth - Xr.sed - Xr.resp * Xr - ZXr.graz + Xr.imp
         dXk <- Xk.growth - Xk.sed - Xk.resp * Xk - ZXk.graz + Xk.imp
         dZ  <- ZXr.graz * Z.ae + ZXk.graz * Z.ae - Z.resp - Z.mort
@@ -68,7 +68,7 @@ dvm_phyto <- function() {
                 yield.CP * Xr.growth - yield.CP * Xk.growth +
                 yield.CP * Xr.resp * Xr + yield.CP * Xk.resp * Xk +
                 yield.mort * yield.fae * Z.mort + yield.CP * yield.fae * fae}
-  
+
         TE       <- (ZXr.graz + ZXk.graz) * Z.ae / (Xr + Xk)
         X.growth <- Xr.growth + Xk.growth
         Z.growth <- (ZXr.graz + ZXk.graz) * Z.ae
@@ -104,7 +104,7 @@ dvm_phyto <- function() {
       ZXr.graz.max.ind = 0.392,       #   gC/Ind h   see zooplankton.r
       ##  gC/Ind h   see zooplankton.r + Geller(LR036) + book
       ZXk.graz.max.ind = 0.392/5,
-    
+
       Z.mort.min.d     = 0.005,       #   /d  SALMO S.10
       Z.mort.temp.d    = 0.002,       #   /d  SALMO S.10
       Z.mort.kmo       = 0.0158,      #   mgC/l from mgFM/l  SALMO p.10
@@ -126,7 +126,7 @@ dvm_phyto <- function() {
       Xk.eps           = 0.5,         #   1/m * l/mgC
       Xr.imp.d         = 0.0005,      #   phytopl. import mgC/l d
       Xk.imp.d         = 0.0005,      #   phytopl. import mgC/l d
-    
+
       ## Phosphorus
       P.imp.d          = 0.137,       #   mgP/m3 d  P-import, slightly eutrophic
       yield.CP         = 24.4,        #   mgC / mugP   Yield Carbon per P (Redfield)
@@ -171,7 +171,7 @@ dvm_phyto <- function() {
         Xr.imp           <- Xr.imp.d / 24               #  Import mgC/l h
         Xk.imp           <- Xk.imp.d / 24               #  Import mgC/l h
         P.imp            <- P.imp.d / 24                #  mgP/m3 h
-  
+
         c(I.max.global = I.max.global,
           I.max.global.Z0 = I.max.global.Z0, I.max = I.max, Z.w = Z.w,
           ZXr.graz.max = ZXr.graz.max,
@@ -182,13 +182,14 @@ dvm_phyto <- function() {
           Xk.sed.v = Xk.sed.v, Xr.imp = Xr.imp, Xk.imp = Xk.imp, P.imp = P.imp)
       })
       ## important! new parameters should overwrite old ones
+      ## parms(obj) <-  mixNamedVec(pnew, p, warn=FALSE)
       parms(obj) <-  c(p[!(names(p) %in% names(pnew))], pnew)
 
       obj
     }
   )
-}  
-    
-    
-    
-   
+}
+
+
+
+

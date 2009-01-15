@@ -63,10 +63,10 @@ parms(sc4)["Z.mort.temp.d"]    <- parms(dvmphyto)["Z.mort.temp.d"]    * 3
 parms(sc4)["f.Z.resp"]         <- 3
 
 parms(sc5)["DVM"] <- FALSE
-parms(sc5)["ZXr.graz.max.ind"] <- parms(dvmphyto)["ZXr.graz.max.ind"] * 3
-parms(sc5)["ZXk.graz.max.ind"] <- parms(dvmphyto)["ZXk.graz.max.ind"] * 3
-parms(sc5)["Z.mort.min.d"]     <- parms(dvmphyto)["Z.mort.min.d"]     * 3
-parms(sc5)["Z.mort.temp.d"]    <- parms(dvmphyto)["Z.mort.temp.d"]    * 3
+parms(sc5)["ZXr.graz.max.ind"] <- parms(dvmphyto)["ZXr.graz.max.ind"] / 3
+parms(sc5)["ZXk.graz.max.ind"] <- parms(dvmphyto)["ZXk.graz.max.ind"] / 3
+parms(sc5)["Z.mort.min.d"]     <- parms(dvmphyto)["Z.mort.min.d"]     / 3
+parms(sc5)["Z.mort.temp.d"]    <- parms(dvmphyto)["Z.mort.temp.d"]    / 3
 parms(sc5)["f.Z.resp"]         <- 3
 
 
