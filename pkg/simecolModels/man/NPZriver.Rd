@@ -1,58 +1,80 @@
 \name{NPZriver}
 \alias{NPZriver}
 
-\title{Nutrient Phytoplankton Zooplankton (NPZ) model in a river}
+\title{Nutrient Phytoplankton Zooplankton (NPZ) Model in a River}
 \description{Model describing the dynamics of Nutrients Phytoplankton and 
- Zooplankton in a river. (Soetaert and Herman, 2008).
+  Zooplankton in a river. (Soetaert and Herman, 2008).
 
-The model describes 
-\describe{
-  \item Nutrients (N),
-  \item Phytoplankton (P)
-  \item Zooplankton (Z).
-}
+  The model describes
+  \itemize{
+    \item nutrients (N),
+    \item phytoplankton (P),
+    \item zooplankton (Z).
+  }
 
-  The physical component consists of an advective transport term (river flow, velocity v) only.
+  The physical component consists of an advective transport term (river
+  flow, velocity v) only.
 
-  The river has constant cross-sectional surface and is 100 km long. It is subdivided in 100 boxes.
+  The river has constant cross-sectional surface and is 100 km long. It
+  is subdivided in 100 boxes.
   
   The equations are:
-  \deqn{
-\frac{{\partial N}}{{\partial   t}} =  - v\frac{{\partial N}}{{\partial   x}} - \mu  \cdot \frac{N}{{N + kn}}\cdot P + g \cdot \frac{P}{{P + kp}}\cdot Z \cdot (1 - \gamma ) + m \cdot Z
-}{dN/dt=-v*dN/dx - mu*N/(N+kn)*P+g*P/(P+kp)*Z*(1-gamma)+m*Z}
 
-  \deqn{
-\frac{{\partial P}}{{\partial   t}} =  - v\frac{{\partial P}}{{\partial   x}} + \mu  \cdot \frac{N}{{N + kn}}\cdot P - g \cdot \frac{P}{{P + kp}}\cdot Z
-}{dP/dt=-v*dP/dx + mu*N/(N+kn)*P-g*P/(P+kp)*Z}
+  \deqn{ \frac{{\partial N}}{{\partial t}} = - v\frac{{\partial
+    N}}{{\partial x}} - \mu \cdot \frac{N}{{N + kn}}\cdot P + g \cdot
+    \frac{P}{{P + kp}}\cdot Z \cdot (1 - \gamma ) + m \cdot Z
+    }{dN/dt=-v*dN/dx - mu*N/(N+kn)*P+g*P/(P+kp)*Z*(1-gamma)+m*Z}
 
+  \deqn{ \frac{{\partial P}}{{\partial t}} = - v\frac{{\partial
+    P}}{{\partial x}} + \mu \cdot \frac{N}{{N + kn}}\cdot P - g \cdot
+    \frac{P}{{P + kp}}\cdot Z }{dP/dt=-v*dP/dx +
+    mu*N/(N+kn)*P-g*P/(P+kp)*Z}
 
-\deqn{
-\frac{{\partial Z}}{{\partial   t}} =  - v\frac{{\partial Z}}{{\partial   x}} + g \cdot \frac{P}{{P + kp}}\cdot Z \cdot \gamma  - m \cdot Z
-}{dZ/dt=-v*dZ/dx + g*P/(P+kp)*Z*gamma -m*Z}
+  \deqn{ \frac{{\partial Z}}{{\partial t}} = - v\frac{{\partial
+    Z}}{{\partial x}} + g \cdot \frac{P}{{P + kp}}\cdot Z \cdot \gamma -
+    m \cdot Z }{dZ/dt=-v*dZ/dx + g*P/(P+kp)*Z*gamma -m*Z}
   
-where, for the nutrients, the first term is transport, the second term uptake by phytoplankton growth,
-the third term is excreted fraction due to zooplankton grazing and the last term is zooplankton mortality.
+  where, for the nutrients, the first term is transport, the second term
+  uptake by phytoplankton growth, the third term is excreted fraction
+  due to zooplankton grazing and the last term is zooplankton mortality.
 
-  For the numerical approximation of the partial differential equations, see Soetaert and Herman, 2008
+  For the numerical approximation of the partial differential equations,
+  see Soetaert and Herman, 2008.
 }
+
 \usage{NPZriver()}
-\format{An S4 object according to the \code{\link[simecol]{odeModel}} specification. 
 
-The object contains the following slots:
+\format{An S4 object according to the \code{\link[simecol]{odeModel}}
+  specification.
 
-\item \code{main}   Model specifications.
-\item \code{parms}  Vector with the named parameters of the model - see code
-\item \code{times}  Simulation time and integration interval (if dynamic simulation);
-  not used if the steady-state is estimated.
-\item \code{solver}   User supplied solver function that calls \code{steady.1D}
-  with appropriate simulation control parameters and re-arranges output data.
-\item \code{initfunc}  Function that initialises the state variables and calculates
-  the box lenghts.
+  The object contains the following slots:
+  \itemize{
+   
+    \item \code{main} model specifications.
+  
+    \item \code{parms} vector with the named parameters of the model -
+      see code.
+  
+    \item \code{times} simulation time and integration interval (if
+      dynamic simulation); not used if the steady-state is estimated.
 
-The model is solved to steady-state using steady-state solver 
-\code{\link[rootSolve]{steady.1D}} from package \code{\link[rootSolve]{rootSolve}}.
+    \item \code{solver} user supplied solver function that calls
+      \code{steady.1D} with appropriate simulation control parameters
+      and re-arranges output data.
+  
+    \item \code{initfunc} function that initialises the state variables
+      and calculates the box lenghts.
+    
+  }
+
+  The model is solved to steady-state using steady-state solver
+  \code{\link[rootSolve]{steady.1D}} from package
+  \code{\link[rootSolve]{rootSolve}}.
+
 }
+
 \author{Karline Soetaert}
+
 \examples{
 
 # create an instance of the model
@@ -121,9 +143,10 @@ mtext(side=3, outer=TRUE, "NPZ model in a river", line=-1.5, cex=1.5)
 
 }
 \references{
-Chapter 7.9.5  from the book:
+  Chapter 7.9.5  from the book:
 
-Soetaert K and PMJ Herman, 2008. A practical guide to ecological Modelling - using R as a simulation platform. Springer.
+  Soetaert K and PMJ Herman, 2008. A practical guide to ecological
+  Modelling - using R as a simulation platform. Springer.
 }
 
 \seealso{R-package \code{\link[simecol]{simecol}} for a description of the 

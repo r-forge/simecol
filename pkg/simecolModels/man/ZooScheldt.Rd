@@ -1,7 +1,7 @@
 \name{ZooScheldt}
 \alias{ZooScheldt}
 
-\title{Fate of marine zooplankton in the Scheldt estuary}
+\title{Fate of Marine Zooplankton in the Scheldt Estuary}
 \description{Model describing the dynamics of marine zooplankton in the scheldt estuary.
 
 The original model was published in Soetaert and herman (1994). The implementation
@@ -31,12 +31,12 @@ For the numerical approximation of the partial differential equations, see Soeta
 \format{An S4 object according to the \code{\link[simecol]{odeModel}} specification. 
 
 The object contains the following slots:
-
+\itemize{
 \item \code{main}   Model specifications.
 \item \code{parms}  Vector with the named parameters of the model - see code
 \item \code{times}  Simulation time and integration interval.
 \item \code{init}  Vector with start values for the zooplankton state variables.
-
+}
 
 The model is solved using integration routine \code{\link[deSolve]{ode.1D}} from package \code{\link[deSolve]{deSolve}}.
 }

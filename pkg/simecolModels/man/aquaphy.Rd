@@ -3,10 +3,13 @@
 
 \title{a physiological model of unbalanced algal growth}
 \description{Phytoplankton model with uncoupled carbon and nitrogen assimilation.
-\cr Algal biomass is described via 3 different state variables:
+  \cr Algal biomass is described via 3 different state variables:
+
+  \itemize{
 \item[\code{LMW}] low molecular weight carbohydrates, the product of photosynthesis,
 \item[\code{RESERVE}] storage molecules and
 \item[\code{PROTEINS}] the biosynthetic and photosynthetic apparatus.
+}
 
 All these state variables are expressed in mmol C m-3.
 Only proteins contain nitrogen and chlorophyll, at a fixed amount (i.e. using a fixed stoichiometric ratio).
@@ -16,11 +19,13 @@ As the relative amount of proteins changes in the algae, so does the N:C and the
 \format{An S4 object according to the \code{\link[simecol]{odeModel}} specification. 
 \cr The object contains the following slots:
 
-
+\itemize{
 \item \code{main}  Aquaphy model specifications.
-\item \code{parms}  Vector with the named parameters of the model - see code
-\item \code{times}  Simulation time and integration interval.
-\item \code{init}  Vector with start values for algal state variables and DIN.
+\item \code{parms}  vector with the named parameters of the model - see code.
+\item \code{times}  simulation time and integration interval.
+\item \code{init}  vector with start values for algal state variables
+and DIN.
+}
 
 }
 \author{Karline Soetaert}

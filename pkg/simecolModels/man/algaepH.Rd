@@ -1,7 +1,7 @@
 \name{algaepH}
 \alias{algaepH}
 
-\title{an algal model with pH dynamics}
+\title{An Algal Model With pH Dynamics}
 \description{Phytoplankton model which includes pH dynamics.
 
 The algae are either growing on nitrate or on ammonium.}
@@ -12,10 +12,12 @@ The algae are either growing on nitrate or on ammonium.}
 
 The object contains the following slots:
 
+\itemize{
 \item \code{main}  algaepH model specifications.
-\item \code{parms}  Vector with the named parameters of the model - see code
-\item \code{times}  Simulation time and integration interval.
-\item \code{init}  Vector with start values for state variables
+\item \code{parms}  vector with the named parameters of the model - see code
+\item \code{times}  simulation time and integration interval.
+\item \code{init}  vector with start values for state variables.
+}
 }
 \author{Karline Soetaert}
 \examples{

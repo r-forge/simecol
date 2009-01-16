@@ -1,19 +1,25 @@
 \name{NPZD}
 \alias{NPZD}
 
-\title{an NPZD model}
-\description{model describing nutrients (N), phytoplankton (P), zooplankton (Z),
-and detritus (D).}
+\title{An NPZD Model}
+
+\description{Model describing nutrients (N), phytoplankton (P),
+  zooplankton (Z), and detritus (D).
+}
 
 \usage{NPZD()}
-\format{An S4 object according to the \code{\link[simecol]{odeModel}} specification. 
-\cr The object contains the following slots:
 
+\format{An S4 object according to the \code{\link[simecol]{odeModel}}
+  specification.  \cr
+  The object contains the following slots:
 
-\item \code{main} NPZD model specifications.
-\item \code{parms} Vector with the named parameters of the model - see code
-\item \code{times} Simulation time and integration interval.
-\item \code{init} Vector with start values for state variables
+  \itemize{
+    \item \code{main} NPZD model specifications.
+    \item \code{parms} vector with the named parameters of the model -
+      see code.
+    \item \code{times} simulation time and integration interval.
+    \item \code{init} vector with start values for state variables.
+  }
 }
 
 \author{Karline Soetaert}
@@ -62,6 +68,6 @@ mtext(outer=TRUE,side=3,"NPZD model",cex=1.5)
   A practical guide to ecological Modelling. Springer.
 
 }
-\seealso{R-package simecol for a description of the simObj class}
+\seealso{\R-package \pkg{simecol} for a description of the \code{simObj} class.}
 \keyword{ misc }
 

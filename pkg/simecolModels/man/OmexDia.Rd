@@ -1,49 +1,76 @@
 \name{OmexDia}
 \alias{OmexDia}
 
-\title{Carbon, nitrogen and oxygen diagenesis in marine sediments}
-\description{Model describing the dynamics of carbon, nitrogen and oxygen
- in a marine sediment. (Soetaert et al., 1996 a,b).
+\title{Carbon, Nitrogen and Oxygen Diagenesis in Marine Sediments}
 
-The model describes six state variables, in several hundreds of layers:
-\item 2 fractions of organic carbon (FDET,SDET): fast and slow decaying, solid substance
-\item Oxygen (O2), dissolved substance
-\item Nitrate (NO3), dissolved substance
-\item Ammonium (NH3), dissolved substance
-\item Oxygen demand unit (ODU), dissolved substance, as lump sum of all reduced substances other than ammonium
+\description{Model describing the dynamics of carbon, nitrogen and
+  oxygen in a marine sediment. (Soetaert et al., 1996 a,b).
 
-See Soetaert et al., 1996 for further details of the model.
+  The model describes six state variables, in several hundreds of layers:
+  \itemize{
+    \item 2 fractions of organic carbon (FDET,SDET): fast and slow
+      decaying, solid substance.
 
-For the numerical approximation of these partial differential equations in R, see Soetaert and Herman, 2008
+    \item oxygen (O2), dissolved substance.
+
+    \item nitrate (NO3), dissolved substance,
+
+    \item ammonium (NH3), dissolved substance,
+
+    \item oxygen demand unit (ODU), dissolved substance, as lump sum of
+     all reduced substances other than ammonium.
+  }
+
+  See Soetaert et al., 1996 for further details of the model.
+
+  For the numerical approximation of these partial differential
+  equations in \R, see Soetaert and Herman, 2008.
+
 }
 \usage{OmexDia()}
-\format{An S4 object according to the \code{\link[simecol]{odeModel}} specification. 
 
-The object contains the following slots:
+\format{An S4 object according to the \code{\link[simecol]{odeModel}}
+  specification.
 
+  The object contains the following slots:
 
-\item \code{main}   Model specifications.
-\item \code{parms}  Vector with the named parameters of the model - see code
-\item \code{times}  Simulation time and integration interval (if dynamic simulation);
-  not used if the steady-state is estimated.
-\item \code{solver}   User supplied solver function that calls \code{steady.1D}
-  with appropriate simulation control parameters and re-arranges output data.
-\item \code{initfunc}  Function that initialises the state variables and calculates
-  the sediment grid, porosity and bioturbation profiles.
+  \itemize{
+    \item \code{main}   Model specifications.
 
+    \item \code{parms} Vector with the named parameters of the model - see
+      code.
 
-The model is solved to steady-state using steady-state solver.
-\code{\link[rootSolve]{steady.1D}} from package \code{\link[rootSolve]{rootSolve}}.
+    \item \code{times} Simulation time and integration interval (if
+      dynamic simulation); not used if the steady-state is estimated.
 
-The output consists of a list with the following elements:
+    \item \code{solver} User supplied solver function that calls
+      \code{steady.1D} with appropriate simulation control parameters and
+      re-arranges output data.
 
-\item \code{y} a data.frame with the profiles of FDET, SDET, O2, NO3, NH3 and ODU, units
-of micromol/l (solid or liquid).
-\item \code{Cflux}, \code{O2flux}, \code{NH3flux}, \code{NO3flux}, and \code{ODUflux},
-the fluxes of carbon, oxygen, ammonium, nitrate and ODU across the sediment-water interface
-, units of nmol/cm2/day
+    \item \code{initfunc} Function that initialises the state variables
+      and calculates the sediment grid, porosity and bioturbation
+      profiles.
+  }
+
+  The model is solved to steady-state using steady-state solver.
+  \code{\link[rootSolve]{steady.1D}} from package
+  \code{\link[rootSolve]{rootSolve}}.
+
+  The output consists of a list with the following elements:
+
+  \itemize{
+    \item \code{y} a data.frame with the profiles of FDET, SDET,
+    O2, NO3, NH3 and ODU, units of micromol/l (solid or liquid).
+
+    \item \code{Cflux}, \code{O2flux}, \code{NH3flux}, \code{NO3flux},
+      and \code{ODUflux}, the fluxes of carbon, oxygen, ammonium,
+      nitrate and ODU across the sediment-water interface , units of
+      nmol/cm2/day.
+  }
 }
+
 \author{Karline Soetaert}
+
 \examples{
 
 # create an instance of the model
@@ -172,13 +199,18 @@ legend("topright",c("Carbon","Oxygen"),col=c(1,2),lwd=2)
 }
 }
 \references{
-Soetaert K, PMJ Herman and JJ Middelburg, 1996. A model of early diagenetic processes from the shelf to abyssal depths. Geochim. Cosmochim. Acta, 60(6):1019-1040.
+  
+Soetaert K, PMJ Herman and JJ Middelburg, 1996. A model of early
+diagenetic processes from the shelf to abyssal
+depths. Geochim. Cosmochim. Acta, 60(6):1019-1040.
 
-Soetaert K, PMJ Herman and JJ Middelburg, 1996b.
-Dynamic response of deep-sea sediments to seasonal variation: a model.
+Soetaert K, PMJ Herman and JJ Middelburg, 1996b.  Dynamic response of
+deep-sea sediments to seasonal variation: a model.
 Limnol. Oceanogr. 41(8): 1651-1668.
 
-Soetaert K and PMJ Herman, 2008. A practical guide to ecological Modelling - using R as a simulation platform. Springer.
+Soetaert K and PMJ Herman, 2008. A practical guide to ecological
+Modelling - using R as a simulation platform. Springer.
+
 }
 
 \seealso{R-package \code{\link[simecol]{simecol}} for a description of the 

@@ -1,34 +1,42 @@
 \name{SiDia}
 \alias{SiDia}
 
-\title{Silicate diagenesis in marine sediments}
-\description{Model describing the dynamics of biogenic and dissolved silicate
- in a marine sediment. (Soetaert and Herman, 2008).
+\title{Silicate Diagenesis in Marine Sediments}
 
-The orignal model was described in (Schink et al., 1975). It
-was one of the first models dealing with the early diagenesis of silica.
+\description{
 
-The model is described in Soetaert and Herman (2008), chapter 3.6.5.
-Its R-implementation is in chapter 7.8.5.
+  Model describing the dynamics of biogenic and dissolved silicate in a
+  marine sediment. (Soetaert and Herman, 2008).
 
-Biogenic silicate (BSi), expressed in micromol l-1 solid, is mixed in the sediment (Bioturbation, 1st term)
-and dissolves (2nd term).
-The dissolution is first-order with BSi concentration and
-decreases linearly with increasing dissolved silicate concentration,
-until an equilibrium concentration (eqSi) is reached.
+  The orignal model was described in (Schink et al., 1975). It was one
+  of the first models dealing with the early diagenesis of silica.
 
-At the sediment-water interface, an amount of BSi is deposited
-(flux boundary condition). the deep boundary condition is a zero-gradient condition.
+  The model is described in Soetaert and Herman (2008), chapter 3.6.5.
+  Its \R-implementation is in chapter 7.8.5.
+
+  Biogenic silicate (BSi), expressed in micromol l-1 solid, is mixed in
+  the sediment (Bioturbation, 1st term) and dissolves (2nd term).  The
+  dissolution is first-order with BSi concentration and decreases
+  linearly with increasing dissolved silicate concentration, until an
+  equilibrium concentration (eqSi) is reached.
+
+  At the sediment-water interface, an amount of BSi is deposited (flux
+  boundary condition). the deep boundary condition is a zero-gradient
+  condition.
 
 
-Dissolved silicate, in micromol l-1 liquid, and mixed by molecular diffusion (1st term), and produced by dissolution.
-At the upper boundary, a bottom water concentration is prescribed. At large depths, a zero-gradient boundary is imposed.
+  Dissolved silicate, in micromol l-1 liquid, and mixed by molecular
+  diffusion (1st term), and produced by dissolution.  At the upper
+  boundary, a bottom water concentration is prescribed. At large depths,
+  a zero-gradient boundary is imposed.
 
 
-The model equations are:
-\deqn{
+  The model equations are:
+  
+  \deqn{
 \frac{{\partial {\rm{BSi}}}}{{\partial t}} = \frac{1}{{1 - \Phi _x }}\frac{\partial }{{\partial x}}[(1 - \Phi _x ) \cdot D_b \frac{{\partial {\rm{BSi}}}}{{\partial x}}] - \lambda  \cdot {\rm{BSi}} \cdot (1 - \frac{{{\rm{DSi}}}}{{eqSi}})
 }{dBSi/dt = 1/(1-phi_x) * (d/dx[(1-phi_x)*Db*dBSi/dx)]-lambda*BSi*(1-DSi/eqSi)}
+
 \deqn{
 Flux_0  =  - (1 - \Phi _0 ) \cdot D_b \left. {\frac{{\partial {\rm{BSi}}}}{{\partial x}}} \right|_0  }{Flux_0=(1-phi_0)*Db*(dBSi/dx)_0}
 
@@ -56,7 +64,7 @@ For the numerical approximation of these partial differential equations, see Soe
 \format{An S4 object according to the \code{\link[simecol]{odeModel}} specification. 
 
 The object contains the following slots:
-
+\itemize{
 \item \code{main}  Model specifications.
 \item \code{parms} Vector with the named parameters of the model - see code
 \item \code{times} Simulation time and integration interval (if dynamic simulation);
@@ -65,7 +73,7 @@ The object contains the following slots:
   with appropriate simulation control parameters and re-arranges output data.
 \item \code{initfunc} Function that initialises the state variables and calculates
   the sediment grid, porosity and bioturbation profiles.
-
+}
 
 The model is solved to steady-state using steady-state solver 
 \code{\link[rootSolve]{steady.1D}} from package \code{\link[rootSolve]{rootSolve}}.
