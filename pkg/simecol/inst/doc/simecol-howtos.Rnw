@@ -29,7 +29,7 @@
 %% an abstract and keywords
 \Abstract{
 
-  This document is intended as a lose collection of sections that
+  This document is intended as a loose collection of sections that
   describe different aspects of modelling and model implementation in
   \proglang{R} with the \pkg{simecol} package.
 
@@ -83,7 +83,7 @@ The intention behind \pkg{simecol} is the construction of
 ``all-in-one'' model objects. That is, everything that defines one
 particular model, equations and data are stored together in one
 \code{simObj} (spoken: sim-Object), and only some general algorithms
-(e.g. diferential equation solvers or interpolation routines) remain
+(e.g. differential equation solvers or interpolation routines) remain
 external, preferably as package functions (e.g. function \code{lsoda}
 in package \pkg{deSolve} \citep{deSolve2009} or as functions in the
 user workspace.
@@ -96,7 +96,7 @@ This strategy has three main advantages:
   settings, parameters and data or even use different formula, but
   they don't interfere with each other.  Moreover, if all data and
   functions are \emph{encapsulated} in their \code{simObj}ects,
-  identifiers can be re-used and it is, for example, not neccessary to
+  identifiers can be re-used and it is, for example, not necessary to
   keep track over a large number of variable names or to invent new
   identifiers for parameter sets of different scenarios.
 \item You can give \code{simObj}ects away, either in binary form or as
@@ -162,12 +162,12 @@ matplot(out[,1], out[,-1], type="l")
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{howto-upca2}
-\caption{\label{howto-upca1} Output of UPCA model, solved mit \code{lsoda}
+\caption{\label{howto-upca1} Output of UPCA model, solved with? \code{lsoda}
 from package \pkg{deSolve}.}
 \end{figure}
 
 
-\subsection{Transistion to simecol} \label{s4definition}
+\subsection{Transition to simecol} \label{s4definition}
 
 If we compare this example with the \pkg{simecol} structure, we may
 see that they are kind of similar. This obvious coincidence is quite
@@ -318,7 +318,7 @@ that can hold a list of submodels. Such an equations-slot can be
 defined either during object creation, or functions may be added
 afterwards. In the following, we derive to new clones with default
 parameter settings from the original \code{upca}-object, and then add
-the Holling II functional resonse to scenario 1 and the Lotka-Volterra
+the Holling II functional response to scenario 1 and the Lotka-Volterra
 functional response to scenario 2 (figure \ref{howto-upca9}):
 
 <<upca9,fig=TRUE>>=
@@ -376,18 +376,18 @@ disadvantage, namely debugging.  Debugging of \proglang{S4} objects is
 sometimes cumbersome, especially if slot-functions (e.g. \code{main},
 \code{equations}, \code{initfunc}) come into play. These difficulties
 are not much important for well-functioning ready-made model objects,
-but they appear as an additional burden during the development of
-\pkg{simecol} objects, in particular if these models are technically
-not that simple as in our example.
+but they appear as an additional burden during model building, in
+particular if these models are technically not that simple as in our
+example.
 
 Fortunately, there is an easy workaround. This is, implementing the
 technically challenging parts in the user-workspace first using the
 above mentioned mixed style. Then, after developing and debugging the
 model and if everything works satisfactory, integrating the parts into
-the object is straigtforward, given that you keep the general
+the object is straightforward, given that you keep the general
 structure in mind. In the example below, we implement the main model
 as a workspace function \code{fmain}\footnote{Note that this function
-  must never be named ``func'', for some rather esotheric internal
+  must never be named ``func'', for some rather esoteric internal
   reasons which we shall not discuss further here.}  with the same
 interface (parameters and return values) as above, that is then called
 by the \code{main}-function of the \code{simObj}:
@@ -436,7 +436,7 @@ str(upca)      # show the object
 @
 
 Now, you can delete \code{f} and \code{fmain} and you have a clean
-workspace with only the neccessary objects.
+workspace with only the necessary objects.
 
 
 \section{Different ways to store simObjects}
@@ -607,9 +607,9 @@ The \proglang{C} code can now be compiled into a so-called shared
 library (on Linux) or a DLL on Windows, that can be linked to
 \proglang{R}.
 
-Compilation requires an installed \proglang{C} compiler (gcc) and some
-other tools that are quite standard on Linux, and which are also
-available for the Macintosh or, form of the R-Tools
+Compilation requires an installed \proglang{C} compiler (\pkg{gcc})
+and some other tools that are quite standard on Linux, and which are
+also available for the Macintosh or, form of the \pkg{R-Tools}
 collection\url{http://www.murdoch-sutherland.com/Rtools/} provided by
 Duncan Murdoch for Windows.
 
@@ -668,7 +668,7 @@ clotka <- new("odeModel",
   parms  = c(k1=0.2, k2=0.2, k3=0.2),
   times  = c(from=0, to=100, by=0.5),
   init   = c(prey=0.5, predator=1),
-  ## a special solver function that evaluates functlist
+  ## a special solver function that evaluates funclist
   ## and passes its contents directly to the lsoda
   ## in the "compiled function" mode
   solver = function(init, times, funclist, parms, ...) {
@@ -706,7 +706,7 @@ in \proglang{R} if \proglang{C} or \proglang{FORTRAN} are so much
 faster.
 
 The answer is: Speed of computation is not the only thing, it is the
-compromize between execution speed and programming effort. Programming
+compromise between execution speed and programming effort. Programming
 in scripting languages like \proglang{R} is much more convenient than
 in compiled languages like \proglang{C} or \proglang{FORTRAN}, so
 programming in compiled languages does only pay its effort required if
@@ -718,7 +718,7 @@ of data manipulation and scenario control can be done in \proglang{R}.
 
 \pkg{simecol} follows exactly this philosophy. Implementing everything
 in \proglang{R} is highly productive if speed is of minor importance,
-and but you \textbf{can} use \proglang{C} etc. whenever neccessary,
+and but you \textbf{can} use \proglang{C} etc. whenever necessary,
 and even in that case you still have the scenario management and data
 manipulation features of \pkg{simecol}.
 
