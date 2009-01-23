@@ -9,187 +9,105 @@
 ################################################################################
 
 dvm_phyto <- function() {
-  new("odeModel",
-    main = function(time, init, parms){
-      Xr <- init[1]
-      Xk <- init[2]
-      Z  <- init[3]
-      P  <- init[4]
 
-      with(as.list(parms), {
-        e <- 10 ^ -3  # duration of twilight
-        # day night rhythm
-        I.t <- I.max * 0.5 * (1 + sin(pi / 16 * (time %%24 - 6))
-               + (e + sin(pi / 16 *(time %%24 - 6))^2 ) ^ 0.5 - (e + 1) ^ 0.5)
-        #analytical Solution for combined Michalis-Menten and Lambert-Beer
-        phot <- function(i0, ki, eps, z) {
-                1/(eps) * log((i0 + ki)/(ki + i0 * exp(-eps*z)))}
-        eps <- eps.min + Xr.eps * Xr + Xk.eps * Xk     #epsilon, see Scavia80
+  dvmphyto2 <- new("odeModel",
+    main = function(time, init, parms) {
+      X <- init[1:2]
+      Z <- init[3]
+      P <- init[4]
+      with(parms, {
+        ## Important!
+        t       <- (time %% 24)
 
-        Xr.hi <- phot(I.t, Xr.ki, eps, z.mix) / z.mix
-        Xk.hi <- phot(I.t, Xk.ki, eps, z.mix) / z.mix
-        Xr.mu <- Xr.mu.max *  (P / (P + Xr.kp)) * Xr.hi
-        Xk.mu <- Xk.mu.max *  (P / (P + Xk.kp)) * Xk.hi
-        Xr.growth <- Xr.mu * Xr
-        Xk.growth <- Xk.mu * Xk
-        Xr.sed <- Xr.sed.v / z.mix * Xr
-        Xk.sed <- Xk.sed.v / z.mix * Xk
+        .I_0    <- I_0(t, I_phot, I_ref, I_max, a, b, d)
+        .ing_i  <- ing_i(X, ing_max_i, k_ing)
+        .phot_i <- phot_i(P, X, phot_max_i, epsilon_min, epsilon_X, .I_0, k_I, k_P, z_mix)
+        .resx_i <- resx_i(phot_max_i, I_komp, k_I)  * 0.6
+        .mort   <- mort(Z, mort_max, k_mort)
+        .remin  <- remin(X, Z, yield_fae, ae, .ing_i , .mort)
+        .resz   <- resz(resz_max, .ing_i, ing_max_i)
 
-        ZXr.graz <- ZXr.graz.max * Xr / (ZXr.graz.ks + Xr + Xk) * Z
-        ZXk.graz <- ZXk.graz.max * Xk / (ZXk.graz.ks + Xk + Xr) * Z
+        if (DVM & ((time - 5) %% 24 + 1 <= 16)) {
+          .ing_i <- .resz <- .mort <- .remin <- 0
+        }
 
-        Z.mort <- (Z.mort.min + Z.mort.temp * temp) * Z / (Z.mort.kmo + Z) * Z
+        ## Zooplankton
+        dZ <-  (ae * sum(.ing_i) - .resz - .mort) * Z
 
-        if ((time - 5) %% 24 + 1 <= 16) a <- TRUE else a <- FALSE
+        ## Phytoplankton (2 species, uses vectorized notation of R)
+        dX_i <- (.phot_i - sed_i(v_sed, z_mix) - .resx_i)  *  X - .ing_i *  Z + imp_X_i
 
-        if (a){
-          if (DVM) {
-            ZXr.graz   <- 0
-            ZXk.graz   <- 0
-            Z.resp.max <- 0
-            Z.mort     <- 0
-        }}
+        ## Phosphorus
+        dP <- yield_CP * (.remin - (sum((.phot_i - .resx_i) * X))) + imp_P
 
-        ZXr.assi     <- ZXr.graz * Z.ae
-        ZXk.assi     <- ZXk.graz * Z.ae
-        Z.assi       <- (ZXr.graz + ZXk.graz) * Z.ae
-        Z.assi.max   <- ZXr.graz.max * Z.ae
+        ret <- c(dX_i[1], dX_i[2], dZ, dP)
+        names(ret) <- names(init)
 
-        Z.resp.base <- Z.resp.max * 0.5
-        Z.resp.assi  <- Z.resp.max * 0.5 *  Z.assi / Z.assi.max
-        Z.resp       <- (Z.resp.base + Z.resp.assi) * Z
-
-        fae <- (1-Z.ae)*(ZXr.graz + ZXk.graz)
-
-        dXr <- Xr.growth - Xr.sed - Xr.resp * Xr - ZXr.graz + Xr.imp
-        dXk <- Xk.growth - Xk.sed - Xk.resp * Xk - ZXk.graz + Xk.imp
-        dZ  <- ZXr.graz * Z.ae + ZXk.graz * Z.ae - Z.resp - Z.mort
-        dP  <- {P.imp -
-                yield.CP * Xr.growth - yield.CP * Xk.growth +
-                yield.CP * Xr.resp * Xr + yield.CP * Xk.resp * Xk +
-                yield.mort * yield.fae * Z.mort + yield.CP * yield.fae * fae}
-
-        TE       <- (ZXr.graz + ZXk.graz) * Z.ae / (Xr + Xk)
-        X.growth <- Xr.growth + Xk.growth
-        Z.growth <- (ZXr.graz + ZXk.graz) * Z.ae
-        ## as.numeric() below is only intended to suppress automatic naming
-        ## list(c(state variables), c(other variables))
-        list(c(dXr, dXk, dZ, dP),
-             c(X.growth  = as.numeric(X.growth),
-               Z.growth  = as.numeric(Z.growth),
-               TE        = as.numeric(TE), a = a,
-               I.t       = as.numeric(I.t),
-               ZXr.graz  = as.numeric(ZXr.graz/Z),
-               ZXk.graz  = as.numeric(ZXk.graz/Z),
-               Xr.mu     = as.numeric(Xr.mu),
-               Xk.mu     = as.numeric(Xk.mu),
-               Xr.growth = as.numeric(Xr.growth - Xr.sed - Xr.resp * Xr),
-               Xk.growth = as.numeric(Xk.growth - Xk.sed - Xk.resp * Xk),
-               fae       = as.numeric(fae)
-        ))
+        list(ret)
       })
     },
-    parms = c(
-      DVM              = TRUE,
-      temp             = 20,          #   C
-      eps.min          = 0.6,         #   1/m  Lehman75 / SALMO
-      z.mix            = 10,          #   zmix = -eps.min * ln (ikomp/imax)
-      I.max.global.max = 8640,        #   J / cm d = 1000W/m  daily maximal value
-      I.meanmax        = 0.56,        #   dimensionless --> I.max.global on
-                                      #   optimum conditions* I.meanmax = I.maxglobal
-      ## Zooplankton
-      Z.l              = 1.5,         #   mm
-      ZXr.graz.ks      = 0.164,       #   mgC/l   Author? i.e. Gurney90/Takashi00
-      ZXk.graz.ks      = 0.164,       #   mgC/l   Author? i.e. Gurney90/Takashi00
-      ZXr.graz.max.ind = 0.392,       #   gC/Ind h   see zooplankton.r
-      ##  gC/Ind h   see zooplankton.r + Geller(LR036) + book
-      ZXk.graz.max.ind = 0.392/5,
-
-      Z.mort.min.d     = 0.005,       #   /d  SALMO S.10
-      Z.mort.temp.d    = 0.002,       #   /d  SALMO S.10
-      Z.mort.kmo       = 0.0158,      #   mgC/l from mgFM/l  SALMO p.10
-      Z.ae             = 0.7,         #   Takashi00 and Lynch86
-                                      #  (Assimilation / Ingestion
-                                      #    = AE <- 0.909 * W ^ -0.118 )
-      ## Phytoplankton
-      Xr.mu.max.d      = 1.5/0.6,     #   1/d   max photosynthesis per day / factor
-      Xk.mu.max.d      = 0.6/0.6,     #   1/d   max photosynthesis per day / factor
-      Xr.kp            = 5,           #   gP/l   SRP
-      Xk.kp            = 5,           #   gP/l   SRP
-      Xr.ki            = 29,          #   J / cm d, SALMO
-      Xk.ki            = 29,          #   J / cm d, SALMO
-      Xr.ikomp         = 5,           #   J / cm    i.e. Benndorf80
-      Xk.ikomp         = 5,           #   J / cm    i.e. Benndorf80
-      Xr.sed.v.d       = 0.1,         #   m / d     SALMO
-      Xk.sed.v.d       = 0.1,         #   m / d     SALMO
-      Xr.eps           = 0.5,         #   1/m * l/mgC
-      Xk.eps           = 0.5,         #   1/m * l/mgC
-      Xr.imp.d         = 0.0005,      #   phytopl. import mgC/l d
-      Xk.imp.d         = 0.0005,      #   phytopl. import mgC/l d
-
-      ## Phosphorus
-      P.imp.d          = 0.137,       #   mgP/m3 d  P-import, slightly eutrophic
-      yield.CP         = 24.4,        #   mgC / mugP   Yield Carbon per P (Redfield)
-      yield.mort       = 24.4,        #   mugP / mgC   remin of P, Daphnienmort., SALMO
-      yield.fae        = 0.7,         #   part of remineralized P of Zoopl. faeces, SALMO
-      ## scenario parameters to change intermediate variables
-      f.Z.resp         = 1
+    equations = list(
+      remin = function(X, Z, yield_fae, ae, .ing_i, .mort) {
+        yield_fae * (.mort + (1 - ae) * sum(.ing_i)) * Z
+      },
+      ing_i = function(X, ing_max_i, k_ing) {
+        ing_max_i  *  X / (sum(X) + k_ing)
+      },
+      resz = function(resz_max, .ing_i, ing_max_i) {
+        resz_max * (0.5 + 0.5 * sum(.ing_i)/max(ing_max_i))
+      },
+      resx_i = function(phot_max_i, I_komp, k_I) {
+        phot_max_i  * I_komp/(k_I + I_komp)
+      },
+      mort = function(Z, mort_max, k_mort) {
+        mort_max  *  Z/(Z + k_mort)
+      },
+      phot_i = function(P, X, phot_max_i, epsilon_min, epsilon_X, .I_0, k_I, k_P, z_mix) {
+        .epsilon <- epsilon(X, epsilon_min, epsilon_X)
+        phot_max_i * P / (P + k_P)  * 1/.epsilon  *
+          log ((.I_0 + k_I)/(k_I + .I_0  *  exp(-.epsilon *  z_mix))) /z_mix
+      },
+      epsilon = function(X, epsilon_min, epsilon_X) {
+        epsilon_min + sum(epsilon_X  *  X)
+      },
+      I_0 = function(t, I_phot, I_ref, I_max, a, b, d) {
+        I_phot  *  (1-I_ref)  *  I_max * 0.5 * (1 + sin(pi / b *  (t - a)) +
+          sqrt(d + (sin(pi/b*(t - a)))^2) - sqrt(d + 1))
+      },
+      sed_i = function(v_sed, z_mix) {
+        v_sed/z_mix
+      }
     ),
     times  = c(from=0, to=100 * 24, by=1), # time step is hours
     init = c(Xr = 0.05, Xk = 0.05, Z = 0.05, P = 30), # in mg/L, P in \mug/L
     solver = "lsoda",
-    ## optional slot for time dependend data, e.g. time-dependent temperature
-    #inputs = as.matrix(
-    #  data.frame(
-    #    time = c(0,   5, 50, 100),
-    #    temp = c(4,   4, 10,  20)
-    #  )
-    #),
-    ## initfunc is called during initialize() for first-time calculations
-    initfunc = function(obj) {
-      p <- parms(obj)
-      pnew <- with(as.list(p), {
-        I.max.global     <- I.max.global.max * I.meanmax
-        ##  10% reflection at water surface
-        I.max.global.Z0  <- I.max.global * 0.9
-        ##  J / cm d   photosynthetic active Radiation at z < 0m
-        I.max            <- I.max.global.Z0 / 2
-        Z.w              <- 2.66 * Z.l ^ 3.09    #  gC/Ind  Geller75
-        ZXr.graz.max     <- ZXr.graz.max.ind / Z.w
-        ZXk.graz.max     <- ZXk.graz.max.ind / Z.w
-        Z.mort.min       <- Z.mort.min.d / 24
-        Z.mort.temp      <- Z.mort.temp.d / 24
-        Z.resp.ind.d     <- f.Z.resp * 0.288  * Z.w ^ 0.85 #  gC/Ind d   Author?
-        Z.resp.max       <- Z.resp.ind.d / Z.w / 24    #  gC/h   Author?
-        Xr.mu.max        <- Xr.mu.max.d / 24           #  1/h
-        Xk.mu.max        <- Xk.mu.max.d / 24           #  1/h
-        ## value of 0.6 is backcalculation to daily rate of Xr.mu.max
-        Xr.resp          <- Xr.mu.max * Xr.ikomp / (Xr.ki + Xr.ikomp)*0.6
-        Xk.resp          <- Xk.mu.max * Xk.ikomp / (Xk.ki + Xk.ikomp)*0.6
-        Xr.sed.v         <- Xr.sed.v.d / 24             #  m / h
-        Xk.sed.v         <- Xk.sed.v.d / 24             #  m / h
-        Xr.imp           <- Xr.imp.d / 24               #  Import mgC/l h
-        Xk.imp           <- Xk.imp.d / 24               #  Import mgC/l h
-        P.imp            <- P.imp.d / 24                #  mgP/m3 h
-
-        c(I.max.global = I.max.global,
-          I.max.global.Z0 = I.max.global.Z0, I.max = I.max, Z.w = Z.w,
-          ZXr.graz.max = ZXr.graz.max,
-          ZXk.graz.max = ZXk.graz.max, Z.mort.min = Z.mort.min,
-          Z.mort.temp = Z.mort.temp, Z.resp.ind.d = Z.resp.ind.d,
-          Z.resp.max = Z.resp.max, Xr.mu.max = Xr.mu.max, Xk.mu.max = Xk.mu.max,
-          Xr.resp = Xr.resp, Xk.resp = Xk.resp, Xr.sed.v = Xr.sed.v,
-          Xk.sed.v = Xk.sed.v, Xr.imp = Xr.imp, Xk.imp = Xk.imp, P.imp = P.imp)
-      })
-      ## important! new parameters should overwrite old ones
-      ## parms(obj) <-  mixNamedVec(pnew, p, warn=FALSE)
-      parms(obj) <-  c(p[!(names(p) %in% names(pnew))], pnew)
-
-      obj
-    }
+    parms = list(
+      DVM           = FALSE,
+      a             = 6,                 # Time of sunrise (6 h)
+      ae            = 0.7,               # Assimilation efficency (0.7, nondimensional)
+      b             = 16,                # Length of day (16 h)  -
+      d             = 1e-3,              # Gloaming constant	(10^-3, nondimensional)
+      epsilon_min   = 0.6,               # Background turbidity (0.6 m^-1)
+      epsilon_X     = 0.5,               # Light absorption by phytoplankton (0.5 m^-1 mg,C^-1 l)
+      I_komp        = 5 / 8.64,          # Light threshold for algal growth (0.58 W m^-2)
+      I_max         = 560,               # Maximum value of irradiation  (560  W m^-2)
+      I_phot        = 0.5,               # Ratio of photosynthetic active radiation of light (0.5, nondimensional)
+      I_ref         = 0.1,               # Reflexion of light at water surface (0.1, nondimensional)
+      imp_P         = 0.137 / 24,        # P import (0.5 g m^-2 a^-1)
+      mort_max      = 0.045/24,          # Maximal mortality of Z (0.045 d^-1)
+      k_I           = 29/8.64,           # Half saturation coefficient light (3.36 W m^-2)
+      k_ing         = 0.164,             # Half saturation coefficient ingestion (0.164  mg,C,l^-1)
+      k_mort        = 0.0158,            # Half saturation coefficient mortality of Z (0.016 mg,C,l^-1)
+      k_P           = 5,                 # Half saturation coefficient phosphorus (5 mu ,g,P,l^-1)
+      resz_max      = 1/24 * 0.288 * (2.66 * 1.5^3.09)^-0.15,  # Maximum respiration for Z (0.21 d^-1)
+      temp          = 20,                # Temperature (20 degrees C)
+      v_sed         = 0.1/24,            # Sinking velocity of phytoplankton (0.1 m d^-1)
+      yield_CP      = 24.4,              # ratio of carbon to phosphorus (24.4 mgC (mu gP)^-1)
+      yield_fae     = 0.7,               # ratio of resolved phosphorus from feaces (0.7, nondimensional)
+      z_mix         = 10,                # Depth of epilimnion (10  m)
+      phot_max_i    = c(2.5, 1) /24,     # Maximum growth rate for X_i (1.5, 0,6 d^-1)
+      imp_X_i       = rep(0.0005, 2)/24, # Import of algal biomass (5e-04, 5e-04  mg,C,l^-1)
+      ing_max_i     = rep(0.392/(2.66 * 1.5^3.09), 2) / c(1, 5)  # Maximal ingestion of phytoplankton group i  (1.0, 0.2  d^-1)
+    )
   )
 }
-
-
-
-

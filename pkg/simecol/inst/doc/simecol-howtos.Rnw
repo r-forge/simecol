@@ -380,7 +380,9 @@ but they appear as an additional burden during model building, in
 particular if these models are technically not that simple as in our
 example.
 
-Fortunately, there is an easy workaround. This is, implementing the
+%\subsubsection{Method 1: Debug functions in the user workspace}
+
+Fortunately, there are easy workarounds. One of them is, implementing the
 technically challenging parts in the user-workspace first using the
 above mentioned mixed style. Then, after developing and debugging the
 model and if everything works satisfactory, integrating the parts into
@@ -437,6 +439,8 @@ str(upca)      # show the object
 
 Now, you can delete \code{f} and \code{fmain} and you have a clean
 workspace with only the necessary objects.
+
+%\subsubsection{Method 2: Extract functions temporarily}
 
 
 \section{Different ways to store simObjects}
@@ -535,9 +539,21 @@ This style is used in package
 %\pkg{PBSddeSolve}-example  \dots
 % use a time delayed differential model as example
 
-%user-defined solvers and assigning a function to the solver-slot \dots
+%user-defined solvers and assignment of functions to the solver-slot \dots
 
 %\section{Using vectorized equations}
+
+\section{Methods to work with \proglang{S4} objects}
+
+<<showMethods,fig=FALSE>>
+showMethods("sim")
+getMethod("sim", "odeModel")
+@
+
+% hasMethod("sim", "odeModel")
+% findMethod("sim", "odeModel")
+
+% setMethod
 
 \section{Implementing models in compiled languages}
 
@@ -584,24 +600,24 @@ void clotka(void (* odeparms)(int *, double *)) {
 void dlotka(int *neq, double *t, double *y,
   double *ydot, double *yout, int *ip) {
 
-  // sanity checks
+  // sanity check for the 2 'additional outputs'
   if (ip[0] < 2) error("nout should be at least 2");
 
   // derivatives
   ydot[0] = k1 * y[0]        - k2 * y[0] * y[1];
   ydot[1] = k2 * y[0] * y[1] - k3 * y[1];
 
-  // additional outputs, here for demo purposes only
+  // the 2 additional outputs, here for demo purposes only
   yout[0] = aGlobalVar;
   yout[1] = ydot[0];
 }
 \end{verbatim}
 
 
-The `define' macros are a typical \proglang{C}-trick to get readable
+Using \verb!#define! macros are a typical \proglang{C}-trick to get readable
 names for the parameters. This method is simple and efficient, and
-there are, of course, more elaborate possibilities, for example using
-dynamic variables.
+there are, of course, more elaborate possibilities. One alternative is
+using dynamic variables, another is doing call-backs to proglang{R}.
 
 The \proglang{C} code can now be compiled into a so-called shared
 library (on Linux) or a DLL on Windows, that can be linked to
@@ -654,23 +670,24 @@ communication overhead of \proglang{R} during the integration.
 \begin{Schunk}
 \begin{Sinput}
 clotka <- new("odeModel",
-  ## note that this main does not contain the equations directly
+  ## note that 'main' does not contain any equations directly
   ## but returns information where these can be found
+  ## 'nout' is the number of 'additional outputs'
   main = function(time, init, parms) {
-     # list with dllname, func, nout, [jacfunc]
+     # a list with: dllname, func, [jacfunc], nout
      list(lib     = "clotka",
           func    = "dlotka",
           jacfunc = NULL,
           nout    = 2)
   },
   ## parms, times, init are provided as usual, enabling
-  ## scenario control like for "ordinary" simecol models
+  ## scenario control like for 'ordinary' simecol models
   parms  = c(k1=0.2, k2=0.2, k3=0.2),
   times  = c(from=0, to=100, by=0.5),
   init   = c(prey=0.5, predator=1),
-  ## a special solver function that evaluates funclist
+  ## special solver function that evaluates funclist
   ## and passes its contents directly to the lsoda
-  ## in the "compiled function" mode
+  ## in the 'compiled function' mode
   solver = function(init, times, funclist, parms, ...) {
     f <- funclist()
     as.data.frame(lsoda(init, times, func=f$func,
