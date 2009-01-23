@@ -1,5 +1,4 @@
 \name{mixNamedVec}
-\Rdversion{1.1}
 \alias{mixNamedVec}
 
 \title{
