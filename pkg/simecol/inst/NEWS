@@ -1,6 +1,9 @@
+0.6-4
+
 0.6-3
 
 o remove Rdversion, back compatibility with R 2.8.1
+o submitted to CRAN
 
 0.6-2
 
@@ -8,7 +11,7 @@ o fitOdeModel supports now PORT algorithm (nlminb)
 o documentation improvements
 o first version of "simecol-howto"
 o new utility mixNamedVec
-
+o submitted to CRAN
 
 0.6-1
 
