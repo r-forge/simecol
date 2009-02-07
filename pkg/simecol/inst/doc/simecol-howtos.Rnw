@@ -543,7 +543,7 @@ This style is used in package
 
 %\section{Using vectorized equations}
 
-\section{Methods to work with \proglang{S4} objects}
+\section{Methods to work with S4 objects}
 
 <<showMethods,fig=FALSE>>
 showMethods("sim")

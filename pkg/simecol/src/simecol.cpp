@@ -9,7 +9,7 @@
    http://alumni.imsa.edu/~stendahl/comp/src/fill.c
 */
 
-#include <R.h>
+#include <cmath>
 #include <Rinternals.h>
 
 extern "C" {
