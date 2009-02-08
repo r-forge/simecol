@@ -28,46 +28,43 @@ The object contains the following slots:
 }
 
 \references{
-Rudolf, L., Petzoldt, T., Rinke, K. and
-Benndorf, J. (submitted). Effects of zooplankton diel vertical migration
-on a phytoplankton community: a scenario analysis of the underlying mechanisms.
+Petzoldt, T., Rudolf, L., Rinke, K. and
+Benndorf, J. (accepted). Effects of zooplankton diel vertical migration
+on a phytoplankton community: a scenario analysis of the underlying
+mechanisms. Ecological Modelling.
 }
 \examples{
 
 # Scenario analysis for the P - X1/X2 - Z - Lake Model with
 #  diurnal vertical migration of Daphnia (Z)
-# (Rudolf et. al. submitted)
-
-##   --> uncomment the following line  for Series 2,
-##       with completely inedible algae (type "X3")
-# parms(dvmphyto)["ZXk.graz.max"] <- 0
 
 sc1 <- sc2 <- sc3 <- sc4 <- sc5 <- dvmphyto <- dvm_phyto()
 
-## show parameters, note that several depend on others
-parms(sc1)
-initfunc(sc1)
+##   --> uncomment the following line  for Series 2,
+##       with completely inedible algae (type "X3")
+# parms(dvmphyto)[["ing_max_i"]][2] <- 0
 
+## show parameters
+# parms(sc1)
+
+## define scenarios
 parms(sc1)["DVM"] <- FALSE
+
 parms(sc2)["DVM"] <- TRUE
 
 parms(sc3)["DVM"] <- TRUE
-parms(sc3)["ZXr.graz.max.ind"] <- parms(dvmphyto)["ZXr.graz.max.ind"] * 3
-parms(sc3)["ZXk.graz.max.ind"] <- parms(dvmphyto)["ZXk.graz.max.ind"] * 3
+parms(sc3)[["ing_max_i"]] <- parms(dvmphyto)[["ing_max_i"]]  * 3
 
 parms(sc4)["DVM"] <- TRUE
-parms(sc4)["ZXr.graz.max.ind"] <- parms(dvmphyto)["ZXr.graz.max.ind"] * 3
-parms(sc4)["ZXk.graz.max.ind"] <- parms(dvmphyto)["ZXk.graz.max.ind"] * 3
-parms(sc4)["Z.mort.min.d"]     <- parms(dvmphyto)["Z.mort.min.d"]     * 3
-parms(sc4)["Z.mort.temp.d"]    <- parms(dvmphyto)["Z.mort.temp.d"]    * 3
-parms(sc4)["f.Z.resp"]         <- 3
+parms(sc4)[["ing_max_i"]] <- parms(dvmphyto)[["ing_max_i"]]  * 3
+parms(sc4)[["resz_max"]]  <- parms(dvmphyto)[["resz_max"]]   * 3
+parms(sc4)[["mort_max"]]  <- parms(dvmphyto)[["mort_max"]]   * 3
+
 
 parms(sc5)["DVM"] <- FALSE
-parms(sc5)["ZXr.graz.max.ind"] <- parms(dvmphyto)["ZXr.graz.max.ind"] / 3
-parms(sc5)["ZXk.graz.max.ind"] <- parms(dvmphyto)["ZXk.graz.max.ind"] / 3
-parms(sc5)["Z.mort.min.d"]     <- parms(dvmphyto)["Z.mort.min.d"]     / 3
-parms(sc5)["Z.mort.temp.d"]    <- parms(dvmphyto)["Z.mort.temp.d"]    / 3
-parms(sc5)["f.Z.resp"]         <- 3
+parms(sc5)[["ing_max_i"]] <- parms(dvmphyto)[["ing_max_i"]]  / 3
+parms(sc5)[["resz_max"]]  <- parms(dvmphyto)[["resz_max"]]   / 3
+parms(sc5)[["mort_max"]]  <- parms(dvmphyto)[["mort_max"]]   / 3
 
 
 ## it is also possible to use "chained cloning" e.g. to clone
@@ -75,9 +72,10 @@ parms(sc5)["f.Z.resp"]         <- 3
 
 ## now we simulate the scenarios one after one
 
-\dontrun{
-## the simulations take a while, so we skip during in the package check
 o1 <- out(sim(sc1))
+
+\dontrun{
+## the simulations take a while, so we skip some in package check
 o2 <- out(sim(sc2))
 o3 <- out(sim(sc3))
 o4 <- out(sim(sc4))

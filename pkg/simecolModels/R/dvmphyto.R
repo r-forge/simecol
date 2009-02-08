@@ -1,6 +1,6 @@
 ################################################################################
-# Core Model of the P - X1/X2 - Z - Lake Model
-# (Rudolf et. al., 2007, submitted)
+#  P - X1/X2 - Z - Lake Model with Pulsed Grazing
+# (Petzoldt et. al., 2009, Ecological Modelling)
 #
 # The model was implemented in the R programming language for statistical
 # computing using the object oriented "simecol" package
@@ -10,18 +10,17 @@
 
 dvm_phyto <- function() {
 
-  dvmphyto2 <- new("odeModel",
+  new("odeModel",
     main = function(time, init, parms) {
       X <- init[1:2]
       Z <- init[3]
       P <- init[4]
       with(parms, {
-        ## Important!
         t       <- (time %% 24)
-
         .I_0    <- I_0(t, I_phot, I_ref, I_max, a, b, d)
         .ing_i  <- ing_i(X, ing_max_i, k_ing)
-        .phot_i <- phot_i(P, X, phot_max_i, epsilon_min, epsilon_X, .I_0, k_I, k_P, z_mix)
+        .phot_i <- phot_i(P, X, phot_max_i, epsilon_min, epsilon_X,
+                     .I_0, k_I, k_P, z_mix)
         .resx_i <- resx_i(phot_max_i, I_komp, k_I)  * 0.6
         .mort   <- mort(Z, mort_max, k_mort)
         .remin  <- remin(X, Z, yield_fae, ae, .ing_i , .mort)
@@ -35,7 +34,8 @@ dvm_phyto <- function() {
         dZ <-  (ae * sum(.ing_i) - .resz - .mort) * Z
 
         ## Phytoplankton (2 species, uses vectorized notation of R)
-        dX_i <- (.phot_i - sed_i(v_sed, z_mix) - .resx_i)  *  X - .ing_i *  Z + imp_X_i
+        dX_i <- (.phot_i - sed_i(v_sed, z_mix) - .resx_i)  *  X -
+                  .ing_i *  Z + imp_X_i
 
         ## Phosphorus
         dP <- yield_CP * (.remin - (sum((.phot_i - .resx_i) * X))) + imp_P
@@ -62,7 +62,8 @@ dvm_phyto <- function() {
       mort = function(Z, mort_max, k_mort) {
         mort_max  *  Z/(Z + k_mort)
       },
-      phot_i = function(P, X, phot_max_i, epsilon_min, epsilon_X, .I_0, k_I, k_P, z_mix) {
+      phot_i = function(P, X, phot_max_i, epsilon_min,
+        epsilon_X, .I_0, k_I, k_P, z_mix) {
         .epsilon <- epsilon(X, epsilon_min, epsilon_X)
         phot_max_i * P / (P + k_P)  * 1/.epsilon  *
           log ((.I_0 + k_I)/(k_I + .I_0  *  exp(-.epsilon *  z_mix))) /z_mix
