@@ -1,13 +1,17 @@
 Package: simecolModels 
-Version: 0.3
-Date: 2008-09-19
+Version: 0.3-1
+Date: 2009-02-10
 Title: Model collection for the simecol package
 Author: Thomas Petzoldt, Karline Soetaert
 Depends: R (>= 2.3.0), stats, graphics, utils, methods, deSolve, rootSolve, simecol
 LazyLoad: yes
 LazyData: yes
 Maintainer: Thomas Petzoldt <thomas.petzoldt@tu-dresden.de> 
-Description: Object oriented framework to simulate ecological (and other) dynamic systems
+Description: simecolModels is an open collection of (mostly published) models
+  implemented in the object oriented "simecol" style. The models are intended
+  for reproducing and extending published work and for teaching purposes.
+  The package is growing work in progress which may be eventually splitted
+  in several thematic branches.
 License: GPL (>= 2)  
 URL: http://www.simecol.de/
 
