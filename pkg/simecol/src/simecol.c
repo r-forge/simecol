@@ -9,10 +9,11 @@
    http://alumni.imsa.edu/~stendahl/comp/src/fill.c
 */
 
-#include <cmath>
+#include <R.h>
 #include <Rinternals.h>
 
-extern "C" {
+#define true 1
+#define false 0
 
 int imax(int x, int y) {
     if (x > y) {
@@ -30,21 +31,23 @@ int imin(int x, int y) {
     }
 }
 
-bool is_inside(int n, int m, int i, int j, double* x) {
-    if ((0 <= i) & (i < n) & (0 <= j) & (j < m))  return true; else return false;
+int isInside(int n, int m, int i, int j, double* x) {
+    if ((0 <= i) & (i < n) & (0 <= j) & (j < m))  
+      return true; 
+      else return false;
 }
 
 double getpixel(int n, int m, int i, int j, double* x) {
-    if (is_inside(n, m, i, j, x)) {
+    if (isInside(n, m, i, j, x)) {
       return x[i + n * j];
     } else {
       return 0;
     }
 }
 
-//version 2: return bound color if outside the area
+/* version 2: return bound color if outside the area */
 double getpixelb(int n, int m, int i, int j, double* x, double bound) {
-    if (is_inside(n, m, i, j, x)) {
+    if (isInside(n, m, i, j, x)) {
       return x[i + n * j];
     } else {
       return bound;
@@ -52,17 +55,17 @@ double getpixelb(int n, int m, int i, int j, double* x, double bound) {
 }
 
 void setpixel(int n, int m, int i, int j, double* x, double* fcol) {
-    if (is_inside(n, m, i, j, x)) {
+    if (isInside(n, m, i, j, x)) {
        x[i + n * j] = *fcol;
     }
 }
  
 
-// recursive version of seedfill
+/* recursive version of seedfill */
 void fill(int* n, int* m, int* i, int* j, double* x, 
           double* fcol, double* bcol, double* tol) {
   int ii=*i, jj=*j; double col;
-  if (is_inside(*n, *m, *i, *j, x)) {
+  if (isInside(*n, *m, *i, *j, x)) {
     col=getpixel(*n, *m, *i, *j, x);
 
     if( col != *fcol && col != *bcol ) {
@@ -75,7 +78,7 @@ void fill(int* n, int* m, int* i, int* j, double* x,
   }
 }  
 
-// non-recursive seedfill
+/* non-recursive seedfill */
 void pushSeed(int x, int y, int* xstack, int* ystack, int* ptr, int maxptr) {
   xstack[*ptr] = x;
   ystack[*ptr] = y;
@@ -84,8 +87,8 @@ void pushSeed(int x, int y, int* xstack, int* ystack, int* ptr, int maxptr) {
     error("fatal error in package simecol: stack size exceeded in seedfill");
 }
 
-bool popSeed(int* x, int* y, int* xstack, int* ystack, int* ptr) {
-  bool ret = false;
+int popSeed(int* x, int* y, int* xstack, int* ystack, int* ptr) {
+  int ret = false;
   if (*ptr > 0) {
     *ptr = *ptr - 1;
     *x = xstack[*ptr];
@@ -95,14 +98,14 @@ bool popSeed(int* x, int* y, int* xstack, int* ystack, int* ptr) {
   return ret;    
 }
 
-// fill pixels to the left and right of the seed pixel until you hit 
-// boundary pixels.  Return the locations of the leftmost and rightmost 
-// filled pixels.
+/* fill pixels to the left and right of the seed pixel until you hit 
+    boundary pixels.  Return the locations of the leftmost and rightmost 
+    filled pixels.*/
 void FillContiguousSpan(int x, int y, double bound, double fill, int *xLeft, int *xRight,
                         int n, int m, double* xx, double tol) {
    double col;
    int i;
-   // fill pixels to the right until you reach a boundary pixel
+   /* fill pixels to the right until you reach a boundary pixel */
    i = x;
    col = getpixelb(n, m, i, y, xx, bound);
    while (fabs(col - bound) > tol) {
@@ -111,7 +114,7 @@ void FillContiguousSpan(int x, int y, double bound, double fill, int *xLeft, int
       col = getpixelb(n, m, i, y, xx, bound);
    }
    *xRight = i-1;
-   // fill pixels to the left until you reach a boundary pixel
+   /* fill pixels to the left until you reach a boundary pixel */
    i = x-1;
    col = getpixelb(n, m, i, y, xx, bound);
    while(fabs(col - bound) > tol) {
@@ -123,21 +126,21 @@ void FillContiguousSpan(int x, int y, double bound, double fill, int *xLeft, int
 }
 
 
-// the main routine
+/* the main routine */
 void FillSeedsOnStack(double bound, double fill, 
                       int n, int m, double* xx,
                       int* xstack, int* ystack, int* ptr, int maxptr, double tol) {
    double col1=0, col2=0;
-   int x, y;              // current seed pixel
-   int xLeft, xRight;     // current span boundary locations 
+   int x, y;              /* current seed pixel */
+   int xLeft, xRight;     /* current span boundary locations */
    int i;
 
    while (popSeed(&x, &y, xstack, ystack, ptr)) {
       if (fabs(getpixelb(n, m, x, y, xx, bound) - bound) > tol) {
          FillContiguousSpan(x, y, bound, fill, &xLeft, &xRight, n, m, xx, tol);
-         // single pixel spans handled as a special case in the else clause
+         /* single pixel spans handled as a special case in the else clause */
          if (xLeft != xRight) {
-            // handle the row above you
+	     /* handle the row above you */
             y++;
             for(i=xLeft+1; i<=xRight; i++) {
                col1 = getpixelb(n, m, i-1, y, xx, bound);
@@ -149,7 +152,7 @@ void FillSeedsOnStack(double bound, double fill,
             if (fabs(col2 - bound) > tol && fabs(col2 - fill) > tol)
                pushSeed(xRight, y, xstack, ystack, ptr, maxptr); 
 
-            // handle the row below you
+            /* handle the row below you */
             y -= 2;
             for(i=xLeft+1; i<=xRight; i++) {
                col1 = getpixelb(n, m, i-1, y, xx, bound);
@@ -169,18 +172,18 @@ void FillSeedsOnStack(double bound, double fill,
                pushSeed(xLeft, y-1, xstack, ystack, ptr, maxptr);
          }
 
-      } // end if (GetPixel)
-   }  // end while (popSeed)
+      } /* end if (GetPixel) */
+   }  /* end while (popSeed) */
 }
 
-// start routine for seedfill
+/* start routine for seedfill */
 void seedfill(int* n, int* m, int* i, int* j, double* x, 
               double* fcol, double* bcol, double* tol) {
   int* xstack;
   int* ystack;
   int p=0, *ptr;
   int maxptr;
-  xstack = (int *) R_alloc(*n * *m, sizeof(int)); // sorry. estimated value only 
+  xstack = (int *) R_alloc(*n * *m, sizeof(int)); /* sorry. estimated value only */
   ystack = (int *) R_alloc(*n * *m, sizeof(int));
   maxptr = *m * *n;
   ptr = &p;
@@ -188,7 +191,7 @@ void seedfill(int* n, int* m, int* i, int* j, double* x,
   FillSeedsOnStack(*bcol, *fcol, *n, *m, x, xstack, ystack, ptr, maxptr, *tol);
 }
 
-// basic neighbourhood function for Conway's Game of Life
+/* basic neighbourhood function for Conway's Game of Life */
 void eightneighbours(int* n, int* m, double* x, double* y) {
   int nn= *n, mm= *m;
   double c=0;
@@ -207,17 +210,19 @@ void eightneighbours(int* n, int* m, double* x, double* y) {
   }
 }
 
-// generalized neighbourhood function for cellular automata
+/* generalized neighbourhood function for cellular automata */
 void neighbours(int* n, int* m, double* x, double* y, 
                 int* ndist, double* wdist, double* state, double* tol) {
-  // n = number of rows in grid
-  // m = number of columns in grid
-  // x = input grid matrix
-  // y = output grid matrix
-  // ndist = number of rows and columns in distance matrix
-  // wdist = weights of distance matrix
-  // state = value to check for
-  // tol   = tolerance when comparing states
+  /* 
+    n = number of rows in grid
+    m = number of columns in grid
+    x = input grid matrix
+    y = output grid matrix
+    ndist = number of rows and columns in distance matrix
+    wdist = weights of distance matrix
+    state = value to check for
+    tol   = tolerance when comparing states
+  */
   int   nn = *n, mm = *m, nd = *ndist, d;
   double s = 0,  c = 0, dstate = *state, dtol = *tol;
 
@@ -237,6 +242,4 @@ void neighbours(int* n, int* m, double* x, double* y,
     }
   }
 }
-
-} // End extern "C"
 

@@ -1,4 +1,11 @@
+0.6-5
+
+o changed: simecol.cpp to simecol.c
+  to avoid C++ (we didn't need it yet)
+
 0.6-4
+
+o try to fix comptibility issue with Sun Studio compiler
 
 0.6-3
 
