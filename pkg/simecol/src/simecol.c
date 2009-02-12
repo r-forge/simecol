@@ -12,9 +12,6 @@
 #include <R.h>
 #include <Rinternals.h>
 
-#define true 1
-#define false 0
-
 int imax(int x, int y) {
     if (x > y) {
       return x;
@@ -33,8 +30,8 @@ int imin(int x, int y) {
 
 int isInside(int n, int m, int i, int j, double* x) {
     if ((0 <= i) & (i < n) & (0 <= j) & (j < m))  
-      return true; 
-      else return false;
+      return TRUE; 
+      else return FALSE;
 }
 
 double getpixel(int n, int m, int i, int j, double* x) {
@@ -88,12 +85,12 @@ void pushSeed(int x, int y, int* xstack, int* ystack, int* ptr, int maxptr) {
 }
 
 int popSeed(int* x, int* y, int* xstack, int* ystack, int* ptr) {
-  int ret = false;
+  int ret = FALSE;
   if (*ptr > 0) {
     *ptr = *ptr - 1;
     *x = xstack[*ptr];
     *y = ystack[*ptr];
-    ret = true;
+    ret = TRUE;
   }
   return ret;    
 }
