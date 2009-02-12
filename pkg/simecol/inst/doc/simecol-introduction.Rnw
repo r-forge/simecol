@@ -1,4 +1,6 @@
-\documentclass[article,shortnames,nojss]{jss}
+\documentclass[article,nojss]{jss}
+\DeclareGraphicsExtensions{.pdf,.eps}
+%% need no \usepackage{Sweave}
 
 \usepackage{amsmath,amssymb,thumbpdf}
 \usepackage{textcomp}%has degree celsius
@@ -81,13 +83,6 @@ Please refer to the original publication when citing this work.
   E-mail: \email{karsten.rinke@uni-konstanz.de}\\
   URL: \url{http://www.uni-konstanz.de/limnologie/ags/Karsten/}
 }
-%% It is also possible to add a telephone and fax number
-%% before the e-mail in the following format:
-%% Telephone: +49/351/463-34954
-%% Fax: +49/351/463-34954
-
-%% for those who use Sweave please include the following line (with % symbols):
-%% need no \usepackage{Sweave.sty}
 
 %% end of declarations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

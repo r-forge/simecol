@@ -1,4 +1,6 @@
-\documentclass[article,shortnames,nojss]{jss}
+\documentclass[article,nojss]{jss}
+\DeclareGraphicsExtensions{.pdf,.eps}
+%% need no \usepackage{Sweave}
 
 \usepackage{amsmath,amssymb,thumbpdf}
 \usepackage{textcomp}%has degree celsius
@@ -8,7 +10,7 @@
 \renewcommand{\topfraction}{0.7}
 \renewcommand{\floatpagefraction}{0.8}
 
-%% need no \usepackage{Sweave.sty}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
