@@ -164,7 +164,7 @@ matplot(out[,1], out[,-1], type="l")
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{howto-upca2}
-\caption{\label{howto-upca1} Output of UPCA model, solved with? \code{lsoda}
+\caption{\label{howto-upca1} Output of UPCA model, solved with \code{lsoda}
 from package \pkg{deSolve}.}
 \end{figure}
 
@@ -338,7 +338,8 @@ plotupca(sc2, ylim=c(0, 15))
 \centering
 \includegraphics[width=\textwidth]{howto-upca9}
 \caption{\label{howto-upca9} Two scenarios of the UPCA model (left:
-  functional response f is Holling II, right f is Lotka-Volterra).}
+  functional response f is Holling II, right functional response is
+  Lotka-Volterra).}
 \end{figure}
 
 This method allows to compare models with different structure in the
@@ -547,7 +548,7 @@ This style is used in package
 
 \section{Methods to work with S4 objects}
 
-<<showMethods,fig=FALSE>>
+<<showMethods,fig=FALSE>>=
 showMethods("sim")
 getMethod("sim", "odeModel")
 @
@@ -628,7 +629,7 @@ library (on Linux) or a DLL on Windows, that can be linked to
 Compilation requires an installed \proglang{C} compiler (\pkg{gcc})
 and some other tools that are quite standard on Linux, and which are
 also available for the Macintosh or, form of the \pkg{R-Tools}
-collection\url{http://www.murdoch-sutherland.com/Rtools/} provided by
+collection\footnote{\url{http://www.murdoch-sutherland.com/Rtools/}} provided by
 Duncan Murdoch for Windows.
 
 If the tools are installed, compilation can be done directly from
@@ -724,16 +725,17 @@ still a \pkg{simecol} object, because the main parts are now in
 in \proglang{R} if \proglang{C} or \proglang{FORTRAN} are so much
 faster.
 
-The answer is: Speed of computation is not the only thing, it is the
-compromise between execution speed and programming effort. Programming
-in scripting languages like \proglang{R} is much more convenient than
-in compiled languages like \proglang{C} or \proglang{FORTRAN}, so
-programming in compiled languages does only pay its effort required if
-models are quite large or if very many model runs are required. And
-even in such cases, a mixed approach \proglang{R} \textbf{and}
-\proglang{C} can be more efficient, because it is only necessary to
-implement the core functionality of the model in \proglang{R} and most
-of data manipulation and scenario control can be done in \proglang{R}.
+The answer is, that speed of computation is not the only factor.  What
+counts is a good compromise between execution speed and programming
+effort. Programming in scripting languages like \proglang{R} is much
+more convenient than in compiled languages like \proglang{C} or
+\proglang{FORTRAN} and programming in compiled languages does only pay
+its effort required if models are quite large or if a large number of
+model runs is required. And even in such cases, a mixed approach
+\proglang{R} \textbf{and} \proglang{C} can be efficient, because it is
+only necessary to implement the core functionality of the model in
+\proglang{C} and most of data manipulation and scenario control can be
+done in \proglang{R}.
 
 \pkg{simecol} follows exactly this philosophy. Implementing everything
 in \proglang{R} is highly productive if speed is of minor importance,

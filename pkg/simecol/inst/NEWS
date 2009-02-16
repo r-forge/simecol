@@ -1,3 +1,9 @@
+0.6-6
+
+o tested on Linux x64 with gcc and Sun Studio 12 compilers
+o vignette improvements
+
+
 0.6-5
 
 o changed: simecol.cpp to simecol.c
