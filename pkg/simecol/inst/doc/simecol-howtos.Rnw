@@ -33,13 +33,10 @@
 
   This document is intended as a loose collection of sections that
   describe different aspects of modelling and model implementation in
-  \proglang{R} with the \pkg{simecol} package.
-
-  The howto-collection supplements the original publication of
-  \citet{Petzoldt2007} from which an updated version is also part of
-  this package. Please refer to that publication when citing this
-  work.
-
+  \proglang{R} with the \pkg{simecol} package.  It supplements the
+  original publication of \citet{Petzoldt2007} from which an updated
+  version, \textbf{simecol-introduction}, is also part of this
+  package. Please refer to the JSS publication when citing this work.
 }
 
 \Keywords{\proglang{R}, \pkg{simecol}, ecological modeling,
@@ -116,7 +113,7 @@ This strategy has three main advantages:
 
 While it is, of course, preferable to have all parts of a model
 encapsulated in one object, it is not mandatory to have the complete
-working model object before starting to use simecol.
+working model object before starting to use \pkg{simecol}.
 
 \pkg{simecol} models (in the following called \code{simObj}ects) can
 be built up step by step, starting with mixed applications composed by
@@ -151,9 +148,10 @@ y      <- c(u=10, v=5, w=0.1)
 @
 
 The model is defined by 5 variables in the \proglang{R} user space,
-namely f, func, times, parms and init.  The implementation is similar
-to the examples of package \pkg{deSolve} and we can solve it exactly
-in the same manner:
+namely \code{f}, \code{func}, \code{times}, \code{parms} and
+\code{init}.  The implementation is similar to the help page examples
+of package \pkg{deSolve} and we can solve it exactly in the same
+manner:
 
 <<upca2, fig=TRUE>>=
 library(deSolve)
@@ -205,17 +203,17 @@ upca <- new("odeModel",
 @
 
 You may notice, that the assignment operators ``\code{<-}'' changed to
-declarative ``\code{=}'' for the slot definitions, that some of the
-names (\code{y}, \code{func}) were changed to the pre-defined slot
-names of \pkg{simecol} and that all the slot definitions are now comma
-separated arguments of the \code{new} function that creates the
-\code{upca} object. The solver method \code{lsoda} is also given as a
-character string pointing to the original \code{lsoda} function in
-package \pkg{deSolve}.
+a declarative equal sign ``\code{=}'' for the slot definitions, that
+some of the names (\code{y}, \code{func}) were changed to the
+pre-defined slot names of \pkg{simecol} and that all the slot
+definitions are now comma separated arguments of the \code{new}
+function that creates the \code{upca} object. The solver method
+\code{lsoda} is also given as a character string pointing to the
+original \code{lsoda} function in package \pkg{deSolve}.
 
 The new object can now be simulated very easily with the \code{sim}
 function of \pkg{simecol}, that returns the object with all original
-slots and an additional slot \code{out} holding the output values.  A
+slots and one additional slot \code{out} holding the output values.  A
 generic \code{plot} function is also available for basic plotting of
 the outputs:
 
@@ -224,14 +222,15 @@ upca <- sim(upca)
 plot(upca)
 @
 
-It is also possible to extract the results with the accessor function
-\code{out}, and to use arbitrary, user-defined plot functions:
+It is now also possible to extract the results from \code{upca} with a
+so called accessor function \code{out}, and to use arbitrary,
+user-defined plot functions:
 
 <<upca5, fig=TRUE>>=
 plotupca <- function(obj, ...) {
   o <- out(obj)
   matplot(o[,1], o[,-1], type="l", ...)
-  legend("topleft", legend = c("u", "v", "w"), lty=1:3, , bg="white",col = 1:3)
+  legend("topright", legend = c("u", "v", "w"), lty=1:3, , bg="white",col = 1:3)
 }
 plotupca(upca)
 @
@@ -243,10 +242,11 @@ plotupca(upca)
 %\end{figure}
 
 
-O.K., that's it, but note that function \code{f} is not yet part of the simecol
-object, what we call here a ``mixed implementation''. This function \code{f} is
-rather simple here, and it would be also possible to call functions of arbitrary
-complexity from \code{main}.
+O.K., that's it, but note that function \code{f} is not yet part of
+the simecol object, that's why we call here a ``mixed
+implementation''. This function \code{f} is rather simple here, but it
+would be also possible to call functions of arbitrary complexity from
+\code{main}.
 
 \subsection{Creating scenarios}
 
@@ -291,8 +291,8 @@ new definition:
 sc1 <- sim(sc1)
 sc2 <- sim(sc2)
 par(mfrow=c(1,2))
-plotupca(sc1, ylim=c(0, 15))
-plotupca(sc2, ylim=c(0, 15))
+plotupca(sc1, ylim=c(0, 20))
+plotupca(sc2, ylim=c(0, 20))
 @
 
 \begin{figure}
@@ -318,10 +318,11 @@ are not easily accessible from outside.
 To allow the latter, \pkg{simecol} has an optional slot ``equations'',
 that can hold a list of submodels. Such an equations-slot can be
 defined either during object creation, or functions may be added
-afterwards. In the following, we derive to new clones with default
-parameter settings from the original \code{upca}-object, and then add
-the Holling II functional response to scenario 1 and the Lotka-Volterra
-functional response to scenario 2 (figure \ref{howto-upca9}):
+afterwards. In the following, we derive two new clones with default
+parameter settings from the original \code{upca}-object, and then
+assign one version (the Holling II functional response) to scenario 1
+and the other version (simple multiplicative Lotka-Volterra functional
+response) to scenario 2 (figure \ref{howto-upca9}):
 
 <<upca9,fig=TRUE>>=
 sc1 <- sc2 <- upca
@@ -330,16 +331,16 @@ equations(sc2)$f <- function(x, y, k){x * y}
 sc1 <- sim(sc1)
 sc2 <- sim(sc2)
 par(mfrow=c(1,2))
-plotupca(sc1, ylim=c(0, 15))
-plotupca(sc2, ylim=c(0, 15))
+plotupca(sc1, ylim=c(0, 20))
+plotupca(sc2, ylim=c(0, 20))
 @
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{howto-upca9}
 \caption{\label{howto-upca9} Two scenarios of the UPCA model (left:
-  functional response f is Holling II, right functional response is
-  Lotka-Volterra).}
+  functional response \code{f} is Holling II, right functional
+  response is Lotka-Volterra).}
 \end{figure}
 
 This method allows to compare models with different structure in the
@@ -385,7 +386,7 @@ example.
 
 %\subsubsection{Method 1: Debug functions in the user workspace}
 
-Fortunately, there are easy workarounds. One of them is, implementing the
+Fortunately, there are easy workarounds. One of them is implementing the
 technically challenging parts in the user-workspace first using the
 above mentioned mixed style. Then, after developing and debugging the
 model and if everything works satisfactory, integrating the parts into
