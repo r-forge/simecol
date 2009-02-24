@@ -84,7 +84,7 @@ particular model, equations and data are stored together in one
 \code{simObj} (spoken: sim-Object), and only some general algorithms
 (e.g. differential equation solvers or interpolation routines) remain
 external, preferably as package functions (e.g. function \code{lsoda}
-in package \pkg{deSolve} \citep{deSolve2009} or as functions in the
+in the package \pkg{deSolve} \citep{deSolve2009} or as functions in the
 user workspace.
 
 This strategy has three main advantages:
@@ -93,7 +93,7 @@ This strategy has three main advantages:
 \item You can have several independent versions of one model in the
   computer memory at the same time. These instances may have different
   settings, parameters and data or even use different formula, but
-  they don't interfere with each other.  Moreover, if all data and
+  they do not interfere with each other.  Moreover, if all data and
   functions are \emph{encapsulated} in their \code{simObj}ects,
   identifiers can be re-used and it is, for example, not necessary to
   keep track over a large number of variable names or to invent new
@@ -103,7 +103,7 @@ This strategy has three main advantages:
   included, not only the formula but also defaults for parameter and
   data. You, or your users need only \proglang{R}, some packages and
   your model object. It is also possible to start model objects
-  directly from the internet or, on the other side, to distribute
+  directly from the internet or, on the other hand, to distribute
   model collections as \proglang{R} packages.
 \item All \code{simObj}ects can be handled, simulated and modified
   with the same generic functions, e.g. \code{sim}, \code{plot} or
@@ -116,7 +116,7 @@ encapsulated in one object, it is not mandatory to have the complete
 working model object before starting to use \pkg{simecol}.
 
 \pkg{simecol} models (in the following called \code{simObj}ects) can
-be built up step by step, starting with mixed applications composed by
+be built step by step, starting with mixed applications composed by
 rudimentary \code{simObj}ects and ordinary user space functions. When
 everything works, you should encapsulate all the main parts of your
 model in the \code{simObj}ect to get a clean object that does not
@@ -124,10 +124,10 @@ interfere with others.
 
 \subsection{An Example}
 
-We start with the example, given in the simecol-introduction
+We start with the example given in the simecol-introduction
 \citep{Petzoldt2007}, an implementation of the UPCA model of
 \citet{Blasius1999}, but we write it in the usual \pkg{deSolve} style,
-e.g. without using simecol:
+i.e. without using \pkg{simecol}:
 
 <<upca1>>=
 f <- function(x, y, k){x*y / (1+k*x)}  # Holling II
@@ -147,7 +147,7 @@ parms  <- c(a=1, b=1, c=10, alpha1=0.2, alpha2=1, k1=0.05, k2=0, wstar=0.006)
 y      <- c(u=10, v=5, w=0.1)
 @
 
-The model is defined by 5 variables in the \proglang{R} user space,
+The model is defined by 5 variables in the \proglang{R} user workspace,
 namely \code{f}, \code{func}, \code{times}, \code{parms} and
 \code{init}.  The implementation is similar to the help page examples
 of package \pkg{deSolve} and we can solve it exactly in the same
@@ -177,7 +177,7 @@ theory\footnote{see
   \url{http://en.wikipedia.org/wiki/State_space_(controls)}, version
   of 2008-11-01}.
 
-Due to this, it needs only small restructuring and renaming to form a
+Due to this, only small restructuring and renaming is needed to form a
 \code{simObj}:
 
 <<upca3, keep.source=TRUE>>=
@@ -202,7 +202,7 @@ upca <- new("odeModel",
 )
 @
 
-You may notice, that the assignment operators ``\code{<-}'' changed to
+You may notice that the assignment operators ``\code{<-}'' changed to
 a declarative equal sign ``\code{=}'' for the slot definitions, that
 some of the names (\code{y}, \code{func}) were changed to the
 pre-defined slot names of \pkg{simecol} and that all the slot
@@ -212,10 +212,10 @@ function that creates the \code{upca} object. The solver method
 original \code{lsoda} function in package \pkg{deSolve}.
 
 The new object can now be simulated very easily with the \code{sim}
-function of \pkg{simecol}, that returns the object with all original
+function of \pkg{simecol} that returns the object with all original
 slots and one additional slot \code{out} holding the output values.  A
 generic \code{plot} function is also available for basic plotting of
-the outputs:
+the output:
 
 <<upca4>>=
 upca <- sim(upca)
@@ -242,7 +242,7 @@ plotupca(upca)
 %\end{figure}
 
 
-O.K., that's it, but note that function \code{f} is not yet part of
+Okay, that's it, but note that function \code{f} is not yet part of
 the simecol object, that's why we call here a ``mixed
 implementation''. This function \code{f} is rather simple here, but it
 would be also possible to call functions of arbitrary complexity from
@@ -277,15 +277,15 @@ If we simulate and plot these scenarios, we see an exponentially
 growing $u$ in both cases, and cycles resp. an equilibrium state for
 $v$ and $w$ for the scenarios respectively (figure \ref{howto-upca6}).
 
-If we change now the functional response function $f$ from Holling II
+If we now also change the functional response function $f$ from Holling II
 to Lotka-Volterra:
 
 <<upca7>>=
 f <- function(x, y, k){x * y}
 @
 
-Both model scenarios, \code{sc1} and \code{sc2} are affected by this
-new definition:
+both model scenarios, \code{sc1} and \code{sc2} are affected by this
+new definition.
 
 <<upca8,fig=TRUE>>=
 sc1 <- sim(sc1)
@@ -343,10 +343,10 @@ plotupca(sc2, ylim=c(0, 20))
   response is Lotka-Volterra).}
 \end{figure}
 
-This method allows to compare models with different structure in the
-same way like scenarios with different parameter values. In addition,
+This method allows to compare models with different structures in the
+same way as scenarios with different parameter values. In addition,
 it is also possible to define model objects with different versions of
-submodels \textbf{built-in}, that can be alternatively enabled:
+\textbf{built-in} submodels, that can be alternatively enabled:
 
 <<upca10>>=
 upca <- new("odeModel",
@@ -381,22 +381,22 @@ sometimes cumbersome, especially if slot-functions (e.g. \code{main},
 \code{equations}, \code{initfunc}) come into play. These difficulties
 are not much important for well-functioning ready-made model objects,
 but they appear as an additional burden during model building, in
-particular if these models are technically not that simple as in our
+particular if these models are technically not as simple as in our
 example.
 
 %\subsubsection{Method 1: Debug functions in the user workspace}
 
-Fortunately, there are easy workarounds. One of them is implementing the
-technically challenging parts in the user-workspace first using the
-above mentioned mixed style. Then, after developing and debugging the
-model and if everything works satisfactory, integrating the parts into
-the object is straightforward, given that you keep the general
+Fortunately, there are easy workarounds. One of them is implementing
+the technically challenging parts in the user-workspace first using
+the above mentioned mixed style. Then, after developing and debugging
+the model and if everything works satisfactory, integrating the parts
+into the object is straightforward, given that you keep the general
 structure in mind. In the example below, we implement the main model
 as a workspace function \code{fmain}\footnote{Note that this function
   must never be named ``func'', for some rather esoteric internal
   reasons which we shall not discuss further here.}  with the same
-interface (parameters and return values) as above, that is then called
-by the \code{main}-function of the \code{simObj}:
+interface (parameters and return values) as above, which is then
+called by the \code{main}-function of the \code{simObj}:
 
 <<upca11>>=
 f <- function(x, y, k){x*y / (1+k*x)}  # Holling II
@@ -461,7 +461,7 @@ all the slots which creates the \proglang{S4}-object (see section
 \pkg{simecol} objects can be saved in machine readable form as
 \proglang{S4}-object binaries with the \code{save} method of
 \proglang{R}, which stores the whole object with all its equations,
-initial values, parameters etc. and also the simulation outputs if the
+initial values, parameters etc. and also the simulation output if the
 model was simulated before saving.
 
 <<upca13, keep.source=TRUE>>=
@@ -519,7 +519,7 @@ genLV <- function() {
 
 Now, the function contains the instruction, how \proglang{R} can
 create a new instance of such a model. The \code{simecol} object is
-not created yet, but a call to the creator function can bring it into
+not created yet, but a call to the creator function can bring it to
 live:
 
 <<lvgen2>>=
@@ -549,10 +549,28 @@ This style is used in package
 
 \section{Methods to work with S4 objects}
 
+The \proglang{S4} scheme includes several utility functions which can
+be used to inspect objects and their methods. As an example,
+\code{showMethods} can be used to list all different functions, that
+are available for one method (here \code{sim}), depending on the
+object types involved:
+
 <<showMethods,fig=FALSE>>=
 showMethods("sim")
+@
+
+Based on this information, it is now possible to inspect the source
+code of the particular method, e.g. the \code{sim}-function for
+differential equation models (class \code{odeModel}):
+
+<<getMethod,fig=FALSE>>=
 getMethod("sim", "odeModel")
 @
+
+In addition to this, \proglang{R} has several other functions to
+inspect or manipulate objects, e.g. \code{hasMethod},
+\code{findMethod}, or \code{setMethod}, please see the documentation
+of these functions for details.
 
 % hasMethod("sim", "odeModel")
 % findMethod("sim", "odeModel")
@@ -562,19 +580,20 @@ getMethod("sim", "odeModel")
 \section{Implementing models in compiled languages}
 
 Compilation of model code can speed up simulations considerably and
-there are several ways to call compiled code from \proglang{R}. So, it
+there are several ways to call compiled code from \proglang{R}; so it
 is possible to use functions written in \proglang{C/C++} or
 \proglang{Fortran} in the ordinary way described in the ``Writing R
-Extensions'' manual \citep{Rexts2006}. This can speed up computations
-but still needs communication overhead because the control is given
-back to \proglang{R} in every simulation step.
+Extensions'' manual \citep{Rexts2006}. This can speed up computations,
+but still a certain amout of communication overhead is needed because
+the control is given back to \proglang{R} in every simulation step.
 
-In addition to this it is also possible to enable direct communication
-between integration routines and the model code if both are available
-in compiled code and if direct call of a compiled model is supported
-by the integrator. All integrators of the \code{lsoda}-family of
-solvers support this and additional solvers may support this in the
-future, see the \pkg{deSolve} documentation for details.
+In addition to this basic method, it is also possible to enable direct
+communication between integration routines and the model code if both
+are available in compiled languages and if the direct call of a
+compiled model is supported by the integrator. All integrators of the
+\code{lsoda}-family of solvers support this and additional solvers may
+support this in the future, see the \pkg{deSolve} documentation for
+details.
 
 Now, let's inspect an example. We firstly provide our model as
 described in the \pkg{deSolve} vignette ``Writing Code in Compiled
@@ -618,10 +637,11 @@ void dlotka(int *neq, double *t, double *y,
 \end{verbatim}
 
 
-Using \verb!#define! macros are a typical \proglang{C}-trick to get readable
-names for the parameters. This method is simple and efficient, and
-there are, of course, more elaborate possibilities. One alternative is
-using dynamic variables, another is doing call-backs to proglang{R}.
+Using \verb!#define! macros are a typical \proglang{C}-trick to get
+readable names for the parameters. This method is simple and efficient
+and of course, there are more elaborate possibilities. One alternative
+is using dynamic variables, another is doing call-backs to
+proglang{R}.
 
 The \proglang{C} code can now be compiled into a so-called shared
 library (on Linux) or a DLL on Windows, that can be linked to
@@ -630,8 +650,8 @@ library (on Linux) or a DLL on Windows, that can be linked to
 Compilation requires an installed \proglang{C} compiler (\pkg{gcc})
 and some other tools that are quite standard on Linux, and which are
 also available for the Macintosh or, form of the \pkg{R-Tools}
-collection\footnote{\url{http://www.murdoch-sutherland.com/Rtools/}} provided by
-Duncan Murdoch for Windows.
+collection\footnote{\url{http://www.murdoch-sutherland.com/Rtools/}}
+provided by Duncan Murdoch for Windows.
 
 If the tools are installed, compilation can be done directly from
 \proglang{R} with:
@@ -640,12 +660,12 @@ If the tools are installed, compilation can be done directly from
 system("R CMD SHLIB clotka.c")
 @
 
-The result, a shared library or DLL can now be linked to the current
+The result, a shared library or DLL, can now be linked to the current
 \proglang{R} session with \code{dyn.load}, that we show here for
-Windows, and what is quite similar for Linux \cite[see][for
-details]{Rexts2006}. Note that you set the working directory of
-\proglang{R} to the path where the DLL resides or use the full path in
-the call to \code{dyn.load}.
+Windows, and which is quite similar for Linux \cite[see][, Writing R
+Extensions for details]{Rexts2006}.  Note that you set the working
+directory of \proglang{R} to the path where the DLL resides or use the
+full path in the call to \code{dyn.load}.
 
 
 <<clotka_R,eval=FALSE>>=
@@ -653,16 +673,16 @@ modeldll <- dyn.load("clotka.dll")
 @
 
 You can now call the derivatives \code{dlotka} of the model in the
-\code{main} function of a \pkg{simecol}-object, but we don't want to
-go this way here. What we do is going the more efficient way, i.e. we
-tell the solver \code{lsoda} where it finds the model in the DLL.
+\code{main} function of a \pkg{simecol}-object, but we do not want to
+go this way here. What we do is to go the more efficient way, i.e. we
+tell the solver \code{lsoda} where to find the model in the DLL.
 
 The trick consists of two parts:
 
 \begin{enumerate}
-\item we write an almost empty \code{main} function that returns all
+\item We write an almost empty \code{main} function that returns all
   the information that the ODE solver needs in form of a list,
-\item instead of putting a character reference to an existing solver
+\item Instead of putting a character reference to an existing solver
   function into the \code{solver} slot (e.g. \code{"lsoda"}) we write
   a user-defined interface to the solver and assign it to the
   solver-slot as shown in the example.
@@ -726,22 +746,22 @@ still a \pkg{simecol} object, because the main parts are now in
 in \proglang{R} if \proglang{C} or \proglang{FORTRAN} are so much
 faster.
 
-The answer is, that speed of computation is not the only factor.  What
+The answer is that speed of computation is not the only factor.  What
 counts is a good compromise between execution speed and programming
 effort. Programming in scripting languages like \proglang{R} is much
-more convenient than in compiled languages like \proglang{C} or
-\proglang{FORTRAN} and programming in compiled languages does only pay
-its effort required if models are quite large or if a large number of
-model runs is required. And even in such cases, a mixed approach
-\proglang{R} \textbf{and} \proglang{C} can be efficient, because it is
-only necessary to implement the core functionality of the model in
-\proglang{C} and most of data manipulation and scenario control can be
-done in \proglang{R}.
+more convenient than programming in compiled languages like
+\proglang{C} or \proglang{FORTRAN}. Also, programming in compiled
+languages does only pay its effort required if models are quite large
+or if a large number of model runs is performed. Even in such cases, a
+mixed \proglang{R} \textbf{and} \proglang{C} approach can be
+efficient, because it is only necessary to implement the core
+functionality of the model in \proglang{C} and most of data
+manipulation and scenario control can be done in \proglang{R}.
 
 \pkg{simecol} follows exactly this philosophy. Implementing everything
 in \proglang{R} is highly productive if speed is of minor importance,
-and but you \textbf{can} use \proglang{C} etc. whenever necessary,
-and even in that case you still have the scenario management and data
+but you \textbf{may} use \proglang{C} etc. whenever necessary, and
+even in that case you still have the scenario management and data
 manipulation features of \pkg{simecol}.
 
 
