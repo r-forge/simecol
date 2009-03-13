@@ -1,17 +1,18 @@
 
 
 `fitOdeModel` <-
-function(simObj, whichpar=names(parms(simObj)), 
-  obstime, yobs, 
+function(simObj, whichpar=names(parms(simObj)),
+  obstime, yobs,
   sd.yobs = as.numeric(lapply(yobs, sd)),
-  initialize = TRUE, 
-  debuglevel = 0, 
-  fn = ssqOdeModel,  
+  initialize = TRUE,
+  weights = NULL,
+  debuglevel = 0,
+  fn = ssqOdeModel,
   method = c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN", "PORT"),
   lower = -Inf, upper = Inf, scale.par = 1, control = list(), ...)  {
 
   method <- match.arg(method)
-   
+
   par <- parms(simObj)[whichpar]
   if (!(min(lower) == -Inf | max(upper) == Inf)) {
     lower <- lower[whichpar]
@@ -35,21 +36,24 @@ function(simObj, whichpar=names(parms(simObj)),
              yobs = yobs, sd.yobs = sd.yobs,
              pnames = names(par),  # !!! workaround as nlminb does not pass the names  in R < 2.8.1
              initialize = initialize,
+             weights = weights,
              debuglevel = debuglevel,
              scale = scale.par,
              control = control, lower = lower, upper = upper)
   } else {
     m <- optim(par, fn = fn, simObj = simObj, obstime = obstime,
-             yobs = yobs, sd.yobs = sd.yobs, initialize = initialize,
+             yobs = yobs, sd.yobs = sd.yobs,
+             initialize = initialize,
              lower. = lower.,
              upper. = upper.,
+             weights = weights,
              debuglevel = debuglevel,
              method = method,
              lower = lower, upper = upper,
              control = control, ...)
   }
   cat(m$message, "\n")
-  m$par <- p.constrain(m$par, lower., upper.)           
-  m 
+  m$par <- p.constrain(m$par, lower., upper.)
+  m
 }
 

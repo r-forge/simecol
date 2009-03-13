@@ -7,7 +7,7 @@
 \usage{
 fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs, 
   sd.yobs = as.numeric(lapply(yobs, sd)), initialize = TRUE, 
-  debuglevel = 0, fn = ssqOdeModel, 
+  weights = NULL, debuglevel = 0, fn = ssqOdeModel, 
   method = c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN", "PORT"),
   lower = -Inf, upper = Inf, scale.par = 1,
   control = list(), ...)
@@ -36,7 +36,11 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs,
     re-initialized after the assignment of new parameter values. This
     can be necessary in certain models to assign consistent values to
     initial state variables if they depend on parameters.}
-
+  
+  \item{weights}{optional weights to be used in the fitting process.
+    See cost function (currently only \code{\link{ssqOdeModel}}) for
+    details.}
+  
   \item{debuglevel}{a positive number that specifies the amount of
     debugging information printed,}
 
