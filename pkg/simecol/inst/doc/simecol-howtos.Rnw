@@ -592,7 +592,7 @@ taking results from the literature. However, not all processes are
 accessible by direct measurement. In such cases process parameters can
 be identified indirectly by estimating parameters from observed data.
 
-\section{Model and data}
+\section{Example model and data}
 
 In order to demonstrate parameter fitting we use a simple ODE model
 with two coupled differential equations:
@@ -606,7 +606,7 @@ with two coupled differential equations:
 X &= \text{abundance or biomass concentration} \nonumber\\
 S &= \text{substrate concentration} \nonumber\\
 D &= \text{dilution rate} \nonumber\\
-Y &= \text{yield constant (i.e. conversion fator between S and X)} \nonumber\\
+Y &= \text{yield constant (i.e. conversion factor between S and X)} \nonumber\\
 D &= \text{dilution rate} \nonumber\\
 mu  &= \text{growth rate} \nonumber\\
 v_m &= \text{maximum growth rate} \nonumber\\
@@ -614,8 +614,8 @@ k_m  &= \text{half saturation constant} \nonumber
 \end{align}
 
 The chemostat model is one of the standard examples in package
-\pkg{simecol}. It can be loaded like a data set and we make to working
-copies, \code{cs1} and \code{cs2}:
+\pkg{simecol}. It can be loaded like a data set; two working
+copies \code{cs1} and \code{cs2} are made for further use:
 
 <<fig=FALSE>>=
 data(chemostat)
@@ -638,10 +638,18 @@ two) with exactly the same column names as the state variables.
 \section{Parameter estimation in simecol}
 
 Package \pkg{simecol} has a built-in function for fitting parameters
-of ODE models. In order to save computation time it is suggested to
-use an efficient variable time step algorithm (e.g. \code{lsoda} and
-to set external time steps of the model to the time steps contained in
-the observational data:
+of ODE models (\code{fitOdeModel}). This function is a wrapper that
+uses existing optimization functions of \proglang{R}, currently
+\code{nlminb} with the ``PORT'' algorithm and \code{optim} with
+``Nelder-Mead'', ``BFGS'', ``CG'', ``L-BFGS-B'' and ``SANN''. Among
+these only ``PORT'' and ``L-BFGS-B'' support constrained optimization
+natively, however \code{fitOdeModel} can emulate this also for the
+other methods (arctan-Transformation, see \code{p.constrain}).
+
+In order to save computation time it is suggested to use an efficient
+variable time step algorithm (e.g. \code{lsoda} and to set external
+time steps of the model to the time steps contained in the
+observational data:
 
 <<fig=FALSE>>=
 times(cs1)  <- obstime
@@ -718,19 +726,21 @@ ysim <- out(sim(cs2))
 
 Note that time steps in data and model must be the same. However, for
 producing a smooth figure it is recommended to use a smaller time
-step:
+step. We will need this figure also for further examples, so it makes
+sense to define a function:
 
 <<fit1,fig=TRUE>>=
-par(mfrow=c(1,2))
-solver(cs2) <- "lsoda"
-times(cs2) <- c(from=0, to=20, by=.1)
-ysim <- out(sim(cs2))
-
-par(mfrow=c(1,2))
-plot(obstime, yobs$X, ylim = range(yobs$X, ysim$X))
-lines(ysim$time, ysim$X, col="red")
-plot(obstime, yobs$S, ylim= range(yobs$S, ysim$S))
-lines(ysim$time, ysim$S, col="red")
+plotFit <- function() {
+  solver(cs2) <- "lsoda"
+  times(cs2) <- c(from=0, to=20, by=.1)
+  ysim <- out(sim(cs2))
+  par(mfrow=c(1,2))
+  plot(obstime, yobs$X, ylim = range(yobs$X, ysim$X))
+  lines(ysim$time, ysim$X, col="red")
+  plot(obstime, yobs$S, ylim= range(yobs$S, ysim$S))
+  lines(ysim$time, ysim$S, col="red")
+}
+plotFit()
 @
 
 \begin{figure}
@@ -741,7 +751,187 @@ lines(ysim$time, ysim$S, col="red")
 
 
 
-\section{Identification of intitial values}
+\section{Estimation of initial values}
+
+In the example above, we assumed that the initial values are were
+known and in fact, we used the built-in initial values from the
+default example. In many cases, however, initial values must be
+estimated from observed data because they are either completely
+unknown or known with a certain error.
+
+In order to estimate initial values from data, we have to add them
+to the list of parameters in a technical sense.
+
+<<>>=
+parms(cs1) <- c(parms(cs1), init(cs1))
+parms(cs1)
+@
+
+The second step is to assign these parameters back to the vector of
+initial values, at the beginning of a new simulation, i.e. to
+initialize the model object with new start values determined by the
+optimization algorithm before simulation and calculation of sum of
+squares. For such purposes, \pkg{simecol} objects have a special
+function slot \code{initfunc} and the only thing we have to do is to
+assign an appropriate function which copies the appropriate values
+from \code{parms} to \code{init}.
+
+<<>>=
+initfunc(cs1) <- function(obj) {
+  init(obj) <- parms(obj)[c("X", "S")]
+  obj
+}
+@
+
+Note that initfunc gets an object as input which is then modified and
+returned. Note also, that number and order of initial values must be
+consistent with \code{main}.
+
+<<fig=FALSE>>=
+whichpar <- c("vm", "km", "X", "S")
+lower    <- c(vm=0, km=0, X=0, S=0)
+upper    <- c(vm=100, km=500, X=100, S=100)
+parms(cs1)[whichpar] <- c(vm=10, km=10, X=10, S=10)
+
+res <- fitOdeModel(cs1, whichpar = whichpar,
+  lower = lower, upper=upper,
+  obstime = obstime, yobs = yobs, method = "Nelder",
+  control=list(trace = FALSE))
+@
+
+Assigning fitted parameters and a new simulation now results in:
+
+<<fit2,fig=TRUE>>=
+initfunc(cs2) <- initfunc(cs1)
+parms(cs2)[whichpar] <- res$par
+
+plotFit()
+@
+
+Note that the model object \code{cs2} should have a copy of the
+\code{initfunc} too, otherwise it is necessary to assign the initial
+values manually.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{howto-fit2}
+\caption{\label{howto-fit2} Observed data and fitted model ($k_m$,
+  $v_m$ and initial values were estimated).}
+\end{figure}
+
+\section{Scaling and weighting}
+
+Appropriate scaling of \textbf{observational variables} is crucial. On
+one hand, scaling is necessary because they may be of different order
+of magnitude or have different measurement units (comparing apples and
+oranges), but on the other hand estimated parameters heavily depend on
+this decision.
+
+Weighting is related to scaling. It may be required to weight
+\textbf{individual data points}, depending on their accuracy or the
+number of measurements they rely on.
+
+A third type of scaling is sometimes necessary for numerical reasons
+if \textbf{parameters} have very different order of magnitude. Some
+algorithms (e.g. PORT) try to do this automatically but sometimes even
+for this, an optional scaling argument is required.
+
+\subsection{Scaling of variables}
+
+The default scaling method used in \pkg{simecol} is division by the
+standard deviation of observational values (per variable, i.e. per
+column), but sometimes it is necessary to provide user-specified
+scaling. Depending on the question and kind of the data, different
+assumptions may be appropriate, for example mean, median, range, an
+appropriate conversion constant or kind of ``expert judgement'' that
+helps to make state variables comparable.
+
+The following example uses default scaling (standard deviations of
+observations):
+
+<<fit3,fig=TRUE>>=
+whichpar <- c("vm", "km")
+parms(cs1)[whichpar] <- c(vm=10, km=10)
+
+res <- fitOdeModel(cs1, whichpar = whichpar,
+  obstime = obstime, yobs = yobs, method = "Nelder")
+res$value
+res$par
+@
+
+and in the second example, we set scaling for both variables to one
+(i.e. divide both variables by 1). This means that no scaling is
+applied at all and the original dimensions remain:
+
+<<>>=
+res <- fitOdeModel(cs1, whichpar = whichpar,
+  obstime = obstime, yobs = yobs, method = "Nelder",
+  sd.yobs=c(1,1))
+
+res$value
+res$par
+@
+
+It is obvious that the resulting sum of squares and also the estimated
+parameters are different or these two.
+
+%% ToDo:
+%% - make assignment the scaling factors to variables more robust.
+%%   (e.g. named vector)
+%% - rename sd.yobs ???
+
+\subsection{Weighting of observations}
+
+Weighting of observations (i.e. per row or per individual value) can
+be useful in different circumstances, e.g. if measurements have
+different precision, if variance is not constant over the range of
+observations (violation of homoscdasticity) or if data points
+represent multiple measurements.
+
+Let's assume that we want to downweight the last three values (9\dots
+11) for any reason to one third, we simply define a data frame with
+the same structure as the observational data (yobs) and assign
+appropriate weights:
+
+
+<<>>=
+weights <- data.frame(X = rep(1, nrow(yobs)),
+                      S = rep(1, nrow(yobs)))
+weights[9:11,] <- 1/3
+res <- fitOdeModel(cs1, whichpar = whichpar,
+  obstime = obstime, yobs = yobs, method = "Nelder",
+  weights=weights)
+
+res$value
+res$par
+@
+
+
+\subsection{Scaling of parameters}
+
+If the parameters to be fitted have very different order of magnitude
+(e.g. one is 0.1 and some other is $10^7$), then it is possible that
+optimization fails due to numerical problems. One possibility to avoid
+this is to reformulate the problem that way, that the size of
+parameters do not differ ``not too much''. Depending on the algorithm
+used, it may be also possible to let the optimizer do this rescaling
+of parameters, e.g. via argument \code{scale} for the PORT algorithm
+or with \code{control=list(parscale = ...)} for the algorithms in
+\code{optim}. Please consult the original help pages for details.
+
+Normally, the PORT algorithm (in function \code{nlminb}) does
+automatic rescaling, but if required scaling by $scale = 1/par_{max}$
+may help (see \url{http://netlib.bell-labs.com/cm/cs/cstr/153.pdf}):
+
+<<>>=
+res <- fitOdeModel(cs1, whichpar = whichpar,
+  obstime = obstime, yobs = yobs, method = "PORT",
+  scale = 1/c(vm=1, km=10))
+
+res$value
+res$par
+@
+
 
 
 \section{Parameter estimation with FME}

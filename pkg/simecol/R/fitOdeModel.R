@@ -40,6 +40,7 @@ function(simObj, whichpar=names(parms(simObj)),
              debuglevel = debuglevel,
              scale = scale.par,
              control = control, lower = lower, upper = upper)
+    m$value <- m$objective # for consistency with optim
   } else {
     m <- optim(par, fn = fn, simObj = simObj, obstime = obstime,
              yobs = yobs, sd.yobs = sd.yobs,
