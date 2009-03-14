@@ -47,7 +47,9 @@ echo $contents; } ?>
 <link rel="stylesheet" href="style.css">
 
 
-<h2>What is <span style="color: rgb(153, 0, 0);">simecol</span> and what is <span style="color: rgb(153, 0, 0);">simecolModels</span>?</h2>
+<h2>What is <span style="color: rgb(153, 0, 0);">simecol</span> and
+what is <span style="color: rgb(153, 0,
+0);">simecolModels</span>?</h2>
 
 <p><span style="font-family: monospace; font-weight: bold; color:
 rgb(153, 0, 0);"><span style="font-family:
@@ -148,17 +150,26 @@ is a simulation model collection, together with additional classes, demos and ex
 <h2>Prerequisites</h2>
 
 <ul>
-  <li><span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span>
-is based on <span style="font-weight: bold; color: rgb(51, 51, 153);">R</span>,
-a freely available system for statistical computation
-and graphics. Current versions require <a style="font-weight: bold;" href="http://cran.r-project.org">R
-version
-2.30</a> or above.</li>
-  <li>simecol depends on the <span style="color: rgb(153, 0, 0); font-family: monospace; font-weight: bold;">deSolve</span> package for numerical integration.</li>
-  <li>optional: the <span style="color: rgb(153, 0, 0); font-family: monospace; font-weight: bold;">tcltk</span> package is required for the graphical parameter editing functions </li>
-  <li>Operating systems: All operating systems on which <span style="font-weight: bold; color: rgb(51, 51, 153);">R</span>
-can be
-installed: Linux, Windows, Mac, different UNIXes </li>
+
+  <li><span style="font-weight: bold; color: rgb(153, 0, 0);
+  font-family: monospace;">simecol</span> is based on <span
+  style="font-weight: bold; color: rgb(51, 51, 153);">R</span>, a
+  freely available system for statistical computation and
+  graphics. Current versions require <a style="font-weight: bold;"
+  href="http://cran.r-project.org">R version 2.30</a> or above.</li>
+
+  <li>simecol depends on the <span style="color: rgb(153, 0, 0);
+  font-family: monospace; font-weight: bold;">deSolve</span> package
+  for numerical integration.</li>
+
+  <li>optional: the <span style="color: rgb(153, 0, 0); font-family:
+  monospace; font-weight: bold;">tcltk</span> package is required for
+  the graphical parameter editing functions </li>
+
+  <li>Operating systems: All operating systems on which <span
+  style="font-weight: bold; color: rgb(51, 51, 153);">R</span> can be
+  installed: Linux, Windows, Mac, different UNIXes </li>
+
 </ul>
 
 <h2>Installation</h2>
@@ -199,33 +210,75 @@ line:</p>
 <h4>Subversion (SVN) Access</h4>
 
 <ul>
-<li> Anonymous SVN access (read only): <span style="font-family: monospace;">svn checkout svn://svn.r-forge.r-project.org/svnroot/simecol</span>
-<li>Write access to the simecol SVN repository can be allowed upon <a
-href="mailto:thomas.petzoldt@tu-dresden.de">request</a>.</li>
+  <li> Anonymous SVN access (read only): <span style="font-family:
+  monospace;">svn checkout
+  svn://svn.r-forge.r-project.org/svnroot/simecol</span>
+
+  <li>Write access to the simecol SVN repository can be allowed upon
+  <a href="mailto:thomas.petzoldt@tu-dresden.de">request</a>.</li>
 </ul>
 
 <h2>Documentation</h2>
 
 <h3>Reference Manual</h3>
+
 <ul>
-  <li><a href="http://cran.r-project.org/web/packages/simecol/simecol.pdf">Online documentation</a> of the package (functions, examples).</li>
+  <li><a
+  href="http://cran.r-project.org/web/packages/simecol/simecol.pdf">Online
+  documentation</a> of the package (functions, examples).</li>
 </ul>
 
 <h3>Articles</h3>
 
 <ul>
-  <li>Petzoldt, T. and K. Rinke (2007).  simecol: An Object-Oriented Framework for Ecological
-  Modeling in R.  Journal of Statistical  Software, 22(9), 1--31.  URL http://www.jstatsoft.org/v22/i09 <a href="http://www.jstatsoft.org/v22/i09">(pdf)</a>.</li>
-  <li>Petzoldt, T. (2003). R as a Simulation Platform in Ecological Modelling. R-News 3(3), 8--16. <a href="http://cran.r-project.org/doc/Rnews/Rnews_2003-3.pdf">(pdf)</a></li>
+
+  <li>Petzoldt, T. and K. Rinke (2007).  simecol: An Object-Oriented
+  Framework for Ecological Modeling in R.  Journal of Statistical
+  Software, 22(9), 1--31.  URL http://www.jstatsoft.org/v22/i09 <a
+  href="http://www.jstatsoft.org/v22/i09">(pdf)</a>.</li>
+
+  <li>Petzoldt, T. (2003). R as a Simulation Platform in Ecological
+  Modelling. R-News 3(3), 8--16. <a
+  href="http://cran.r-project.org/doc/Rnews/Rnews_2003-3.pdf">(pdf)</a></li>
+
 </ul>
+
 <h3>Additional Material</h3>
 
 <ul>
-  <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2008-lecture.pdf">Lecture slides</a> from the <b>useR-2008</b> conference about <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span> (including the most recent features)
-  <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2006-poster.pdf">Poster</a> and <a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR2006-slides">lecture slides</a> of the <a href="http://www.r-project.org/useR-2006/">useR-2006</a> conference comparing OOP approaches and introducing <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span><span style="font-weight: bold; color: rgb(153, 0, 0);"></span>.</li>
-  <li><a href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2004.pdf">Lecture slides</a> from the useR-2004 conference about the <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span> concept and the (old) S3 list-based approach.<br>
-  </li>
-  <li><a href="http://hhbio.wasser.tu-dresden.de/projects/modlim/doc/modlim.pdf">German tutorial</a> describing ecological modelling with <span style="font-weight: bold; color: rgb(51, 51, 153);">R</span> in general (a little bit outdated and still without <span style="font-weight: bold; color: rgb(153, 0, 0); font-family: monospace;">simecol</span>).</li>
+  
+  <li><a
+  href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2008-lecture.pdf">Lecture
+  slides</a> from the <b>useR-2008</b> conference about <span
+  style="font-weight: bold; color: rgb(153, 0, 0); font-family:
+  monospace;">simecol</span> (including the most recent features)
+
+  <li><a
+  href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2006-poster.pdf">Poster</a>
+  and <a
+  href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR2006-slides">lecture
+  slides</a> of the <a
+  href="http://www.r-project.org/useR-2006/">useR-2006</a> conference
+  comparing OOP approaches and introducing <span style="font-weight:
+  bold; color: rgb(153, 0, 0); font-family:
+  monospace;">simecol</span><span style="font-weight: bold; color:
+  rgb(153, 0, 0);"></span>.</li>
+
+  <li><a
+  href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2004.pdf">Lecture
+  slides</a> from the useR-2004 conference about the <span
+  style="font-weight: bold; color: rgb(153, 0, 0); font-family:
+  monospace;">simecol</span> concept and the (old) S3 list-based
+  approach.<br> </li>
+
+  <li><a
+  href="http://hhbio.wasser.tu-dresden.de/projects/modlim/doc/modlim.pdf">German
+  tutorial</a> describing ecological modelling with <span
+  style="font-weight: bold; color: rgb(51, 51, 153);">R</span> in
+  general (a little bit outdated and still without <span
+  style="font-weight: bold; color: rgb(153, 0, 0); font-family:
+  monospace;">simecol</span>).</li>
+
 </ul>
 
 <h2>Examples<span style="color: rgb(192, 192, 192);"></span></h2>
@@ -243,14 +296,16 @@ href="mailto:thomas.petzoldt@tu-dresden.de">request</a>.</li>
       <td style="vertical-align: top;">
       <p><span style="font-weight: bold;">The classical Conway's Game of Life</span></p>
       </td>
-      <td><span style="font-family: monospace;"></span><span style="font-family: monospace;">library("simecol")<br>
+      <td><span style="font-family: monospace;"></span>
+<span style="font-family: monospace;">library("simecol")<br>
 data(conway</span><span style="font-family: monospace;">, package="simecol"</span><span style="font-family: monospace;">)<br>
 plot(sim(conway))<br>
 m &lt;- matrix(0, 40, 40)<br>
 m[5:35,19:21] &lt;-1<br>
 init(conway) &lt;- m<br>
-sim(conway, animate=TRUE, delay=100, col=c("white", "green"), axes=FALSE)</span><br style="font-family: monospace;">
-      </td>
+sim(conway, animate=TRUE, delay=100, col=c("white", "green"), axes=FALSE)
+</span><br style="font-family: monospace;">
+    </td>
     </tr>
     <tr>
       <td style="vertical-align: top;">
@@ -298,13 +353,19 @@ plot(sim(conway))</span></td>
 <h2>License</h2>
 
 <ul>
-<li><span style="color: rgb(153, 0, 0); font-family: monospace; font-weight: bold;">simecol</span>,
-like <span style="font-weight: bold; color: rgb(51, 51, 153);">R</span>,
-is free open source software licensed under the
-<a href="http://www.gnu.org/licenses/licenses.html" target="_blank">GNU Public License</a>
-(GPL 2.0 or above).</li>
-<li>According to this <a href="http://www.gnu.org/licenses/licenses.html" target="_blank">license</a> 
-the software is provided as is and comes <span style="font-weight: bold;">WITHOUT WARRANTY.</span>.</li>
+
+  <li><span style="color: rgb(153, 0, 0); font-family: monospace;
+  font-weight: bold;">simecol</span>, like <span style="font-weight:
+  bold; color: rgb(51, 51, 153);">R</span>, is free open source
+  software licensed under the <a
+  href="http://www.gnu.org/licenses/licenses.html" target="_blank">GNU
+  Public License</a> (GPL 2.0 or above).</li>
+
+  <li>According to this <a
+  href="http://www.gnu.org/licenses/licenses.html"
+  target="_blank">license</a> the software is provided as is and comes
+  <span style="font-weight: bold;">WITHOUT WARRANTY.</span>.</li>
+
 </ul>
 
 
