@@ -1,4 +1,5 @@
-\documentclass[article,nojss]{jss}
+\documentclass[report,nojss]{vignette}
+
 \DeclareGraphicsExtensions{.pdf,.eps}
 %% need no \usepackage{Sweave}
 
@@ -10,6 +11,10 @@
 \renewcommand{\topfraction}{0.7}
 \renewcommand{\floatpagefraction}{0.8}
 
+%Numbering of sections
+\setcounter{secnumdepth}{3}
+%Numbering within TOC
+\setcounter{tocdepth}{3}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -30,9 +35,10 @@
 
 %% an abstract and keywords
 \Abstract{
+  \flushleft %% workaround for the report style
 
-  This document is intended as a loose collection of sections that
-  describe different aspects of modelling and model implementation in
+  This document is a loose collection of chapters that describe
+  different aspects of modelling and model implementation in
   \proglang{R} with the \pkg{simecol} package.  It supplements the
   original publication of \citet{Petzoldt2007} from which an updated
   version, \textbf{simecol-introduction}, is also part of this
@@ -56,7 +62,6 @@
 
 %% for those who use Sweave please include the following line (with % symbols):
 %% need no \usepackage{Sweave.sty}
-
 %% end of declarations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -71,10 +76,11 @@ options("width"=72)
 options("prompt" = "R> ", "continue" = "+  ")
 @
 
-%% include your article here, just as usual
-%% Note that you should use the \pkg{}, \proglang{} and \code{} commands.
 
-%\section{Introduction}
+\tableofcontents
+
+%% ======================================================================
+\chapter{The Basics}
 
 \section[Building simecol objects]{Building \pkg{simecol} objects}
 
@@ -577,7 +583,174 @@ of these functions for details.
 
 % setMethod
 
-\section{Implementing models in compiled languages}
+%% ======================================================================
+\chapter{Fitting Parameters}
+
+The preferred method to obtain model parameters is direct measurement
+of process rates. This can be done in own controlled experiments or by
+taking results from the literature. However, not all processes are
+accessible by direct measurement. In such cases process parameters can
+be identified indirectly by estimating parameters from observed data.
+
+\section{Model and data}
+
+In order to demonstrate parameter fitting we use a simple ODE model
+with two coupled differential equations:
+
+\begin{align}
+\frac{dX}{dt} &= \mu  X - D X                          \\
+\frac{dS}{dt} &=  D (S_0 - S) - \frac{1}{Y} \mu  X     \\
+\intertext{with Monod functional response:}
+\mu  &= v_m \frac{S}{k_m + S}                           \\
+\intertext{and:}
+X &= \text{abundance or biomass concentration} \nonumber\\
+S &= \text{substrate concentration} \nonumber\\
+D &= \text{dilution rate} \nonumber\\
+Y &= \text{yield constant (i.e. conversion fator between S and X)} \nonumber\\
+D &= \text{dilution rate} \nonumber\\
+mu  &= \text{growth rate} \nonumber\\
+v_m &= \text{maximum growth rate} \nonumber\\
+k_m  &= \text{half saturation constant} \nonumber
+\end{align}
+
+The chemostat model is one of the standard examples in package
+\pkg{simecol}. It can be loaded like a data set and we make to working
+copies, \code{cs1} and \code{cs2}:
+
+<<fig=FALSE>>=
+data(chemostat)
+cs1 <- cs2 <- chemostat
+@
+
+Let's also assume we have the following test data:
+
+<<fig=FALSE>>=
+obstime <- seq(0, 20, 2)
+yobs <- data.frame(
+  X    = c(10, 26, 120, 197, 354, 577, 628, 661, 654, 608, 642),
+  S    = c(9.6, 10.2, 9.5, 8.2, 6.4, 4.9, 4.2, 3.8, 2.5, 3.8, 3.9)
+)
+@
+
+Note that in this example, \code{yobs} contains two columns (and only
+two) with exactly the same column names as the state variables.
+
+\section{Parameter estimation in simecol}
+
+Package \pkg{simecol} has a built-in function for fitting parameters
+of ODE models. In order to save computation time it is suggested to
+use an efficient variable time step algorithm (e.g. \code{lsoda} and
+to set external time steps of the model to the time steps contained in
+the observational data:
+
+<<fig=FALSE>>=
+times(cs1)  <- obstime
+solver(cs1) <- "lsoda"
+@
+
+For the most basic call to the parameter fitting function we need only
+the model object, the time steps and the observational data:
+
+<<fig=FALSE,eval=FALSE>>=
+res <- fitOdeModel(cs1, obstime = obstime, yobs=yobs)
+@
+
+In this case, \textbf{all} parameters are fitted by least squares
+between \textbf{all} state variables and their corresponding
+observations. The start values for parameter estimation are taken from
+the \code{simObj}ect. Sum of squares of the individual state variables
+is weighted by the inverse standard deviation of the observations and
+the Nelder-Mead algorithm is used by default.
+
+Many options are available to control the parameter fitting, e.g. to
+fit only a subset of parameters (\code{whichpar}), to control the
+amount of information displayed (\code{debuglevel}, \code{trace}),
+weighting of state variables (\code{sd.yobs}) or individual data
+points (\code{weights}), or the algorithm used (\code{method}).
+
+In the following, we fit only $v_m$, $k_m$ and $Y$ with the PORT
+algorithm, that is in many cases faster than the other methods,
+especially if the range of parameters is known (constrained
+optimization, e.g. to avoid negative values for $k_m$). It as also a
+good idea to assign reasonable start values to the
+\code{simObj}ect. For interactive use it is recommended to set
+\code{trace=TRUE}.
+
+<<fig=FALSE>>=
+whichpar <- c("vm", "km", "Y")
+lower    <- c(vm=0, km=0, Y=0)
+upper    <- c(vm=100, km=500, Y=200)
+parms(cs1)[whichpar] <- c(vm=5, km=10, Y=100)
+
+res <- fitOdeModel(cs1, whichpar = whichpar,
+  lower = lower, upper=upper,
+  obstime = obstime, yobs = yobs, method = "PORT",
+  control=list(trace = FALSE))
+@
+
+The results are now stored in a list structure \code(res), from which
+parameters, objective (sum of squares) or information about
+convergence can be extracted:
+
+<<fig=FALSE>>=
+res
+@
+
+Future versions of \pkg{simecol} will probably contain specific
+functions to extract this information in a more user-friendly style.
+
+The success of parameter estimation can now be controlled numerically
+and graphically. First we assign the new parameters to a copy of the
+model object:
+
+<<fig=FALSE>>=
+parms(cs2)[whichpar] <- res$par
+@
+
+We get $r^2$ for both state variables with:
+
+<<fig=FALSE>>=
+times(cs2) <- obstime
+ysim <- out(sim(cs2))
+1 - var(ysim$X - yobs$X) / var(yobs$X)
+1 - var(ysim$S - yobs$S) / var(yobs$S)
+@
+
+Note that time steps in data and model must be the same. However, for
+producing a smooth figure it is recommended to use a smaller time
+step:
+
+<<fit1,fig=TRUE>>=
+par(mfrow=c(1,2))
+solver(cs2) <- "lsoda"
+times(cs2) <- c(from=0, to=20, by=.1)
+ysim <- out(sim(cs2))
+
+par(mfrow=c(1,2))
+plot(obstime, yobs$X, ylim = range(yobs$X, ysim$X))
+lines(ysim$time, ysim$X, col="red")
+plot(obstime, yobs$S, ylim= range(yobs$S, ysim$S))
+lines(ysim$time, ysim$S, col="red")
+@
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{howto-fit1}
+\caption{\label{howto-fit1} Observed data and fitted model.}
+\end{figure}
+
+
+
+\section{Identification of intitial values}
+
+
+\section{Parameter estimation with FME}
+
+
+
+
+%% ======================================================================
+\chapter{Implementing Models in Compiled Languages}
 
 Compilation of model code can speed up simulations considerably and
 there are several ways to call compiled code from \proglang{R}; so it
@@ -594,6 +767,8 @@ compiled model is supported by the integrator. All integrators of the
 \code{lsoda}-family of solvers support this and additional solvers may
 support this in the future, see the \pkg{deSolve} documentation for
 details.
+
+\section{An Example in C}
 
 Now, let's inspect an example. We firstly provide our model as
 described in the \pkg{deSolve} vignette ``Writing Code in Compiled
@@ -673,9 +848,17 @@ modeldll <- dyn.load("clotka.dll")
 @
 
 You can now call the derivatives \code{dlotka} of the model in the
-\code{main} function of a \pkg{simecol}-object, but we do not want to
-go this way here. What we do is to go the more efficient way, i.e. we
-tell the solver \code{lsoda} where to find the model in the DLL.
+\code{main} function of a \pkg{simecol}-object.
+
+
+\section{Enabling Direct Communication Between Model and Solver}
+
+Another, more efficient way, is to tell the solver (e.g. \code{lsoda})
+directly where to find the model in the DLL. This method circumvents
+the communication overhead that occurs normally for every call from
+the solver to the model DLL and is especially effective if small
+models are called many times, e.g. in case of small time steps or if a
+model is embedder in an optimization routine.
 
 The trick consists of two parts:
 
@@ -764,11 +947,19 @@ but you \textbf{may} use \proglang{C} etc. whenever necessary, and
 even in that case you still have the scenario management and data
 manipulation features of \pkg{simecol}.
 
+%%=======================================================================
+\chapter{Examples and Case Studies}
 
+
+
+
+%%=======================================================================
 %\bibliographystyle{jss}
+\phantomsection
+\addcontentsline{toc}{chapter}{References}
 \bibliography{petzoldt_jss}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % clean up
 <<cleanup,echo=FALSE,include=FALSE>>=
 options("prompt" = "> ", "continue" = "+ ")
