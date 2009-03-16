@@ -1,34 +1,51 @@
 \name{Aquaphy}
 \alias{Aquaphy}
 
-\title{a physiological model of unbalanced algal growth}
-\description{Phytoplankton model with uncoupled carbon and nitrogen assimilation.
-  \cr Algal biomass is described via 3 different state variables:
+\title{
+  a physiological model of unbalanced algal growth
+}
+\description{
+  Phytoplankton model with uncoupled carbon and nitrogen assimilation.
+
+  lgal biomass is described via 3 different state variables:
 
   \itemize{
-\item[\code{LMW}] low molecular weight carbohydrates, the product of photosynthesis,
-\item[\code{RESERVE}] storage molecules and
-\item[\code{PROTEINS}] the biosynthetic and photosynthetic apparatus.
-}
+    \item[\code{LMW}] low molecular weight carbohydrates, the product
+      of photosynthesis,
+    \item[\code{RESERVE}] storage molecules and
+    \item[\code{PROTEINS}] the biosynthetic and photosynthetic apparatus.
+   }
 
-All these state variables are expressed in mmol C m-3.
-Only proteins contain nitrogen and chlorophyll, at a fixed amount (i.e. using a fixed stoichiometric ratio).
-As the relative amount of proteins changes in the algae, so does the N:C and the Chl:C ratio.
-\cr An additional state variable, dissolved inorganic nitrogen (DIN) has units of mmol N m-3.}
+  All these state variables are expressed in mmol C m-3.
+  Only proteins contain nitrogen and chlorophyll, at a fixed amount
+  (i.e. using a fixed stoichiometric ratio).
+
+  As the relative amount of proteins changes in the algae, so does the
+  N:C and the Chl:C ratio.
+
+  An additional state variable, dissolved inorganic nitrogen (DIN) has
+  units of mmol N m-3.
+}
 \usage{Aquaphy()}
-\format{An S4 object according to the \code{\link[simecol]{odeModel}} specification. 
-\cr The object contains the following slots:
+\format{
+  An S4 object according to the \code{\link[simecol]{odeModel}} specification.
 
-\itemize{
-\item \code{main}  Aquaphy model specifications.
-\item \code{parms}  vector with the named parameters of the model - see code.
-\item \code{times}  simulation time and integration interval.
-\item \code{init}  vector with start values for algal state variables
-and DIN.
+  The object contains the following slots:
+
+  \itemize{
+    \item \code{main}  Aquaphy model specifications.
+    \item \code{parms}  vector with the named parameters of the model -
+      see code.
+    \item \code{times}  simulation time and integration interval.
+    \item \code{init}  vector with start values for algal state variables
+      and DIN.
+  }
+
+}
+\author{
+  Karline Soetaert
 }
 
-}
-\author{Karline Soetaert}
 \examples{
 
 # initialize model
@@ -75,13 +92,18 @@ mtext(outer=TRUE, side=3, "AQUAPHY", cex=1.5)
 t(summary(out))
 
 }
-\references{Chapter 2.8.2 from the book by Soetaert and Herman, 2008. 
-  A practical guide to ecological Modelling. Springer.
+\references{
+  Chapter 2.8.2 from the book by Soetaert and Herman, 2009.
+  A practical guide to ecological Modelling. Using R as a simulation
+  platform Springer.
 
-Lancelot, C., Veth, C. and Mathot, S. (1991). Modelling ice-edge phytoplankton 
+ Lancelot, C., Veth, C. and Mathot, S. (1991). Modelling ice-edge phytoplankton
   bloom in the Scotia-Weddel sea sector of the Southern Ocean during spring 1988. 
   Journal of Marine Systems 2, 333-346.
 }
-\seealso{R-package simecol for a description of the simObj class}
+\seealso{
+  R-package simecol for a description of the simObj class
+}
+
 \keyword{ misc }
 

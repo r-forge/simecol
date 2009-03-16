@@ -1,8 +1,11 @@
 \name{NPZriver}
 \alias{NPZriver}
 
-\title{Nutrient Phytoplankton Zooplankton (NPZ) Model in a River}
-\description{Model describing the dynamics of Nutrients Phytoplankton and 
+\title{
+  Nutrient Phytoplankton Zooplankton (NPZ) Model in a River
+}
+\description{
+  Model describing the dynamics of Nutrients Phytoplankton and
   Zooplankton in a river. (Soetaert and Herman, 2008).
 
   The model describes
@@ -145,11 +148,12 @@ mtext(side=3, outer=TRUE, "NPZ model in a river", line=-1.5, cex=1.5)
 \references{
   Chapter 7.9.5  from the book:
 
-  Soetaert K and PMJ Herman, 2008. A practical guide to ecological
+  Soetaert K and PMJ Herman, 2009. A practical guide to ecological
   Modelling - using R as a simulation platform. Springer.
 }
 
-\seealso{R-package \code{\link[simecol]{simecol}} for a description of the 
+\seealso{
+  R-package \code{\link[simecol]{simecol}} for a description of the
   \code{\link[simecol]{simObj}} class
 }
 

@@ -37,28 +37,29 @@
 \frac{{\partial {\rm{BSi}}}}{{\partial t}} = \frac{1}{{1 - \Phi _x }}\frac{\partial }{{\partial x}}[(1 - \Phi _x ) \cdot D_b \frac{{\partial {\rm{BSi}}}}{{\partial x}}] - \lambda  \cdot {\rm{BSi}} \cdot (1 - \frac{{{\rm{DSi}}}}{{eqSi}})
 }{dBSi/dt = 1/(1-phi_x) * (d/dx[(1-phi_x)*Db*dBSi/dx)]-lambda*BSi*(1-DSi/eqSi)}
 
-\deqn{
-Flux_0  =  - (1 - \Phi _0 ) \cdot D_b \left. {\frac{{\partial {\rm{BSi}}}}{{\partial x}}} \right|_0  }{Flux_0=(1-phi_0)*Db*(dBSi/dx)_0}
+  \deqn{
+ Flux_0  =  - (1 - \Phi _0 ) \cdot D_b \left. {\frac{{\partial {\rm{BSi}}}}{{\partial x}}} \right|_0  }{Flux_0=(1-phi_0)*Db*(dBSi/dx)_0}
 
-\deqn{
- \left. {\frac{{\partial {\rm{BSi}}}}{{\partial x}}} \right|_\infty   = 0 }{dBSi/dx|infinity=0}
+  \deqn{
+  \left. {\frac{{\partial {\rm{BSi}}}}{{\partial x}}} \right|_\infty   = 0 }{dBSi/dx|infinity=0}
 
 for biogenic silicate and
 
-\deqn{
+  \deqn{
 \frac{{\partial {\rm{DSi}}}}{{\partial t}} = \frac{1}{{\Phi _x }}\frac{\partial }{{\partial x}}[\Phi _x  \cdot D_s \frac{{\partial {\rm{DSi}}}}{{\partial x}}] +
 \lambda  \cdot {\rm{BSi}} \cdot (1 - \frac{{{\rm{DSi}}}}{{eqSi}}) \cdot \frac{{1 - \Phi_x}}{\Phi_x}}{dDSi/dt = 1/phi_x * (d/dx((phi_x)*Ds*dDSi/dx))+lambda*BSi*(1-DSi/eqSi)*(1-phi_x)/phi_x)}
 
-\deqn{
+  \deqn{
  {\rm{DSi}}_0  = BW }{DSi|0=BW}
 
-\deqn{
- \left. {\frac{{\partial {\rm{DSi}}}}{{\partial x}}} \right|_\infty   = 0 }{dDSi/dx|infinity=0}
+  \deqn{
+  \left. {\frac{{\partial {\rm{DSi}}}}{{\partial x}}} \right|_\infty   = 0 }{dDSi/dx|infinity=0}
 
 
-for dissolved silicate.
+  for dissolved silicate.
 
-For the numerical approximation of these partial differential equations, see Soetaert and Herman, 2008
+  For the numerical approximation of these partial differential equations,
+  see Soetaert and Herman, 2008
 }
 \usage{SiDia()}
 \format{An S4 object according to the \code{\link[simecol]{odeModel}} specification. 
@@ -127,8 +128,10 @@ Intdepth <- inputs(mySiDia)$boxes$Intdepth
 Porosity <- inputs(mySiDia)$boxes$Porosity
 Db       <- inputs(mySiDia)$boxes$Db
 
-matplot(DSi,Depth,ylim=c(10,0),xlab="mmolSi/m3 Liquid",main="DSi",type="l",lwd=c(1,2,1),col="black")
-matplot(BSi,Depth,ylim=c(10,0),xlab="mmolSi/m3 Solid" ,main="BSi",type="l",lwd=c(1,2,1),col="black")
+matplot(DSi,Depth,ylim=c(10,0),xlab="mmolSi/m3 Liquid",main="DSi",type="l",
+        lwd=c(1,2,1),col="black")
+matplot(BSi,Depth,ylim=c(10,0),xlab="mmolSi/m3 Solid" ,main="BSi",type="l",
+        lwd=c(1,2,1),col="black")
 legend("right",c("0.2","2","3"),title="Depo\n mmol/m2/d",lwd=c(1,2,1),lty=1:3)
 plot(Porosity,Depth,ylim=c(10,0),xlab="-" ,main="Porosity",type="l",lwd=2)
 plot(Db,Intdepth,ylim=c(10,0),xlab="cm2/d" ,main="Bioturbation",type="l",lwd=2)
@@ -137,12 +140,12 @@ plot(Db,Intdepth,ylim=c(10,0),xlab="cm2/d" ,main="Bioturbation",type="l",lwd=2)
 
 }
 \references{
-Soetaert, K and P.M.J. Herman, 2008. A practical guide to ecological Modelling. 
-Using R as a simulation platform. Springer. (Chapters 3.6.5 and 7.8.5)
+  Soetaert, K and P.M.J. Herman, 2009. A practical guide to ecological Modelling.
+  Using R as a simulation platform. Springer. (Chapters 3.6.5 and 7.8.5)
 
-Schink, D.R., Guinasso, N.L., Fanning, K.A., 1975. Processes affecting the 
-concentration of silica at the sediment-water interface of the Atlantic Ocean. 
-Journal of Geophysical Research, 80, 3013-3031.
+  Schink, D.R., Guinasso, N.L., Fanning, K.A., 1975. Processes affecting the
+  concentration of silica at the sediment-water interface of the Atlantic Ocean.
+  Journal of Geophysical Research, 80, 3013-3031.
 
 }
 

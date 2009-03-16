@@ -3,7 +3,8 @@
 
 \title{Carbon, Nitrogen and Oxygen Diagenesis in Marine Sediments}
 
-\description{Model describing the dynamics of carbon, nitrogen and
+\description{
+  Model describing the dynamics of carbon, nitrogen and
   oxygen in a marine sediment. (Soetaert et al., 1996 a,b).
 
   The model describes six state variables, in several hundreds of layers:
@@ -194,27 +195,30 @@ mtext(outer=TRUE,side=3,line=-2,cex=1.5,"OMEXDIAmodel")
 
 Cflux  <- CONC[,6*N+1]
 O2flux <- CONC[,6*N+2]
-matplot(Times,cbind(Cflux,O2flux),type="l",ylab="nmol/cm2/d",lwd=2,main="Fluxes")
+matplot(Times,cbind(Cflux,O2flux),type="l",ylab="nmol/cm2/d",lwd=2,
+        main="Fluxes")
 legend("topright",c("Carbon","Oxygen"),col=c(1,2),lwd=2)
 }
 }
 \references{
   
-Soetaert K, PMJ Herman and JJ Middelburg, 1996. A model of early
-diagenetic processes from the shelf to abyssal
-depths. Geochim. Cosmochim. Acta, 60(6):1019-1040.
+  Soetaert K, PMJ Herman and JJ Middelburg, 1996. A model of early
+  diagenetic processes from the shelf to abyssal
+  depths. Geochim. Cosmochim. Acta, 60(6):1019-1040.
 
-Soetaert K, PMJ Herman and JJ Middelburg, 1996b.  Dynamic response of
-deep-sea sediments to seasonal variation: a model.
-Limnol. Oceanogr. 41(8): 1651-1668.
+  Soetaert K, PMJ Herman and JJ Middelburg, 1996b.  Dynamic response of
+  deep-sea sediments to seasonal variation: a model.
+  Limnol. Oceanogr. 41(8): 1651-1668.
 
-Soetaert K and PMJ Herman, 2008. A practical guide to ecological
-Modelling - using R as a simulation platform. Springer.
+  Soetaert K and PMJ Herman, 2008. A practical guide to ecological
+  Modelling - using R as a simulation platform. Springer.
 
 }
 
-\seealso{R-package \code{\link[simecol]{simecol}} for a description of the 
+\seealso{
+  R-package \code{\link[simecol]{simecol}} for a description of the
   \code{\link[simecol]{simObj}} class
+
   \code{\link{OmexDiaDLL}}, the FORTRAN-version of the omexdia model
 
 }

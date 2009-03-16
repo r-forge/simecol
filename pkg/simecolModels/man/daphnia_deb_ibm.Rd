@@ -39,25 +39,26 @@ The object contains the following slots:
 
 \references{
 
-Rinke, K. (2006).  Species-oriented model approaches to Daphnia spp.: linking 
-the individual level to the population level. PhD Thesis. 
-Technische Universit\enc{ä}{ae}t Dresden, Fakult\enc{ä}{ae}t Forst-, Geo- und Hydrowissenschaften.
-\url{http://nbn-resolving.de/urn:nbn:de:swb:14-1146736164110-76933}
+  Rinke, K. (2006).  Species-oriented model approaches to Daphnia spp.: linking
+  the individual level to the population level. PhD Thesis.
+  Technische Universit\enc{ä}{ae}t Dresden, Fakult\enc{ä}{ae}t Forst-,
+  Geo- und Hydrowissenschaften.
+  \url{http://nbn-resolving.de/urn:nbn:de:swb:14-1146736164110-76933}
 
-Rinke, K. & Vijverberg, J. (2005). A Model Approach to Evaluate the Effect of 
-Temperature and Food Concentration on Individual Life-history and 
-Population Dynamics of Daphnia. Ecological Modelling, 186, 326-344
+  Rinke, K. & Vijverberg, J. (2005). A Model Approach to Evaluate the Effect of
+  Temperature and Food Concentration on Individual Life-history and
+  Population Dynamics of Daphnia. Ecological Modelling, 186, 326-344
 
-Rinke, K.; Vijverberg, J.; Petzoldt, T. & Benndorf, J. (2005). Individual 
-and population level dynamics of Daphnia at varying conditions of food, 
-temperature and fish predation: a model approach.
-Verh. Internat. Verein. Limnol.,  29, 310-314
+  Rinke, K.; Vijverberg, J.; Petzoldt, T. & Benndorf, J. (2005). Individual
+  and population level dynamics of Daphnia at varying conditions of food,
+  temperature and fish predation: a model approach.
+  Verh. Internat. Verein. Limnol.,  29, 310-314
 
-Petzoldt, T. and K. Rinke (2007).  simecol: An
-Object-Oriented Framework for Ecological
-Modeling in R.  Journal of Statistical
-Software, 22(9), 1--31.  URL
-\url{http://www.jstatsoft.org/v22/i09/}.
+  Petzoldt, T. and K. Rinke (2007).  simecol: An
+  Object-Oriented Framework for Ecological
+  Modeling in R.  Journal of Statistical
+  Software, 22(9), 1--31.  URL
+  \url{http://www.jstatsoft.org/v22/i09/}.
 
 }
 

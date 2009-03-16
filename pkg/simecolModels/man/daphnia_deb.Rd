@@ -56,7 +56,7 @@ test2 <- sim(dap2)
 plot(test)
 plot(test2)
 
-######### Figure 2 of Rinke and Viverberg #########
+######### Figure 2 of Rinke and Vijverberg #########
 
 ## a set of different scenarios
 foodconc <- c(0.1,0.25,1)     # food concentrations evaluated

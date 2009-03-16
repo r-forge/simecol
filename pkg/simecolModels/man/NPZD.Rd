@@ -3,13 +3,15 @@
 
 \title{An NPZD Model}
 
-\description{Model describing nutrients (N), phytoplankton (P),
+\description{
+  Model describing nutrients (N), phytoplankton (P),
   zooplankton (Z), and detritus (D).
 }
 
 \usage{NPZD()}
 
-\format{An S4 object according to the \code{\link[simecol]{odeModel}}
+\format{
+  An S4 object according to the \code{\link[simecol]{odeModel}}
   specification.  \cr
   The object contains the following slots:
 
@@ -54,20 +56,28 @@ res   <- out(sim(myNPZD))
 # PLOTTING model output: #
 #------------------------#
 x11()
-par(mfrow=c(2,2), oma=c(0,0,3,0))   # set number of plots (mfrow) and margin size (oma)
+par(mfrow=c(2,2), oma=c(0,0,3,0))
 
-plot (Times,res$PAR        ,type="l",lwd=2,main="PAR"        ,xlab="time, hours",ylab="microEinst/m2/s")
-plot (Times,res$Chlorophyll,type="l",lwd=2,main="Chlorophyll",xlab="time, hours",ylab="microg/l")
-plot (Times,res$ZOO        ,type="l",lwd=2,main="Zooplankton",xlab="time, hours",ylab="mmolN/m3")
-plot (Times,res$DIN        ,type="l",lwd=2,main="DIN"        ,xlab="time, hours",ylab="mmolN/m3")
+plot (Times,res$PAR        ,type="l",lwd=2,main="PAR"        ,
+      xlab="time, hours",ylab="microEinst/m2/s")
+plot (Times,res$Chlorophyll,type="l",lwd=2,main="Chlorophyll",
+      xlab="time, hours",ylab="microg/l")
+plot (Times,res$ZOO        ,type="l",lwd=2,main="Zooplankton",
+      xlab="time, hours",ylab="mmolN/m3")
+plot (Times,res$DIN        ,type="l",lwd=2,main="DIN"        ,
+      xlab="time, hours",ylab="mmolN/m3")
 
 mtext(outer=TRUE,side=3,"NPZD model",cex=1.5)
 
 }
-\references{Chapter 2.8.1. from the book by Soetaert and Herman, 2008.
-  A practical guide to ecological Modelling. Springer.
+\references{
+  Chapter 2.8.1. from the book by Soetaert and Herman, 2009.
+  A practical guide to ecological Modelling. Using R as a simulation
+  platform. Springer.
 
 }
-\seealso{\R-package \pkg{simecol} for a description of the \code{simObj} class.}
+\seealso{
+  \R-package \pkg{simecol} for a description of the \code{simObj} class.
+}
 \keyword{ misc }
 

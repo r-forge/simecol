@@ -1,7 +1,8 @@
 \name{OmexDiaDLL}
 \alias{OmexDiaDLL}
 
-\title{Carbon, Nitrogen and Oxygen Diagenesis in Marine Sediments -
+\title{
+  Carbon, Nitrogen and Oxygen Diagenesis in Marine Sediments -
   Compiled Code}
 
 \description{
@@ -228,6 +229,7 @@ legend("topright",c("Nitrate","Oxygen"),col=c(1,2),lwd=2, bty="n")
 
 \seealso{R-package \code{\link[simecol]{simecol}} for a description of the 
   \code{\link[simecol]{simObj}} class
+
   \code{\link{OmexDia}}, the R-version of the omexdia model
 }
 
