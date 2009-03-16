@@ -78,7 +78,7 @@ dvm_phyto <- function() {
         v_sed/z_mix
       }
     ),
-    times  = c(from=0, to=100 * 24, by=1), # time step is hours
+    times  = c(from=0, to=100 * 24, by=1),            # time step is hours
     init = c(Xr = 0.05, Xk = 0.05, Z = 0.05, P = 30), # in mg/L, P in \mug/L
     solver = "lsoda",
     parms = list(
@@ -102,7 +102,7 @@ dvm_phyto <- function() {
       resz_max      = 0.21/24,           # Maximum respiration for Z (0.21 d^-1)
       temp          = 20,                # Temperature (20 degrees C)
       v_sed         = 0.1/24,            # Sinking velocity of phytoplankton (0.1 m d^-1)
-      yield_CP      = 24.4,              # ratio of carbon to phosphorus (24.4 mgC (mu gP)^-1)
+      yield_CP      = 24.4,              # ratio of phosphorus to carbon (24.4 (mu gP (mgc C)^-1)
       yield_fae     = 0.7,               # ratio of resolved phosphorus from feaces (0.7, nondimensional)
       z_mix         = 10,                # Depth of epilimnion (10  m)
       phot_max_i    = c(2.5, 1) /24,     # Maximum growth rate for X_i (2.5, 1.0 d^-1)

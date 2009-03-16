@@ -29,9 +29,9 @@ The object contains the following slots:
 
 \references{
 Petzoldt, T., Rudolf, L., Rinke, K. and
-Benndorf, J. (accepted). Effects of zooplankton diel vertical migration
+Benndorf, J. (2009). Effects of zooplankton diel vertical migration
 on a phytoplankton community: a scenario analysis of the underlying
-mechanisms. Ecological Modelling.
+mechanisms. Ecological Modelling, in press. doi:10.1016/j.ecolmodel.2009.02.0
 }
 \examples{
 
@@ -75,7 +75,7 @@ parms(sc5)[["mort_max"]]  <- parms(dvmphyto)[["mort_max"]]   / 3
 o1 <- out(sim(sc1))
 
 \dontrun{
-## the simulations take a while, so we skip some in package check
+## the simulations take a while, so we skip most of them in package check
 o2 <- out(sim(sc2))
 o3 <- out(sim(sc3))
 o4 <- out(sim(sc4))
