@@ -1234,7 +1234,7 @@ manipulation features of \pkg{simecol}.
 %\bibliographystyle{jss}
 \phantomsection
 \addcontentsline{toc}{chapter}{References}
-\bibliography{petzoldt_jss}
+\bibliography{simecol}
 
 
 % clean up

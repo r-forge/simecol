@@ -1359,9 +1359,10 @@ his own \pkg{simecol} models and to the participants of the
 We are grateful to two anynymous reviewers for their constructive remarks which helped
 to improve the manuscript.
 
-
+\phantomsection
+\addcontentsline{toc}{section}{References}
 %\bibliographystyle{jss}
-\bibliography{petzoldt_jss}
+\bibliography{simecol}
 
 \clearpage
 \renewcommand{\textfraction}{0.05}
