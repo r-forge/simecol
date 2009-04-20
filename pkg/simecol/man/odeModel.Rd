@@ -69,7 +69,6 @@ indbasedModel(obj = NULL, main = NULL,
 }
 
 \seealso{
-  \code{\link{new}},
   \code{\link[methods]{new}},
   \code{\link{simecol-package}}
 }

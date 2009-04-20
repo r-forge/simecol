@@ -31,9 +31,9 @@
 
 \details{
   
-  Function \code{as.list} converts the respective \code{simObj} model to
-  an ordinary list with an additional element 'class' storing the class
-  name of the original object.
+  Function \code{as.list} converts a \code{simObj} model to an ordinary
+  list with an additional element 'class' storing the class name of the
+  original object.
 
   Function \code{as.simObj} converts in the opposite direction where the
   type of the object to be created is determined by a class name stored
@@ -44,7 +44,6 @@
   
 }
 \seealso{
-  \code{\link{new}},
   \code{\link{odeModel}},
   \code{\link[methods]{new}},
   \code{\link[methods]{as}},
