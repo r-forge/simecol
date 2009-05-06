@@ -1,18 +1,12 @@
 ##########################################
 # Lotka-Volterra System with 3 equations
-#   and external ressource (S.in)
+#   and external ressource (s.in)
 ##########################################
 
 lv3<- new("odeModel",
   main = function(time, init, parms) {
-    x <- init
-    p <- parms
-
-    s <- x[1] # substrate
-    p <- x[2] # producer
-    k <- x[3] # consumer
     input <- approxTime1(inputs, time, rule=2)
-    with(as.list(parms),{
+    with(as.list(c(init, parms)),{
       s.in <- input["s.in"]
       ds <- s.in  - b*s*p + g*k
       dp <- c*s*p - d*k*p
@@ -32,4 +26,3 @@ lv3<- new("odeModel",
   init = c(s=1, p=1, k=1),
   solver = "rk4" #"lsoda"
 )
-
