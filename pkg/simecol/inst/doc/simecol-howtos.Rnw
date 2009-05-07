@@ -24,8 +24,8 @@
 %% almost as usual
 \author{Thomas Petzoldt\\ Technische Universit\"at Dresden}
 
-\title{\pkg{simecol}-Howto: Tips, Tricks and Building Blocks}
-%\VignetteIndexEntry{Introduction to the simecol package}
+\title{\pkg{simecol}-Howto: Tipps, Tricks and Building Blocks}
+%\VignetteIndexEntry{simecol-Howto: Tipps, Tricks and Building Blocks}
 
 %% for pretty printing and a nice hypersummary also set:
 \Plainauthor{Thomas Petzoldt} %% comma-separated
