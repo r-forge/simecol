@@ -44,26 +44,34 @@
 \value{A list of the model outputs (states \dots) for each timestep.}
 
 \details{
+
   The solver method \code{iteration} is used to simulate discrete event
-  models.
+  models.  Normally, this function is run indirectly from
+  \code{\link{sim}}.
   
   In contrast to differential equation solvers, the \code{main} function
   of the model must not return the first derivative but instead and
   explicitly the new state at the specified times.
   
   The actual value of time is available in the \code{main} function as
-  \code{time} and the current increment as \code{parms$DELTAT} or
-  \code{parms["DELTAT"]} depending on the data type of \code{parms}.
+  \code{time} and the current increment as \code{parms["DELTAT"]} or
+  \code{parms$DELTAT}. It is element of a vector if \code{parms} is a
+  vector and it is a list if \code{parms} is a list.
   
-  Normally, this function is run indirectly from \code{\link{sim}}.
+  If iteration is used for difference equations (see example
+  \code{dlogist} below), it is mandatory to multiply the incremental
+  part with \code{DELTAT} to ensure that variable time steps are
+  correctly respected and that the first row of the simulation outputs
+  contains the states at \eqn{t_0}.
 
   The default \code{iteration} method of class \code{simObj} supports
   the \code{observer} mechanism. This means that a function stored in
   slot \code{observer} is called during each iteration step with the
   return value of \code{main} as its first argument. You can use this to
-  determine the amount of data stored during each iteration step
+  control the amount of data stored during each iteration step
   (e.g. whole population or only mean values for individual based
   models), to do run-time animation or to write log files.
+  
 }
 
 \seealso{
@@ -79,24 +87,44 @@ plot(sim(conway), delay=100)
 ## plot during simulation
 sim(conway, animate=TRUE, delay=100)
 
-##### discrete version of logistic growth equation
+## discrete version of logistic growth equation
+## Note: function main returns the *new value*, not the derivative
+
 dlogist <- new("odeModel",
   main = function (time, init, parms, ...) {
     x <- init
-    p <- parms
-    x[1] <- x[1] + p["r"] * x[1] * (1 - x[1] / p["K"])
-    #       ^^^^ important !!! new value, not derivative
-    list(c(x))
+    with(as.list(parms), {
+      x <- x + r * x * (1 - x / K) * DELTAT
+      #   ^^^ add to old value       ^^^^^^ special parameter with time step
+      list(c(x))
+    })
   },
   parms  = c(r=0.1, K=10),
   times  = seq(0, 100, 1),
   init   = c(population=0.1),
-solver = "iteration" #!!!
+  solver = "iteration" #!!!
 )
 
 plot(sim(dlogist))
 
-parms(dlogist)["r"] <- 2
+## alternative with function that returns the derivative
+## discrete steps are realized with the euler method
+
+dlogist <- new("odeModel",
+  main = function (time, init, parms, ...) {
+    x <- init
+    with(as.list(parms), {
+      x <- r * x * (1 - x / K)
+      list(c(x))
+    })
+  },
+  parms  = c(r=0.1, K=10),
+  times  = seq(0, 100, 1),
+  init   = c(population=0.1),
+  solver = "euler"
+)
+
 plot(sim(dlogist))
+
 }
 \keyword{misc}

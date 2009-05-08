@@ -12,13 +12,12 @@ setGeneric("iteration",
 )
 
 
-
 setMethod("iteration", "numeric",
   function(y, times=NULL, func=NULL, parms=NULL, animate=FALSE, ...) {
     if (!is.numeric(y))     stop("`y' must be numeric")
     if (!is.numeric(times)) stop("`times' must be numeric")
     if (!is.function(func)) stop("`func' must be a function")
-    
+
     n     <- length(y)
     parms <- c(parms, DELTAT = 0)
     nm    <- c("time", if (!is.null(attr(y, "names")))
@@ -39,33 +38,6 @@ setMethod("iteration", "numeric",
     out
   }
 )
-
-
-#setMethod("iteration", "simObj",
-#  function(y, times=NULL, func=NULL, parms=NULL, animate=FALSE, ...) {
-#    init              <- y@init
-#    times             <- fromtoby(y@times)
-#    func              <- y@main
-#    parms             <- y@parms
-#    inputs            <- y@inputs
-#    equations         <- y@equations
-#    environment(func) <- environment()
-#    equations               <- addtoenv(equations)
-#    parms$DELTAT <- 0
-#    out <- list(func(times[1], init, parms))
-#    for (i in 2:length(times)) {
-#      time <- times[i]
-#      parms$DELTAT <- times[i] - times[i-1]
-#      init <- func(time, init, parms)
-#      out  <- c(out, list(init))
-#      if (animate) {
-#        y@out   <- out
-#        plot(y, index=i, ...)
-#      }
-#    }
-#    out
-#  }
-#)
 
 setMethod("iteration", "simObj",
   function(y, times=NULL, func=NULL, parms=NULL, animate=FALSE, ...) {
@@ -115,7 +87,6 @@ setMethod("iteration", "simObj",
       }
     }
     if(is.vector(res)) {
-      # row.names(out) <- NULL ## now obsolete, see deparse.level=0
       out <- cbind(times, out)
       out <- as.data.frame(out)
     } else {
