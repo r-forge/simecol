@@ -33,37 +33,46 @@
   Each simulation model is implemented as S4 object (superclass \code{simObj})
   with the following slots:
   \itemize{
-    \item \code{main = function(time, init, parms, ...)}: a function holding the
-      main equations of the model,
-    \item \code{equations}: an optional non-nested list holding arbitrary
-      sub-equations (sub-models) of the
-      model. Sub-equations can be interdependent and can be called
-      directly from within \code{main} or \code{initfunc}.
-    \item \code{parms}: a list (or vector for some classes) with 
+
+    \item \code{main = function(time, init, parms, ...)}: a function
+      holding the main equations of the model,
+    
+    \item \code{equations}: an optional non-nested list holding
+      arbitrary sub-equations (sub-models) of the model. Sub-equations
+      can be interdependent and can be called directly from within
+      \code{main} or \code{initfunc}.
+  
+    \item \code{parms}: a list (or vector for some classes) with
       constant model parameters,
+      
     \item  \code{times}: vector of time steps or vector with three
       named values \code{from}, \code{to}, \code{by} specifying the
       simulation time steps. The from-to-by form can be edited with
       \code{fixParms}.
+  
     \item \code{init}: initial state (start values) of the
       simulation. This is typically a named vector (state variables in
       \code{odeModel}s) or matrix (e.g. initial grid of
       \code{gridModel}s).
+   
     \item \code{inputs}: time dependend or spatially resolved external
-      inputs can be specified as data frame or matrix (more efficient). It
-      is up to the user to evaluate the corresponding values within the
-      \code{main} function. Performance optimized versions of
-      \code{approx} (see \code{\link{approxTime}}) are available.
-    \item \code{solver}: character string specifying the numerical
-      algorithm used, e.g. \code{"lsoda"}, \code{"rk4"} or
+      inputs can be specified as data frame or matrix (more
+      efficient). It is up to the user to evaluate the corresponding
+      values within the \code{main} function. Performance optimized
+      versions of \code{approx} (see \code{\link{approxTime}}) are
+      available.
+      
+    \item \code{solver}: a function or a character string specifying the
+      numerical algorithm used, e.g. \code{"lsoda"}, \code{"rk4"} or
       \code{"euler"} from package \code{deSolve}). In addition, solvers
       from package \code{"ddesolve"} can also be used.  In contrast to
       \code{"euler"} that can be used for difference equations
       (i.e. \code{main} returns derivatives), \code{"iterator"} is
       intended for models where main returns the new state (i.e for
       individual-based models).  It is also possible to reference own
-      algorithms (solvers) that are defined in the useer workspace or to
+      algorithms (solvers) that are defined in the user workspace or to
       assign solver functions directly.
+      
     \item \code{observer}: optional slot which determines the data
       stored during the simulation. A user-provided \code{observer}
       function can also be used to write logging information to the
@@ -71,16 +80,19 @@
       statistical analysis during the simulation.
       
       Note that the \code{observer}-mechanism works only with
-      \code{\link{iteration}} solvers. It is generally not avalable for
+      \code{\link{iteration}} solvers. It is generally not available for
       \code{odeModel}s.
+  
     \item \code{out}: this slot holds the simulation results after a
       simulation run as data frame (if the return value of \code{main}
       is a vector) or as list (otherwise). The type of data stored in
       \code{out} can be manipulated by providing a user-definded
       \code{observer} function.
+  
     \item \code{initfunc}: this slot can hold an optional function which
       is called automatically when a new object is created by \code{new}
       or when it is re-initialized by \code{initialize} or \code{sim}.
+    
   }
 
   \code{simObj} model objects should be defined and created using the
@@ -96,8 +108,9 @@
   inputs, the solver, the main and sub-equations or initfunc or to
   extract the model outputs.  It is also possible to modify the
   components of the simecol objects directly, e.g. the model equations
-  of a model \code{\link{lv}} with \code{lv@main}, but there is no
-  guarantee that this will work in a compatible way in future versions.
+  of a model \code{\link{lv}} with \code{lv@main}, but this is not
+  recommended as there is no guarantee that this will work in a
+  compatible way in future versions.
 
   Models of different type are provided as data and some more in source
   code (see directory examples).
@@ -133,6 +146,7 @@
 
 \examples{
 ## (1) Quick Start Examples ====================================================
+
 data(lv)        # load basic Lotka-Volterra model
 
 \dontrun{
@@ -152,7 +166,53 @@ fixInit(conway) # enter some "1"
 sim(conway, animate=TRUE, delay=100)
 }
 
-## (2) Additional Resources ====================================================
+## (2) Define and run your own  simecol model ==========================
+
+lv <- new("odeModel", 
+  main = function (time, init, parms) {
+    with(as.list(c(init, parms)), {
+      dn1 <-   k1 * N1 - k2 * N1 * N2
+      dn2 <- - k3 * N2 + k2 * N1 * N2
+      list(c(dn1, dn2))
+    })
+  },
+  parms  = c(k1 = 0.2, k2 = 0.2, k3 = 0.2),
+  times  = c(from = 0, to = 100, by = 0.5),
+  init   = c(N1 = 0.5, N2 = 1),
+  solver = "lsoda"
+)
+
+lv <- sim(lv)
+plot(lv)
+
+## (3) The same in matrix notation; this allows generalization      ====
+##     to multi-species interaction models with > 2 species.        ====
+
+LVPP <- new("odeModel",
+  main = function(t, n, parms) {
+    with(parms, {
+      dn <- r * n  + n * (A \%*\% n)
+      list(c(dn))
+    })
+  },
+  parms = list(
+    # growth/death rates
+    r = c(k1 = 0.2, k3 = -0.2),
+    # interaction matrix
+    A = matrix(c(0.0, -0.2,
+                 0.2,  0.0),
+                 nrow = 2, ncol = 2, byrow=TRUE)
+  ),
+  times  = c(from = 0, to = 100, by = 0.5),
+  init   = c(N1 = 0.5, N2 = 1),
+  solver = "lsoda"
+)
+
+plot(sim(LVPP))
+
+
+## (4) Additional resources ============================================
+
 \dontrun{
 ## open the directory with source code of demo
 browseURL(paste(system.file(package="simecol"), "/demo", sep=""))

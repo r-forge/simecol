@@ -1,3 +1,7 @@
+0.6-7
+
+o fixed bug in documentation example for iteration-solver
+
 0.6-6
 
 o tested on Linux x64 with gcc and Sun Studio 12 compilers

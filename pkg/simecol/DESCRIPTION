@@ -1,6 +1,6 @@
 Package: simecol 
 Version: 0.6-7
-Date: 2009-03-13
+Date: 2009-05-10
 Title: Simulation of ecological (and other) dynamic systems
 Author: Thomas Petzoldt
 Depends: R (>= 2.3.0), deSolve, methods

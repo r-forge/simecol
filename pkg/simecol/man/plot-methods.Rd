@@ -13,12 +13,12 @@
 }
 
 \usage{
-  \S4method{plot}{simObj,missing}(x, index=1:length(x@out), delay=0, \dots)
+  \S4method{plot}{simObj,missing}(x, y=NULL, index=1:length(x@out), delay=0, \dots)
 }
 
 \arguments{
   \item{x}{an object of class \code{simObj},}
-%  \item{y}{omitted.}
+  \item{y}{ignored,}
   \item{index}{index of time steps to be plotted,}
   \item{delay}{delay (in ms) between consecutive images (for
     \code{gridModel}s) or xy-plots (for \code{rwalkModel}s),
