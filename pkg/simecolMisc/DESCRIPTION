@@ -1,0 +1,13 @@
+Package: simecolMisc
+Type: Package
+Title: Loose Collection of Help Tools
+Version: 0.1-2
+Date: 2009-06-03
+Depends: simecol, pastecs
+Suggests: tcltk
+Encoding: latin1
+Author: Thomas Petzoldt
+Maintainer: Thomas Petzoldt <Thomas.Petzoldt@tu-dresden.de>
+Description: This collection is a temporary storage for functions of different quality, that may eventually be transferred to other packages.
+License: GPL (>= 2)
+
