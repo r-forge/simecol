@@ -936,14 +936,13 @@ res$par
 
 \section{Parameter estimation with FME}
 
-\pkg{FME} (Flexible Modeling Environment) is a package that
-contains functions to perform complex applications
-of models, consisting of differential equations, especially
-fitting models to data, sensitivity analysis and Markov Chain Monte Carlo.
-
-The package is still under development; a preliminary version is available from
-\url{http://fme.r-forge.r-project.org/}, future versions will be available from
-CRAN (\url{http://cran.r-project.org/}).
+\pkg{FME} (Flexible Modeling Environment) is a package that contains
+functions to perform complex applications of models, consisting of
+differential equations, especially fitting models to data, sensitivity
+analysis and Markov Chain Monte Carlo.  The package is still under
+development; a preliminary version is available from
+\url{http://fme.r-forge.r-project.org/}, future versions will be
+available from CRAN (\url{http://cran.r-project.org/}).
 
 The essential principles of model fitting with \pkg{FME} are similar quite
 simular to the above, including fine-tuning of the underlying optimization
@@ -954,29 +953,31 @@ of parameter estimates. Other advantages are the flexible way to define own
 minimization criteria (cost functions) and the existence of summary functions
 to extract the outputs.
 
-The following we give a full example to demonstrate its use with the same model
-and data as above.
-
-We use the chemostat model again, together with the test data set. The user
-defined cost function (\code{Cost}) contains simulation and comparison between
-simulated and observed data (function \code{modCost}) as last statement in the
-function. Note that \code{modCost} requires that both simulated and observer
-data contain a \code{time} column. This is already available in \code{ysim}
-(returned by the solver), but we have to add it also to \code{yobs}. As above,
-appropriate scaling (resp. weighting) of variables is also an important point.
-Here, setting \code{weight="std"} does the same as the default \code{sd.yobs}
-in the former example, other possibilities are described in the respective
+In the following we give a full example to demonstrate its use with
+the same model and data as above.  We use the chemostat model again,
+together with the test data set. The user defined cost function
+(\code{Cost}) contains simulation and comparison between simulated and
+observed data (function \code{modCost}) as last statement in the
+function. Note that \code{modCost} requires that both simulated and
+observer data contain a \code{time} column. This is already available
+in \code{ysim} (returned by the solver), but we have to add it also to
+\code{yobs}. As above, appropriate scaling (resp. weighting) of
+variables is also an important point.  Here, setting
+\code{weight="std"} does the same as the default \code{sd.yobs} in the
+former example, other possibilities are described in the respective
 online help pages.
 
-%%enable the following by default, once FME is on CRAN
+%% enable the following by default, once FME is on CRAN do some
+%% checking as and add FME, minpack.lm, MASS and coda as suggested
+%% packages
 
-%% workaround to omit minpack.lm license here
-<<echo=FALSE,quiet=TRUE,split=TRUE>>=
-library(FME)
+%% workaround to omit minpack.lm start messages
+<<echo=FALSE,quiet=TRUE,split=TRUE,eval=FALSE>>=
+fme <- require(FME)
 @
 
 
-<<eval=TRUE>>=
+<<eval=FALSE>>=
 library(FME)
 library(simecol)
 data(chemostat)
@@ -1010,7 +1011,7 @@ optimization algorithms or to constrain the parameters within sensible ranges.
 
 The output can now be extracted with appropriate methods:
 
-<<>>=
+<<eval=FALSE>>=
 summary(Fit)
 deviance(Fit)
 coef(Fit)

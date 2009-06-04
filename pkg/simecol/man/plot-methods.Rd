@@ -13,7 +13,11 @@
 }
 
 \usage{
-  \S4method{plot}{simObj,missing}(x, y=NULL, index=1:length(x@out), delay=0, \dots)
+  \S4method{plot}{simObj,missing}(x, y, \dots)
+  \S4method{plot}{odeModel,missing}(x, y, \dots)
+  \S4method{plot}{gridModel,missing}(x, y=NULL, index=1:length(x@out), delay=0, \dots)
+  \S4method{plot}{rwalkModel,missing}(x, y=NULL, index=1:length(x@out), delay=0, \dots)
+
 }
 
 \arguments{
@@ -32,8 +36,8 @@
     \item{x = "ANY", y = "ANY"}{Generic function: see
       \code{\link[graphics]{plot}}.  }
 
-    \item{x = "simObj", \dots}{returns a warning that a specific method is
-      required, depending on the actual data structure.}
+    \item{x = "simObj", \dots}{template function, does nothing and
+      only issues a warning.}
 
     \item{x = "odeModel", \dots}{plots time series of the state
       variables. Optional plotting parameters are possible.}
