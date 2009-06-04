@@ -1,6 +1,10 @@
+0.6-8
+
+
 0.6-7
 
 o fixed bug in documentation example for iteration-solver
+o fixed documentation warning for plot-methods
 
 0.6-6
 
