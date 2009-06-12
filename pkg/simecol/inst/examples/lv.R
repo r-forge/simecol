@@ -5,9 +5,9 @@
 lv <- new("odeModel", 
   main = function (time, init, parms) {
     with(as.list(c(init, parms)), {
-      dx1 <-   k1 * N1 - k2 * N1 * N2
-      dx2 <- - k3 * N2 + k2 * N1 * N2
-      list(c(dx1, dx2))
+      dN1 <-   k1 * N1 - k2 * N1 * N2
+      dN2 <- - k3 * N2 + k2 * N1 * N2
+      list(c(dN1, dN2))
     })
   },
   parms  = c(k1 = 0.2, k2 = 0.2, k3 = 0.2),

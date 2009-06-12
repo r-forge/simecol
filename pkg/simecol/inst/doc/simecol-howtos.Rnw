@@ -1226,12 +1226,88 @@ even in that case you still have the scenario management and data
 manipulation features of \pkg{simecol}.
 
 %%=======================================================================
-\chapter{Examples and Case Studies}
+%\chapter{Examples and Case Studies}
+
 
 
 
 
 %%=======================================================================
+\chapter{Troubleshoouting}
+
+This chapter lists the reasons of the most common problems error
+messages. You can xontribute to this sections by submitting bug
+reports.
+
+\section{Error messages when creating simObj-ects}
+
+\begin{description}
+\item[Message:]
+  \begin{verbatim}
+Error in getClass(Class, where = topenv(parent.frame())) :
+"odeModel" is not a defined class
+  \end{verbatim}
+  Instead of \code{odeModel} also other class names are possible.
+\item[Reasons:] The most commmon reason is to forget the required
+  \pkg{simecol} package. Another reason may be, that you use a model
+  class that is not contained in simecol (e.g. mistakenly
+  \code{odemodel} instead of \code{odeModel}).
+\item[Solution:] Load the \pkg{simecol} package by
+  \code{library(simecol)}. If this does not help, check spelling of
+  the class name in \code{new}.
+\end{description}
+
+
+\begin{description}
+\item[Message:]
+  \begin{verbatim}
+Error in assign(nm, L[[nm]], p) : attempt to use
+zero-length variable name
+  \end{verbatim}
+\item[Solution:] Use ``='' instead of ``<-'' for lists (e.g. function
+  definition in equations) and function arguments.
+\end{description}
+
+\begin{description}
+\item[Message:] \texttt{"Warning: a final empty element has been omitted"}
+\item[Solution:] Look for obsolete commas after the last element in
+  lists (e.g. params).
+\end{description}
+
+
+
+\section{Errors messages during model simulations}
+
+\begin{description}
+\item[Message:]
+  \begin{verbatim}
+Error in lsoda(...... :
+The number of derivatives returned by func() (3)
+must equal the length of the initial conditions vector (2)
+  \end{verbatim}
+\item[Reasons:] The number of state variables of ODE systems must be
+  consistent between the input and the output of the derivative
+  function that is called \code{func} in package \code{deSolve} from
+  which this error message is printed. In \pkg{simecol} this function
+  is called \code{main}. The other solvers of \pkg{deSolve}
+  (e.g. \code{rk4}) and of other compatible solver packages may issue
+  similar messages.
+\item[Solution:] Check number of parms and also naming of:
+  \begin{itemize}
+    \item the \code{init} slot of the model definition,
+    \item the usage of the second argument (commonly named
+      \code{init}, \code{x} or \code{y}) in the \code{main} function,
+    \item the return value of \code{main}. The return value is a list
+      whose first argument must be a vector with the same length as
+      \code{init}. Note that also the order of \code{init} and the
+      return value must be identical.
+  \end{itemize}
+\end{description}
+
+
+%%=======================================================================
+
+
 %\bibliographystyle{jss}
 \phantomsection
 \addcontentsline{toc}{chapter}{References}
