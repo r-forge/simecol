@@ -24,8 +24,8 @@
 %% almost as usual
 \author{Thomas Petzoldt\\ Technische Universit\"at Dresden}
 
-\title{\pkg{simecol}-Howto: Tipps, Tricks and Building Blocks}
-%\VignetteIndexEntry{simecol-Howto: Tipps, Tricks and Building Blocks}
+\title{\pkg{simecol}-Howto: Tips, Tricks and Building Blocks}
+%\VignetteIndexEntry{simecol-Howto: Tips, Tricks and Building Blocks}
 
 %% for pretty printing and a nice hypersummary also set:
 \Plainauthor{Thomas Petzoldt} %% comma-separated
@@ -939,19 +939,20 @@ res$par
 \pkg{FME} (Flexible Modeling Environment) is a package that contains
 functions to perform complex applications of models, consisting of
 differential equations, especially fitting models to data, sensitivity
-analysis and Markov Chain Monte Carlo.  The package is still under
-development; a preliminary version is available from
+analysis and Markov chain Monte Carlo.  At time of writing the package
+was still under development; a preliminary version is available from
 \url{http://fme.r-forge.r-project.org/}, future versions will be
 available from CRAN (\url{http://cran.r-project.org/}).
 
-The essential principles of model fitting with \pkg{FME} are similar quite
-simular to the above, including fine-tuning of the underlying optimization
-algorithms. However, in contrast to \code{fitOdeModel}, \pkg{FME}'s \code{modeFit}
-is more powerful. It allows to use several additional optimizers and gives more
-detailed output, especially standard errors and covariances (correlations)
-of parameter estimates. Other advantages are the flexible way to define own
-minimization criteria (cost functions) and the existence of summary functions
-to extract the outputs.
+The essential principles of model fitting with \pkg{FME} are quite
+simular to the above, including fine-tuning of the underlying
+optimization algorithms. However, in contrast to \code{fitOdeModel},
+\pkg{FME}'s \code{modeFit} is more powerful. It allows to use several
+additional optimizers and gives more detailed output, especially
+standard errors and covariances (correlations) of parameter
+estimates. Other advantages are the flexible way to define own
+minimization criteria (cost functions) and the existence of summary
+functions to extract the outputs.
 
 In the following we give a full example to demonstrate its use with
 the same model and data as above.  We use the chemostat model again,
@@ -1236,7 +1237,7 @@ manipulation features of \pkg{simecol}.
 \chapter{Troubleshoouting}
 
 This chapter lists the reasons of the most common problems error
-messages. You can xontribute to this sections by submitting bug
+messages. You can contribute to these sections by submitting bug
 reports.
 
 \section{Error messages when creating simObj-ects}
