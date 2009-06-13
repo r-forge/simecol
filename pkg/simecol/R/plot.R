@@ -29,7 +29,7 @@ setMethod("plot", c("odeModel", "missing"),
 )
 
 setMethod("plot", c("gridModel", "missing"),
-  function(x, y=NULL, index=1:length(x@out), delay=0, ...) {
+  function(x, y, index=1:length(x@out), delay=0, ...) {
    	if (is.null(x@out)) stop("Please simulate the model before plotting")
     oldpar <- par(no.readonly=TRUE)
     on.exit(par(oldpar))
@@ -41,7 +41,7 @@ setMethod("plot", c("gridModel", "missing"),
 )
 
 setMethod("plot", c("rwalkModel", "missing"),
-  function(x, y=NULL, index=1:length(x@out), delay=0, ...) {
+  function(x, y, index=1:length(x@out), delay=0, ...) {
    	if (is.null(x@out)) stop("Please simulate the model before plotting")
     oldpar <- par(no.readonly=TRUE)
     on.exit(par(oldpar))

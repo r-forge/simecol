@@ -15,8 +15,8 @@
 \usage{
   \S4method{plot}{simObj,missing}(x, y, \dots)
   \S4method{plot}{odeModel,missing}(x, y, \dots)
-  \S4method{plot}{gridModel,missing}(x, y=NULL, index=1:length(x@out), delay=0, \dots)
-  \S4method{plot}{rwalkModel,missing}(x, y=NULL, index=1:length(x@out), delay=0, \dots)
+  \S4method{plot}{gridModel,missing}(x, y, index=1:length(x@out), delay=0, \dots)
+  \S4method{plot}{rwalkModel,missing}(x, y, index=1:length(x@out), delay=0, \dots)
 
 }
 
