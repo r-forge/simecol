@@ -55,7 +55,7 @@ res   <- out(sim(myNPZD))
 #------------------------#
 # PLOTTING model output: #
 #------------------------#
-x11()
+
 par(mfrow=c(2,2), oma=c(0,0,3,0))
 
 plot (Times,res$PAR        ,type="l",lwd=2,main="PAR"        ,
