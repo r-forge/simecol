@@ -95,11 +95,11 @@
             y=depth,
             as.matrix(newdat),
             ylim=c(max(depth),0),           # revert y-scale (depth)
-            levels=seq(0,24,2),             # 0 ... +2 ... 26 °C
+            levels=seq(0,24,2),             # 0 ... +2 ... 26 deg C
             col=rev(rainbow(n=13,end=0.7)), # color scale
             xlab="Julian Day",
             ylab="Depth (m)",
-            key.title=title("T (°C)"),
+            key.title=title("T (degrees C)"),
             smooth=FALSE,
             drawlines=TRUE
            )
