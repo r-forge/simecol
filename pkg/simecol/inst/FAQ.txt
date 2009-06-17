@@ -1,16 +1,1 @@
-
-
-Frequent error messages
-=======================
-
-Error messages when creating simObj-ects
-----------------------------------------
-
-o "Error in assign(nm, L[[nm]], p) : attempt to use zero-length variable name"
-
-=>  Use "=" instead of "<-" for lists (e.g. function definition in equations)
-
-
-o "Warning: a final empty element has been omitted"
-
-=> Look for obsolete comma after the last element in lists (e.g. params)
+See chapter "Troubleshooting" in one of the package vignettes.

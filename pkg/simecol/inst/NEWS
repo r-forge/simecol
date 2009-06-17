@@ -1,5 +1,7 @@
 0.6-8
-
+o remove dependency on FME (until FME is released)
+o minor improvements
+o release
 
 0.6-7
 
