@@ -16,7 +16,7 @@ library("deSolve")
 # compile C++ code within R
 # (requires installed compiler)
 # on Windows: http://www.murdoch-sutherland.com/Rtools/
-system("R CMD SHLIB clotka.cpp")
+system("R CMD SHLIB clotka.c")
 
 
 modeldll <- dyn.load("clotka.dll")

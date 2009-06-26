@@ -1,13 +1,13 @@
 Package: simecol 
 Version: 0.6-8
-Date: 2009-06-16
+Date: 2009-06-26
 Title: Simulation of ecological (and other) dynamic systems
 Author: Thomas Petzoldt
 Depends: R (>= 2.3.0), deSolve, methods
-Suggests: tcltk
+Suggests: tcltk, PBSddesolve
 LazyLoad: yes
 Maintainer: Thomas Petzoldt <thomas.petzoldt@tu-dresden.de> 
-Description: simecol is an object oriented framework to simulate ecological (and other) dynamic systems. It can be used for differential equations, individual-based (or agent-based) and other models as well. The package helps to organize scenarios (avoids copy and paste) and to make simulation code more structured (and smaller!).
+Description: simecol is an object oriented framework to simulate ecological (and other) dynamic systems. It can be used for differential equations, individual-based (or agent-based) and other models as well. The package helps to organize scenarios (avoids copy and paste) and improves readability and usability of code.
 License: GPL (>= 2)  
 URL: http://www.simecol.de/
 

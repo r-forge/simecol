@@ -1,1 +1,1 @@
-See chapter "Troubleshooting" in one of the package vignettes.
+See chapter "Troubleshooting" in package vignette "simecol-Howto".
