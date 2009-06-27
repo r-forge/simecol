@@ -1234,9 +1234,9 @@ manipulation features of \pkg{simecol}.
 
 
 %%=======================================================================
-\chapter{Troubleshoouting}
+\chapter{Troubleshooting}
 
-This chapter lists the reasons of the most common problems error
+This chapter lists the reasons of the most common problems and error
 messages. You can contribute to these sections by submitting bug
 reports.
 
