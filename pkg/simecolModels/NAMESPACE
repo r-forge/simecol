@@ -6,7 +6,9 @@
   require("methods")
 }
 
-import(deSolve, rootSolve, simecol)
+## Thomas, I have changed deSolve, rootSolve to ReacTran !!
+
+import(ReacTran, simecol)
 useDynLib(simecolModels, .registration = TRUE)
 
 ### ------------------------------------ #
@@ -28,8 +30,11 @@ export(daphnia_ibm, daphnia_tefi, daphnia_deb)
 export(daphnia_deb_phyto, daphnia_deb_ibm)
 export(daphnia_deb_equations, daphnia_deb_lifeequations)
 
-## models from Karline Soetaart, NIOO, The Netherlands
+## models from department ecosystem studies, of Netherlands
+# institute of Ecology, centre for estuarine and marine ecology, The Netherlands
 export(Aquaphy, ZooScheldt, NPZriver, SiDia, OmexDia, OmexDiaDLL,
        algaepH, NPZD)
+## models implementing the stream spiralling concept
+export(UvasCreek, StreamIron)
 
 
