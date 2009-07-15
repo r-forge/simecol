@@ -25,6 +25,8 @@
 
 UvasCreek <- function() {
   new("odeModel",
+
+    ## ========== the main model function: ==========
     main = function(t, state, pars) {
       with (as.list(c(pars, inputs$boxes)),{
        C    <- state[1        :Nb    ]       # concentration in main channel
@@ -33,8 +35,6 @@ UvasCreek <- function() {
 
        ## upstream concentration at current time
        Cup  <-  Cfun(t)
-#      print(Q)
-#      print(Nb)
 
        ## transport - only C is transported
        tranC <- tran.volume.1D(C=C, C.up=Cup, flow=Q, flow.lat=Qlat, C.lat=Clat,
@@ -74,19 +74,20 @@ UvasCreek <- function() {
               rho      = c(  0.35,  1.25,     0.8,      0.6,     0.35)
     ),
 
+    ## ========== the output times  : ==========
     times = seq(8.25*3600, 24*3600, by = 120),
 
+
+    ## ========== the model solver  : ==========
     ## this model comes with a user defined solver,
     ##   i.e. a function instead of a character that points to an existing solver
+
     solver = function(y, times, func, parms, ...) {
-      ## steady-state condition of state variables, one vector
-      # TP --> KS; lsoda has the following line:
-      #    if(is.null(initfunc))
-      #      initpar <- NULL # parameter initialisation not needed if function is not a DLL
-      #
-      # so it helps to set initpar=NULL here as long as the x.1D solvers
-      #   are that strict even for R models
+
+      ## 1. steady-state condition
       ST  <- steady.1D(y, time=0, func = func, nspec = 3, parms=parms, initpar=NULL, pos=TRUE)
+
+      ## 2. dynamic run
       Dyn <- ode.1D(y=ST$y, func = func, nspec = 3, parms=parms, initpar=NULL, times=times)
 
       Nb <- length(ST$y)/3      # Nb known via inputs$boxes, but not here?
@@ -95,37 +96,26 @@ UvasCreek <- function() {
       # if you however want to access "inputs",
       #     than its another point of discussion
 
-      ## rearrange as data.frame
+      ## 3. rearrange as data.frame
       times <- Dyn[,1]
       Dyn   <- Dyn[,-1]
       list(times = times, C = Dyn[,1:Nb],
            Cs = Dyn[,(Nb+1):(2*Nb)], Csed = Dyn[,(2*Nb+1):(3*Nb)])
     },
 
-    ## 1. a forcing function time series with tracer concentration
-    ## injected upstream
+    ## ========== the main model function: ==========
+    ## a time series with tracer concentration injected upstream
     inputs = list(timedep = data.frame(
        Time = c(8.25,8.399,8.400,11.399,11.4,   50) * 3600, # seconds
        C_up = c(0.13, 0.13,1.73,  1.73, 0.13, 0.13)
        )
     ),
 
-    ## derived and additional inputs which require internal calculations,
+    ## ==========    additional inputs     ==========
     ## initfunc is called automatically during object creation
     initfunc = function(obj) {
      pars <- parms(obj)
       with(pars, {
-
-        ## box size, metres
-        #dx <- 1
-
-        ## 5 segments, with different parameter values
-        #riverlen <- c(    38,    67,     176,      152,      236)
-        #disp     <- c(  0.12,  0.15,    0.24,     0.31,     0.40)
-        #area     <- c(  0.3 ,  0.42,    0.36,     0.41,     0.52)
-        #area2    <- c(  0.05,  0.05,    0.36,     0.41,     1.56)
-        #alpha    <- c(     0,     0,    3e-5,     1e-5,   4.5e-5)
-        #qlat     <- c(     0,     0,4.545e-6, 1.974e-6, 2.151e-6)
 
         ## Distances (x), and position of each box in river segment (ix)
         x  <- seq(from=dx/2, to = sum(riverlen), by = dx)
