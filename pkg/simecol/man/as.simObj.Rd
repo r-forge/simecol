@@ -47,7 +47,7 @@
   \code{\link{odeModel}},
   \code{\link[methods]{new}},
   \code{\link[methods]{as}},
-  \code{\link[base]{as.list}},
+  \code{\link{as.list}},
   \code{\link{simecol-package}}
 }
 \examples{

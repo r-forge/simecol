@@ -41,7 +41,7 @@ rho2alpha(rho)
   Nelsen, R. B. (2006). \emph{An Introduction to Copulas}. Springer, New
   York.
 }
-\seealso{\code{\link[stats]{runif}}}
+\seealso{\code{\link{runif}}}
 \examples{
 x <- runif(100)
 y <- pcu(x, rho = 0.8)

@@ -25,7 +25,7 @@
 \author{Thomas Petzoldt\\ Technische Universit\"at Dresden}
 
 \title{\pkg{simecol}-Howto: Tips, Tricks and Building Blocks}
-%\VignetteIndexEntry{simecol-Howto: Tips, Tricks and Building Blocks}
+%\VignetteIndexEntry{Simecol-Howto: Tips, Tricks and Building Blocks}
 
 %% for pretty printing and a nice hypersummary also set:
 \Plainauthor{Thomas Petzoldt} %% comma-separated
@@ -947,7 +947,7 @@ available from CRAN (\url{http://cran.r-project.org/}).
 The essential principles of model fitting with \pkg{FME} are quite
 simular to the above, including fine-tuning of the underlying
 optimization algorithms. However, in contrast to \code{fitOdeModel},
-\pkg{FME}'s \code{modeFit} is more powerful. It allows to use several
+\pkg{FME}'s \code{modFit} is more powerful. It allows to use several
 additional optimizers and gives more detailed output, especially
 standard errors and covariances (correlations) of parameter
 estimates. Other advantages are the flexible way to define own
@@ -1042,10 +1042,9 @@ the control is given back to \proglang{R} in every simulation step.
 In addition to this basic method, it is also possible to enable direct
 communication between integration routines and the model code if both
 are available in compiled languages and if the direct call of a
-compiled model is supported by the integrator. All integrators of the
-\code{lsoda}-family of solvers support this and additional solvers may
-support this in the future, see the \pkg{deSolve} documentation for
-details.
+compiled model is supported by the integrator. All integrators of
+package \pkg{deSolve} support this, see the \pkg{deSolve}
+documentation for details.
 
 \section{An Example in C}
 
@@ -1095,7 +1094,7 @@ Using \verb!#define! macros are a typical \proglang{C}-trick to get
 readable names for the parameters. This method is simple and efficient
 and of course, there are more elaborate possibilities. One alternative
 is using dynamic variables, another is doing call-backs to
-proglang{R}.
+\proglang{R}.
 
 The \proglang{C} code can now be compiled into a so-called shared
 library (on Linux) or a DLL on Windows, that can be linked to
