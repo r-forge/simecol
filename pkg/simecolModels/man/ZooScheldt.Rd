@@ -15,7 +15,7 @@
   \deqn{
   \frac{{\partial   {\rm{C}}}}{{\partial   t}} =
   - \frac{\partial }{{A \cdot \partial   x}}(Q \cdot {\rm{C}})
-  + \frac{\partial }{{A \cdot \partial   x}}(A \cdot E_x  \cdot \frac{{\partial  & {\rm{C}}}}{{\partial   x}})
+  + \frac{\partial }{{A \cdot \partial   x}}(A \cdot E_x  \cdot \frac{{\partial  {\rm{C}}}}{{\partial   x}})
   + g \cdot {\rm{C}}
   }{dC/dt=-1/A*(d/dx(Q.C))+1/A*d/dx(A*E_x*(dC/dx))+g*C}
 
@@ -118,9 +118,8 @@ mtext(outer=TRUE, side=3, "Marine Zooplankton in the Scheldt", cex=1.5)
   Marine Ecology Progress Series 105: 19-29.
 }
    
-\seealso{
-  R-package \code{\link[simecol]{simecol}} for a description of the
-  \code{\link[simecol]{simObj}} class
+\seealso{R-package \code{\link[simecol:simecol-package]{simecol}} for a description of the
+  \code{\link[simecol:simecol-package]{simObj}} class
 }
-  
+
 \keyword{ misc }

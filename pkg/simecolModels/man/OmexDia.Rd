@@ -216,8 +216,8 @@ legend("topright",c("Carbon","Oxygen"),col=c(1,2),lwd=2)
 }
 
 \seealso{
-  R-package \code{\link[simecol]{simecol}} for a description of the
-  \code{\link[simecol]{simObj}} class
+  R-package \code{\link[simecol]{simecol-package}} for a description of the
+  \code{\link[simecol:simecol-package]{simObj}} class
 
   \code{\link{OmexDiaDLL}}, the FORTRAN-version of the omexdia model
 

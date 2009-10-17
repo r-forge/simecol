@@ -21,7 +21,7 @@ daphnia_deb_ibm(submodel = daphnia_deb_phyto())
 }
 
 
-\value{S4 object according to the \code{\link[simecol]{simObj}} specification.
+\value{S4 object according to the \code{\link[simecol:simecol-package]{simObj}} specification.
 The object contains the following slots:
     \item{main}{The main equations of the model}
   \item{parms}{a list with the parameters of the model}

@@ -153,8 +153,8 @@ mtext(side=3, outer=TRUE, "NPZ model in a river", line=-1.5, cex=1.5)
 }
 
 \seealso{
-  R-package \code{\link[simecol]{simecol}} for a description of the
-  \code{\link[simecol]{simObj}} class
+  R-package \code{\link[simecol:simecol-package]{simecol}} for a description of the
+  \code{\link[simecol:simecol-package]{simObj}} class
 }
 
 \keyword{ misc }

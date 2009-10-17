@@ -149,8 +149,8 @@ plot(Db,Intdepth,ylim=c(10,0),xlab="cm2/d" ,main="Bioturbation",type="l",lwd=2)
 
 }
 
-\seealso{R-package \code{\link[simecol]{simecol}} for a description of the 
-  \code{\link[simecol]{simObj}} class
+\seealso{R-package \code{\link[simecol:simecol-package]{simecol}} for a description of the 
+  \code{\link[simecol:simecol-package]{simObj}} class
 }
 
 \keyword{ misc }

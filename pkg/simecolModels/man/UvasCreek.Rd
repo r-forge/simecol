@@ -124,9 +124,8 @@ a solute transport model for streams and rivers. US geological Survey.
 Water-Resources Investigations Report 98-4018. Denver, Colorado.
 }
    
-\seealso{
-  R-package \code{\link[simecol]{simecol}} for a description of the
-  \code{\link[simecol]{simObj}} class
+\seealso{R-package \code{\link[simecol:simecol-package]{simecol}} for a description of the
+  \code{\link[simecol:simecol-package]{simObj}} class
 }
-  
+
 \keyword{ misc }

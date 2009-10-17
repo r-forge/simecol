@@ -227,8 +227,8 @@ legend("topright",c("Nitrate","Oxygen"),col=c(1,2),lwd=2, bty="n")
   Modelling - using R as a simulation platform. Springer.
 }
 
-\seealso{R-package \code{\link[simecol]{simecol}} for a description of the 
-  \code{\link[simecol]{simObj}} class
+\seealso{R-package \code{\link[simecol:simecol-package]{simecol}} for a description of the 
+  \code{\link[simecol:simecol-package]{simObj}} class
 
   \code{\link{OmexDia}}, the R-version of the omexdia model
 }
