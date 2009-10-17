@@ -37,7 +37,7 @@ parms(lv)
 ### Simple cellular automaton
 ###################################################
 par(opar) # interactive off (for animation)
-source(paste(pkgdir, "/examples/", "CA.R", sep=""))
+source(paste(pkgdir, "/doc/examples/", "CA.R", sep=""))
 times(CA)
 times(CA) <- c(to=100)
 CA <- sim(CA)
@@ -170,7 +170,7 @@ matplot(tt, o, xlab="time", ylab="Prey", las=1, type="l")
 ### or external file
 ### Figure 7
 ###################################################
-source(paste(pkgdir, "/examples/", "ibm_daphnia.R", sep=""))
+source(paste(pkgdir, "/doc/examples/", "ibm_daphnia.R", sep=""))
 
 ## Show the contents of the example file
 #edit(file=paste(pkgdir, "/examples/", "ibm_daphnia.R", sep=""))

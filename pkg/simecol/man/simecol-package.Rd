@@ -221,7 +221,7 @@ browseURL(paste(system.file(package="simecol"), "/demo", sep=""))
 demo(jss)
 
 ## open the directory with R sourcecode examples
-browseURL(paste(system.file(package="simecol"), "/examples", sep=""))
+browseURL(paste(system.file(package="simecol"), "/doc/examples", sep=""))
 
 ## show package vignette with introductory article
 vignette("simecol-introduction")
