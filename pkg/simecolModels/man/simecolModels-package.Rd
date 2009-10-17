@@ -40,7 +40,7 @@ Please respect the specific references on the help pages of the respective model
 ## -- sourcecode examples ----------------------------
 ## open the directory with all sourcecode examples
 \dontrun{
-browseURL(paste(system.file(package="simecolModels"), "/examples", sep=""))
+browseURL(paste(system.file(package="simecolModels"), "/doc/examples", sep=""))
 } 
 }
 \keyword{ package }
