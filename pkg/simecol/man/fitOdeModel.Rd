@@ -94,7 +94,16 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs,
 \note{
   The interface to the PORT algorithm will change for future \R versions.
 }
-\seealso{\code{\link{ssqOdeModel}}, \code{\link[stats]{optim}}}
+\seealso{
+
+  \code{\link{ssqOdeModel}}, \code{\link{optim}}
+
+  Note also that package \pkg{FME} function
+  \code{\link[FME:modFit]{modFit}} has even more flexible means to fit
+  model parameters.
+
+  Examples are given in the package vignettes.
+}
 \examples{
 library(simecol)
 

@@ -1,9 +1,8 @@
 \documentclass[report,nojss]{vignette}
 
-\DeclareGraphicsExtensions{.pdf,.eps}
-%% need no \usepackage{Sweave}
+\DeclareGraphicsExtensions{.pdf}
 
-\usepackage{amsmath,amssymb,thumbpdf}
+\usepackage{amsmath,amssymb}
 \usepackage{textcomp}%has degree celsius
 
 \renewcommand{\textfraction}{0.2}
@@ -973,12 +972,12 @@ online help pages.
 %% packages
 
 %% workaround to omit minpack.lm start messages
-<<echo=FALSE,quiet=TRUE,split=TRUE,eval=FALSE>>=
+<<echo=FALSE,quiet=TRUE,split=TRUE>>=
 fme <- require(FME)
 @
 
 
-<<eval=FALSE>>=
+<<>>=
 library(FME)
 library(simecol)
 data(chemostat)
@@ -1012,7 +1011,7 @@ optimization algorithms or to constrain the parameters within sensible ranges.
 
 The output can now be extracted with appropriate methods:
 
-<<eval=FALSE>>=
+<<>>=
 summary(Fit)
 deviance(Fit)
 coef(Fit)
@@ -1020,7 +1019,7 @@ coef(Fit)
 
 You may also test the following, but we omit its output here to save space:
 
-<<eval=FALSE>>=
+<<>>=
 residuals(Fit)
 df.residual(Fit)
 plot(Fit)

@@ -1,8 +1,7 @@
 \documentclass[article,nojss]{jss}
-\DeclareGraphicsExtensions{.pdf,.eps}
-%% need no \usepackage{Sweave}
-
-\usepackage{amsmath,amssymb,thumbpdf}
+\DeclareGraphicsExtensions{.pdf}
+%need no \usepackage{Sweave}
+\usepackage{amsmath,amssymb}
 \usepackage{textcomp}%has degree celsius
 
 \renewcommand{\textfraction}{0.2}
