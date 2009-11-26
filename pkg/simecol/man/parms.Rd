@@ -1,5 +1,5 @@
 \name{parms}
-
+\docType{methods}
 \alias{main}
 \alias{main-methods}
 \alias{main,simObj-method}

@@ -1,4 +1,5 @@
 \name{fixParms}
+\docType{methods}
 \alias{fixParms}
 \alias{fixParms-methods}
 \alias{fixParms,simObj-method}
@@ -13,7 +14,7 @@
 
 
 \title{
-  Fix `parms', `init' or '`imes' Slot of `simecol' Objects
+  Fix `parms', `init' or '`times' Slot of `simecol' Objects
 }
 \description{
   The functions invoke an editor dialog for parameters, initial

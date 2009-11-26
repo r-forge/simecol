@@ -1,9 +1,10 @@
-\name{sim}
+\name{sim-methods}
+\docType{methods}
 \alias{sim}
 \alias{sim-methods}
-\alias{sim,simObj-method}
-\alias{sim,odeModel-method}
 \alias{sim,gridModel-method}
+\alias{sim,odeModel-method}
+\alias{sim,simObj-method}
 \title{Simulation of 'simObj' model objects}
 \description{
  This function provides the core functionality of the `simecol' package.
