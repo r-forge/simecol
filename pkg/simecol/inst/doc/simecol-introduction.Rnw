@@ -1,6 +1,6 @@
 \documentclass[article,nojss]{jss}
 \DeclareGraphicsExtensions{.pdf}
-%need no \usepackage{Sweave}
+%% need no \usepackage{Sweave}
 \usepackage{amsmath,amssymb}
 \usepackage{textcomp}%has degree celsius
 
