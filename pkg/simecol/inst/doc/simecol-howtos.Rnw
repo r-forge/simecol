@@ -17,20 +17,18 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% declarations for jss.cls  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% almost as usual
 \author{Thomas Petzoldt\\ Technische Universit\"at Dresden}
+\Plainauthor{Thomas Petzoldt} %% comma-separated
 
 \title{\pkg{simecol}-Howto: Tips, Tricks and Building Blocks}
-%\VignetteIndexEntry{Simecol-Howto: Tips, Tricks and Building Blocks}
+\Plaintitle{simecol-Howto: Tips, Tricks and Building Blocks}
+% \VignetteIndexEntry{Simecol-Howto: Tips, Tricks and Building Blocks}
 
-%% for pretty printing and a nice hypersummary also set:
-\Plainauthor{Thomas Petzoldt} %% comma-separated
-\Plaintitle{simecol-Howto: Tips, Tricks and Building Blocks} %% without formatting
 \Shorttitle{simecol-Howto} %% a short title (if necessary)
-%\VignetteIndexEntry{simecol-Howto: Tips, Tricks and Building Blocks}
+
 
 %% an abstract and keywords
 \Abstract{
@@ -41,14 +39,14 @@
   \proglang{R} with the \pkg{simecol} package.  It supplements the
   original publication of \citet{Petzoldt2007} from which an updated
   version, \textbf{simecol-introduction}, is also part of this
-  package. Please refer to the JSS publication when citing this work.
+  package. Please refer to this publication when citing this work.
 }
 
 \Keywords{\proglang{R}, \pkg{simecol}, ecological modeling,
   object-oriented programming (OOP), compiled code, debugging}
 
 \Plainkeywords{R, simecol, ecological modeling, compiled code,
-  debugging} %% without formatting
+  debugging}
 
 \Address{
   Thomas Petzoldt\\
@@ -59,9 +57,7 @@
   URL: \url{http://tu-dresden.de/Members/thomas.petzoldt/}\\
 }
 
-%% for those who use Sweave please include the following line (with % symbols):
 %% need no \usepackage{Sweave.sty}
-%% end of declarations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \begin{document}
@@ -127,7 +123,7 @@ everything works, you should encapsulate all the main parts of your
 model in the \code{simObj}ect to get a clean object that does not
 interfere with others.
 
-\subsection{An Example}
+\subsection{An example}
 
 We start with the example given in the simecol-introduction
 \citep{Petzoldt2007}, an implementation of the UPCA model of
@@ -821,7 +817,7 @@ values manually.
 \section{Scaling and weighting}
 
 Appropriate scaling of \textbf{observational variables} is crucial. On
-one hand, scaling is necessary because they may be of different order
+one hand, scaling is necessary because variables may be of different order
 of magnitude or have different measurement units (comparing apples and
 oranges), but on the other hand estimated parameters heavily depend on
 this decision.
@@ -872,7 +868,7 @@ res$par
 @
 
 It is obvious that the resulting sum of squares and also the estimated
-parameters are different or these two.
+parameters of these two approaches are different.
 
 %% ToDo:
 %% - make assignment the scaling factors to variables more robust.
@@ -899,7 +895,7 @@ weights <- data.frame(X = rep(1, nrow(yobs)),
 weights[9:11,] <- 1/3
 res <- fitOdeModel(cs1, whichpar = whichpar,
   obstime = obstime, yobs = yobs, method = "Nelder",
-  weights=weights)
+  weights = weights)
 
 res$value
 res$par
@@ -915,7 +911,7 @@ this is to reformulate the problem that way, that the size of
 parameters do not differ ``not too much''. Depending on the algorithm
 used, it may be also possible to let the optimizer do this rescaling
 of parameters, e.g. via argument \code{scale} for the PORT algorithm
-or with \code{control=list(parscale = ...)} for the algorithms in
+or with \code{control = list(parscale = ...)} for the algorithms in
 \code{optim}. Please consult the original help pages for details.
 
 Normally, the PORT algorithm (in function \code{nlminb}) does
@@ -938,20 +934,18 @@ res$par
 \pkg{FME} (Flexible Modeling Environment) is a package that contains
 functions to perform complex applications of models, consisting of
 differential equations, especially fitting models to data, sensitivity
-analysis and Markov chain Monte Carlo.  At time of writing the package
-was still under development; a preliminary version is available from
-\url{http://fme.r-forge.r-project.org/}, future versions will be
-available from CRAN (\url{http://cran.r-project.org/}).
+analysis and Markov chain Monte Carlo \citep{Soetaert2010}.
 
 The essential principles of model fitting with \pkg{FME} are quite
-simular to the above, including fine-tuning of the underlying
+similar to the above, including fine-tuning of the underlying
 optimization algorithms. However, in contrast to \code{fitOdeModel},
-\pkg{FME}'s \code{modFit} is more powerful. It allows to use several
+\pkg{FME}'s \code{modFit} is much more powerful. It allows to use several
 additional optimizers and gives more detailed output, especially
 standard errors and covariances (correlations) of parameter
 estimates. Other advantages are the flexible way to define own
-minimization criteria (cost functions) and the existence of summary
-functions to extract the outputs.
+minimization criteria (cost functions), the existence of summary
+functions to extract the outputs and the availability of an advanced
+Markov chain Monte Carlo (MCMC) algorithm.
 
 In the following we give a full example to demonstrate its use with
 the same model and data as above.  We use the chemostat model again,
@@ -1019,7 +1013,7 @@ coef(Fit)
 
 You may also test the following, but we omit its output here to save space:
 
-<<>>=
+<<eval=FALSE>>=
 residuals(Fit)
 df.residual(Fit)
 plot(Fit)
@@ -1247,7 +1241,7 @@ Error in getClass(Class, where = topenv(parent.frame())) :
 "odeModel" is not a defined class
   \end{verbatim}
   Instead of \code{odeModel} also other class names are possible.
-\item[Reasons:] The most commmon reason is to forget the required
+\item[Reasons:] The most commmon reason is to forget loading the required
   \pkg{simecol} package. Another reason may be, that you use a model
   class that is not contained in simecol (e.g. mistakenly
   \code{odemodel} instead of \code{odeModel}).
@@ -1263,8 +1257,8 @@ Error in getClass(Class, where = topenv(parent.frame())) :
 Error in assign(nm, L[[nm]], p) : attempt to use
 zero-length variable name
   \end{verbatim}
-\item[Solution:] Use ``='' instead of ``<-'' for lists (e.g. function
-  definition in equations) and function arguments.
+\item[Solution:] Use ``\code{=}'' instead of ``\code{<-}'' for the lists
+  (e.g. function  definition in equations) and function arguments.
 \end{description}
 
 \begin{description}
@@ -1275,7 +1269,7 @@ zero-length variable name
 
 
 
-\section{Errors messages during model simulations}
+\section{Error messages during model simulations}
 
 \begin{description}
 \item[Message:]
@@ -1289,7 +1283,7 @@ must equal the length of the initial conditions vector (2)
   function that is called \code{func} in package \code{deSolve} from
   which this error message is printed. In \pkg{simecol} this function
   is called \code{main}. The other solvers of \pkg{deSolve}
-  (e.g. \code{rk4}) and of other compatible solver packages may issue
+  (e.g. \code{rk4}) or other compatible solver packages may issue
   similar messages.
 \item[Solution:] Check number of parms and also naming of:
   \begin{itemize}
