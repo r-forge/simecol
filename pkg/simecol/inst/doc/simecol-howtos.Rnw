@@ -931,10 +931,10 @@ res$par
 
 \section{Parameter estimation with FME}
 
-\pkg{FME} (Flexible Modeling Environment) is a package that contains
-functions to perform complex applications of models, consisting of
-differential equations, especially fitting models to data, sensitivity
-analysis and Markov chain Monte Carlo \citep{Soetaert2010}.
+\pkg{FME} \cite[Flexible Modeling Environment,][]{Soetaert2010} is a
+package that contains functions to perform complex applications of
+models, consisting of differential equations, especially fitting
+models to data, sensitivity analysis and Markov chain Monte Carlo.
 
 The essential principles of model fitting with \pkg{FME} are quite
 similar to the above, including fine-tuning of the underlying
