@@ -72,13 +72,13 @@ setMethod("plot", c("indbasedModel", "missing"),
   function(x, y, ...) {
     o <- out(x)
     par(mfrow=c(2, 2))
-    plot(o$times, o$meanage,  type="l",
+    plot(o$time, o$meanage,  type="l",
       xlab="Time", ylab="Mean age (d)")
-    plot(o$times, o$meaneggs, type="l",
+    plot(o$time, o$meaneggs, type="l",
       xlab="Time", ylab="Eggs per individual")
-    plot(o$times, o$number,   type="l",
+    plot(o$time, o$number,   type="l",
       xlab="Time", ylab="Abundance")
-    plot(o$times, o$number,   type="l",
+    plot(o$time, o$number,   type="l",
       xlab="Time", ylab="Abundance", log="y")
 })
 
