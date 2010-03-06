@@ -25,7 +25,7 @@ setMethod("iteration", "numeric",
     out <- unlist(func(times[1], y, parms))
     for (i in 2:length(times)) {
       time <- times[i]
-      parms["DELTAT"] <- times[i] - times[i - (i>1)] # is zero if i=1
+      parms["DELTAT"] <- times[i] - times[i - (i > 1)] # is zero if i == 1
       y    <- unlist(func(time, y, parms))
       out  <- rbind(out, y)
       if (animate) {
@@ -33,7 +33,7 @@ setMethod("iteration", "numeric",
       }
     }
     row.names(out) <- NULL
-    out <- as.data.frame(cbind(times, out))
+    out <- as.data.frame(cbind(time = times, out))
     names(out) <- nm
     out
   }
@@ -75,7 +75,7 @@ setMethod("iteration", "simObj",
       init <- func(time, init, parms)
       res  <- observer(init, time, i, out, y)
       if (is.vector(res)) {
-        out  <- rbind(out, res, deparse.level=0)
+        out  <- rbind(out, res, deparse.level = 0)
       } else {
         out  <- c(out, list(res))
       }
@@ -87,7 +87,9 @@ setMethod("iteration", "simObj",
       }
     }
     if(is.vector(res)) {
-      out <- cbind(times, out)
+      ## add times column, if not already available from an observer
+      if (!any("time" == names(res)))
+        out <- cbind(time = times, out)
       out <- as.data.frame(out)
     } else {
       out
@@ -113,7 +115,7 @@ setMethod("iteration", "odeModel",
     out <- unlist(func(times[1], init, parms))
     for (i in 2:length(times)) {
       time <- times[i]
-      parms["DELTAT"] <- times[i] - times[i - (i>1)] # is zero if i=1
+      parms["DELTAT"] <- times[i] - times[i - (i > 1)] # is zero if i == 1
       init <- unlist(func(time, init, parms))
       out  <- rbind(out, init)
       if (animate) {
@@ -122,7 +124,7 @@ setMethod("iteration", "odeModel",
       }
     }
     row.names(out) <- NULL
-    out <- as.data.frame(cbind(times, out))
+    out <- as.data.frame(cbind(time = times, out))
     names(out) <- nm
     out
   }

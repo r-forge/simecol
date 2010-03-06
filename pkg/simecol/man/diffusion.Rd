@@ -74,7 +74,7 @@ observer(diffusion) <- function(state, ...) {
   hist(state$y)
   hist(state$x)
   ## default case: return the state --> iteration stores it in "out"
-  init
+  state
 }
 
 sim(diffusion)

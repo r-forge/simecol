@@ -953,7 +953,7 @@ together with the test data set. The user defined cost function
 (\code{Cost}) contains simulation and comparison between simulated and
 observed data (function \code{modCost}) as last statement in the
 function. Note that \code{modCost} requires that both simulated and
-observer data contain a \code{time} column. This is already available
+observed data contain a \code{time} column. This is already available
 in \code{ysim} (returned by the solver), but we have to add it also to
 \code{yobs}. As above, appropriate scaling (resp. weighting) of
 variables is also an important point.  Here, setting

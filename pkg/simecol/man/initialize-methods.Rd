@@ -64,7 +64,7 @@ lv_efr <- new("odeModel",
   parms  = c(k1=0.2, k2=0.2, k3=0.2),
   times  = c(from=0, to=100, by=0.5),
   init   = c(prey=0.5, predator=1),
-  solver = "rk4",
+  solver = "lsoda",
   initfunc = function(obj) {
     tt <- fromtoby(times(obj))
     inputs(obj) <- as.matrix(data.frame(

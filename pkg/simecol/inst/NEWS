@@ -1,5 +1,7 @@
 0.6-10
 o moved examples to /doc/examples
+o improve documentation of 'observer'
+o fixed bug that "time" was called "times" in out of iteration solver
 o documentation updates
 
 0.6-9

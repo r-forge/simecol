@@ -67,14 +67,6 @@
 \alias{initfunc<--methods}
 \alias{initfunc<-,simObj-method}
 
-\alias{observer}
-\alias{observer-methods}
-\alias{observer,simObj-method}
-
-\alias{observer<-}
-\alias{observer<--methods}
-\alias{observer<-,simObj-method}
-
 \alias{out}
 \alias{out-methods}
 \alias{out,simObj-method}
@@ -112,8 +104,8 @@ times(obj) <- value
 solver(obj, ...)
 solver(obj) <- value
 
-observer(obj, ...)
-observer(obj) <- value
+#observer(obj, ...)
+#observer(obj) <- value
 
 initfunc(obj, ...)
 initfunc(obj) <- value
@@ -161,7 +153,10 @@ out(obj) <- NULL
 }
 
 \seealso{
-  \code{\link{simecol-package}}.
+  General explanation of the slots can be found in \code{\link{simecol-package}}.
+  
+  Usage of the \code{observer} slot is found in the special help file 
+  \code{\link{observer}}.
 }
 \examples{
 data(lv)
@@ -185,6 +180,7 @@ o <- out(lv)
 
 ## remove outputs from object
 out(lv) <- NULL
+
 ## store object persistently to the disk
 save(lv, file = "lv.Rdata")           # in binary form
 dput(as.list(lv), file = "lv-list.R") # in text form

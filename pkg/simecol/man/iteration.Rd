@@ -75,7 +75,9 @@
 }
 
 \seealso{
-  \code{\link{sim}}, \code{\link{parms}},
+  \code{\link{sim}}, 
+  \code{\link{observer}},
+  \code{\link{parms}},
   \code{\link[deSolve]{lsoda}}, \code{\link[deSolve]{rk4}}, \code{\link[deSolve:rk4]{euler}}.
 }
 
