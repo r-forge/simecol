@@ -2,7 +2,7 @@
 o moved examples to /doc/examples
 o improve documentation of 'observer'
 o fixed bug that "time" was called "times" in out of iteration solver
-o documentation updates
+o documentation updates and fixes
 
 0.6-9
 
@@ -14,32 +14,25 @@ o documentation improvements
 o release
 
 0.6-7
-
 o fixed bug in documentation example for iteration-solver
 o fixed documentation warning for plot-methods
 
 0.6-6
-
 o tested on Linux x64 with gcc and Sun Studio 12 compilers
 o vignette improvements
 
-
 0.6-5
-
 o changed: simecol.cpp to simecol.c
   to avoid C++ (we didn't need it yet)
 
 0.6-4
-
 o try to fix comptibility issue with Sun Studio compiler
 
 0.6-3
-
 o remove Rdversion, back compatibility with R 2.8.1
 o submitted to CRAN
 
 0.6-2
-
 o fitOdeModel supports now PORT algorithm (nlminb)
 o documentation improvements
 o first version of "simecol-howto"
@@ -47,13 +40,11 @@ o new utility mixNamedVec
 o submitted to CRAN
 
 0.6-1
-
 o start writing new vignette "simecol-howto"
 o data frame conversion for outputs of class odeModel now only for matrices and
 in out, not in sim.
 
 0.6
-
 o new class indbasedModel
 o new slot "observer"
 o .Rdata files re-generated (with observer slot)
@@ -62,21 +53,18 @@ o example of an ODE model that passes compiled code directly to the solver
 o this is the useR!2008 (Dortmund) release 
 
 0.5-7
-
 o the package uses now deSolve instead of odesolve
 o euler is now imported from deSolve and removed from simecol
 o allow solver slot to contain not only character but also function
 o plain version of JSS publication added as vignette
 
 0.5-6
-
 o small improvements and updates 
 
 0.5-5
-
 o reworked ODE solvers, rk4 and lsoda generics removed,
   solvers are now called directly from sim,
-  ensures compatibility with the desolve package without
+  ensures compatibility with the deSolve package without
   the need to write generics for all possible (and future)
   ode solvers
 o rehabilitation of addtoenv()
@@ -84,27 +72,22 @@ o documentation updates
 o replacement functions now delete slot "out"
 
 0.5-4
-
 o experimental code for parameter fitting of ODE models
 
 0.5-3
-
-o added citation to JSS article about simecol
+o added citation of JSS article about simecol
 o removed obsolete \non_function{} entry from documentation
 o conversion of simObj to and from lists, as.list and as.simObj
 o bivariate uniform random numbers (Plackett distribution)
 
 0.5-2
-
 o tcltk is now Suggested again 
   (possible due to relaxed package check conditions)
 
 0.5-1
-
 o fixed obsolete braces in .Rd's
 
 0.5
-
 o tcltk is now mandatory (in Depends), to solve issue
   with package check under R 2.6.0 (under development)
 o check for empty out-slot in plot methods
@@ -114,7 +97,6 @@ o small documentation updates
 o version 0.5 is used in the upcoming JSS article
 
 0.4-3
-
 o addtoenv() is no longer used in the solver functions
 o standard conform accessor functions 
   --> Attention: old applications may need adaptions!
@@ -122,7 +104,6 @@ o added demo("jss", package="simecol")
 o new examples, small code and documentation improvements
 
 0.4-2
-
 o helper classes: listOrNULL and functionOrNULL
 o new slot initfunc, initialize method and 
   complete rewrite of constructors
@@ -132,37 +113,30 @@ o documentation improvements
 
 
 0.4-1
-
 o general code cleanup
 o iteration is now a generic function
 o ... argument added to get-functions
 o argument "last" in out()
 
 0.3-14
-
 o euler method for numerical integration
 
 0.3-11 - 0.3-13
-
 several bugfixes and documentation improvements
 
 0.3-10
-
 o some bug fixes and error checking in the accessor functions
 
 0.3-9
-
 o documentation improvements
 
 0.3-8
-
 o made rk4 a generic. This required to include a copy of the 
   original rk4 from the odesolve package but this cosmetic issue
   will be fixed as soon as possible
 o improvements of documentation
 
 0.3-7
-
 o renamed class rndwalkModel to rwalkModel
 o code cleanup and error checking
 o changed implementation of 'selfrefer' and renamed to 'addtoenv'
@@ -170,13 +144,11 @@ o documentation issues
 o bugfixes
 
 0.3-6
-
 o version presented at useR-2006
 o slot 'equations' renamed to 'main'
 o new slot 'equations' holding sub-equations callable in main
 
 0.3.1 ... 0.3.5
-
 o complete rewrite using S4 classes instead of S3 lists
 o rename of classes and several functions
 o several examples and utility functions removed,

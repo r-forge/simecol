@@ -85,7 +85,7 @@ particular model, equations and data are stored together in one
 \code{simObj} (spoken: sim-Object), and only some general algorithms
 (e.g. differential equation solvers or interpolation routines) remain
 external, preferably as package functions (e.g. function \code{lsoda}
-in the package \pkg{deSolve} \citep{deSolve2009} or as functions in the
+in the package \pkg{deSolve} \citep{deSolve_jss} or as functions in the
 user workspace.
 
 This strategy has three main advantages:
