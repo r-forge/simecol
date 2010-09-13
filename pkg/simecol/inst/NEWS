@@ -1,3 +1,6 @@
+0.6-11
+o fixed NOTE about missing depends on lattice in one of the examples
+
 0.6-10
 o moved examples to /doc/examples
 o improve documentation of 'observer'
