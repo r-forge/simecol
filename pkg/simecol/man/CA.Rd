@@ -55,7 +55,6 @@ set.seed(345)
 times(CA)["to"] <- 50
 CA <- sim(CA)
 
-library(lattice)
 tcol <- (terrain.colors(13))[-13]
 x <- out(CA, last=TRUE)
 x <- ifelse(x == 0, NA, x)

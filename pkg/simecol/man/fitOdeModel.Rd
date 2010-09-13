@@ -105,7 +105,6 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs,
   Examples are given in the package vignettes.
 }
 \examples{
-library(simecol)
 
 ## ======== load example model =========
 data(chemostat)
