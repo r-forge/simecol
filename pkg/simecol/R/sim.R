@@ -19,7 +19,11 @@ setMethod("sim", "odeModel",
     environment(func) <- environment()
 
     equations        <- addtoenv(equations)
-    out <- do.call(obj@solver, list(obj@init, times, func, obj@parms, ...))
+    if (is.null(inputs)) {
+      out <- do.call(obj@solver, list(obj@init, times, func, obj@parms, ...))
+    } else {
+      out <- do.call(obj@solver, list(obj@init, times, func, obj@parms, inputs=obj@inputs, ...))
+    }
     obj@out <- out
     invisible(obj)
   }
