@@ -2,3 +2,10 @@
  - re-organize demo/examples in simecolModels-package.Rd
    and copy all examples automatically from /R to /examples
  - continue with package vignettes (add case-studies)
+
+2010-11-29
+
+- check if passing "inputs" the same is also possible with the other sim methods
+- pass also "equations" more explicitly?
+- documentation updates
+- improve plot function for comparing scenarios

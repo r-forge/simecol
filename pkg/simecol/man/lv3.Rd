@@ -61,7 +61,7 @@ plot(sim(lv3, hmax=1)) # integration with correct maximum internal time step
 ##   The code of the model
 ##============================================
 lv3<- new("odeModel",
-  main = function(time, init, parms) {
+  main = function(time, init, parms, inputs) {
     x <- init
     p <- parms
 

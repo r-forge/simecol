@@ -31,16 +31,13 @@ approxTime1(x, xout, rule = 1)
   
 }
 \value{
-
   \code{approxTime} returns a matrix resp. data frame of the same
   structure as \code{x} containing data which interpolate the given data
   with respect to \code{xout}.  \code{approxTime1} is a performance
   optimized special version with less options than the original
   \code{approx} function. It returns an interpolated vector.
-  
 }
 \details{
-  
   The functions can be used for linear interpolation with a complete
   matrix or data frame. This can be used for example in the main
   function of an \code{odeModel} to get input values at a specified time
@@ -48,7 +45,6 @@ approxTime1(x, xout, rule = 1)
   single value for xout and only linear interpolation) but has increased
   performance.  Both functions are faster if \code{x} is a matrix
   instead of a data frame.
-  
 }
 
 \seealso{

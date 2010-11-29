@@ -90,7 +90,7 @@ diffusion <- sim(diffusion)
 ##   Note the use of the "initfunc"-slot.
 ##============================================
 diffusion <- rwalkModel(
-  main = function(time, init, parms) {
+  main = function(time, init, parms, inputs = NULL) {
     speed   <- parms$speed
     xleft   <- parms$area[1]
     xright  <- parms$area[2]

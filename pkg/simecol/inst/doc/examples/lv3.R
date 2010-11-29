@@ -4,7 +4,7 @@
 ##########################################
 
 lv3<- new("odeModel",
-  main = function(time, init, parms) {
+  main = function(time, init, parms, inputs) {
     input <- approxTime1(inputs, time, rule=2)
     with(as.list(c(init, parms)),{
       s.in <- input["s.in"]

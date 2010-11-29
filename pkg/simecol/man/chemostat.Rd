@@ -65,7 +65,7 @@ plot(sim(chemostat))
 ##   The code of the chemostat model
 ##============================================
 chemostat <- new("odeModel",
-  main = function(time, init, parms, inputs=NULL) {
+  main = function(time, init, parms, inputs = NULL) {
     vm  <- parms["vm"] # max growth rate 
     km  <- parms["km"] # half saturation constant
     D   <- parms["D"]  # dilution rate
