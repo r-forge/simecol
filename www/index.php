@@ -155,8 +155,8 @@ is a simulation model collection, together with additional classes, demos and ex
   font-family: monospace;">simecol</span> is based on <span
   style="font-weight: bold; color: rgb(51, 51, 153);">R</span>, a
   freely available system for statistical computation and
-  graphics. Current versions require <a style="font-weight: bold;"
-  href="http://cran.r-project.org">R version 2.30</a> or above.</li>
+  graphics. Current versions are tested with <a style="font-weight: bold;"
+  href="http://cran.r-project.org">R version 2.11.0</a> or above.</li>
 
   <li>simecol depends on the <span style="color: rgb(153, 0, 0);
   font-family: monospace; font-weight: bold;">deSolve</span> package
@@ -372,10 +372,12 @@ plot(sim(conway))</span></td>
 <h2>Links</h2>
 
 <ul>
-<li><a href="http://cran.r-project.org/web/packages/simecol/">Stable Release Version from CRAN</a></li>
-<li><a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/">R-Forge Project Summary Page</a></li>
-<li><a href="http://r-forge.r-project.org/R/?group_id=146">Nightly Builds</a></li>
-<li><a href="http://tu-dresden.de/Members/thomas.petzoldt">The Author's Homepage</a></li>
+
+<li><a href="http://cran.r-project.org/web/packages/simecol/">Stable Release Version from CRAN</a>,</li>
+<li><a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/">R-Forge Project Summary Page</a>,</li>
+<li><a href="http://r-forge.r-project.org/R/?group_id=146">Nightly Builds</a>,</li>
+<li>Documentation, books, papers for the <a href="http://desolve.r-forge.r-project.org/">deSolve</a>package, used for differential equation models.</li>
+<li><a href="http://tu-dresden.de/Members/thomas.petzoldt">The Author's Homepage.</a></li>
 </ul>
 <!-- thpe: end of user supplied material -->
 
