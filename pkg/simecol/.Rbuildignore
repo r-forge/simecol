@@ -9,6 +9,7 @@ inst/doc/.*\.aux
 inst/doc/.*\.bak 
 inst/doc/.*\.$$$
 inst/doc/\.Rhistory
+inst/doc/Rplots.pdf
 .*\.dll
 .*\.so
 .*\.o

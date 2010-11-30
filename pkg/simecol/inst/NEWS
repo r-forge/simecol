@@ -1,11 +1,6 @@
 0.7
 o "inputs" is now passed explicitly to sim "odeModel"
 o fix namespace issue
-o todo:
-- check if the same is possible with the other sim methods
-- pass "equations" more explicitly?
-- documentation updates
-- improve plot function for comparing scenarios
 
 
 0.6-11
