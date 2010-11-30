@@ -2,12 +2,6 @@
 ### package initialization               #
 ### ------------------------------------ #
 
-.onLoad <- function(lib, pkg) {
-  require("methods")
-}
-
-## Thomas, I have changed deSolve, rootSolve to ReacTran !!
-
 import(ReacTran, simecol)
 useDynLib(simecolModels, .registration = TRUE)
 
