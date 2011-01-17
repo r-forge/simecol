@@ -49,7 +49,7 @@ sEdit <- function(x, title="Please enter values:") {
         row.names <- paste("var",1:length(slot),sep="")
       }
       for (i in 1:length(slot)) {
-        entries[[i]] <- tkentry(tt, textvariable=row.names[i])       
+        entries[[i]] <- tkentry(tt, textvariable=row.names[i])
         tkgrid(tklabel(tt,text=row.names[i]), entries[[i]])
       }
       reset.but  <- tkbutton(tt, text="Reset", command=reset)
@@ -82,7 +82,7 @@ sEdit <- function(x, title="Please enter values:") {
       ret  <- lapply(ret, listToNum)
     } else {
       ## default editor, e.g. data.frame or if tcltk is missing
-      ret  <- edit(x) 
+      ret  <- edit(x)
     }
     return(ret)
 }
@@ -97,9 +97,9 @@ setMethod("fixParms", "simObj",
   function(x) {
     sl   <- "parms"
     subx <- substitute(x)
-    if (is.name(subx)) 
+    if (is.name(subx))
        subx <- deparse(subx)
-    if (!is.character(subx) || length(subx) != 1) 
+    if (!is.character(subx) || length(subx) != 1)
         stop("this function requires a name")
     if (!(sl %in% slotNames(x)))
         stop(paste("'", sl, "' does not exist in ", subx, sep=""))
@@ -108,7 +108,7 @@ setMethod("fixParms", "simObj",
     slot(x, sl) <- ret
     ## interactive function is assumed to work
     ## in global environment
-    assign(subx, x, env=.GlobalEnv)
+    assign(subx, x, envir=.GlobalEnv)
   }
 )
 
@@ -116,9 +116,9 @@ setMethod("fixTimes", "simObj",
   function(x) {
     sl <- "times"
     subx <- substitute(x)
-    if (is.name(subx)) 
+    if (is.name(subx))
        subx <- deparse(subx)
-    if (!is.character(subx) || length(subx) != 1) 
+    if (!is.character(subx) || length(subx) != 1)
         stop("this function requires a name")
     if (!(sl %in% slotNames(x)))
         stop(paste("'", sl, "' does not exist in ", subx, sep=""))
@@ -131,7 +131,7 @@ setMethod("fixTimes", "simObj",
     slot(x, sl) <- ret
     ## interactive function is assumed to work
     ## in global environment
-    assign(subx, x, env=.GlobalEnv)
+    assign(subx, x, envir=.GlobalEnv)
 
   }
 )
@@ -140,9 +140,9 @@ setMethod("fixInit", "simObj",
   function(x) {
     sl <- "init"
     subx <- substitute(x)
-    if (is.name(subx)) 
+    if (is.name(subx))
        subx <- deparse(subx)
-    if (!is.character(subx) || length(subx) != 1) 
+    if (!is.character(subx) || length(subx) != 1)
         stop("this function requires a name")
     if (!(sl %in% slotNames(x)))
         stop(paste("'", sl, "' does not exist in ", subx, sep=""))
@@ -151,11 +151,11 @@ setMethod("fixInit", "simObj",
     slot(x, sl) <- ret
     ## interactive function is assumed to work
     ## in global environment
-    assign(subx, x, env=.GlobalEnv)
+    assign(subx, x, envir=.GlobalEnv)
 
   }
 )
 
 
-    
+
 
