@@ -4,7 +4,7 @@
 \title{Shore Line of Bautzen Reservoir}
 
 \description{The data set gives the coordinates (in m) of the shoreline 
-                 of Bautzen Reservoir (Saxony, Germany).
+             of Bautzen Reservoir (Saxony, Germany).
 }
 
 \usage{data(tsbshore)}
@@ -16,7 +16,7 @@
 
 \examples{
   data(tsbshore)
-  plot(tsbshore, type="l")
+  plot(tsbshore, type = "l")
 }
 
 \keyword{datasets}

@@ -25,7 +25,7 @@ vollenweider(L, z, t, ...)
   concept. Int. Revue ges. Hydrobiol. 64: 177-188.
 }
 
-\seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
+%\seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
 \examples{
 vollenweider(10, 10, 1)
 }

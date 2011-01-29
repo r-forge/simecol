@@ -1,9 +1,9 @@
 Package: simecolUtil
 Type: Package
-Title: Loose Collection of Help Tools
-Version: 0.1-2
-Date: 2009-06-03
-Depends: simecol, pastecs
+Title: Collection of Helper Utilities
+Version: 0.2
+Date: 2011-01-30
+Depends: simecol, akima, pastecs, RColorBrewer,
 Suggests: tcltk
 Author: Thomas Petzoldt
 Maintainer: Thomas Petzoldt <Thomas.Petzoldt@tu-dresden.de>
