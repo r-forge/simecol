@@ -32,11 +32,11 @@ vollenweider <- function(L, z, t, ...) {
   axis(1,c(0.1,1,10,100,1000),labels=c(0.1,1,10,100,1000),cex.axis=1.2)
   axis(2,c(0.01,0.1,1,10,50),labels=c(0.01,0.1,1,10,50),cex.axis=1.2)
   box()
-  text(0.3,3,"hypertroph",cex=1.2)
-  text(0.3,0.8,"polytroph",cex=1.2)
-  text(0.3,0.4,"eutroph",cex=1.2)
-  text(0.3,0.1,"mesotroph",cex=1.2)
-  text(0.3,0.02,"oligotroph",cex=1.2)
+  text(0.3,3,"hypertrophic",cex=1.2)
+  text(0.3,0.8,"polytrophic",cex=1.2)
+  text(0.3,0.4,"eutrophic",cex=1.2)
+  text(0.3,0.1,"mesotrophic",cex=1.2)
+  text(0.3,0.02,"oligotrophic",cex=1.2)
   points(z/t, L, ...)
 }
 
