@@ -1,7 +1,7 @@
 chemostat <- new("odeModel",
   main = function(time, init, parms, inputs = NULL) {
     with(as.list(c(init, parms)), {
-      mu  <- vm * S/(km + S)              # Monod equation
+      mu  <- vm * S / (km + S)            # Monod equation
       dx1 <- mu * X - D * X               # cells, e.g. algae
       dx2 <-  D *(S0 - S) - 1/Y * mu * X  # substrate, e.g. phosphorus
       list(c(dx1, dx2))
@@ -14,7 +14,7 @@ chemostat <- new("odeModel",
     D  = 0.5,           # dilution rate, 1/d
     S0 = 10             # substrate in inflow, mumol / L
   ),
-  times = c(from=0, to=40, by=.5),
-  init  = c(X=10, S=10), # cells / L; Substrate umol / L
+  times = c(from = 0, to = 40, by = .5),
+  init  = c(X = 10, S = 10), # cells / L; Substrate umol / L
   solver = "lsoda"
 )
