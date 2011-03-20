@@ -111,7 +111,7 @@ initfunc(obj, ...)
 initfunc(obj) <- value
 
 out(obj, ...)
-out(obj) <- NULL
+out(obj) <- value
 }
 \arguments{
   \item{obj}{A valid \code{simObj} instance.}
