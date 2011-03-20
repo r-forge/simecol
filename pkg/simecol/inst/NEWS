@@ -1,3 +1,6 @@
+0.7-1
+o fix documentation notes and a warning 
+
 0.7
 o "inputs" is now passed explicitly to sim "odeModel"
 o fix namespace issue
