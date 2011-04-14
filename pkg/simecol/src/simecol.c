@@ -61,7 +61,7 @@ void setpixel(int n, int m, int i, int j, double* x, double* fcol) {
 /* recursive version of seedfill */
 void fill(int* n, int* m, int* i, int* j, double* x, 
           double* fcol, double* bcol, double* tol) {
-  int ii=*i, jj=*j; double col;
+  int ii = *i, jj = *j; double col;
   if (isInside(*n, *m, *i, *j, x)) {
     col=getpixel(*n, *m, *i, *j, x);
 
@@ -178,7 +178,7 @@ void seedfill(int* n, int* m, int* i, int* j, double* x,
               double* fcol, double* bcol, double* tol) {
   int* xstack;
   int* ystack;
-  int p=0, *ptr;
+  int p = 0, *ptr;
   int maxptr;
   xstack = (int *) R_alloc(*n * *m, sizeof(int)); /* sorry. estimated value only */
   ystack = (int *) R_alloc(*n * *m, sizeof(int));
@@ -190,10 +190,10 @@ void seedfill(int* n, int* m, int* i, int* j, double* x,
 
 /* basic neighbourhood function for Conway's Game of Life */
 void eightneighbours(int* n, int* m, double* x, double* y) {
-  int nn= *n, mm= *m;
-  double c=0;
-  for (int i=0; i < nn; i++) {
-      for (int j=0; j < mm; j++) {
+  int nn = *n, mm = *m;
+  double c = 0;
+  for (int i = 0; i < nn; i++) {
+      for (int j = 0; j < mm; j++) {
         c = getpixel(nn, mm, i+1, j,   x) +
             getpixel(nn, mm, i,   j+1, x) +
             getpixel(nn, mm, i-1, j,   x) +
@@ -224,11 +224,11 @@ void neighbours(int* n, int* m, double* x, double* y,
   double s = 0,  c = 0, dstate = *state, dtol = *tol;
 
   d = (int)floor(*ndist / 2); 
-  for (int i=0; i < nn; i++) {
-    for (int j=0; j < mm; j++) {
-      c=0;
-      for (int ii= imax(-d, -i); ii <= imin(nn-i, d); ii++) {
-	for (int jj= imax(-d, -j); jj <= imin(mm-j, d); jj++) {
+  for (int i = 0; i < nn; i++) {
+    for (int j = 0; j < mm; j++) {
+      c = 0; /* cum. neighbourhood */
+      for (int ii = imax(-d, -i); ii <= imin(nn - i, d); ii++) {
+	for (int jj = imax(-d, -j); jj <= imin(mm - j, d); jj++) {
           s = getpixel(nn, mm, i + ii, j + jj,   x);
           if (fabs(s - dstate) < dtol) {
             c += wdist[ii + d + nd * (jj + d)];

@@ -1352,7 +1352,7 @@ be possible that one stays with it for a long time.
 
 \section*{Acknowledgments}\label{s:acknowledgments}
 
-We wish to express our thanks to René Sachse for suggestions while developing
+We wish to express our thanks to Ren\`{e} Sachse for suggestions while developing
 his own \pkg{simecol} models and to the participants of the
 ``Modeling for Limnologists'' workshop for testing and feedback.
 We are grateful to two anynymous reviewers for their constructive remarks which helped
