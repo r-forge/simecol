@@ -22,11 +22,11 @@ setMethod("iteration", "numeric",
     parms <- c(parms, DELTAT = 0)
     nm    <- c("time", if (!is.null(attr(y, "names")))
              names(y) else as.character(1:n))
-    out <- unlist(func(times[1], y, parms))
+    out <- unlist(func(times[1], y, parms, ...))
     for (i in 2:length(times)) {
       time <- times[i]
       parms["DELTAT"] <- times[i] - times[i - (i > 1)] # is zero if i == 1
-      y    <- unlist(func(time, y, parms))
+      y    <- unlist(func(time, y, parms, ...))
       out  <- rbind(out, y)
       if (animate) {
         plot(out, ...)
@@ -65,14 +65,19 @@ setMethod("iteration", "simObj",
     parms$DELTAT <- 0
     res <- observer(init, times[1], 1, NULL, y)
     if (is.vector(res)) {
-        out  <- res
-      } else {
-        out  <- list(res)
-      }
+      out  <- res
+    } else {
+      out  <- list(res)
+    }
+    ## if (is.null(inputs)) print("no inputs")   ## for testing
     for (i in 2:length(times)) {
       time <- times[i]
       parms$DELTAT <- times[i] - times[i-1]
-      init <- func(time, init, parms)
+      if (is.null(inputs)) {
+        init <- func(time, init, parms)          # '...', would break 'delay'
+      } else {
+        init <- func(time, init, parms, inputs)  # '...', would break 'delay'
+      }
       res  <- observer(init, time, i, out, y)
       if (is.vector(res)) {
         out  <- rbind(out, res, deparse.level = 0)
@@ -83,7 +88,7 @@ setMethod("iteration", "simObj",
       ##   use the observer mechanism instead
       if (animate) {
          y@out   <- out
-         plot(y, index=i, ...)
+         plot(y, index = i, ...)
       }
     }
     if(is.vector(res)) {
@@ -112,11 +117,11 @@ setMethod("iteration", "odeModel",
     parms <- c(parms, DELTAT = 0)
     nm  <- c("time", if (!is.null(attr(init, "names")))
              names(init) else as.character(1:n))
-    out <- unlist(func(times[1], init, parms))
+    out <- unlist(func(times[1], init, parms, ...))
     for (i in 2:length(times)) {
       time <- times[i]
       parms["DELTAT"] <- times[i] - times[i - (i > 1)] # is zero if i == 1
-      init <- unlist(func(time, init, parms))
+      init <- unlist(func(time, init, parms, ...))
       out  <- rbind(out, init)
       if (animate) {
         y@out   <- out

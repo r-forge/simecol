@@ -3,7 +3,7 @@
 ########################################################################
 
 diffusion <- rwalkModel(
-  main = function(time, init, parms, inputs = NULL) {
+  main = function(time, init, parms, inputs) {
     speed   <- parms$speed
     xleft   <- parms$area[1]
     xright  <- parms$area[2]
