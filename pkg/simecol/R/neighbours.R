@@ -40,12 +40,22 @@ neighbours <- function(x, state = NULL, wdist = NULL, tol = 1e-4, boundaries = 0
     x[x != 0] <- 1
   }
 
-  z <- .C("xneighbours", as.integer(n), as.integer(m),
-          as.double(x), y = as.double(y),
-          as.integer(ndist), as.double(wdist),
-          as.double(state[1]), as.double(tol[1]),
-          as.integer(bound),
-          PACKAGE = "simecol")$y
+  if (bound == 0) {
+    ## sligtly faster version
+    z <- .C("neighbours", as.integer(n), as.integer(m),
+            as.double(x), y = as.double(y),
+            as.integer(ndist), as.double(wdist),
+            as.double(state[1]), as.double(tol[1]),
+            PACKAGE = "simecol")$y
+  } else {
+    ## more general version
+    z <- .C("xneighbours", as.integer(n), as.integer(m),
+            as.double(x), y = as.double(y),
+            as.integer(ndist), as.double(wdist),
+            as.double(state[1]), as.double(tol[1]),
+            as.integer(bound),
+            PACKAGE = "simecol")$y
+  }
   z
 }
 

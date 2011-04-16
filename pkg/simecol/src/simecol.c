@@ -49,20 +49,23 @@ double getpixel(int n, int m, int i, int j, double* x) {
 /* version 2: with generalized boundaries */
 /* open, torus, [todo: reflection] */
 double xgetpixel(int n, int m, int i, int j, int bound, double* x) {
-    int ii = i, jj = j;
+    double ret = 0;
 
-    /* bit set == torus; bottom, left, top, right */
-    if (bound & 1) jj = MIN(jj, n-1);
-    if (bound & 2) ii = MIN(ii, n-1);
-    if (bound & 4) jj = MAX(jj, 0);
-    if (bound & 8) ii = MAX(ii, 0);
-
-    /* open boundaries or torus */
-    if (isInside(n, m, ii, jj, x)) {
-	    return x[((i + n) % n) + n * ((j + m) % m)]; /* modulo */
+    if ((0 <= i) & (i < n) & (0 <= j) & (j < m)) { /*(isInside(n, m, i, j, x)) */
+        ret = x[i + n * j];
     } else {
-      return 0;
+      int ii = i, jj = j;
+      /* bit set == torus; bottom, left, top, right */
+      if (bound & 1) jj = MIN(jj, n-1);
+      if (bound & 2) ii = MIN(ii, n-1);
+      if (bound & 4) jj = MAX(jj, 0);
+      if (bound & 8) ii = MAX(ii, 0);
+      /* open boundaries or torus */
+      if (isInside(n, m, ii, jj, x)) {
+  	    ret = x[((i + n) % n) + n * ((j + m) % m)]; /* modulo */
+      }
     }
+    return ret;
 }
 
 
