@@ -7,8 +7,8 @@
   of deterministic and stochastic cellular automata on rectangular
   grids.}
 \usage{
-  neighbours(x, state = NULL, wdist = NULL, tol = 1e-4, boundaries = 0)
-  neighbors(x, state = NULL, wdist = NULL, tol = 1e-4, boundaries = 0)
+  neighbours(x, state = NULL, wdist = NULL, tol = 1e-4, bounds = 0)
+  neighbors(x, state = NULL, wdist = NULL, tol = 1e-4, bounds = 0)
 }
 \arguments{
   \item{x}{Matrix. The cellular grid, in which each cell can have a specific
@@ -23,7 +23,7 @@
   \item{tol}{Tolerance value for the comparision of \code{state} with the
     state of each cell. If \code{tol} is a large value, then more than
     one state can be checked simultaneously.}
-  \item{boundaries}{A vector with either one or four values specifying
+  \item{bounds}{A vector with either one or four values specifying
     the type of boundaries, where 0 means open boundaries and 1 torus-like
     boundaries. The values are specified in the order bottom, left, 
     top, right.}
@@ -70,11 +70,11 @@ opar <- par(mfrow = c(2, 2))
 ## start population
 image(x)
 ## open boundaries
-image(matrix(neighbours(x, wdist = wdist, boundaries = 0), nrow = n))
+image(matrix(neighbours(x, wdist = wdist, bounds = 0), nrow = n))
 ## torus (donut like)
-image(matrix(neighbours(x, wdist = wdist, boundaries = 1), nrow = n))
+image(matrix(neighbours(x, wdist = wdist, bounds = 1), nrow = n))
 ## cylinder (left and right boundaries connected)
-image(matrix(neighbours(x, wdist = wdist, boundaries = c(0, 1, 0, 1)), nrow = n))
+image(matrix(neighbours(x, wdist = wdist, bounds = c(0, 1, 0, 1)), nrow = n))
 par(opar) # reset graphics area                  
                   
 ## ==================================================================

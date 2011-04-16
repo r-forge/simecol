@@ -8,20 +8,21 @@ eightneighbours <- function(x){
   y <- rep(0, length(x))
   z <- .C("eightneighbours", as.integer(n), as.integer(m),
           as.double(x), y=as.double(y), PACKAGE="simecol")$y
+  dim(z) <- c(n, m)
   z
 }
 
-neighbours <- function(x, state = NULL, wdist = NULL, tol = 1e-4, boundaries = 0){
+neighbours <- function(x, state = NULL, wdist = NULL, tol = 1e-4, bounds = 0){
   if (!is.matrix(x))    stop("x must be a matrix")
   if (!is.null(state) & !is.numeric(state)) stop("state must be numeric or NULL")
   if (!is.null(wdist) & !is.numeric(wdist)) stop("wdist must be numeric or NULL")
   if (!is.numeric(tol)) stop("tol must be numeric")
 
-  #if (length(boundaries) %% 4)
-  #  warning("length of 'boundaries' argument must be either one or four")
-  boundaries <- rep(boundaries, length.out = 4)
-  ## pack this in an integer bit mask
-  bound <- sum(boundaries * c(1L, 2L, 4L, 8L))
+  #if (length(bounds) %% 4)
+  #  warning("length of 'bounds' argument must be either one or four")
+  bounds <- rep(bounds, length.out = 4)
+  ## pack this into an integer bit mask
+  bound <- sum(bounds * c(1L, 2L, 4L, 8L))
 
   n <- dim(x)[1]
   m <- dim(x)[2]
@@ -33,6 +34,10 @@ neighbours <- function(x, state = NULL, wdist = NULL, tol = 1e-4, boundaries = 0
   ndist <- dim(wdist)[1]
   mdist <- dim(wdist)[2]
   if (mdist != ndist) stop ("wdist must be a sqare matrix")
+
+  if ((ndist > n) || (ndist > m))
+    stop("dimensions of weight matrix must be smaller dimensions of state matrix")
+
   ## default: all nonzero states in matrix counted
   ## we simply set all nonzero states to 1 and check against 1
   if (is.null(state)) {
@@ -56,6 +61,7 @@ neighbours <- function(x, state = NULL, wdist = NULL, tol = 1e-4, boundaries = 0
             as.integer(bound),
             PACKAGE = "simecol")$y
   }
+  dim(z) <- c(n, m)
   z
 }
 
