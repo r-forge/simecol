@@ -104,7 +104,7 @@ x <- rep(0, m*n)
 
 ## stochastic seed
 ## x[round(runif(20,1,m*n))] <- adult
-dim(x)<- c(n,m)
+dim(x)<- c(n, m)
 
 ## rectangangular seed in the middle
 x[38:42, 38:42] <- 5
@@ -119,8 +119,7 @@ for (i in 1:10){
 
   ## rule 1: reproduction
   ## 1.1 which cells are adult? (only adults can generate)
-  ad <- ifelse(x>=adult & x<old, x, 0)
-  dim(ad) <- c(n, m)
+  ad <- ifelse(x >= adult & x < old, x, 0)
 
   ## 1.2 how much (weighted) adult neighbours has each cell?
   nb <- neighbours(ad, wdist = wdist)
@@ -139,7 +138,6 @@ for (i in 1:10){
 
   ## make resulting grid of complete population
   x     <- xgen + xsurvj + xsurva + xsurvs
-  dim(x)  <-c(n, m)
 
   ## plot resulting grid
   image(x, col = mycolors(max(x) + 1), add = TRUE)

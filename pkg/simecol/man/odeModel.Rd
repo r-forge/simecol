@@ -118,8 +118,7 @@ conway <- new("gridModel",
     nb     <- eightneighbours(x)
     surviv <- (x >  0 & (nb \%in\% parms$srv))
     gener  <- (x == 0 & (nb \%in\% parms$gen))
-    x      <- as.numeric((surviv + gener) > 0)
-    dim(x) <- dim(init)
+    x      <- (surviv + gener) > 0
     return(x)
   },
   parms  = list(srv = c(2, 3), gen = 3),

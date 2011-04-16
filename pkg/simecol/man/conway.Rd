@@ -56,17 +56,17 @@ plot(sim(conway))
 
 ## more interesting start conditions
 m <- matrix(0, 40, 40)
-m[5:35,19:21] <-1
+m[5:35, 19:21] <- 1
 init(conway) <- m
-plot(sim(conway), col=c("white", "green"), axes=FALSE)
+plot(sim(conway), col=c("white", "green"), axes = FALSE)
 
 ## change survival rules
-parms(conway) <- list(srv=c(3,4), gen=c(3,4))
-plot(sim(conway), col=c("white", "green"), axes=FALSE)
+parms(conway) <- list(srv = c(3,4), gen = c(3, 4))
+plot(sim(conway), col = c("white", "green"), axes = FALSE)
 \dontrun{
 init(conway) <- matrix(0, 10, 10)
 fixInit(conway) # enter some "1"
-sim(conway, animate=TRUE, delay=100)
+sim(conway, animate = TRUE, delay = 100)
 
 ##============================================
 ## Implementation:
@@ -78,13 +78,12 @@ conway <- new("gridModel",
     nb     <- eightneighbours(x)
     surviv <- (x >  0 & (nb %in% parms$srv))
     gener  <- (x == 0 & (nb %in% parms$gen))
-    x      <- as.numeric((surviv + gener) > 0)
-    dim(x) <- dim(init)
+    x      <- (surviv + gener) > 0
     return(x)
   },
   parms  = list(srv = c(2, 3), gen = 3),
   times  = 1:17,
-  init   = matrix(round(runif(1000)), ncol=40),
+  init   = matrix(round(runif(1000)), ncol = 40),
   solver = "iteration"
 )
 }

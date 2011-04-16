@@ -50,7 +50,6 @@ for (i in 2:10){
   x2 <- ifelse(x2>1, 1, x2)
   x2 <- ifelse(x>0, 2, x2)
 
-  #dim(x2) <-c(n,m)
   image(x2, col=c("wheat", "grey", "red"), add=TRUE)
 }
 }
