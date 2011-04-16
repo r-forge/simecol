@@ -118,8 +118,8 @@ ibm_daphnia <- new("indbasedModel",
 ##     the data more model specific than the default iteration
 ##-------------------------------------------------------------------
 
-myiteration <- function(y, times=NULL, func=NULL, parms=NULL,
-                        animate=FALSE, ...) {
+myiteration <- function(y, times = NULL, func = NULL, parms = NULL,
+                        animate = FALSE, ...) {
   observer <- function(res) {
     # eggs, size, age, eggage
     number   <- nrow(res)
@@ -170,6 +170,6 @@ setMethod("plot", c("indbasedModel", "missing"), function(x, y, ...) {
 ## 2. Simulate the Model
 ##===================================================================
 
-#solver(ibm_daphnia) <- "myiteration"
+solver(ibm_daphnia) <- "myiteration"
 #ibm_daphnia <- sim(ibm_daphnia)
 #plot(ibm_daphnia)

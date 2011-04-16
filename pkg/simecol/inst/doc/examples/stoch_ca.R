@@ -12,14 +12,12 @@ CA <- gridModel(
         ## rule 1: reproduction
         ## 1.1 which cells are adult? (only adults can generate)
         ad <- ifelse(z >= adult & z < old, z, 0)
-        dim(ad) <- c(n, m)
         ## 1.2 how much (weighted) adult neighbours has each cell?
         nb <- neighbours(ad, wdist = wdist)
         ## 1.3 a proportion of the seeds develops juveniles
         ## simplified version, you can also use probabilities
         genprob <- nb * runif(nb) * ci
         zgen  <- ifelse(z==0 & genprob >= 1, 1, 0)
-      
         ## rule 2: growth and survival of juveniles
         zsurvj <- ifelse(z >= 1     & z < adult & runif(z) <= pj, z+1, 0)
         ## rule 2: growth and survival of adults
@@ -30,7 +28,6 @@ CA <- gridModel(
         ## make resulting grid of complete population
         z     <- zgen + zsurvj + zsurva + zsurvs
         if (max(z)==0) stop("extinction", call.=FALSE)
-        dim(z)  <-c(n,m)
         return(z)
       })
     },
@@ -57,9 +54,8 @@ CA <- gridModel(
 )
 
 
-
 mycolors <- function(n) {
-  col <- c("wheat","darkgreen")
+  col <- c("wheat", "darkgreen")
   if (n>2) col <- c(col, heat.colors(n-2))
   col
 }
@@ -79,10 +75,11 @@ plot(CA, delay=50, index=90, col=mycolors(maxz+1), axes=F)
 # parms(CA) <- c(pj = 0.99)
 # parms(CA) <- c(old= 20)
 
-# weight matrix for neighbourhood determination
+## alternative weight matrix for neighbourhood determination
+## (square matrix with uneven number of rows and columns)
 maxdist <- 20
-wdist <- matrix(0, nrow=2 * maxdist + 1,
-                   ncol=2 * maxdist + 1)
+wdist <- matrix(0, nrow = 2 * maxdist + 1,
+                   ncol = 2 * maxdist + 1)
 for (i in -maxdist:maxdist) {
   for (j in -maxdist:maxdist) {
     # inverse euclidean distance from center
@@ -92,24 +89,22 @@ for (i in -maxdist:maxdist) {
   }
 }
 
-wdist[maxdist+1,maxdist+1] <- 0 # middle cell
+wdist[maxdist + 1, maxdist + 1] <- 0 # middle cell
 image(wdist)
 
-# syntax should be improved in the near future
 parms(CA)$wdist <- wdist
 
 CA <- sim(CA)
 o <- out(CA)
 
-abu <- sapply(o, function(l) sum(l>0))
-age <- sapply(o, function(l) sum(l)/sum(l>0))
+abundance <- sapply(o, function(x) sum(x > 0))
+age       <- sapply(o, function(x) sum(x)/sum(x > 0))
 
-par(mfrow=c(1,2))
-plot(abu)
-plot(abu, log="y")
+opar <- par(mfrow = c(2, 2))
+plot(abundance)
+plot(abundance, log = "y")
+plot(age, ylab = "mean age")
+hist(o[[50]], main="age distribution")
 
-plot(age, ylab="mean age")
-
-hist(o[[50]]) # age distribution at time 100
-
-plot(CA, delay=50, index=50, col=mycolors(maxz+1))
+par(opar)
+plot(CA, delay = 50, index = 50, col = mycolors(maxz + 1))

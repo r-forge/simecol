@@ -34,7 +34,7 @@
 \details{
   The performance of the function depends on the size of the matrices and the
   type of the boundaries, where open boundaries are faster than torus like
-  boundaries. Function \code{\link{eightneibours}} is even faster.
+  boundaries. Function \code{\link{eightneighbours}} is even faster.
 }
 \value{
   A matrix with the same structure as \code{x} with the weighted

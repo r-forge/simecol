@@ -59,11 +59,11 @@ library(lattice)
 tcol <- (terrain.colors(13))[-13]
 x <- out(CA, last=TRUE)
 x <- ifelse(x == 0, NA, x)
-print(levelplot(x,
-             cuts = 11,
-             col.regions = tcol,
-             colorkey=list(at=seq(0,55,5))
-))
+levelplot(x,
+  cuts = 11,
+  col.regions = tcol,
+  colorkey = list(at = seq(0, 55, 5))
+)
 
 ##============================================
 ## Implementation:
