@@ -5,6 +5,7 @@
 \alias{plot,ANY,ANY-method}
 \alias{plot,simObj,missing-method}
 \alias{plot,odeModel,missing-method}
+\alias{plot,odeModel,odeModel}
 \alias{plot,gridModel,missing-method}
 \alias{plot,rwalkModel,missing-method}
 \title{Methods for Function plot in Package `simecol'}
