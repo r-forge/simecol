@@ -77,7 +77,7 @@ lv3 <- new("odeModel",
       s.in = c(0.1, 0.1, 0.5, 0.1, 0.1)
     )
   ),
-  init = c(s = 1, p = 1, k = 1), # substrate, producer, consumer
+  init = c(s = 1, p = 1, k = 1, s.in=s.in), # substrate, producer, consumer
   solver = "lsoda"
 )
 }

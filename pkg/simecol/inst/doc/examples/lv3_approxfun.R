@@ -6,7 +6,7 @@ lv3 <- new("odeModel",
       ds <- s.in  - b*s*p + g*k
       dp <- c*s*p - d*k*p
       dk <- e*p*k - f*k
-      list(c(ds, dp, dk))
+      list(c(ds, dp, dk), s.in)
     })
   },
   parms = c(b = 0.1, c = 0.1, d = 0.1, e = 0.1, f = 0.1, g = 0),
