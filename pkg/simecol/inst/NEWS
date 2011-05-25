@@ -1,3 +1,8 @@
+0.8
+o periodic boundary conditions in neighbours
+o compatibility tweaks
+o updated examples
+
 0.7-2
 o remove two other obsolete files from inst/doc
 
