@@ -42,7 +42,7 @@
       only issues a warning.}
 
     \item{x = "odeModel", \dots}{plots time series of the state
-      variables wherre one or more \code{odeModel} objects can be supplied.
+      variables where one or more \code{odeModel} objects can be supplied.
       Optional plotting parameters are possible, too. 
       See \code{\link{plot.deSolve}} for details.}
 
