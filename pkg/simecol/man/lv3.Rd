@@ -66,7 +66,7 @@ lv3 <- new("odeModel",
       ds <- s.in  - b*s*p + g*k
       dp <- c*s*p - d*k*p
       dk <- e*p*k - f*k
-      list(c(ds, dp, dk))
+      list(c(ds, dp, dk), s.in = s.in)
     })
   },
   parms = c(b = 0.1, c = 0.1, d = 0.1, e = 0.1, f = 0.1, g = 0),
@@ -77,9 +77,9 @@ lv3 <- new("odeModel",
       s.in = c(0.1, 0.1, 0.5, 0.1, 0.1)
     )
   ),
-  init = c(s = 1, p = 1, k = 1, s.in=s.in), # substrate, producer, consumer
+  init = c(s = 1, p = 1, k = 1), # substrate, producer, consumer
   solver = "lsoda"
-)
+)  
 }
 
 \keyword{datasets}
