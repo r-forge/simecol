@@ -4,8 +4,10 @@
  - continue with package vignettes (add case-studies)
 
 2010-11-29
-
-- check if passing "inputs" the same is also possible with the other sim methods
+- check if passing "inputs" is also possible with the other sim methods: partly done
 - pass also "equations" more explicitly?
 - documentation updates
-- improve plot function for comparing scenarios
+- improve plot function for comparing scenarios: done
+
+2011-08-09
+- find way to reduce size of S4 help file index

@@ -1,5 +1,5 @@
 o graphical representatiopn of models in the helpfiles???
-o improved constrained algorithms for parameter optimization (model fitting)
+o improve interface to FME for model fitting
 o dynamic size of internal C buffers for seedfill
 o improved dialog version to edit parameters (Tcl/Tk)
 o alternative solution to avoid addtoenv()
