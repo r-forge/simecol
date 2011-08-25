@@ -7,14 +7,14 @@
   classification of lakes and reservoirs.
 }
 \usage{
-vollenweider(L, z, t, ...)
+vollenweider(L, z, t, grid = FALSE, ...)
 }
 
 \arguments{
   \item{L}{ phosporus loading (in g / m2 / year), }
   \item{z}{ mean depth of the lake (in m), }
   \item{t}{ mean theoretical retention time (years), }
-  
+  \item{grid} {draw grid lines,}
   \item{\dots}{ additional arguments passed to the
     \code{\link[graphics]{points}} function.}
 }

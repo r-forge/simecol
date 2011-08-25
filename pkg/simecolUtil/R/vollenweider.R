@@ -1,9 +1,10 @@
 ###################################################
-#Vollenweider-Diagramm in der Orthophosphat-Version
-#
+# SRP version of the Vollenweider model according to
+# Benndorf, 1979
+###################################################
 
 
-vollenweider <- function(L, z, t, ...) {
+vollenweider <- function(L, z, t, grid=FALSE, ...) {
   vollw_op <- function (z,t,v,P) {
   	P*v + P*z/t
   }
@@ -22,15 +23,22 @@ vollenweider <- function(L, z, t, ...) {
        #main=expression(L[c]==P[c,spring]~v[s,p]+P[c,spring]~frac(bar(z),bar(t))),
        cex.main=1.6,
        cex.lab =1.2)
+  tt<-1:9
+  xxtic <- c(0.1*tt,tt,10*tt,100*tt,1000)
+  yytic <- c(0.01*tt,0.1*tt,tt,10,50)
+  axis(1,xxtic,labels=FALSE)
+  axis(2,yytic,labels=FALSE)
+  axis(1,c(0.1,1,10,100,1000),labels=c(0.1,1,10,100,1000),cex.axis=1.2)
+  axis(2,c(0.01,0.1,1,10,50),labels=c(0.01,0.1,1,10,50),cex.axis=1.2)
+    if(grid) {
+    abline(h=yytic, col="grey", lty=2,lwd=1)
+    abline(v=xxtic, col="grey", lty=2,lwd=1)
+  }
   lines(zz,vollw_op(zz,t1,v[1],P[1]))
   lines(zz,vollw_op(zz,t1,v[2],P[2]))
   lines(zz,vollw_op(zz,t1,v[3],P[3]))
   lines(zz,vollw_op(zz,t1,v[4],P[4]))
-  tt<-1:9
-  axis(1,c(0.1*tt,tt,10*tt,100*tt,1000),labels=FALSE)
-  axis(2,c(0.01*tt,0.1*tt,tt,50),labels=FALSE)
-  axis(1,c(0.1,1,10,100,1000),labels=c(0.1,1,10,100,1000),cex.axis=1.2)
-  axis(2,c(0.01,0.1,1,10,50),labels=c(0.01,0.1,1,10,50),cex.axis=1.2)
+
   box()
   text(0.3,3,"hypertrophic",cex=1.2)
   text(0.3,0.8,"polytrophic",cex=1.2)
