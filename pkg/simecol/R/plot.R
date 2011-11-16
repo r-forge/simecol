@@ -32,7 +32,8 @@ setMethod("plot", c("simObj", "missing"),
 ## experimental plot method leveraging the functionality of package deSolve
 setMethod("plot", c("odeModel", "missing"),
   function(x, y, ...) {
-  	if (is.null(x@out)) stop("Please simulate the model before plotting")
+  	if (is.null(x@out))
+      stop("Please simulate the model before plotting", call. = FALSE)
     do.call("plot", alist(x@out, ...))
     
   }
@@ -40,7 +41,8 @@ setMethod("plot", c("odeModel", "missing"),
 
 setMethod("plot", c("odeModel", "odeModel"),
   function(x, y, ...) {
-  	if (is.null(x@out)) stop("Please simulate the model before plotting")
+  	if (is.null(x@out))
+      stop("Please simulate the model before plotting", call. = FALSE)
   	ldots   <- list(...)
   	if (length(ldots) == 0) {
      do.call("plot", alist(x@out, y = NULL, y@out))  	  	
@@ -60,7 +62,8 @@ setMethod("plot", c("odeModel", "odeModel"),
 
 setMethod("plot", c("gridModel", "missing"),
   function(x, y, index=1:length(x@out), delay=0, ...) {
-   	if (is.null(x@out)) stop("Please simulate the model before plotting")
+   	if (is.null(x@out)) 
+      stop("Please simulate the model before plotting", call. = FALSE)
     oldpar <- par(no.readonly=TRUE)
     on.exit(par(oldpar))
     for (i in index) {
@@ -72,7 +75,8 @@ setMethod("plot", c("gridModel", "missing"),
 
 setMethod("plot", c("rwalkModel", "missing"),
   function(x, y, index=1:length(x@out), delay=0, ...) {
-   	if (is.null(x@out)) stop("Please simulate the model before plotting")
+   	if (is.null(x@out)) 
+      stop("Please simulate the model before plotting", call. = FALSE)
     oldpar <- par(no.readonly=TRUE)
     on.exit(par(oldpar))
     for (i in index) {
