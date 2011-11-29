@@ -14,8 +14,9 @@ seedfill <- function(z, x=1, y=1, fcol=0, bcol=1, tol=1e-6) {
   ## with cells which have already the fill color
   ## fix: we fill with a color not contained within z
   ffcol <- .Machine$double.xmax
-  z <-.C("seedfill",as.integer(m),
+  z <-.C("seedfill",
          as.integer(n),
+         as.integer(m),
          as.integer(x-1),
          as.integer(y-1),
          z=as.double(z),
