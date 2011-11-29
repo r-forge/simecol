@@ -1,3 +1,6 @@
+0.8-1
+o fix bug in seedfill function
+
 0.8
 o periodic boundary conditions in neighbours
 o compatibility tweaks
