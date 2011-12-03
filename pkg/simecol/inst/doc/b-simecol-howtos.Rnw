@@ -349,7 +349,7 @@ same way as scenarios with different parameter values. In addition,
 it is also possible to define model objects with different versions of
 \textbf{built-in} submodels, that can be alternatively enabled:
 
-<<upca10>>=
+<<upca10,keep.source=TRUE>>=
 upca <- new("odeModel",
   main = function(time, y, parms) {
     with(as.list(c(parms, y)), {
@@ -608,14 +608,33 @@ v_m &= \text{maximum growth rate} \nonumber\\
 k_m  &= \text{half saturation constant} \nonumber
 \end{align}
 
+\section{Load the model and assign a solver}
+
 The chemostat model is one of the standard examples in package
-\pkg{simecol}. It can be loaded like a data set; two working
-copies \code{cs1} and \code{cs2} are made for further use:
+\pkg{simecol}, that can be loaded like a data set.
+
+In the following, instead of the default solver \code{lsoda} an explicit 
+solver \code{adams} should be used instead.
+However, package \pkg{deSolve} only contains dedicated functions for the most
+common solvers like \code{lsoda} or \code{rk4}, while other solvers like 
+\code{adams} are specified by calling \code{ode} with an appropriate option.
+
+
+<<fig=FALSE, keep.source=TRUE>>=
+data(chemostat)
+solver(chemostat) # shows which solver we have
+## assign an alternative solver
+solver(chemostat) <- function(y, times, func, parms, ...) {
+  ode(y, times, func, parms, method = "adams", ...)
+}
+@
+
+Now, we create two working copies \code{cs1} and \code{cs2} for further usage:
 
 <<fig=FALSE>>=
-data(chemostat)
 cs1 <- cs2 <- chemostat
 @
+
 
 Let's also assume we have the following test data:
 
@@ -642,13 +661,12 @@ natively, however \code{fitOdeModel} can emulate this also for the
 other methods (arctan-Transformation, see \code{p.constrain}).
 
 In order to save computation time it is suggested to use an efficient
-variable time step algorithm (e.g. \code{lsoda} and to set external
+variable time step algorithm (e.g. \code{adams} and to set external
 time steps of the model to the time steps contained in the
 observational data:
 
 <<fig=FALSE>>=
 times(cs1)  <- obstime
-solver(cs1) <- "lsoda"
 @
 
 For the most basic call to the parameter fitting function we need only
@@ -726,7 +744,6 @@ sense to define a function:
 
 <<fit1,fig=TRUE>>=
 plotFit <- function() {
-  solver(cs2) <- "lsoda"
   times(cs2) <- c(from=0, to=20, by=.1)
   ysim <- out(sim(cs2))
   par(mfrow=c(1,2))
@@ -846,7 +863,7 @@ observations):
 
 <<fit3,fig=TRUE>>=
 whichpar <- c("vm", "km")
-parms(cs1)[whichpar] <- c(vm=10, km=10)
+parms(cs1)[whichpar] <- c(vm = 5, km = 2)
 
 res <- fitOdeModel(cs1, whichpar = whichpar,
   obstime = obstime, yobs = yobs, method = "Nelder")
@@ -861,7 +878,7 @@ applied at all and the original dimensions remain:
 <<>>=
 res <- fitOdeModel(cs1, whichpar = whichpar,
   obstime = obstime, yobs = yobs, method = "Nelder",
-  sd.yobs=c(1,1))
+  sd.yobs = c(1, 1))
 
 res$value
 res$par
@@ -921,7 +938,7 @@ may help (see \url{http://netlib.bell-labs.com/cm/cs/cstr/153.pdf}):
 <<>>=
 res <- fitOdeModel(cs1, whichpar = whichpar,
   obstime = obstime, yobs = yobs, method = "PORT",
-  scale = 1/c(vm=1, km=10))
+  scale = 1/c(vm = 2, km = 5))
 
 res$value
 res$par
@@ -977,7 +994,6 @@ library(simecol)
 data(chemostat)
 
 cs1 <- chemostat
-solver(cs1) <- "lsoda"
 
 obstime <- seq(0, 20, 2)
 yobs <- data.frame(

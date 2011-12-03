@@ -15,8 +15,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% almost as usual
-\author{Thomas Petzoldt\\ Technische Universit\"at Dresden\And
-        Karsten Rinke \\ Universit\"at Konstanz}
+\author{Thomas Petzoldt\\ Technische Universit\"at Dresden\\ Institut f\"ur Hydrobiologie\And
+        Karsten Rinke \\ Helmholtz-Centre\\ for Environmental Research - UFZ}
 \title{\pkg{simecol}: An Object-Oriented Framework for Ecological Modeling in \proglang{R}}
 %\VignetteIndexEntry{Introduction to the simecol package}
 
@@ -43,8 +43,8 @@ Ecologists are encouraged to exploit the abilities of \pkg{simecol} to structure
 their work and to use \proglang{R} and object-oriented programming
 as a suitable medium for the distribution and share of ecological modeling code.
 
-\textbf{Note:} A previous version of this introduction to the
-R package simecol has been published as \citet{Petzoldt2007} in the Journal of
+\textbf{Note:} A previous version of this document has been published as 
+\citet{Petzoldt2007} in the Journal of
 Statistical Software, \url{http://www.jstatsoft.org/v22/i09}.
 Please refer to the original publication when citing this work.
 }
@@ -75,12 +75,12 @@ Please refer to the original publication when citing this work.
   URL: \url{http://tu-dresden.de/Members/thomas.petzoldt/}\\
   \\
   Karsten Rinke\\
-  Limnologisches Institut\\
-  Universit\"at Konstanz\\
-  Mainaustrasse 252\\
-  Konstanz, Germany\\
-  E-mail: \email{karsten.rinke@uni-konstanz.de}\\
-  URL: \url{http://www.uni-konstanz.de/limnologie/ags/Karsten/}
+  Helmholtz-Centre for Environmental Research - UFZ\\
+  Department of Lake Research\\
+  Br\"uckstr. 3a\\
+  39114 Magdeburg, Germany\\
+  E-mail: \email{karsten.rinke@ufz.de}\\
+  URL: \url{http://www.ufz.de/index.php?en=19635}
 }
 
 %% end of declarations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -669,7 +669,7 @@ lv <- new("odeModel",
 \end{table}
 
 
-\begin{table}[tp]
+\begin{table}[t]
 \caption{\label{t:upca} Uniform Period Chaotic Amplitude Model after
   \citet{Blasius1999}. Note that function \code{f1} is nested within \code{f2}.}
 
@@ -677,10 +677,7 @@ lv <- new("odeModel",
 \begin{Code}
 upca <- new("odeModel",
   main = function(time, init, parms) {
-    u      <- init[1]
-    v      <- init[2]
-    w      <- init[3]
-    with(as.list(parms), {
+    with(as.list(c(init, parms)), {
       du <-  a * u           - alpha1 * f(u, v, k1)
       dv <- -b * v           + alpha1 * f(u, v, k1) - alpha2 * f(v, w, k2)
       dw <- -c * (w - wstar) + alpha2 * f(v, w, k2)
@@ -998,7 +995,7 @@ setClass("indbasedModel",
 \subsubsection{Implementation of the model equations}
 
 The implementation which is provided in Table \ref{t:ibmdaphnia1} and \ref{t:ibmdaphnia2}
-in the appendix starts with the selection of an appropriate data structure
+starts with the selection of an appropriate data structure
 for the state variables. A table of individuals
 with four columns: age, size, number of eggs and age of eggs (\code{eggage})
 is realized as data frame with one row for each individual.
@@ -1349,7 +1346,6 @@ one can make nothing wrong when starting to model with \proglang{R} but it may
 be possible that one stays with it for a long time.
 
 
-
 \section*{Acknowledgments}\label{s:acknowledgments}
 
 We wish to express our thanks to Ren\`{e} Sachse for suggestions while developing
@@ -1358,20 +1354,9 @@ his own \pkg{simecol} models and to the participants of the
 We are grateful to two anynymous reviewers for their constructive remarks which helped
 to improve the manuscript.
 
-\phantomsection
-\addcontentsline{toc}{section}{References}
-%\bibliographystyle{jss}
-\bibliography{simecol}
-
 \clearpage
-\renewcommand{\textfraction}{0.05}
-\renewcommand{\bottomfraction}{0.95}
-\renewcommand{\floatpagefraction}{0.95}
 
-\appendix
-\section{The individual-based Daphnia model}\label{s:appendix}
-
-\begin{table}[htb]
+\begin{table}[p]
 \caption{\label{t:ibmdaphnia1} Individual-based \textit{Daphnia} model (part I,
   class definition, main equation, parameters, initial state, time steps, solver)}
 \small
@@ -1422,7 +1407,7 @@ ibm_daphnia <- new("indbasedModel",
 
 
 
-\begin{table}
+\begin{table}[p]
 \caption{\label{t:ibmdaphnia2} Individual-based \textit{Daphnia} model
   (part II, equations and algorithms)}
 \small
@@ -1481,7 +1466,7 @@ equations(ibm_daphnia) <- list(
 \end{table}
 
 
-\begin{table}
+\begin{table}[p]
 \caption{\label{t:mysolver} Solver function and \code{plot} method for the
   \textit{Daphnia} model}
 
@@ -1535,6 +1520,13 @@ plot(ibm_daphnia)
 \end{Code}
 \hrulefill
 \end{table}
+
+\clearpage
+
+\phantomsection
+\addcontentsline{toc}{section}{References}
+%\bibliographystyle{jss}
+\bibliography{simecol}
 
 
 
