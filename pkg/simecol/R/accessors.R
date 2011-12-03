@@ -188,7 +188,6 @@ setMethod("out<-", "simObj",
     function(obj, value) {
       if(!is.null(value)) stop("``out'' can only be set to NULL")
       obj@out <- NULL      
-      obj@out <- value
       invisible(obj)
     }
 )
