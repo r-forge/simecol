@@ -76,8 +76,8 @@ conway <- new("gridModel",
   main = function(time, init, parms) {
     x      <- init
     nb     <- eightneighbours(x)
-    surviv <- (x >  0 & (nb %in% parms$srv))
-    gener  <- (x == 0 & (nb %in% parms$gen))
+    surviv <- (x >  0 & (nb \%in\% parms$srv))
+    gener  <- (x == 0 & (nb \%in\% parms$gen))
     x      <- (surviv + gener) > 0
     return(x)
   },
