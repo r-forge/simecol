@@ -11,19 +11,19 @@
 
 \docType{package}
 
-\title{General Information about the `simecol' Package}
+\title{The `simecol' Package}
 
 \description{
+  
   The \pkg{simecol} package is intended to give users (scientists and
   students) an interactive environment to implement, distribute,
   simulate and document ecological and other dynamic models without the
-  need to write long simulation programs. For this purpose, an object
-  oriented approach using the S4 class system is proposed, which should
-  provide a consistent but still flexible and extensible way to
-  implement simulation models of different types, namely:
+  need to write long simulation programs. An object oriented framework
+  using the S4 class system provides a consistent but still flexible
+  approach to implement simulation models of different types:
   
   \itemize{
-    \item ordinary differential equation (ODE) models (class \code{odeModel}),
+    \item differential equation (ODE, PDE) models (class \code{odeModel}),
     \item grid-oriented individual-based models (class \code{gridModel}), and
     \item particle diffusion-type models (class \code{rwalkModel}),
     \item individual-based models (class \code{indbasedModel}),
@@ -57,15 +57,12 @@
    
     \item \code{inputs}: time dependend or spatially resolved external
       inputs can be specified as data frame or matrix (more
-      efficient). It is up to the user to evaluate the corresponding
-      values within the \code{main} function. Performance optimized
-      versions of \code{approx} (see \code{\link{approxTime}}) are
-      available.
+      efficient). Performance optimized versions of \code{approx} (see
+      \code{\link{approxTime}}) are available.
       
     \item \code{solver}: a function or a character string specifying the
       numerical algorithm used, e.g. \code{"lsoda"}, \code{"rk4"} or
-      \code{"euler"} from package \code{deSolve}). In addition, solvers
-      from package \code{"ddesolve"} can also be used.  In contrast to
+      \code{"euler"} from package \code{deSolve}). In contrast to
       \code{"euler"} that can be used for difference equations
       (i.e. \code{main} returns derivatives), \code{"iterator"} is
       intended for models where main returns the new state (i.e for
@@ -79,8 +76,8 @@
       screen or to the hard-disk, to perform run-time visualisation, or
       statistical analysis during the simulation.
       
-      Note that the \code{observer}-mechanism works only with
-      \code{\link{iteration}} solvers. It is generally not available for
+      The \code{observer}-mechanism works only with
+      \code{\link{iteration}} solvers. It is not available for
       \code{odeModel}s.
   
     \item \code{out}: this slot holds the simulation results after a
@@ -98,24 +95,24 @@
   \code{simObj} model objects should be defined and created using the
   common S4 mechanisms (\code{\link{new}}).
 
-  In this way, a \code{simObj} object may contain all data, which are
-  needed to run simulations simply by entering the model object via
-  \code{source()} or \code{data()} and then to run and plot the model
-  for example via \code{plot(sim(obj))}.
+  Normally, a \code{simObj} object can contain all data needed to run
+  simulations simply by entering the model object via \code{source()} or
+  \code{data()} and then to run and plot the model with
+  \code{plot(sim(obj))}.
 
   Accessor functions (with names identical to the slot names) are
   provided to get or set model parameters, time steps, initial values,
-  inputs, the solver, the main and sub-equations or initfunc or to
-  extract the model outputs.  It is also possible to modify the
-  components of the simecol objects directly, e.g. the model equations
-  of a model \code{\link{lv}} with \code{lv@main}, but this is not
-  recommended as there is no guarantee that this will work in a
+  inputs, the solver, the main and sub-equations, an observer or an
+  initfunc and to extract the model outputs.  It is also possible to
+  modify the components of the simecol objects directly, e.g. the model
+  equations of a model \code{\link{lv}} with \code{lv@main}, but this is
+  normally not recommended as there is no guarantee that this will work in a
   compatible way in future versions.
 
   Models of different type are provided as data and some more in source
   code (see directory examples).
 
-  The examples are intended as a starting point to write your own
+  The examples can be used as a starting point to write own
   \code{simObj} objects and to distribute them to whomever you wish.
 
   The package is supplemented with several utility functions
@@ -124,7 +121,7 @@
 }
 
 \references{
-  Petzoldt, T and K. Rinke (2007) \pkg{simecol}: An Object-Oriented
+  Petzoldt, T. and K. Rinke (2007) \pkg{simecol}: An Object-Oriented
   Framework for Ecological Modeling in \R. \emph{Journal of Statistical
   Software}, \bold{22}(9). URL \url{http://www.jstatsoft.org/v22/i09/}.
 }
@@ -226,10 +223,6 @@ browseURL(paste(system.file(package="simecol"), "/doc/examples", sep=""))
 ## show package vignette with introductory article
 vignette("simecol-introduction")
 edit(vignette("simecol-introduction"))
-
-## open the installation directory of simecol
-##   (NEWS, THANKS, FAQ, ToDo, WISHLIST, ...)
-browseURL(paste(system.file(package="simecol"), "/", sep=""))
 
 ## Open Project Homepage
 browseURL("http://www.simecol.de")
