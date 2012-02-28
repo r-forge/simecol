@@ -10,7 +10,7 @@
 */
 
 #include <R.h>
-#include <Rinternals.h>
+//#include <Rinternals.h>
 
 #define MIN(X,Y) ((X) < (Y) ? (X) : (Y))
 #define MAX(X,Y) ((X) > (Y) ? (X) : (Y))
@@ -34,7 +34,8 @@ int imin(int x, int y) {
 int isInside(int n, int m, int i, int j, double* x) {
     if ((0 <= i) & (i < n) & (0 <= j) & (j < m))  
       return TRUE; 
-      else return FALSE;
+    else 
+      return FALSE;
 }
 
 /* version 1: basic version */
@@ -62,7 +63,7 @@ double xgetpixel(int n, int m, int i, int j, int bound, double* x) {
       if (bound & 8) ii = MAX(ii, 0);
       /* open boundaries or torus */
       if (isInside(n, m, ii, jj, x)) {
-  	    ret = x[((i + n) % n) + n * ((j + m) % m)]; /* modulo */
+         ret = x[((i + n) % n) + n * ((j + m) % m)]; /* modulo */
       }
     }
     return ret;
@@ -90,14 +91,14 @@ void fill(int* n, int* m, int* i, int* j, double* x,
           double* fcol, double* bcol, double* tol) {
   int ii = *i, jj = *j; double col;
   if (isInside(*n, *m, *i, *j, x)) {
-    col=getpixel(*n, *m, *i, *j, x);
+    col = getpixel(*n, *m, *i, *j, x);
 
     if( col != *fcol && col != *bcol ) {
       setpixel(*n, *m, *i, *j, x, fcol);
-      ii=*i+1; fill(n, m,    &ii, j,   x, fcol, bcol, tol);
-      jj=*j+1; fill(n, m,    i,   &jj, x, fcol, bcol, tol);
-      ii=*i-1; fill(n, m,    &ii, j,   x, fcol, bcol, tol);
-      jj=*j-1; fill(n, m,    i,   &jj, x, fcol, bcol, tol);
+      ii=*i+1; fill(n, m, &ii, j,   x, fcol, bcol, tol);
+      jj=*j+1; fill(n, m, i,   &jj, x, fcol, bcol, tol);
+      ii=*i-1; fill(n, m, &ii, j,   x, fcol, bcol, tol);
+      jj=*j-1; fill(n, m, i,   &jj, x, fcol, bcol, tol);
     }
   }
 }  

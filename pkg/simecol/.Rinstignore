@@ -1,3 +1,3 @@
-inst/doc/ca.pdf
-inst/doc/classes.pdf
-inst/doc/statespace.pdf
+inst/vignettes/ca.pdf
+inst/vignettes/classes.pdf
+inst/vignettes/statespace.pdf
