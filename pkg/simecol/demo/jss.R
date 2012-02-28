@@ -32,11 +32,15 @@ parms(lv) <- parms(lv)[-4]
 #parms(lv) <- parms(lv)[-which(names(parms(lv)) == "a")]
 parms(lv)
 
+###################################################
+readline("Press Return to Continue ")
+par(opar)
+devAskNewPage(FALSE) # enable animated graphics
 
 ###################################################
 ### Simple cellular automaton
 ###################################################
-par(opar) # interactive off (for animation)
+
 source(paste(pkgdir, "/doc/examples/", "CA.R", sep=""))
 times(CA)
 times(CA) <- c(to=100)
