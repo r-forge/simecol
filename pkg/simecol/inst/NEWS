@@ -1,5 +1,7 @@
 0.8-2
 o removed obsolete files in installation
+o moved vignette source files to /vignettes
+o update of package help page
 
 0.8-1
 o fix bug in seedfill function
