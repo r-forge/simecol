@@ -15,9 +15,10 @@ approxTime1(x, xout, rule = 1)
 \arguments{
 
   \item{x}{a matrix or data frame with numerical values giving
-    coordinates of points to be interpolated. The first column is
-    interpreted as independend variable (e.g. time), the remaining
-    columns as dependend variables.  }
+    coordinates of points to be interpolated. The first column needs to
+    be in ascending order and is interpreted as independent variable
+    (e.g. time), the remaining columns are used as dependent variables.
+    }
   
   \item{xout}{a vector (or single value for \code{approxTime1}) of
     independend values specifying where interpolation has to be done.  }
