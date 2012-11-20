@@ -221,8 +221,11 @@ demo(jss)
 browseURL(paste(system.file(package="simecol"), "/doc/examples", sep=""))
 
 ## show package vignette with introductory article
-vignette("simecol-introduction")
-edit(vignette("simecol-introduction"))
+vignette("a-simecol-introduction")
+vignette("b-simecol-howtos")
+## edit a vignette
+# edit(vignette("a-simecol-introduction"))
+# edit(vignette("b-simecol-howtos"))
 
 ## Open Project Homepage
 browseURL("http://www.simecol.de")
