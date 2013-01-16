@@ -67,8 +67,10 @@ setMethod("plot", c("gridModel", "missing"),
     oldpar <- par(no.readonly=TRUE)
     on.exit(par(oldpar))
     for (i in index) {
+      dev.hold()  # double buffering
       image(x@out[[i]], main=i, ...)
       Sys.sleep(0.001 * delay)
+      dev.flush()
     }
   }
 )
@@ -80,6 +82,7 @@ setMethod("plot", c("rwalkModel", "missing"),
     oldpar <- par(no.readonly=TRUE)
     on.exit(par(oldpar))
     for (i in index) {
+      dev.hold()   # double buffering
       dat <- x@out[[i]]
       if (is.matrix(dat)) dat <- as.data.frame(dat)
       graphics:::plot(dat$x, dat$y,
@@ -87,6 +90,7 @@ setMethod("plot", c("rwalkModel", "missing"),
                       ylim = x@parms$area[c(3,4)],
                       xlab="x", ylab="y", main=i, ...)
       Sys.sleep(0.001 * delay)
+      dev.flush()
     }
   }
 )

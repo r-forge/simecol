@@ -1,3 +1,6 @@
+0.8-3
+o double buffering for animation plots
+
 0.8-2
 o removed obsolete files in installation
 o moved vignette source files to /vignettes
