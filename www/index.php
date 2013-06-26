@@ -251,7 +251,7 @@ line:</p>
   href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2008-lecture.pdf">Lecture
   slides</a> from the <b>useR-2008</b> conference about <span
   style="font-weight: bold; color: rgb(153, 0, 0); font-family:
-  monospace;">simecol</span> (including the most recent features)
+  monospace;">simecol</span> (including the most recent features)</li>
 
   <li><a
   href="http://hhbio.wasser.tu-dresden.de/projects/simecol/useR-2006-poster.pdf">Poster</a>
@@ -270,6 +270,10 @@ line:</p>
   style="font-weight: bold; color: rgb(153, 0, 0); font-family:
   monospace;">simecol</span> concept and the (old) S3 list-based
   approach.<br> </li>
+
+  <li><a
+  href="http://hhbio.wasser.tu-dresden.de/projects/simecol/petzoldt_kosa_ani.pdf">Lecture
+  slides</a> from a workshop about individual-based modelling (in German, but with some animations).<br> </li>
 
   <li><a
   href="http://hhbio.wasser.tu-dresden.de/projects/modlim/doc/modlim.pdf">German
@@ -364,7 +368,7 @@ plot(sim(conway))</span></td>
   <li>According to this <a
   href="http://www.gnu.org/licenses/licenses.html"
   target="_blank">license</a> the software is provided as is and comes
-  <span style="font-weight: bold;">WITHOUT WARRANTY.</span>.</li>
+  <span style="font-weight: bold;">WITHOUT WARRANTY.</span></li>
 
 </ul>
 
