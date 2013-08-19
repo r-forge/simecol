@@ -13,7 +13,7 @@
 
 OmexDia <- function() {
   new("odeModel",
-    main = function(time = 0, state, parms) {
+    main = function(time = 0, state, parms, inputs) {
       with (c(as.list(parms),inputs$boxes), {
 
         Flux  <- MeanFlux * (1+sin(2*pi*time/365))
@@ -167,7 +167,7 @@ OmexDia <- function() {
     # this model comes with a user defined solver,
     #   i.e. a function instead of a character that points to an existing solver
     solver = function(y, times, func, parms, ...) {
-      N = parms["N"]
+      N <- parms["N"]
 
       # steady-state condition of state variables, one vector
       out <- steady.1D(y=y, time=times, func, parms, nspec=6, pos=TRUE, ...)
