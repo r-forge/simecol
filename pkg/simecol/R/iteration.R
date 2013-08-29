@@ -63,6 +63,7 @@ setMethod("iteration", "simObj",
     environment(func) <- environment()
     equations         <- addtoenv(equations)
     parms$DELTAT <- 0
+    if (is.list(parms)) parms <- addtoenv(parms) ## experimental !!!
     res <- observer(init, times[1], 1, NULL, y)
     if (is.vector(res)) {
       out  <- res

@@ -5,9 +5,9 @@
   Environment
 }
 \description{
-  Create and set an environment where functions within a non-nested
-  named list of functions see each other. This function is normally used
-  within other functions.
+  Create and set an environment where elements (e.g. functions) within a
+  non-nested   named list of functions see each other. This function is
+  normally used within other functions.
 }
 \usage{
 addtoenv(L, p = parent.frame())
@@ -23,12 +23,12 @@ addtoenv(L, p = parent.frame())
   This function is used by the `solver functions' of \code{simecol}.
 }
 \value{
-  The list of equations within a common environment.
+  The list of functions within a common environment.
 }
 
 \note{
   This is a very special function that uses environment manipulations.
-  Its purpose is to `open' the access to interdependend functions within
+  Its main purpose is to `open' the access to interdependend functions within
   a common list structure (function list).
 }
 \seealso{

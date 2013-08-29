@@ -1,3 +1,7 @@
+0.8-4
+o addtoenv for parameters 
+  (experimental and only for class indbasedModel)
+
 0.8-3
 o double buffering for animation plots
 
