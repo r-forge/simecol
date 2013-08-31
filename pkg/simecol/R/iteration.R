@@ -29,7 +29,9 @@ setMethod("iteration", "numeric",
       y    <- unlist(func(time, y, parms, ...))
       out  <- rbind(out, y)
       if (animate) {
+        dev.hold()
         plot(out, ...)
+        dev.flush()
       }
     }
     row.names(out) <- NULL
@@ -89,7 +91,9 @@ setMethod("iteration", "simObj",
       ##   use the observer mechanism instead
       if (animate) {
          y@out   <- out
+         dev.hold()
          plot(y, index = i, ...)
+         dev.flush()
       }
     }
     if(is.vector(res)) {
@@ -126,7 +130,9 @@ setMethod("iteration", "odeModel",
       out  <- rbind(out, init)
       if (animate) {
         y@out   <- out
+        dev.hold()
         plot(y, index=i, ...)
+        dev.flush()
       }
     }
     row.names(out) <- NULL
