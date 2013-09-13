@@ -162,8 +162,8 @@ Times <- 0:365
 times(dynOmexDia) <- Times
 
 # different solver: dynamic simulation
-solver(dynOmexDia) <- function(y, times, func, parms)
-    ode.1D(y, times=times, func, parms, nspec=6)
+solver(dynOmexDia) <- function(y, times, func, parms, ...)
+    ode.1D(y, times=times, func, parms, nspec=6, ...)
 
 # this takes a while...
 dyna  <- out(sim(dynOmexDia))
