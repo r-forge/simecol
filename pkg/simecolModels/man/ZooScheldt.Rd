@@ -85,8 +85,8 @@ outp <- out(sim(zooScheldt, nspec=1))
 
 # It is possible to incorporate simulation parameters
 # within a user defined solver function
-mysolver <- function(y, times, func, parms) {
-    ode.band(y, times=times, func, parms, nspec=1)
+mysolver <- function(y, times, func, parms, ...) {
+    ode.band(y, times=times, func, parms, nspec=1, ...)
 }
 
 # run simulation

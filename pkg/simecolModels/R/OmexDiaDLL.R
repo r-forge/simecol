@@ -24,11 +24,11 @@ OmexDiaDLL <- function() {
       por0     = 0.9,        # surface porosity (-)
       pordeep  = 0.7,        # deep porosity    (-)
       porcoef  = 2  ,        # porosity decay coefficient  (/cm)
-      
+
       dB0      = 1/365,      # cm2/day       - bioturbation coefficient
       dBcoeff  = 2    ,
       mixdepth = 5    ,      # cm
-      
+
       MeanFlux = 20000/12*100/365,  # nmol/cm2/d - Carbon deposition: 20gC/m2/yr
       rFast    = 0.01            ,  #/day        - decay rate fast decay detritus
       rSlow    = 0.00001         ,  #/day        - decay rate slow decay detritus
@@ -36,13 +36,13 @@ OmexDiaDLL <- function() {
       w        = 0.1/1000/365    ,  # cm/d       - advection rate
       NCrFdet  = 0.16            ,  # molN/molC  - NC ratio fast decay detritus
       NCrSdet  = 0.13            ,  # molN/molC  - NC ratio slow decay detritus
-      
+
       # Nutrient bottom water conditions
       bwO2     = 300             ,  #mmol/m3     Oxygen conc in bottom water
       bwNO3    = 10              ,  #mmol/m3
       bwNH3    = 1               ,  #mmol/m3
       bwODU    = 0               ,  #mmol/m3
-      
+
       # Nutrient parameters
       NH3Ads     = 1.3        ,  #-           Adsorption coeff ammonium
       rnit       = 20.        ,  #/d          Max nitrification rate
@@ -54,7 +54,7 @@ OmexDiaDLL <- function() {
       kinO2denit = 1.         ,  #mmolO2/m3   half-sat O2 inhib denitrification
       kinNO3anox = 1.         ,  #mmolNO3/m3  half-sat NO3 inhib anoxic degr
       kinO2anox  = 1.         ,  #mmolO2/m3   half-sat O2 inhib anoxic min
-      
+
       # Diffusion coefficients, temp = 10dgC
 #      Temp       = 10         ,               # temperature
       DispO2     = 0.955    +10*0.0386 ,    #a+ temp*b
@@ -84,7 +84,7 @@ OmexDiaDLL <- function() {
         inputs(obj)$boxes <- list(Depth=Depth,Intdepth=Intdepth,
                                   Porosity=Porosity,IntPor=IntPor,Db=Db)
         parms(obj)[35:length(parms(obj))] <- c(rep(thick,N),rep(thick,N+1),Porosity,IntPor,Db)
-        
+
         return(obj)
       })
     },
@@ -96,22 +96,22 @@ OmexDiaDLL <- function() {
       out <- steady.1D (y=y, fun="omexdiamod",parms=unlist(parms[-(1:9)]),
                    maxiter=100,dllname="simecolModels",
                    method="stodes",nspec=6,pos=TRUE,initfunc="initomexdia",nout=9)
-      names (out$var) <- c("Cflux","O2flux",
+      names (out$y) <- c("Cflux","O2flux",
                    "NH3flux","NO3flux","ODUflux","TotMin","OxicMin","Denitri",
                    "Nitri")
       # rearrange as a list with a data.frame and single values
-        list(y=data.frame(FDET = out$y[1:N          ],
-                   SDET = out$y[(N+1)  :(2*N)],
-                   O2   = out$y[(2*N+1):(3*N)],
-                   NO3  = out$y[(3*N+1):(4*N)],
-                   NH3  = out$y[(4*N+1):(5*N)],
-                   ODU  = out$y[(5*N+1):(6*N)]),
-        Cflux=out$var[["Cflux"]],O2flux=out$var[["O2flux"]],
-        NH3flux=out$var[["NH3flux"]],NO3flux=out$var[["NO3flux"]],
-        ODUflux=out$var[["ODUflux"]],TotMin=out$var[["TotMin"]],
-        OxicMin=out$var[["OxicMin"]],Denitri=out$var[["Denitri"]],
-        Nitri=out$var[["Nitri"]]
-                   )
+        list(y = data.frame(FDET = out$y[1:N          ],
+          SDET    = out$y[(N+1)  :(2*N)],
+          O2      = out$y[(2*N+1):(3*N)],
+          NO3     = out$y[(3*N+1):(4*N)],
+          NH3     = out$y[(4*N+1):(5*N)],
+          ODU     = out$y[(5*N+1):(6*N)]),
+          Cflux   = out$var[["Cflux"]],O2flux=out$var[["O2flux"]],
+          NH3flux = out$var[["NH3flux"]],NO3flux=out$var[["NO3flux"]],
+          ODUflux = out$var[["ODUflux"]],TotMin=out$var[["TotMin"]],
+          OxicMin = out$var[["OxicMin"]],Denitri=out$var[["Denitri"]],
+          Nitri   = out$var[["Nitri"]]
+        )
       })
     }
   )

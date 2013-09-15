@@ -18,7 +18,7 @@
 
 ZooScheldt <- function() {
   new("odeModel",
-    main = function(t,Zoo,pars) {
+    main = function(t, Zoo, pars, ...) {
       with (as.list(pars),{
         Flow   <- meanFlow + ampFlow * sin(2*pi*t/365 + phaseFlow)
         seaZoo <- approx(inputs$timedep$fZooTime, inputs$timedep$fZooConc, xout=t)$y

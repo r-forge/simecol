@@ -2,7 +2,7 @@
 ### package initialization               #
 ### ------------------------------------ #
 
-import(ReacTran, simecol)
+import(ReacTran, simecol, methods)
 useDynLib(simecolModels, .registration = TRUE)
 
 ### ------------------------------------ #

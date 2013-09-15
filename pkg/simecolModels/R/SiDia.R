@@ -14,7 +14,7 @@
 
 SiDia <- function() {
   new("odeModel",
-    main = function(time = 0, state, parms) {
+    main = function(time = 0, state, parms, ...) {
       with (c(as.list(parms),inputs$boxes), {
         BSi<- state[1:N]              # Biogenic silicate (solid)
         DSi<- state[(N+1):(2*N)]      # Dissolved silicate
@@ -73,7 +73,7 @@ SiDia <- function() {
         Intdepth <- seq(0, sedDepth, by=thick)  # depth at upper layer interfaces
         Nint     <- length(Intdepth)            # number of interfaces
         N        <- Nint - 1                    # number of layers
-        Depth    <- 0.5*(Intdepth[-Nint] +Intdepth[-1]) # depth at middle of each layer
+        Depth    <- 0.5*(Intdepth[-Nint] + Intdepth[-1]) # depth at middle of each layer
         
         parms(obj)["N"] <- N  # write the new N back to parms
 

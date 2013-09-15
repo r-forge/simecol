@@ -90,10 +90,10 @@ in R, see Soetaert and Herman, 2008.
 myOmexDia <- OmexDiaDLL()
 
 # show model code, parameter settings,...
-print(myOmexDia)
+#print(myOmexDia)
 
 # show just the parameters
-parms(myOmexDia)[1:34]
+#parms(myOmexDia)[1:34]
 
 # Note that the model has a specialized solver function built in:
 solver(myOmexDia)
@@ -173,11 +173,12 @@ Times <- 0:365
 times(dynOmexDia) <- Times
 
 # different solver: dynamic simulation
-solver(dynOmexDia) <- function(y, times, func, parms)
-  ode.1D(y, times=times, fun="omexdiamod",parms=parms(dynOmexDia)[-(1:9)],
-         dllname="simecolModels",method="lsodes",nspec=6,initfunc="initomexdia",
-         nout=9,outnames=c("Cflux","O2flux","NH3flux","NO3flux","ODUflux",
-                   "TotMin","OxicMin","Denitri","Nitri"),lrw=55531)
+solver(dynOmexDia) <- function(y, times, func, parms, ...)
+  ode.1D(y, times = times, fun = "omexdiamod", parms = parms(dynOmexDia)[-(1:9)],
+         dllname = "simecolModels", method = "lsodes", nspec = 6,
+         initfunc = "initomexdia", nout = 9,
+         outnames = c("Cflux", "O2flux", "NH3flux", "NO3flux", "ODUflux",
+                   "TotMin", "OxicMin", "Denitri", "Nitri"), lrw=55531, ...)
 
 dyna  <- out(sim(dynOmexDia))
 CONC  <- dyna [,-1] # remove time column
