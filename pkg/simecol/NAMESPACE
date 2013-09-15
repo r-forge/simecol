@@ -2,6 +2,9 @@ useDynLib(simecol, .registration = TRUE)
 
 importFrom(graphics, plot)
 
+## package methods
+import(methods)
+
 ## package with ODE solvers
 import(deSolve)
 
