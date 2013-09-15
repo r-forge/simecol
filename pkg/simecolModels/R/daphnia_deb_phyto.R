@@ -35,7 +35,7 @@ daphnia_deb_phyto <- function() {
     inputs = data.frame(
       t.kelvin  = 17.5 + 273.15
     ),
-    main = function(time, init, parms) {
+    main = function(time, init, parms, ...) {
         #extract variables from list
         statelist <- vec2list(init)
         p         <- as.list(parms)       # conversion is redundant
@@ -98,7 +98,7 @@ daphnia_deb_phyto <- function() {
     },
     times = c(from = 0, to = 1, by = 0.1),
     equations = c(daphnia_deb_equations, daphnia_deb_lifeequations),
-    solver="rk4",
+    solver = "rk4",
     initfunc = function(obj) {
       p <- as.list(parms(obj))
       parms(obj)["WAM"] <- length2weight(p$SAM, p$l2w)  # weight at maturity

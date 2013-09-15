@@ -17,7 +17,7 @@ daphnia_deb_ibm <- function(submodel=daphnia_deb_phyto()) {
                   ),
                   refVol = 1  # L
     ),
-    main = function(time, init, parms) {
+    main = function(time, init, parms, ...) {
       X      <- init$X
       Z      <- init$Z
       refVol <- init$refVol

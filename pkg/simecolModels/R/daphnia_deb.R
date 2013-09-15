@@ -12,7 +12,7 @@
 
 daphnia_deb <- function() {
   new("odeModel",
-    main = function(time, init, parms){
+    main = function(time, init, parms, ...){
         p <- as.list(parms)
         weight      <- init[1]
         egg         <- init[2]

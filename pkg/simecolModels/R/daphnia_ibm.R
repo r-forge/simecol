@@ -9,7 +9,7 @@
 
 daphnia_ibm <- function() {
  new("indbasedModel",
-    main = function(time, init, parms) {
+    main = function(time, init, parms, ...) {
        init <- live(init, parms)
        init <- survive(init, parms)
        init <- hatch(init, parms)

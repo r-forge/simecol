@@ -14,7 +14,7 @@
 
 daphnia_tefi <- function() {
   new("timedepModel",
-    main = function(time, init, parms){
+    main = function(time, init, parms, ...){
       #L_0  <- init[1]
       E    <- init[2]
       F    <- inputs$F
