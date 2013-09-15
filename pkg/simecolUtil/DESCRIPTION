@@ -3,7 +3,7 @@ Type: Package
 Title: Collection of Helper Utilities
 Version: 0.2
 Date: 2011-01-30
-Depends: simecol, akima, pastecs, RColorBrewer,
+Depends: simecol, lattice, akima, pastecs, RColorBrewer,
 Suggests: tcltk
 Author: Thomas Petzoldt
 Maintainer: Thomas Petzoldt <Thomas.Petzoldt@tu-dresden.de>
