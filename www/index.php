@@ -112,7 +112,7 @@ is a simulation model collection, together with additional classes, demos and ex
 <li><strong>Development Version (Download from R-Forge)</strong></li>
 <ul>
 <li><a href="http://r-forge.r-project.org/projects/simecol/">Project Overview Page</a></li>
-<li><a href="http://r-forge.r-project.org/plugins/scmsvn/viewcvs.php/?root=simecol">Inspect Source Code</a></li>
+<li><a href="https://r-forge.r-project.org/scm/viewvc.php/pkg/?root=simecol">Inspect Source Code</a></li>
 <li><a href="http://r-forge.r-project.org/R/?group_id=146">Download Packages</a></li>
 </ul>
 </ul>
@@ -129,7 +129,7 @@ is a simulation model collection, together with additional classes, demos and ex
 <li><strong>Development Version (Download from R-Forge)</strong></li>
 <ul>
 <li><a href="http://r-forge.r-project.org/projects/simecol/">Project Overview Page</a></li>
-<li><a href="http://r-forge.r-project.org/plugins/scmsvn/viewcvs.php/?root=simecol">Inspect Source Code</a></li>
+<li><a href="https://r-forge.r-project.org/scm/viewvc.php/pkg/?root=simecol">Inspect Source Code</a></li>
 <li><a href="http://r-forge.r-project.org/R/?group_id=146">Download Packages</a></li>
 </ul>
 </ul>
@@ -380,7 +380,7 @@ plot(sim(conway))</span></td>
 <li><a href="http://cran.r-project.org/web/packages/simecol/">Stable Release Version from CRAN</a>,</li>
 <li><a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/">R-Forge Project Summary Page</a>,</li>
 <li><a href="http://r-forge.r-project.org/R/?group_id=146">Nightly Builds</a>,</li>
-<li>Documentation, books, papers for the <a href="http://desolve.r-forge.r-project.org/">deSolve</a>package, used for differential equation models.</li>
+<li>Documentation, books, papers for the <a href="http://desolve.r-forge.r-project.org/">deSolve</a> package, used for differential equation models.</li>
 <li><a href="http://tu-dresden.de/Members/thomas.petzoldt">The Author's Homepage.</a></li>
 </ul>
 <!-- thpe: end of user supplied material -->
