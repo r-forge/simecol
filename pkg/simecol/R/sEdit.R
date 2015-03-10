@@ -70,7 +70,7 @@ sEdit <- function(x, title="Please enter values:") {
       ret
     }
     ## -------------- main ----------------
-    tcltk <- require("tcltk", quietly=TRUE)
+    tcltk <- requireNamespace("tcltk", quietly = TRUE)
     if (is.vector(x) & !is.list(x) & (tcltk)) {
       ## slot is a vector
       ret  <- editVec(x)
