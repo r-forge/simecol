@@ -1,5 +1,5 @@
 \name{simecol-package}
-\alis{simecol-package}
+\alias{simecol-package}
 \alias{simecol}
 \alias{simObj}
 
