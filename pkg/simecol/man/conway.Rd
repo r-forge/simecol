@@ -64,6 +64,7 @@ plot(sim(conway), col=c("white", "green"), axes = FALSE)
 parms(conway) <- list(srv = c(3,4), gen = c(3, 4))
 plot(sim(conway), col = c("white", "green"), axes = FALSE)
 \dontrun{
+require("tcltk")
 init(conway) <- matrix(0, 10, 10)
 fixInit(conway) # enter some "1"
 sim(conway, animate = TRUE, delay = 100)

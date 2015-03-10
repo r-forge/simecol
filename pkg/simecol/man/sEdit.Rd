@@ -26,7 +26,8 @@
   \code{\link{fixParms}}
 }
 \examples{
-\dontrun{ 
+\dontrun{
+require("tcltk")
 ## named vector
 vec  <- c(a = 1, b = 20, c = 0.03)
 new  <- sEdit(vec)

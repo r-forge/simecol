@@ -38,6 +38,7 @@
 }
 \examples{
 \dontrun{
+require("tcltk")
 data(lv)        # load basic Lotka-Volterra model
 fixParms(lv) 
 plot(sim(lv))

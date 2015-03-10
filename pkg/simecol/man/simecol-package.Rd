@@ -1,5 +1,5 @@
 \name{simecol-package}
-\alias{simecol-package}
+\alis{simecol-package}
 \alias{simecol}
 \alias{simObj}
 
@@ -147,6 +147,7 @@
 data(lv)        # load basic Lotka-Volterra model
 
 \dontrun{
+require("tcltk")
 fixParms(lv)
 }
 parms(lv)
