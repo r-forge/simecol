@@ -43,7 +43,7 @@ Ecologists are encouraged to exploit the abilities of \pkg{simecol} to structure
 their work and to use \proglang{R} and object-oriented programming
 as a suitable medium for the distribution and share of ecological modeling code.
 
-\textbf{Note:} A previous version of this document has been published as 
+\textbf{Note:} A previous version of this document has been published as
 \citet{Petzoldt2007} in the Journal of
 Statistical Software, \url{http://www.jstatsoft.org/v22/i09}.
 Please refer to the original publication when citing this work.
@@ -524,6 +524,7 @@ init(CA)[18:22,18:22] <- 1
 after 50 iterations (right).}
 \end{figure}
 
+\pagebreak{4}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Two introductory examples}\label{s:examples}
 
@@ -635,8 +636,9 @@ means of spectral analysis:
 
 <<lv_spectrum,echo=TRUE, include=FALSE>>=
 tlv <- times(lv1)
-ots        <- ts(o1[c("predator", "prey")], start=tlv["from"], end=tlv["to"], deltat=tlv["by"])
-sp         <- spectrum(ots, spans=c(3,3), log="no")
+ots <- ts(o1[c("predator", "prey")], start=tlv["from"],
+          end=tlv["to"], deltat=tlv["by"])
+sp  <- spectrum(ots, spans=c(3,3), log="no")
 1/sp$freq[sp$spec[,1] == max(sp$spec[,1])]
 @
 
