@@ -31,40 +31,40 @@ sEdit <- function(x, title="Please enter values:") {
       build <- function(slot) {
         ret <- character(length(slot))
         for (i in 1:length(slot)) {
-            ret[i] <- tclvalue(row.names[i])
+            ret[i] <- tcltk::tclvalue(row.names[i])
         }
         ret
       }
       reset <- function() {
         for (i in 1:length(slot)) {
-            tclvalue(row.names[i]) <- slot[i]
+            tcltk::tclvalue(row.names[i]) <- slot[i]
         }
       }
       ## create dialog box
-      tt <- tktoplevel()
-      tkwm.title(tt,title)
+      tt <- tcltk::tktoplevel()
+      tcltk::tkwm.title(tt,title)
       entries <- as.list(slot)
       row.names <- names(slot)
       if (is.null(row.names)) {
         row.names <- paste("var",1:length(slot),sep="")
       }
       for (i in 1:length(slot)) {
-        entries[[i]] <- tkentry(tt, textvariable=row.names[i])
-        tkgrid(tklabel(tt,text=row.names[i]), entries[[i]])
+        entries[[i]] <- tcltk::tkentry(tt, textvariable=row.names[i])
+        tcltk::tkgrid(tcltk::tklabel(tt,text=row.names[i]), entries[[i]])
       }
-      reset.but  <- tkbutton(tt, text="Reset", command=reset)
-      submit.but <- tkbutton(tt, text="OK",
-                             command=function()tclvalue(done) <- 1)
-      tkgrid(reset.but, submit.but)
-      done <- tclVar(0)
+      reset.but  <- tcltk::tkbutton(tt, text="Reset", command=reset)
+      submit.but <- tcltk::tkbutton(tt, text="OK",
+                             command=function()tcltk::tclvalue(done) <- 1)
+      tcltk::tkgrid(reset.but, submit.but)
+      done <- tcltk::tclVar(0)
       ## capture destroy event
-      tkbind(tt, "<Destroy>", function()tclvalue(done) <- 2)
+      tcltk::tkbind(tt, "<Destroy>", function()tcltk::tclvalue(done) <- 2)
       ## initialize with oiginal slot values
       reset()
-      tkwm.deiconify(tt)        # raise the tk window
-      tkwait.variable(done)
-      if(tclvalue(done)=="2") stop("dialog cancelled")
-      tkdestroy(tt)
+      tcltk::tkwm.deiconify(tt)        # raise the tk window
+      tcltk::tkwait.variable(done)
+      if(tcltk::tclvalue(done)=="2") stop("dialog cancelled")
+      tcltk::tkdestroy(tt)
       ret <- build(slot)
       names(ret) <- names(slot) # restore original names
       ret

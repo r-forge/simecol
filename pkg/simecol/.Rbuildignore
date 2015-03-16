@@ -7,6 +7,6 @@ inst/WISHLIST
 .*\.o
 .*\.rc
 .*\.d
-*.bbl
+.*.bbl
 Makedeps
 work
