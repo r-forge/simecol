@@ -1,12 +1,6 @@
 useDynLib(simecol, .registration = TRUE)
 
-importFrom(graphics, plot)
-
-## package methods
-import(methods)
-
-## package with ODE solvers
-import(deSolve)
+import(graphics, grDevices, stats, utils, methods, deSolve)
 
 exportClasses(simObj, odeModel, gridModel, rwalkModel, indbasedModel)
 exportClasses(numericOrlist,listOrNULL,functionOrNULL,listOrdata.frame,functionOrcharacter)

@@ -4,6 +4,7 @@ Date: 2015-03-19
 Title: Simulation of Ecological (and Other) Dynamic Systems
 Author: Thomas Petzoldt
 Depends: R (>= 2.14), deSolve, methods
+Imports: graphics, grDevices, stats, utils
 Suggests: tcltk, FME, lattice
 LazyLoad: yes
 Maintainer: Thomas Petzoldt <thomas.petzoldt@tu-dresden.de> 
