@@ -18,7 +18,8 @@ function(p = NULL, simObj, obstime, yobs,
     stop("all columns of yobs must be valid state variables")
   if (is.null(sd.yobs))
     sd.yobs <- as.numeric(lapply(yobs, sd))
-  ## ------- ToDo: check NaN !!!
+
+  ## ------- ToDo: check NaN
   if (length(sd.yobs) == 1)
     sd.yobs <- rep(sd.yobs, ncol(yobs))
 
@@ -26,7 +27,7 @@ function(p = NULL, simObj, obstime, yobs,
 
   if (debuglevel > 1) print(p)
 
-  if (!is.null(pnames)) names(p) <- pnames ## workaround for nlminb
+  if (!is.null(pnames)) names(p) <- pnames # workaround for nlminb
 
   ## assign parameters and re-initialize model if necessary
   if (!is.null(p)) parms(simObj)[names(p)] <- p
@@ -42,14 +43,13 @@ function(p = NULL, simObj, obstime, yobs,
   ## compute residual sum of squares, scaled by pre-defined
   ## or estimated standard deviation of observations
 
-  ## experimental:
-  ## - weights: allow matrix with different weights for individual values and states
-  ## - allow NA for single values
+  ## allow matrix with different weights for individual values and states
+  ## allow NA for single values
   ssq <- (t(yobs[obsnames])/sd.yobs - t(ysim[obsnames])/sd.yobs)^2
   if (!is.null(wt)) {
     ssq <- wt[obsnames] * t(ssq)
   }
-  ssq <- sum(na.omit(unlist(ssq))) # check this for unwanted side effects !!!
+  ssq <- sum(na.omit(unlist(ssq)))
 
   if (debuglevel > 0) cat("ssq =", ssq, "\n")
   min(ssq, .Machine$double.xmax) # avoid Inf

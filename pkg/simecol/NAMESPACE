@@ -7,6 +7,9 @@ import(stats, utils, methods, deSolve)
 importFrom("grDevices", "dev.flush", "dev.hold", "xy.coords")
 importFrom("graphics", "image", "par")
 
+## bobyqa optimizer
+importFrom("minqa", "bobyqa", "newuoa")
+
 exportClasses(simObj, odeModel, gridModel, rwalkModel, indbasedModel)
 exportClasses(numericOrlist, listOrNULL, functionOrNULL,
               listOrdata.frame, functionOrcharacter)
@@ -33,6 +36,8 @@ export(iteration)
 ## parameter fitting
 export(ssqOdeModel, fitOdeModel)
 export(p.constrain, p.unconstrain)
+exportClasses(modelFit)
+exportMethods(coef, deviance, summary, "$", "[", "[[")
 
 ## generate bivariate correlated uniformly distributed random numbers
 ## from Plackett bivariate uniform distribution

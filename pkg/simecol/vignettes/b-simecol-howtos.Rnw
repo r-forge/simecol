@@ -91,7 +91,7 @@ user workspace.
 This strategy has three main advantages:
 
 \begin{enumerate}
-\item You can have several independent versions of one model in the
+\item We can have several independent versions of one model in the
   computer memory at the same time. These instances may have different
   settings, parameters and data or even use different formula, but
   they do not interfere with each other.  Moreover, if all data and
@@ -99,7 +99,7 @@ This strategy has three main advantages:
   identifiers can be re-used and it is, for example, not necessary to
   keep track over a large number of variable names or to invent new
   identifiers for parameter sets of different scenarios.
-\item You can give \code{simObj}ects away, either in binary form or as
+\item We can give \code{simObj}ects away, either in binary form or as
   source code objects. Everything essential to run such a model is
   included, not only the formula but also defaults for parameter and
   data. You, or your users need only \proglang{R}, some packages and
@@ -108,7 +108,7 @@ This strategy has three main advantages:
   model collections as \proglang{R} packages.
 \item All \code{simObj}ects can be handled, simulated and modified
   with the same generic functions, e.g. \code{sim}, \code{plot} or
-  \code{parms}.  Your users can start playing with your models without
+  \code{parms}.  Our users can start playing with the models without
   the need to understand all the internals.
 \end{enumerate}
 
@@ -203,7 +203,7 @@ upca <- new("odeModel",
 )
 @
 
-You may notice that the assignment operators ``\code{<-}'' changed to
+We may notice that the assignment operators ``\code{<-}'' changed to
 a declarative equal sign ``\code{=}'' for the slot definitions, that
 some of the names (\code{y}, \code{func}) were changed to the
 pre-defined slot names of \pkg{simecol} and that all the slot
@@ -317,7 +317,7 @@ possibility, one might consider to define local functions within
 are not easily accessible from outside.
 
 To allow the latter, \pkg{simecol} has an optional slot ``equations'',
-that can hold a list of submodels. Such an equations-slot can be
+that can hold a list of sub-models. Such an equations-slot can be
 defined either during object creation, or functions may be added
 afterwards. In the following, we derive two new clones with default
 parameter settings from the original \code{upca}-object, and then
@@ -347,7 +347,7 @@ plotupca(sc2, ylim=c(0, 20))
 This method allows to compare models with different structures in the
 same way as scenarios with different parameter values. In addition,
 it is also possible to define model objects with different versions of
-\textbf{built-in} submodels, that can be alternatively enabled:
+\textbf{built-in} sub-models, that can be alternatively enabled:
 
 <<upca10,keep.source=TRUE>>=
 upca <- new("odeModel",
@@ -442,7 +442,7 @@ rm(fmain, f)   # optional, for saving memory and avoiding confusion
 str(upca)      # show the object
 @
 
-Now, you can delete \code{f} and \code{fmain} and you have a clean
+Now, we can delete \code{f} and \code{fmain} to have a clean
 workspace with only the necessary objects.
 
 %\subsubsection{Method 2: Extract functions temporarily}
@@ -470,9 +470,9 @@ save(upca, file="upca.Rdata")  # persistent storage of the model object
 load("upca.Rdata")             # load the model
 @
 
-Conversion of the \proglang{S4} object to a list representation is
-another possibility, that yields a representation that is readable by
-humans \textbf{and} by \proglang{R}:
+Conversion of the \proglang{S4} object to a list is another possibility, 
+that yields a representation that is readable by humans \textbf{and} 
+by \proglang{R}:
 
 <<>>=
 l.upca <- as.list(upca)
@@ -585,7 +585,7 @@ The preferred method to obtain model parameters is direct measurement
 of process rates. This can be done in own controlled experiments or by
 taking results from the literature. However, not all processes are
 accessible by direct measurement. In such cases process parameters can
-be identified indirectly by estimating parameters from observed data.
+be identified indirectly by calibration from observed data.
 
 \section{Example model and data}
 
@@ -614,10 +614,11 @@ The chemostat model is one of the standard examples in package
 \pkg{simecol}, that can be loaded like a data set.
 
 In the following, instead of the default solver \code{lsoda} an explicit 
-solver \code{adams} should be used instead.
+solver \code{adams} can be used, because the problem is not stiff.
 However, package \pkg{deSolve} only contains dedicated functions for the most
 common solvers like \code{lsoda} or \code{rk4}, while other solvers like 
-\code{adams} are specified by calling \code{ode} with an appropriate option.
+\code{adams} (for non-stiff) or \code{bdf} (for stiff systems) are specified 
+by calling \code{ode} with an appropriate  \code{method}-option.
 
 
 <<fig=FALSE, keep.source=TRUE>>=
@@ -651,19 +652,20 @@ two) with exactly the same column names as the state variables.
 
 \section{Parameter estimation in simecol}
 
-Package \pkg{simecol} has a built-in function for fitting parameters
-of ODE models (\code{fitOdeModel}). This function is a wrapper that
+Package \pkg{simecol} has a basic function for fitting parameters
+of ODE models (\code{fitOdeModel}) built in. This function is a wrapper that
 uses existing optimization functions of \proglang{R}, currently
-\code{nlminb} with the ``PORT'' algorithm and \code{optim} with
-``Nelder-Mead'', ``BFGS'', ``CG'', ``L-BFGS-B'' and ``SANN''. Among
-these only ``PORT'' and ``L-BFGS-B'' support constrained optimization
-natively, however \code{fitOdeModel} can emulate this also for the
-other methods (arctan-Transformation, see \code{p.constrain}).
+\code{nlminb} with the ``PORT'' algorithm, \code{newuoa} and \code{bobyqa} 
+from package \pkg{minqa} \citep{Powell2009,minqa} and \code{optim} with ``Nelder-Mead'', 
+``BFGS'', ``CG'', ``L-BFGS-B'' and ``SANN'' \cite[cf.][and others]{Rcore2015,Nash1990}. Among
+these only ``PORT'', ``bobyqa'' and ``L-BFGS-B'' support constrained optimization
+natively, whereas for the others \code{fitOdeModel} tries to emulate box constraints
+(more or less successfully) using an arctan-transformation (see \code{p.constrain}).
 
 In order to save computation time it is suggested to use an efficient
-variable time step algorithm (e.g. \code{adams} and to set external
-time steps of the model to the time steps contained in the
-observational data:
+variable time step algorithm (e.g. \code{adams} od \code{bdf}, 
+depending on the system) and to set external time steps of the model 
+to the time steps contained in the observational data:
 
 <<fig=FALSE>>=
 times(cs1)  <- obstime
