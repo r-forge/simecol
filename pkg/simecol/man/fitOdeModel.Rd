@@ -146,9 +146,10 @@ res <- fitOdeModel(cs2, whichpar=whichpar, obstime, yobs,
   debuglevel=0,
   control=list(trace=TRUE))
 
-res$par
+coef(res)
+
 ## assign fitted parameters to the model, i.e. as start values for next step
-parms(cs2)[whichpar] <- res$par
+parms(cs2)[whichpar] <- coef(res)
 
 ## alternatively, L-BFGS-B (allows lower and upper bounds for parameters)
 res <- fitOdeModel(cs2, whichpar=c("vm", "km"), obstime, yobs,
@@ -157,7 +158,7 @@ res <- fitOdeModel(cs2, whichpar=c("vm", "km"), obstime, yobs,
   control=list(trace=TRUE),
   atol=1e-4, rtol=1e-4)
 
-res$par
+coef(res)
 
 ## alternative 2, transform parameters to constrain unconstrained method
 ## Note: lower and upper are *named* vectors
@@ -167,7 +168,7 @@ res <- fitOdeModel(cs2, whichpar=c("vm", "km"), obstime, yobs,
   control=list(trace=TRUE),
   atol=1e-4, rtol=1e-4)
 
-res$par
+coef(res)
 
 
 ## alternative 3a, use PORT algorithm
@@ -182,7 +183,7 @@ res <- fitOdeModel(cs2, whichpar=c("vm", "km"), obstime, yobs,
   control=list(trace=TRUE),
   atol=1e-4, rtol=1e-4)
 
-res$par
+coef(res)
 
 ## alternative 3b, PORT algorithm with manual parameter scaling
 res <- fitOdeModel(cs2, whichpar=c("vm", "km"), obstime, yobs,
@@ -191,10 +192,10 @@ res <- fitOdeModel(cs2, whichpar=c("vm", "km"), obstime, yobs,
   control=list(trace=TRUE),
   atol=1e-4, rtol=1e-4)
 
-res$par
+coef(res)
 
 ## set model parameters to  fitted values and simulate again
-parms(cs2)[whichpar] <- res$par
+parms(cs2)[whichpar] <- coef(res)
 times(cs2) <- c(from=0, to=20, by=1)
 ysim <- out(sim(cs2))
 

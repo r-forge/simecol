@@ -78,10 +78,10 @@ times(cs1) <- seq(0, 40, length.out=200)
 ## assign fitted parameters to scenarios
 cs.b <- cs.n <- cs.p <- cs.m <- cs1
 
-parms(cs.b)[whichpar] <- res.b$par
-parms(cs.p)[whichpar] <- res.p$par
-parms(cs.m)[whichpar] <- res.m$par
-parms(cs.n)[whichpar] <- res.n$par
+parms(cs.b)[whichpar] <- coef(res.b)
+parms(cs.p)[whichpar] <- coef(res.p)
+parms(cs.m)[whichpar] <- coef(res.m)
+parms(cs.n)[whichpar] <- coef(res.n)
 
 cs.p <- sim(cs.p)
 cs.m <- sim(cs.m)
