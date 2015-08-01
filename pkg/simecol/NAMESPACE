@@ -1,9 +1,15 @@
 useDynLib(simecol, .registration = TRUE)
 
-import(graphics, grDevices, stats, utils, methods, deSolve)
+import(stats, utils, methods, deSolve)
+
+## import only parts from graphics to avoid conflicts with
+## functions and methods imported from deSolve
+importFrom("grDevices", "dev.flush", "dev.hold", "xy.coords")
+importFrom("graphics", "image", "par")
 
 exportClasses(simObj, odeModel, gridModel, rwalkModel, indbasedModel)
-exportClasses(numericOrlist,listOrNULL,functionOrNULL,listOrdata.frame,functionOrcharacter)
+exportClasses(numericOrlist, listOrNULL, functionOrNULL,
+              listOrdata.frame, functionOrcharacter)
 
 exportMethods(sim, parms, "parms<-", init, "init<-", times, "times<-")
 exportMethods(inputs, "inputs<-", main, "main<-", equations, "equations<-")
