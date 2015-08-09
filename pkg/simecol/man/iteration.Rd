@@ -71,14 +71,20 @@
   control the amount of data stored during each iteration step
   (e.g. whole population or only mean values for individual based
   models), to do run-time animation or to write log files.
-  
+
+  As an alternative for models of class \code{odeModel}, the
+  \code{iteration} method of package \pkg{deSolve} may be used as a
+  user-defined solver function. This is slightly faster and the output
+  supports the extended plotting functions, but then no observers are
+  possible and no implicit \code{DELTAT} variable.
 }
 
 \seealso{
   \code{\link{sim}}, 
   \code{\link{observer}},
   \code{\link{parms}},
-  \code{\link[deSolve]{lsoda}}, \code{\link[deSolve]{rk4}}, \code{\link[deSolve:rk4]{euler}}.
+  \code{\link[deSolve]{lsoda}}, \code{\link[deSolve]{rk4}},
+  \code{\link[deSolve:rk4]{euler}}, \code{\link[deSolve:rk4]{iteration}}.
 }
 
 \examples{
@@ -127,6 +133,28 @@ dlogist <- new("odeModel",
 )
 
 plot(sim(dlogist))
+
+## second alternative: use of the "iteration" solver from
+## package deSolve, that supports extended plotting functions
+
+dlogist <- new("odeModel",
+  main = function (time, init, parms, ...) {
+    x <- init[1]
+    with(as.list(parms), {
+      x <- x + r * x * (1 - x / K)
+      #   ^^^ add to old value
+      list(c(x))
+    })
+  },
+  parms  = c(r=0.1, K=10),
+  times  = seq(0, 100, 1),
+  init   = c(population=0.1),
+  solver =  function(y, times, func, parms, ...)
+              ode(y, times, func, parms, ..., method="iteration")
+)
+
+plot(sim(dlogist))
+
 
 }
 \keyword{misc}
