@@ -19,7 +19,8 @@ exportMethods(inputs, "inputs<-", main, "main<-", equations, "equations<-")
 exportMethods(solver, "solver<-", observer, "observer<-", out, "out<-")
 
 exportMethods(plot, print, show)
-exportMethods(fixInit, fixParms, fixTimes)
+exportMethods(fixInit, fixParms, fixTimes) # <-- deprecated
+exportMethods(editInit, editParms, editTimes)
 exportMethods(initialize, initfunc, "initfunc<-")
 
 exportMethods(coerce, as.list, as.simObj)
