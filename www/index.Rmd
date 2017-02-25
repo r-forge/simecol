@@ -9,7 +9,7 @@ output:
       smooth_scroll: true
 ---
 
-<img src="r-forge.png" style="position:absolute;top:0px;right:0px;" />
+<a href="http://www.r-forge.r-project.org"><img src="r-forge.png" style="position:absolute;top:0px;right:0px;" /></a>
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -148,7 +148,11 @@ plot(sim(conway))
 
 ### Author
 
-* [Thomas Petzoldt](https://www.tu-dresden.de/Members/thomas.petzoldt), Technische Universität Dresden, Institute of Hydrobiology
+[Thomas Petzoldt](https://www.tu-dresden.de/Members/thomas.petzoldt), Technische Universität Dresden, Institute of Hydrobiology
+
+### Support
+
+Please send your questions to the [R-SiG-Dynamic-Models](https://stat.ethz.ch/mailman/listinfo/r-sig-dynamic-models) mailing list.
 
 <hr>
 
