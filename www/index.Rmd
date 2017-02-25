@@ -1,5 +1,5 @@
 ---
-title: "simecol -- an R package for ecological modelling"
+title: "R package simecol"
 output: 
   html_document: 
     keep_md: yes
@@ -8,6 +8,8 @@ output:
       collapsed: false
       smooth_scroll: true
 ---
+
+<img src="r-forge.png" style="position:absolute;top:0px;right:0px;" />
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
