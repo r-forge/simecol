@@ -1,6 +1,9 @@
+0.8-9
+o register native routines
+
 0.8-8
 o correct omegahat web link
-o replace "fix..." . methods with workspace independend "edit"-methods
+o replace "fix..." . methods with workspace independent "edit"-methods
 
 0.8-7
 o enable newuoa and bobyqa optimizers from package minqa
