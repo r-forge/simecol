@@ -66,7 +66,7 @@ plot(sim(conway), col = c("white", "green"), axes = FALSE)
 \dontrun{
 require("tcltk")
 init(conway) <- matrix(0, 10, 10)
-fixInit(conway) # enter some "1"
+conway <- editInit(conway) # enter some "1"
 sim(conway, animate = TRUE, delay = 100)
 
 ##============================================

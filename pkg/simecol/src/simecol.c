@@ -202,7 +202,7 @@ void FillSeedsOnStack(double bound, double fill,
 }
 
 /* start routine for seedfill */
-void seedfill(int* n, int* m, int* i, int* j, double* x, 
+void c_seedfill(int* n, int* m, int* i, int* j, double* x, 
               double* fcol, double* bcol, double* tol) {
   int* xstack;
   int* ystack;
@@ -217,7 +217,7 @@ void seedfill(int* n, int* m, int* i, int* j, double* x,
 }
 
 /* basic neighbourhood function for Conway's Game of Life */
-void eightneighbours(int* n, int* m, double* x, double* y) {
+void c_eightneighbours(int* n, int* m, double* x, double* y) {
   int nn = *n, mm = *m;
   double c = 0;
   for (int i = 0; i < nn; i++) {
@@ -236,7 +236,7 @@ void eightneighbours(int* n, int* m, double* x, double* y) {
 }
 
 /* generalized neighbourhood function for cellular automata */
-void neighbours(int* n, int* m, double* x, double* y, 
+void c_neighbours(int* n, int* m, double* x, double* y, 
                 int* ndist, double* wdist, double* state, double* tol) {
   /* 
     n = number of rows in grid
@@ -270,7 +270,7 @@ void neighbours(int* n, int* m, double* x, double* y,
 
 /*  generalized neighbourhood function for cellular automata   */
 /* === extended version with additional argument 'boundaries' === */
-void xneighbours(int* n, int* m, double* x, double* y, 
+void c_xneighbours(int* n, int* m, double* x, double* y, 
                 int* ndist, double* wdist, double* state, 
                 double* tol, int* boundaries) {
   /* 

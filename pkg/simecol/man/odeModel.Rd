@@ -41,7 +41,7 @@ indbasedModel(obj = NULL, main = NULL,
   \item{times}{A vector of time steps or a vector with three
     named values \code{from}, \code{to}, \code{by} specifying the
     simulation time steps. The `from-to-by' form can be edited with
-    \code{fixParms}.}
+    \code{editParms}.}
   \item{init}{Initial values (start values) of the
     state variable given as named vector.}
   \item{parms}{A vector or list (depending on the respective class) of constant

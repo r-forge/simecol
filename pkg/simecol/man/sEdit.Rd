@@ -23,7 +23,7 @@
 }
 \seealso{
   \code{\link{edit}}
-  \code{\link{fixParms}}
+  \code{\link{editParms}}
 }
 \examples{
 \dontrun{

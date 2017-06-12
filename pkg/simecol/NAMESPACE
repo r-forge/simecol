@@ -1,5 +1,3 @@
-useDynLib(simecol, .registration = TRUE)
-
 import(stats, utils, methods, deSolve)
 
 ## import only parts from graphics to avoid conflicts with
@@ -19,7 +17,6 @@ exportMethods(inputs, "inputs<-", main, "main<-", equations, "equations<-")
 exportMethods(solver, "solver<-", observer, "observer<-", out, "out<-")
 
 exportMethods(plot, print, show)
-exportMethods(fixInit, fixParms, fixTimes) # <-- deprecated
 exportMethods(editInit, editParms, editTimes)
 exportMethods(initialize, initfunc, "initfunc<-")
 
@@ -47,3 +44,4 @@ export(pcu, pcuseries, rho2alpha, alpha2rho)
 ## not necessary because example models are stored as *data*
 # export(lv, lv3, conway, diffusion, upca)
 
+useDynLib(simecol, .registration = TRUE)

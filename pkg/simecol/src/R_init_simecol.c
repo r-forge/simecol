@@ -3,16 +3,16 @@
 
 
 /* .C calls */
-extern void eightneighbours(void *, void *, void *, void *);
-extern void neighbours(void *, void *, void *, void *, void *, void *, void *, void *);
-extern void seedfill(void *, void *, void *, void *, void *, void *, void *, void *);
-extern void xneighbours(void *, void *, void *, void *, void *, void *, void *, void *, void *);
+extern void c_eightneighbours(void *, void *, void *, void *);
+extern void c_neighbours(void *, void *, void *, void *, void *, void *, void *, void *);
+extern void c_seedfill(void *, void *, void *, void *, void *, void *, void *, void *);
+extern void c_xneighbours(void *, void *, void *, void *, void *, void *, void *, void *, void *);
 
 static const R_CMethodDef CEntries[] = {
-    {"eightneighbours", (DL_FUNC) &eightneighbours, 4},
-    {"neighbours",      (DL_FUNC) &neighbours,      8},
-    {"seedfill",        (DL_FUNC) &seedfill,        8},
-    {"xneighbours",     (DL_FUNC) &xneighbours,     9},
+    {"c_eightneighbours", (DL_FUNC) &c_eightneighbours, 4},
+    {"c_neighbours",      (DL_FUNC) &c_neighbours,      8},
+    {"c_seedfill",        (DL_FUNC) &c_seedfill,        8},
+    {"c_xneighbours",     (DL_FUNC) &c_xneighbours,     9},
     {NULL, NULL, 0}
 };
 

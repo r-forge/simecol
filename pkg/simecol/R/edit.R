@@ -7,7 +7,7 @@
 ##  character vectors correctly
 ##  no error handling if wrong data are entered
 
-## these functions will replace the "fixXXX" functions
+## these functions replace the deprecated "fixXXX" functions
 
 setGeneric("editParms", function(x) standardGeneric("editParms"))
 

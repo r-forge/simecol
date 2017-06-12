@@ -6,7 +6,7 @@ eightneighbours <- function(x){
   n <- dim(x)[1]
   m <- dim(x)[2]
   y <- rep(0, length(x))
-  z <- .C("eightneighbours", as.integer(n), as.integer(m),
+  z <- .C(c_eightneighbours, as.integer(n), as.integer(m),
           as.double(x), y=as.double(y), PACKAGE="simecol")$y
   dim(z) <- c(n, m)
   z
@@ -47,14 +47,14 @@ neighbours <- function(x, state = NULL, wdist = NULL, tol = 1e-4, bounds = 0){
 
   if (bound == 0) {
     ## sligtly faster version
-    z <- .C("neighbours", as.integer(n), as.integer(m),
+    z <- .C(c_neighbours, as.integer(n), as.integer(m),
             as.double(x), y = as.double(y),
             as.integer(ndist), as.double(wdist),
             as.double(state[1]), as.double(tol[1]),
             PACKAGE = "simecol")$y
   } else {
     ## more general version
-    z <- .C("xneighbours", as.integer(n), as.integer(m),
+    z <- .C(c_xneighbours, as.integer(n), as.integer(m),
             as.double(x), y = as.double(y),
             as.integer(ndist), as.double(wdist),
             as.double(state[1]), as.double(tol[1]),

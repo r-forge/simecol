@@ -1,5 +1,6 @@
 0.8-9
 o register native routines
+o "fix..."-methods removed to fulfil CRAN policy, footnote in vignette
 
 0.8-8
 o correct omegahat web link

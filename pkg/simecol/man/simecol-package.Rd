@@ -48,7 +48,7 @@
     \item  \code{times}: vector of time steps or vector with three
       named values \code{from}, \code{to}, \code{by} specifying the
       simulation time steps. The from-to-by form can be edited with
-      \code{fixParms}.
+      \code{editParms}.
   
     \item \code{init}: initial state (start values) of the
       simulation. This is typically a named vector (state variables in
@@ -148,7 +148,7 @@ data(lv)        # load basic Lotka-Volterra model
 
 \dontrun{
 require("tcltk")
-fixParms(lv)
+lv <- editParms(lv)
 }
 parms(lv)
 main(lv)
@@ -160,7 +160,7 @@ results <- out(lv)
 data(conway)    # Conway's game of life
 init(conway) <- matrix(0, 10, 10)
 times(conway) <-  1:100
-fixInit(conway) # enter some "1"
+conway <- editInit(conway) # enter some "1"
 sim(conway, animate=TRUE, delay=100)
 }
 

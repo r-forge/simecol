@@ -424,9 +424,12 @@ The behavior is analogous for all other slots with the exception of
 \code{out}, given that the correct data type for the respective slot
 (vector, list or matrix) is used.
 
-In addition to the command line accessor functions, graphical \proglang{Tcl/Tk} versions
-exist (\code{fixParms}, \code{fixTimes}, \code{fixInit}), however, more complex
-data types cannot be handled yet by these functions.
+In addition to the command line accessor functions, graphical
+\proglang{Tcl/Tk} versions exist (\code{editParms}, \code{editTimes},
+\code{editInit})\footnote{These functions replace the deprecated
+\code{fixFoo} functions, e.g. \code{fixParms}. Use \code{foo <-
+editParms(foo)} instead of \code{fixParms(foo)}}, however, more
+complex data types cannot be handled yet by these functions.
 
 \subsubsection{Numerical algorithms}
 
