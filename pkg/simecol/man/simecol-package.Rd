@@ -14,14 +14,14 @@
 \title{The `simecol' Package}
 
 \description{
-  
+
   The \pkg{simecol} package is intended to give users (scientists and
   students) an interactive environment to implement, distribute,
   simulate and document ecological and other dynamic models without the
   need to write long simulation programs. An object oriented framework
   using the S4 class system provides a consistent but still flexible
   approach to implement simulation models of different types:
-  
+
   \itemize{
     \item differential equation (ODE, PDE) models (class \code{odeModel}),
     \item grid-oriented individual-based models (class \code{gridModel}), and
@@ -36,30 +36,30 @@
 
     \item \code{main = function(time, init, parms, ...)}: a function
       holding the main equations of the model,
-    
+
     \item \code{equations}: an optional non-nested list holding
       arbitrary sub-equations (sub-models) of the model. Sub-equations
       can be interdependent and can be called directly from within
       \code{main} or \code{initfunc}.
-  
+
     \item \code{parms}: a list (or vector for some classes) with
       constant model parameters,
-      
+
     \item  \code{times}: vector of time steps or vector with three
       named values \code{from}, \code{to}, \code{by} specifying the
       simulation time steps. The from-to-by form can be edited with
       \code{editParms}.
-  
+
     \item \code{init}: initial state (start values) of the
       simulation. This is typically a named vector (state variables in
       \code{odeModel}s) or matrix (e.g. initial grid of
       \code{gridModel}s).
-   
+
     \item \code{inputs}: time dependend or spatially resolved external
       inputs can be specified as data frame or matrix (more
       efficient). Performance optimized versions of \code{approx} (see
       \code{\link{approxTime}}) are available.
-      
+
     \item \code{solver}: a function or a character string specifying the
       numerical algorithm used, e.g. \code{"lsoda"}, \code{"rk4"} or
       \code{"euler"} from package \code{deSolve}). In contrast to
@@ -69,27 +69,27 @@
       individual-based models).  It is also possible to reference own
       algorithms (solvers) that are defined in the user workspace or to
       assign solver functions directly.
-      
+
     \item \code{observer}: optional slot which determines the data
       stored during the simulation. A user-provided \code{observer}
       function can also be used to write logging information to the
       screen or to the hard-disk, to perform run-time visualisation, or
       statistical analysis during the simulation.
-      
+
       The \code{observer}-mechanism works only with
       \code{\link{iteration}} solvers. It is not available for
       \code{odeModel}s.
-  
+
     \item \code{out}: this slot holds the simulation results after a
       simulation run as data frame (if the return value of \code{main}
       is a vector) or as list (otherwise). The type of data stored in
       \code{out} can be manipulated by providing a user-definded
       \code{observer} function.
-  
+
     \item \code{initfunc}: this slot can hold an optional function which
       is called automatically when a new object is created by \code{new}
       or when it is re-initialized by \code{initialize} or \code{sim}.
-    
+
   }
 
   \code{simObj} model objects should be defined and created using the
@@ -123,7 +123,7 @@
 \references{
   Petzoldt, T. and K. Rinke (2007) \pkg{simecol}: An Object-Oriented
   Framework for Ecological Modeling in \R. \emph{Journal of Statistical
-  Software}, \bold{22}(9). URL \url{http://www.jstatsoft.org/v22/i09/}.
+  Software}, \bold{22}(9). \url{http://dx.doi.org/10.18637/jss.v022.i09}.
 }
 
 \author{
@@ -166,7 +166,7 @@ sim(conway, animate=TRUE, delay=100)
 
 ## (2) Define and run your own  simecol model ==========================
 
-lv <- new("odeModel", 
+lv <- new("odeModel",
   main = function (time, init, parms) {
     with(as.list(c(init, parms)), {
       dn1 <-   k1 * N1 - k2 * N1 * N2
