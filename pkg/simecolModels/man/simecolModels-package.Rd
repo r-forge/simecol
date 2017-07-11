@@ -12,8 +12,8 @@ simecol specification.
 \tabular{ll}{
 Package: \tab simecolModels\cr
 Type: \tab Package\cr
-Version: \tab 0.2-2\cr
-Date: \tab 2008-07-23\cr
+Version: \tab 0.3-2\cr
+Date: \tab 2017-07-11\cr
 License: \tab Gnu Public License 2.0 or above\cr
 }
 }
@@ -41,6 +41,6 @@ Please respect the specific references on the help pages of the respective model
 ## open the directory with all sourcecode examples
 \dontrun{
 browseURL(paste(system.file(package="simecolModels"), "/doc/examples", sep=""))
-} 
+}
 }
 \keyword{ package }
