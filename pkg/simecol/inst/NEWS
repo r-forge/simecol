@@ -1,3 +1,6 @@
+0.8-10
+o vignette updates
+
 0.8-9
 o register native routines
 o "fix..."-methods removed to fulfil CRAN policy, footnote in vignette
@@ -17,10 +20,10 @@ o add new model "diffusion_barrier.R" to doc/examples
 
 0.8-5
 o requireNamespace instead of require for tcltk
-  
+
 
 0.8-4
-o addtoenv for parameters 
+o addtoenv for parameters
   (experimental and only for class indbasedModel)
 
 0.8-3
@@ -43,7 +46,7 @@ o updated examples
 o remove two other obsolete files from inst/doc
 
 0.7-1
-o fix documentation notes and a warning 
+o fix documentation notes and a warning
 
 0.7
 o "inputs" is now passed explicitly to sim "odeModel"
@@ -105,7 +108,7 @@ o new slot "observer"
 o .Rdata files re-generated (with observer slot)
 o simulation re-initializes objects that have an initfunc
 o example of an ODE model that passes compiled code directly to the solver
-o this is the useR!2008 (Dortmund) release 
+o this is the useR!2008 (Dortmund) release
 
 0.5-7
 o the package uses now deSolve instead of odesolve
@@ -114,7 +117,7 @@ o allow solver slot to contain not only character but also function
 o plain version of JSS publication added as vignette
 
 0.5-6
-o small improvements and updates 
+o small improvements and updates
 
 0.5-5
 o reworked ODE solvers, rk4 and lsoda generics removed,
@@ -136,7 +139,7 @@ o conversion of simObj to and from lists, as.list and as.simObj
 o bivariate uniform random numbers (Plackett distribution)
 
 0.5-2
-o tcltk is now Suggested again 
+o tcltk is now Suggested again
   (possible due to relaxed package check conditions)
 
 0.5-1
@@ -153,14 +156,14 @@ o version 0.5 is used in the upcoming JSS article
 
 0.4-3
 o addtoenv() is no longer used in the solver functions
-o standard conform accessor functions 
+o standard conform accessor functions
   --> Attention: old applications may need adaptions!
 o added demo("jss", package="simecol")
 o new examples, small code and documentation improvements
 
 0.4-2
 o helper classes: listOrNULL and functionOrNULL
-o new slot initfunc, initialize method and 
+o new slot initfunc, initialize method and
   complete rewrite of constructors
 o new print and show methods
 o general code cleanup and several bugfixes
@@ -186,7 +189,7 @@ o some bug fixes and error checking in the accessor functions
 o documentation improvements
 
 0.3-8
-o made rk4 a generic. This required to include a copy of the 
+o made rk4 a generic. This required to include a copy of the
   original rk4 from the odesolve package but this cosmetic issue
   will be fixed as soon as possible
 o improvements of documentation
@@ -210,5 +213,5 @@ o several examples and utility functions removed,
   they will appear again in future versions,  separate
   packages or as downloadable examples on WWW.
 o the 0.3 branch is incompatible to 0.2.x versions of simecol
-o if you have problems porting old models, 
+o if you have problems porting old models,
   please ask me for assistance.

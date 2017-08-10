@@ -982,8 +982,8 @@ simple model given here should be sufficient for the intended purpose.
 
 \subsubsection{Definition of a user-defined subclass}
 
-A subclass for non-spatial individual-based models is not yet available in
-\pkg{simecol}, but can be easily derived from \code{simObj} as class with
+A subclass for non-spatial individual-based models was not available in past versions of
+\pkg{simecol}, but could be easily derived from \code{simObj} as class with
 appropriate data types, in particular with a \code{data.frame} for the
 table of the individuals stored in \code{init}:
 
@@ -996,6 +996,10 @@ setClass("indbasedModel",
   contains = "simObj"
 )
 @
+
+Since \pkg{simecol} version 0.8-4 class \code{indbasedModel} is a built-in class. The
+code snippet above is left in this document as an example how to derive user-defined
+subclasses.
 
 \subsubsection{Implementation of the model equations}
 
@@ -1368,9 +1372,10 @@ to improve the manuscript.
 \hrulefill
 \begin{Code}
 library("simecol")
-setClass("indbasedModel",
-  representation(parms  = "list", init   = "data.frame"), contains = "simObj"
-)
+## class indbasedModel is built in since simecol version 0.8-4
+# setClass("indbasedModel",
+#   representation(parms  = "list", init   = "data.frame"), contains = "simObj"
+# )
 
 ibm_daphnia <- new("indbasedModel",
   main = function(time, init, parms) {

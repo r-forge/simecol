@@ -1,32 +1,12 @@
 %%
 %% This is file `jss.cls',
-%% generated with the docstrip utility.
-%%
-%% The original source files were:
-%%
-%% jss.dtx  (with options: `class')
-%% 
-%% IMPORTANT NOTICE:
-%% 
-%% For the copyright see the source file.
-%% 
-%% Any modified versions of this file must be renamed
-%% with new filenames distinct from jss.cls.
-%% 
-%% For distribution of the original source see the terms
-%% for copying and modification in the file jss.dtx.
-%% 
-%% This generated file may be distributed as long as the
-%% original source files, as listed above, are part of the
-%% same distribution. (The sources need not necessarily be
-%% in the same archive or directory.)
-\def\fileversion{1.8}
+\def\fileversion{3.0}
 \def\filename{jss}
-\def\filedate{2008/04/07}
+\def\filedate{2015/09/01}
 %%
-%% Package `jss' to use with LaTeX2e for JSS publications
-%%   http://www.jstatsoft.org/
-%% Copyright (C) 2004 Achim Zeileis
+%% Package `jss' to use with LaTeX2e for JSS publications (http://www.jstatsoft.org/)
+%% License: GPL-2 | GPL-3
+%% Copyright: (C) Achim Zeileis
 %% Please report errors to Achim.Zeileis@R-project.org
 %%
 \NeedsTeXFormat{LaTeX2e}
@@ -39,6 +19,9 @@
 \newif\if@review
 \newif\if@shortnames
 \newif\if@nojss
+\newif\if@notitle
+\newif\if@noheadings
+\newif\if@nofooter
 
 \@articletrue
 \@codesnippetfalse
@@ -47,6 +30,9 @@
 \@reviewfalse
 \@shortnamesfalse
 \@nojssfalse
+\@notitlefalse
+\@noheadingsfalse
+\@nofooterfalse
 
 \DeclareOption{article}{\@articletrue%
   \@codesnippetfalse \@bookreviewfalse \@softwarereviewfalse}
@@ -58,11 +44,14 @@
   \@codesnippetfalse \@bookreviewfalse \@softwarereviewtrue}
 \DeclareOption{shortnames}{\@shortnamestrue}
 \DeclareOption{nojss}{\@nojsstrue}
+\DeclareOption{notitle}{\@notitletrue}
+\DeclareOption{noheadings}{\@noheadingstrue}
+\DeclareOption{nofooter}{\@nofootertrue}
 
 \ProcessOptions
 \LoadClass[11pt,a4paper,twoside]{article}
 %% required packages
-\RequirePackage{graphicx,a4wide,color,ae,fancyvrb}
+\RequirePackage{graphicx,color,ae,fancyvrb}
 \RequirePackage[T1]{fontenc}
 \IfFileExists{upquote.sty}{\RequirePackage{upquote}}{}
 %% bibliography
@@ -73,6 +62,17 @@
 \fi
 \bibpunct{(}{)}{;}{a}{}{,}
 \bibliographystyle{jss}
+%% page layout
+\topmargin 0pt
+\textheight 46\baselineskip
+\advance\textheight by \topskip
+\oddsidemargin 0.1in
+\evensidemargin 0.15in
+\marginparwidth 1in
+\oddsidemargin 0.125in
+\evensidemargin 0.125in
+\marginparwidth 0.75in
+\textwidth 6.125in
 %% paragraphs
 \setlength{\parskip}{0.7ex plus0.1ex minus0.1ex}
 \setlength{\parindent}{0em}
@@ -104,6 +104,7 @@
 \newcommand{\Plainreviewer}[1]{\def\@Plainreviewer{#1}}
 \newcommand{\Softwaretitle}[1]{\def\@Softwaretitle{#1}}
 \newcommand{\URL}[1]{\def\@URL{#1}}
+\newcommand{\DOI}[1]{\def\@DOI{#1}}
 %% for internal use
 \newcommand{\Seriesname}[1]{\def\@Seriesname{#1}}
 \newcommand{\Hypersubject}[1]{\def\@Hypersubject{#1}}
@@ -142,6 +143,7 @@
 \Pages{xv + 123}
 \Price{USD 69.95 (P)}
 \URL{http://link/to/webpage/}
+\DOI{10.18637/jss.v000.i00}
 \if@article
   \Seriesname{Issue}
   \Hypersubject{Journal of Statistical Software}
@@ -228,13 +230,13 @@
     {\fontfamily{pzc} \fontsize{13}{15} \selectfont Journal of Statistical Software}
     \hfill
     \url{http://www.jstatsoft.org/}\\ \nopagebreak
-    published by the American Statistical Association
+    published by the Foundation for Open Access Statistics
     \hfill
-    \url{http://www.amstat.org/}\\[.3\baselineskip] \nopagebreak
-    {Volume~\@Volume, \@Seriesname~\@Issue}
+    \url{http://www.foastat.org/}\\[.3\baselineskip] \nopagebreak
+    {\@Month{} \@Year, Volume~\@Volume, \@Seriesname~\@Issue}
     \hfill
     \@Firstdate\\ \nopagebreak
-    {\@Month{} \@Year}
+    {\href{http://dx.doi.org/\@DOI}{\tt doi:\@DOI}}
     \hfill
     \@Seconddate  \nopagebreak
     \vspace{.3\baselineskip}
@@ -242,7 +244,11 @@
     \end{samepage}
   \fi
 }
-\AtEndDocument{\makefooter}
+\if@nofooter
+  %% \AtEndDocument{\makefooter}
+\else
+  \AtEndDocument{\makefooter}
+\fi
 %% required packages
 \RequirePackage{hyperref}
 %% new \maketitle
@@ -254,7 +260,7 @@
    {\fontfamily{pzc} \fontsize{28}{32} \selectfont Journal of Statistical Software}
    \vfill
    {\it \small \@Month{} \@Year, Volume~\@Volume, \@Seriesname~\@Issue.%
-            \hfill \href{http://www.jstatsoft.org/}{http://www.jstatsoft.org/}}}\\[0.1cm]
+            \hfill \href{http://dx.doi.org/\@DOI}{doi:\,\@DOI}}}\\[0.1cm]
      \hrule height 3pt}}
 \if@review
   \renewcommand{\maketitle}{
@@ -301,13 +307,18 @@
      \@maketitle \@thanks
    \endgroup
    \setcounter{footnote}{0}
-   \thispagestyle{empty}
-    \if@nojss
-      \markboth{\centerline{\@Shorttitle}}{\centerline{\@Hyperauthor}}
+
+   \if@noheadings
+    %% \markboth{\centerline{\@Shorttitle}}{\centerline{\@Hypersubject}}
     \else
-      \markboth{\centerline{\@Shorttitle}}{\centerline{\@Hypersubject}}
-    \fi
-   \pagestyle{myheadings}
+     \thispagestyle{empty}
+      \if@nojss
+        \markboth{\centerline{\@Shorttitle}}{\centerline{\@Hyperauthor}}
+      \else
+        \markboth{\centerline{\@Shorttitle}}{\centerline{\@Hypersubject}}
+      \fi
+     \pagestyle{myheadings}
+   \fi
 
    \let\maketitle\relax \let\@maketitle\relax
    \gdef\@thanks{}\gdef\@author{}\gdef\@title{}\let\thanks\relax
@@ -452,17 +463,23 @@
     }
   }
 \fi
-\AtBeginDocument{\maketitle}
+\if@notitle
+  %% \AtBeginDocument{\maketitle}
+\else
+  \AtBeginDocument{\maketitle}
+\fi
 %% commands
-\makeatletter
 \newcommand\code{\bgroup\@makeother\_\@makeother\~\@makeother\$\@codex}
 \def\@codex#1{{\normalfont\ttfamily\hyphenchar\font=-1 #1}\egroup}
-\makeatother
 %%\let\code=\texttt
 \let\proglang=\textsf
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
 \newcommand{\email}[1]{\href{mailto:#1}{\normalfont\texttt{#1}}}
-\newcommand{\doi}[1]{\href{http://dx.doi.org/#1}{\normalfont\texttt{doi:#1}}}
+\ifx\csname urlstyle\endcsname\relax
+  \newcommand\@doi[1]{doi:\discretionary{}{}{}#1}\else
+  \newcommand\@doi{doi:\discretionary{}{}{}\begingroup
+\urlstyle{tt}\Url}\fi
+\newcommand{\doi}[1]{\href{http://dx.doi.org/#1}{\normalfont\texttt{\@doi{#1}}}}
 \newcommand{\E}{\mathsf{E}}
 \newcommand{\VAR}{\mathsf{VAR}}
 \newcommand{\COV}{\mathsf{COV}}

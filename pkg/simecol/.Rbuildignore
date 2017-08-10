@@ -1,5 +1,6 @@
 vignettes/jss.cls
 vignettes/jss.bst
+vignettes/a4wide.sty
 inst/ToDo.txt
 inst/WISHLIST
 .*\.dll
