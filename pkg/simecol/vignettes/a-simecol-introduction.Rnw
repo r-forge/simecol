@@ -18,7 +18,7 @@
 \author{Thomas Petzoldt\\ Technische Universit\"at Dresden\\ Institut f\"ur Hydrobiologie\And
         Karsten Rinke \\ Helmholtz-Centre\\ for Environmental Research - UFZ}
 \title{\pkg{simecol}: An Object-Oriented Framework for Ecological Modeling in \proglang{R}}
-%\VignetteIndexEntry{Introduction to the simecol package}
+%\VignetteIndexEntry{Introduction to the simecol Package}
 
 %% for pretty printing and a nice hypersummary also set:
 \Plainauthor{Thomas Petzoldt, Karsten Rinke} %% comma-separated
