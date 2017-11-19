@@ -2,9 +2,10 @@
 
 setMethod("plot", c("simObj", "missing"),
   function(x, y, ...) {
-    warning("No default plot method available for this class.\n",
-    "  Please write your own plot method\n",
-    "  or extract output data and use standard routines.")
+    warning(
+      "No default plot method available for this class.\n",
+      "  Please write your own plot method\n",
+      "  or extract output data and use standard routines.")
   }
 )
 
@@ -22,7 +23,7 @@ setMethod("plot", c("simObj", "missing"),
 #    par(mfrow=c(1 + (nstates > 1), 1 + (nstates > 2)))
 #    nam <- names(out)
 #    for (i in 1:nstates) {
-#      graphics:::plot(out[[1]], out[[i+1]],
+#      graphics::plot(out[[1]], out[[i+1]],
 #                      type="l", xlab=nam[1], ylab=nam[i+1], ...)
 #      if ((i %%4) ==0  & nstates > i) readline("press return for next page")
 #    }
@@ -52,13 +53,12 @@ setMethod("plot", c("odeModel", "odeModel"),
     	  if (is(obj, "odeModel")) {
     	    ldots[[i]] <- obj@out # use only the out slot
   	    }
-  	    # else use the full object, possibly graphics parameters
+  	    # else use the full object and pass graphics parameters
     	}
     	 do.call("plot", c(alist(x@out, y@out), ldots))
   	}
   }
 )
-
 
 setMethod("plot", c("gridModel", "missing"),
   function(x, y, index=1:length(x@out), delay=0, ...) {
@@ -85,7 +85,7 @@ setMethod("plot", c("rwalkModel", "missing"),
       dev.hold()   # double buffering
       dat <- x@out[[i]]
       if (is.matrix(dat)) dat <- as.data.frame(dat)
-      graphics:::plot(dat$x, dat$y,
+      graphics::plot(dat$x, dat$y,
                       xlim = x@parms$area[c(1,2)],
                       ylim = x@parms$area[c(3,4)],
                       xlab="x", ylab="y", main=i, ...)
@@ -94,4 +94,3 @@ setMethod("plot", c("rwalkModel", "missing"),
     }
   }
 )
-
