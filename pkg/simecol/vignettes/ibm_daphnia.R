@@ -1,13 +1,14 @@
 library(simecol)
 
 ## derive a new class from the simecol base class simObj
-setClass("indbasedModel",
-         representation(
-           parms  = "list",
-           init   = "data.frame"
-         ),
-         contains = "simObj"
-)
+## (this class is now built-in)
+#setClass("indbasedModel",
+#         representation(
+#           parms  = "list",
+#           init   = "data.frame"
+#         ),
+#         contains = "simObj"
+#)
 
 ## define the model object
 ibm_daphnia <- new("indbasedModel",

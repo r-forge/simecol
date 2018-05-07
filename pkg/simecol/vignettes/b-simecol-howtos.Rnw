@@ -61,6 +61,7 @@
 
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 
 \SweaveOpts{engine=R, eps=FALSE, fig=FALSE, echo=TRUE, include=FALSE, prefix.string=howto, width=6, height=4}
 
@@ -175,8 +176,8 @@ see that they are kind of similar. This obvious coincidence is quite
 natural, because the notation of both, \pkg{deSolve} and
 \pkg{simecol}, is based on the state-space notation of control
 theory\footnote{see
-  \url{http://en.wikipedia.org/wiki/State_space_(controls)}, version
-  of 2008-11-01}.
+  \url{http://en.wikipedia.org/wiki/State_space_(controls)}, last access
+  2018-05-07}.
 
 Due to this, only small restructuring and renaming is needed to form a
 \code{simObj}:

@@ -435,7 +435,7 @@ complex data types cannot be handled yet by these functions.
 
 In order to simulate ecological models of various types, the appropriate numerical algorithms can be plugged into
 the \code{sim} function either by using an existing function, e.g.\ from this package,
-by imported solvers of package \pkg{odesolve} or by user-defined algorithms.
+by imported solvers of package \pkg{deSolve} or by user-defined algorithms.
 
 The algorithm used for one particular \code{simObj} is stored as character string
 in the \code{solver} slot of the object.
@@ -540,7 +540,7 @@ carrying too much on implementation details. They can be loaded with
 for example the stochastic cellular automaton shown in Figure \ref{f:stochCA}:
 
 <<CA,eval=FALSE, echo=TRUE>>=
-library("simecol")
+#library("simecol")
 data(CA, package="simecol")
 CA <- sim(CA)
 plot(CA)
@@ -574,7 +574,7 @@ In order to reproduce a schoolbook example two scenarios may be created by modif
 two copies (clones) of \code{lv}:
 
 <<lv1,echo=TRUE>>=
-library("simecol")
+#library("simecol")
 data(lv, package="simecol")
 lv1 <- lv2 <- lv
 @
@@ -997,6 +997,7 @@ setClass("indbasedModel",
 )
 @
 
+
 Since \pkg{simecol} version 0.8-4 class \code{indbasedModel} is a built-in class. The
 code snippet above is left in this document as an example how to derive user-defined
 subclasses.
@@ -1094,7 +1095,7 @@ write data to logfiles, to print selected data to screen or to display animated
 graphics during simulation.
 
 The argument naming of the solver functions is compatible with the ODE solvers of the
-\pkg{odesolve}-package with respect to the first four arguments. Moreover, some essential
+\pkg{deSolve}-package with respect to the first four arguments. Moreover, some essential
 functionality must be provided by all solvers:
 
 \begin{enumerate}
