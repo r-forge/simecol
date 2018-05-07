@@ -1,4 +1,4 @@
-\documentclass[report,nojss]{vignette}
+\documentclass[article,nojss]{jss}
 
 \DeclareGraphicsExtensions{.pdf}
 
@@ -59,11 +59,10 @@
 
 %% need no \usepackage{Sweave.sty}
 
+\SweaveOpts{engine=R, eps=FALSE, fig=FALSE, echo=TRUE, include=FALSE, prefix.string=howto, width=6, height=4}
+
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
-
-\SweaveOpts{engine=R, eps=FALSE, fig=FALSE, echo=TRUE, include=FALSE, prefix.string=howto, width=6, height=4}
 
 <<init,echo=FALSE, include=FALSE, fig=FALSE>>=
 library("simecol")
@@ -76,9 +75,9 @@ options("prompt" = "R> ", "continue" = "+  ")
 \tableofcontents
 
 %% ======================================================================
-\chapter{The Basics}
+\section{The Basics}
 
-\section[Building simecol objects]{Building \pkg{simecol} objects}
+\subsection[Building simecol objects]{Building \pkg{simecol} objects}
 
 The intention behind \pkg{simecol} is the construction of
 ``all-in-one'' model objects. That is, everything that defines one
@@ -124,7 +123,7 @@ everything works, you should encapsulate all the main parts of your
 model in the \code{simObj}ect to get a clean object that does not
 interfere with others.
 
-\subsection{An example}
+\subsubsection{An example}
 
 We start with the example given in the simecol-introduction
 \citep{Petzoldt2007}, an implementation of the UPCA model of
@@ -169,7 +168,7 @@ from package \pkg{deSolve}.}
 \end{figure}
 
 
-\subsection{Transition to simecol} \label{s4definition}
+\subsubsection{Transition to simecol} \label{s4definition}
 
 If we compare this example with the \pkg{simecol} structure, we may
 see that they are kind of similar. This obvious coincidence is quite
@@ -250,7 +249,7 @@ implementation''. This function \code{f} is rather simple here, but it
 would be also possible to call functions of arbitrary complexity from
 \code{main}.
 
-\subsection{Creating scenarios}
+\subsubsection{Creating scenarios}
 
 After defining one \code{simecol} object (that we can call a parent
 object or a \textbf{prototype}), we may create derived objects, simply
@@ -374,7 +373,7 @@ upca <- new("odeModel",
 equations(upca)$f <- equations(upca)$f1
 @
 
-\subsection{Debugging}
+\subsubsection{Debugging}
 
 As stated before, all-in-one encapsulation of all functions and data
 in \code{simObj}ects has many advantages, but there is also one
@@ -449,7 +448,7 @@ workspace with only the necessary objects.
 %\subsubsection{Method 2: Extract functions temporarily}
 
 
-\section{Different ways to store simObjects}
+\subsection{Different ways to store simObjects}
 
 One of the main advantages of \pkg{simecol} is, that model objects can
 be made persistent and that it is easy to distribute and share
@@ -549,7 +548,7 @@ This style is used in package
 
 %\section{Using vectorized equations}
 
-\section{Methods to work with S4 objects}
+\subsection{Methods to work with S4 objects}
 
 The \proglang{S4} scheme includes several utility functions which can
 be used to inspect objects and their methods. As an example,
@@ -580,7 +579,7 @@ of these functions for details.
 % setMethod
 
 %% ======================================================================
-\chapter{Fitting Parameters}
+\section{Fitting Parameters}
 
 The preferred method to obtain model parameters is direct measurement
 of process rates. This can be done in own controlled experiments or by
@@ -588,7 +587,7 @@ taking results from the literature. However, not all processes are
 accessible by direct measurement. In such cases process parameters can
 be identified indirectly by calibration from observed data.
 
-\section{Example model and data}
+\subsection{Example model and data}
 
 In order to demonstrate parameter fitting we use a simple ODE model
 with two coupled differential equations:
@@ -609,7 +608,7 @@ v_m &= \text{maximum growth rate} \nonumber\\
 k_m  &= \text{half saturation constant} \nonumber
 \end{align}
 
-\section{Load the model and assign a solver}
+\subsection{Load the model and assign a solver}
 
 The chemostat model is one of the standard examples in package
 \pkg{simecol}, that can be loaded like a data set.
@@ -766,7 +765,7 @@ plotFit()
 
 
 
-\section{Estimation of initial values}
+\subsection{Estimation of initial values}
 
 In the example above, we assumed that the initial values are were
 known and in fact, we used the built-in initial values from the
@@ -834,7 +833,7 @@ values manually.
   $v_m$ and initial values were estimated).}
 \end{figure}
 
-\section{Scaling and weighting}
+\subsection{Scaling and weighting}
 
 Appropriate scaling of \textbf{observational variables} is crucial. On
 one hand, scaling is necessary because variables may be of different order
@@ -949,7 +948,7 @@ res$par
 
 
 
-\section{Parameter estimation with FME}
+\subsection{Parameter estimation with FME}
 
 \pkg{FME} \cite[Flexible Modeling Environment,][]{Soetaert2010} is a
 package that contains functions to perform complex applications of
@@ -1041,7 +1040,7 @@ plot(Fit)
 
 
 %% ======================================================================
-\chapter{Implementing Models in Compiled Languages}
+\section{Implementing Models in Compiled Languages}
 
 Compilation of model code can speed up simulations considerably and
 there are several ways to call compiled code from \proglang{R}; so it
@@ -1058,7 +1057,7 @@ compiled model is supported by the integrator. All integrators of
 package \pkg{deSolve} support this, see the \pkg{deSolve}
 documentation for details.
 
-\section{An Example in C}
+\subsection{An Example in C}
 
 Now, let's inspect an example. We firstly provide our model as
 described in the \pkg{deSolve} vignette ``Writing Code in Compiled
@@ -1141,7 +1140,7 @@ You can now call the derivatives \code{dlotka} of the model in the
 \code{main} function of a \pkg{simecol}-object.
 
 
-\section{Enabling Direct Communication Between Model and Solver}
+\subsection{Enabling Direct Communication Between Model and Solver}
 
 Another, more efficient way, is to tell the solver (e.g. \code{lsoda})
 directly where to find the model in the DLL. This method circumvents
@@ -1237,15 +1236,9 @@ but you \textbf{may} use \proglang{C} etc. whenever necessary, and
 even in that case you still have the scenario management and data
 manipulation features of \pkg{simecol}.
 
-%%=======================================================================
-%\chapter{Examples and Case Studies}
-
-
-
-
 
 %%=======================================================================
-\chapter{Troubleshooting}
+\section{Troubleshooting}
 
 This chapter lists the reasons of the most common problems and error
 messages. You can contribute to these sections by submitting bug
@@ -1288,7 +1281,7 @@ zero-length variable name
 
 
 
-\section{Error messages during model simulations}
+\subsection{Error messages during model simulations}
 
 \begin{description}
 \item[Message:]
