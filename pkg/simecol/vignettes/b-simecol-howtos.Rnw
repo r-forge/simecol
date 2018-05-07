@@ -650,7 +650,7 @@ yobs <- data.frame(
 Note that in this example, \code{yobs} contains two columns (and only
 two) with exactly the same column names as the state variables.
 
-\section{Parameter estimation in simecol}
+\subsection{Parameter estimation in simecol}
 
 Package \pkg{simecol} has a basic function for fitting parameters
 of ODE models (\code{fitOdeModel}) built in. This function is a wrapper that
@@ -1244,7 +1244,7 @@ This chapter lists the reasons of the most common problems and error
 messages. You can contribute to these sections by submitting bug
 reports.
 
-\section{Error messages when creating simObj-ects}
+\subsection{Error messages when creating simObj-ects}
 
 \begin{description}
 \item[Message:]
