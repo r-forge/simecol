@@ -72,6 +72,7 @@ observer(obj) <- value
 data(diffusion)
 
 solver(diffusion) # solver is iteration, supports observer
+times(diffusion) <- c(from=0, to=20, by=1) # to can be increased, to e.g. 100
 
 ### == Example 1 ===============================================================
 
