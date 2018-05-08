@@ -535,18 +535,18 @@ This style is used in package
 (mostly) published ecological models.
 
 
-%\section{The initfunc}
+%\subsection{The initfunc}
 % basics already explained in the manual
 % avoiding re-initialization
 
-%\section{Using alternative solver packages}
+%\subsection{Using alternative solver packages}
 
 %\pkg{PBSddeSolve}-example  \dots
 % use a time delayed differential model as example
 
 %user-defined solvers and assignment of functions to the solver-slot \dots
 
-%\section{Using vectorized equations}
+%\subsection{Using vectorized equations}
 
 \subsection{Methods to work with S4 objects}
 
@@ -764,7 +764,6 @@ plotFit()
 \end{figure}
 
 
-
 \subsection{Estimation of initial values}
 
 In the example above, we assumed that the initial values are were
@@ -947,7 +946,6 @@ res$par
 @
 
 
-
 \subsection{Parameter estimation with FME}
 
 \pkg{FME} \cite[Flexible Modeling Environment,][]{Soetaert2010} is a
@@ -958,7 +956,7 @@ models to data, sensitivity analysis and Markov chain Monte Carlo.
 The essential principles of model fitting with \pkg{FME} are quite
 similar to the above, including fine-tuning of the underlying
 optimization algorithms. However, in contrast to \code{fitOdeModel},
-\pkg{FME}'s \code{modFit} is much more powerful. It allows to use several
+\pkg{FME}'s \code{modFit} is \textbf{much more powerful}. It allows to use several
 additional optimizers and gives more detailed output, especially
 standard errors and covariances (correlations) of parameter
 estimates. Other advantages are the flexible way to define own
@@ -980,9 +978,6 @@ variables is also an important point.  Here, setting
 former example, other possibilities are described in the respective
 online help pages.
 
-%% enable the following by default, once FME is on CRAN do some
-%% checking as and add FME, minpack.lm, MASS and coda as suggested
-%% packages
 
 %% workaround to omit minpack.lm start messages
 <<echo=FALSE,quiet=TRUE,split=TRUE>>=
@@ -1036,7 +1031,6 @@ residuals(Fit)
 df.residual(Fit)
 plot(Fit)
 @
-
 
 
 %% ======================================================================
@@ -1278,7 +1272,6 @@ zero-length variable name
 \item[Solution:] Look for obsolete commas after the last element in
   lists (e.g. params).
 \end{description}
-
 
 
 \subsection{Error messages during model simulations}
