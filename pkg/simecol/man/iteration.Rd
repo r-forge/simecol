@@ -92,7 +92,7 @@ data(conway)
 
 \donttest{
 ## open a separate graphics window to circumvent buffering if RStudio is used
-windows() 
+x11() 
 
 ## plot after simulation:
 plot(sim(conway), delay=100)
