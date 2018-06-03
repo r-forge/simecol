@@ -10,10 +10,18 @@
 \alias{indbasedModel-class}
 
 \docType{package}
-
-\title{The `simecol' Package}
-
+\title{
+\packageTitle{simecol}
+}
 \description{
+
+\packageDescription{simecol}
+}
+
+\details{
+
+The DESCRIPTION file:
+\packageDESCRIPTION{simecol}
 
   The \pkg{simecol} package is intended to give users (scientists and
   students) an interactive environment to implement, distribute,
@@ -123,11 +131,11 @@
 \references{
   Petzoldt, T. and K. Rinke (2007) \pkg{simecol}: An Object-Oriented
   Framework for Ecological Modeling in \R. \emph{Journal of Statistical
-  Software}, \bold{22}(9). \url{http://dx.doi.org/10.18637/jss.v022.i09}.
+  Software}, \bold{22}(9). \doi{10.18637/jss.v022.i09}
 }
 
 \author{
-  Thomas Petzoldt \email{thomas.petzoldt@tu-dresden.de}
+  \packageAuthor{simecol}
 }
 
 \seealso{
