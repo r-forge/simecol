@@ -216,32 +216,6 @@ LVPP <- new("odeModel",
 
 plot(sim(LVPP))
 
-
-## (4) Additional resources ============================================
-
-\dontrun{
-## open the directory with source code of demo
-browseURL(paste(system.file(package="simecol"), "/demo", sep=""))
-
-## run demo
-demo(jss)
-
-## open the directory with R sourcecode examples
-browseURL(paste(system.file(package="simecol"), "/doc/examples", sep=""))
-
-## show package vignette with introductory article
-vignette("a-simecol-introduction")
-vignette("b-simecol-howtos")
-## edit a vignette
-# edit(vignette("a-simecol-introduction"))
-# edit(vignette("b-simecol-howtos"))
-
-## Open Project Homepage
-browseURL("http://www.simecol.de")
-}
-
-## How to cite package simecol in publications
-citation("simecol")
 }
 
 \keyword{misc}
