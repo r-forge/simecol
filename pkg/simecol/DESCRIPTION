@@ -1,8 +1,10 @@
 Package: simecol 
 Version: 0.8-13
-Date: 2018-06-03
 Title: Simulation of Ecological (and Other) Dynamic Systems
-Author: Thomas Petzoldt
+Authors@R: c(person("Thomas","Petzoldt", role = c("aut", "cre"),
+                     email = "thomas.petzoldt@tu-dresden.de",
+					 comment = c(ORCID = "0000-0002-4951-6468")))
+Author: Thomas Petzoldt [aut, cre] (<https://orcid.org/0000-0002-4951-6468>)
 Depends: R (>= 3.2), deSolve, methods
 Imports: graphics, grDevices, stats, utils, minqa
 Suggests: tcltk, FME, lattice
