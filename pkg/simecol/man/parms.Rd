@@ -182,7 +182,9 @@ o <- out(lv)
 out(lv) <- NULL
 
 ## store object persistently to the disk
+\dontrun{
 save(lv, file = "lv.Rdata")           # in binary form
 dput(as.list(lv), file = "lv-list.R") # in text form
+}
 }
 \keyword{programming}
