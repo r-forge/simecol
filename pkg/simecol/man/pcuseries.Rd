@@ -28,8 +28,8 @@ rho2alpha(rho)
   uniform marginals. Function \code{pcu} generates a vector of uniform
   random values of \code{length(x)} which are correlated to the
   corresponding vector \code{x}, \code{pcuseries} generates an
-  auto-correlated series, and \code{alphatorho} resp. \code{rho2alpha}
-  convert between the usual correlation coefficient and the association
+  auto-correlated series, and \code{alpha2rho} resp. \code{rho2alpha}
+  convert between the Pearson correlation coefficient and the association
   measure of the Plackett distribution.
 }
 \references{ 
