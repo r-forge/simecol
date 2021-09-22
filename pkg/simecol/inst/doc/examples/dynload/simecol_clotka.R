@@ -11,7 +11,7 @@ library("simecol")
 
 # compile C++ code within R
 # (requires installed compiler)
-# on Windows: http://www.murdoch-sutherland.com/Rtools/
+# on Windows: https://cran.r-project.org/bin/windows/Rtools/
 system("R CMD SHLIB clotka.c")
 
 

@@ -54,7 +54,7 @@
   Technische Universit\"at Dresden\\
   01062 Dresden, Germany\\
   E-mail: \email{thomas.petzoldt@tu-dresden.de}\\
-  URL: \url{http://tu-dresden.de/Members/thomas.petzoldt/}\\
+  URL: \url{https://tu-dresden.de/Members/thomas.petzoldt/}\\
 }
 
 %% need no \usepackage{Sweave.sty}
@@ -175,7 +175,7 @@ see that they are kind of similar. This obvious coincidence is quite
 natural, because the notation of both, \pkg{deSolve} and
 \pkg{simecol}, is based on the state-space notation of control
 theory\footnote{see
-  \url{http://en.wikipedia.org/wiki/State_space_(controls)}, last access
+  \url{https://en.wikipedia.org/wiki/State_space_(controls)}, last access
   2018-05-07}.
 
 Due to this, only small restructuring and renaming is needed to form a
@@ -531,7 +531,7 @@ plot(sim(lv1))
 This style is used in package
 \pkg{simecolModels}\footnote{\pkg{simecolModels} can be downloaded
   from the R-Forge server,
-  \url{http://simecol.r-forge.r-project.org/}.}, a collection of
+  \url{https://simecol.r-forge.r-project.org/}.}, a collection of
 (mostly) published ecological models.
 
 
@@ -935,6 +935,7 @@ or with \code{control = list(parscale = ...)} for the algorithms in
 Normally, the PORT algorithm (in function \code{nlminb}) does
 automatic rescaling, but if required scaling by $scale = 1/par_{max}$
 may help (see \url{http://netlib.bell-labs.com/cm/cs/cstr/153.pdf}):
+% == thpe 2021-09-22 bell-labs link outdated ==
 
 <<>>=
 res <- fitOdeModel(cs1, whichpar = whichpar,
@@ -1108,7 +1109,7 @@ library (on Linux) or a DLL on Windows, that can be linked to
 Compilation requires an installed \proglang{C} compiler (\pkg{gcc})
 and some other tools that are quite standard on Linux, and which are
 also available for the Macintosh or, form of the \pkg{R-Tools}
-collection\footnote{\url{http://www.murdoch-sutherland.com/Rtools/}}
+collection\footnote{\url{https://cran.r-project.org/bin/windows/Rtools/}}
 provided by Duncan Murdoch for Windows.
 
 If the tools are installed, compilation can be done directly from

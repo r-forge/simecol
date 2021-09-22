@@ -97,7 +97,7 @@ fitOdeModel(simObj, whichpar = names(parms(simObj)), obstime, yobs,
  Powell, M. J. D. (2009). The BOBYQA algorithm for bound constrained
  optimization without derivatives. Report No. DAMTP 2009/NA06, Centre
  for Mathematical Sciences, University of Cambridge, UK.
- \url{http://www.damtp.cam.ac.uk/user/na/NA_papers/NA2009_06.pdf}
+ \url{https://www.damtp.cam.ac.uk/user/na/NA_papers/NA2009_06.pdf}
 }
 \seealso{
 

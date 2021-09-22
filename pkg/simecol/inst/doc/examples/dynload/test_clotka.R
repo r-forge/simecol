@@ -3,7 +3,7 @@
 ## Example on using compiled code *without* simecol
 ##
 ## more information:
-##   http://cran.r-project.org/web/packages/deSolve/vignettes/compiledCode.pdf
+##   https://cran.r-project.org/web/packages/deSolve/vignettes/compiledCode.pdf
 ##
 ## thomas.petzoldt@tu-dresden.de
 ##

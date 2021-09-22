@@ -50,7 +50,7 @@ debugging, see \code{\link{daphnia_ibm}} for examples.
   Petzoldt, T. and K. Rinke (2007).  simecol: An
   Object-Oriented Framework for Ecological
   Modeling in R.  \emph{Journal of Statistical Software}, \bold{22}(9), 1--31.
-  URL \url{http://www.jstatsoft.org/v22/i09/}.
+  URL \url{https://www.jstatsoft.org/v22/i09/}.
 
 }
 
