@@ -46,7 +46,7 @@ p.unconstrain(p, lower = -Inf, upper = Inf, f = 1)
   Identification and Simulation of Aquatic Systems. Swiss Federal
   Institute for Environmental Science and Technology (EAWAG), CH - 8600
   Duebendorf Switzerland,
-  \url{http://www.aquasim.eawag.ch/e_aquasim_manual.html}
+  \url{https://www.eawag.ch/de/abteilung/siam/software/}.
 }
 
 \seealso{\code{\link{fitOdeModel}}, \code{\link{ssqOdeModel}}}
