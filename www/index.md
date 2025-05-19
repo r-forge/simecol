@@ -11,9 +11,7 @@ output:
 
 <a href="http://www.r-forge.r-project.org"><img src="r-forge.png" style="position:absolute;top:0px;right:0px;" /></a>
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 <hr>
 
@@ -57,13 +55,15 @@ The packages can be installed directly from the internet within [R](https://www.
 
 **Stable Version:**
 
-```{r, eval=FALSE}
+
+``` r
 install.packages("simecol")
 ```
 
 **Development versions:**
 
-```{r, eval=FALSE}
+
+``` r
 remotes::install_github("https://github.com/tpetzoldt/simecol")
 remotes::install_github("https://github.com/tpetzoldt/simecolModels")
 ```
@@ -73,7 +73,8 @@ remotes::install_github("https://github.com/tpetzoldt/simecolModels")
 
 ### Lotka-Volterra
 
-```{r, eval=FALSE}
+
+``` r
 library("simecol")
 data(lv, package="simecol")
 plot(sim(lv))
@@ -81,7 +82,8 @@ plot(sim(lv))
 
 ### Conway's Game of Life
 
-```{r, eval=FALSE}
+
+``` r
 library("simecol")
 data(conway, package="simecol")
 plot(sim(conway))
@@ -96,7 +98,8 @@ sim(conway, animate=TRUE, delay=100, col=c("white", "green"), axes=FALSE)
 
 The following example shows that the structure of a model object is just a template.
 
-```{r, eval=FALSE}
+
+``` r
 library("simecol")
 conway <- new("gridModel",
     main = function(time, init, parms) {
